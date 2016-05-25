@@ -1,23 +1,15 @@
 package GenericDao;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.Date;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
 
+import DAOInterfaces.DAOInterface;
 import Model.Model;
 import Reflection.ReflectionDAO;
 import Reflection.SqlStringUtils;
 import DB.DB;
 
-public class DAO {
+public class DAO implements DAOInterface{
 	public static DAO dao = null;
 	protected DB db;
 	
@@ -164,6 +156,12 @@ public class DAO {
 		
 		
 		
+	}
+
+	@Override
+	public Return save(Model object) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

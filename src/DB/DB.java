@@ -17,41 +17,64 @@ public class DB {
 	private static DB db = null;
 
 
+	public DB(boolean b) {
+		this.etablishConnection(b);
+	}
+
 	public static DB getInstance(){
 
 		if(db == null){
-			db = new DB();	
+			db = new DB(false);	
+		}
+
+		return db;
+	}
+	
+	public static DB getTestInstance(){
+		
+		if(db == null){
+			db = new DB(true);	
 		}
 
 		return db;
 	}
 
-
-	private DB(){		
+	
+	
+	private void etablishConnection(boolean testDatabase){
+		Connection con = null;
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			System.out.println("JDBC driver carregado.");
+			System.out.println("JDBC driver loaded.");
 			
+			if(!testDatabase){
+				con = DriverManager.getConnection("jdbc:mysql://naymic.dlinkddns.com:3306/receita_certa", "receita_certa", "nosestamosonline75113");
+				System.out.println("DB conection etablished");
+			}else{
+				System.out.println("Try connect to test database");
+				con = DriverManager.getConnection("jdbc:mysql://naymic.dlinkddns.com:3306/testDB", "receita_certa", "nosestamosonline75113");
+			}
 			
+			/*if(con.isClosed() == false){
+				System.out.println("Connection to remote database failed");
+				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/receita_certa", "receita_certa", "nosestamosonline75113");
+				System.out.println("Try connect to local database");
+			}*/
 			
-		}
-		catch (ClassNotFoundException e) {
-			System.out.println(e.toString());
-		}
-		
-		
-		try {
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/receita_certa", "receita_certa", "nosestamosonline75113");
 			setCon(con);
-
-		}
-		catch (SQLException e) {
+			
+		}catch (ClassNotFoundException e) {
+			System.out.println(e.toString());
+		}catch (SQLException e) {
 			System.out.println("Problema SQL." + e.toString());
 		}
 		catch (Exception e) {
 			System.out.println("Exceção geral !!!!");
 		}
 	}
+	
+	
 	
 	public Connection getCon(){return con;}
 	public void setCon(Connection con){this.con = con;}
@@ -87,7 +110,7 @@ public class DB {
 			return rs;
 
 		} catch (SQLException e){
-			System.out.println("Problema Dao SQL - consultar.");
+			System.out.println("DAO SQL problem - SELECT.");
 			System.out.println(e.toString());
 		}
 

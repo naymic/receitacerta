@@ -1,6 +1,6 @@
 package Model;
 
-import GenericDao.Return;
+import Utils.Return;
 
 public abstract class Model {
 	protected String tableName;

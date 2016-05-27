@@ -1,7 +1,7 @@
 package DAOInterfaces;
 
-import GenericDao.Return;
 import Model.Model;
+import Utils.Return;
 
 public interface DAOInterface {
 	

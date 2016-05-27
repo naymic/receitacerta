@@ -1,12 +1,14 @@
 package GenericDao;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import DAOInterfaces.DAOInterface;
 import Model.Model;
 import Reflection.ReflectionDAO;
-import Reflection.SqlStringUtils;
+import Utils.Return;
+import Utils.SqlStringUtils;
 import DB.DB;
 
 public class DAO implements DAOInterface{
@@ -15,13 +17,23 @@ public class DAO implements DAOInterface{
 	
 	public static DAO getInstance(){
 		if(dao == null){
-			dao = new DAO();
+			dao = new DAO(false);
 		}
 		return dao;
 	}
 	
-	private DAO(){
-		setDb(DB.getInstance());
+	public static DAO getTestInstance(){
+		if(dao == null){
+			dao = new DAO(true);
+		}		
+		return dao;
+	}
+	
+	private DAO(boolean b){
+		if(!b)
+			setDb(DB.getInstance());
+		else
+			setDb(DB.getTestInstance());
 	
 	}
 	
@@ -68,6 +80,8 @@ public class DAO implements DAOInterface{
 		
 	/**
 	 * Insert a object into the database
+	 * @param object
+	 * @return
 	 */
 	public Return insert(Model object){
 		Return r = new Return();
@@ -160,19 +174,43 @@ public class DAO implements DAOInterface{
 
 	@Override
 	public Return save(Model object) {
-		// TODO Auto-generated method stub
-		return null;
+		if(this.existModel(object)){
+			return this.update(object);
+		}else{
+			return this.insert(object);
+		}
+		
 	}
 	
 	
-
-	
-
-	
-
-	
-
-	
+	public boolean existModel(Model object){
+		Return r = new Return();
+		PreparedStatement stmt = null;
+		ReflectionDAO rd = new ReflectionDAO(object);
+		
+		String[] where = rd.getColums(rd.getPKs());
+		
+		try {
+			stmt = getDb().getCon().prepareStatement("SELECT "+ SqlStringUtils.getCommaString(where) +" FROM "+ object.getTableName() +" WHERE "+ SqlStringUtils.getPrepStmtColumns(where, "AND"));
+			stmt = this.executeStatement(stmt, rd.getValues(rd.getPKs()));
+			
+			ResultSet rs = stmt.executeQuery();			
+			
+			if(rs.next()){
+				rs.close();
+				return true;
+			}else{
+				rs.close();
+				return false;
+			}
+			
+		} catch (SQLException e) {
+			r.addError(e.toString());
+			e.printStackTrace();
+		}
+			
+		return false;
+	}
 
 
 }

@@ -1,13 +1,10 @@
 package Tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.Hashtable;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import GenericDao.DAO;
 import Model.City;
 import Reflection.ReflectionDAO;
@@ -17,7 +14,8 @@ public class TestReflectionDAO {
 
 	public City getCity(){
 		City c = new City();
-		c.dsetId(1);
+		
+		c.dsetId(3);
 		c.dsetCountry("Test1");
 		c.dsetName("Test2");
 		c.dsetState("123");
@@ -44,12 +42,12 @@ public class TestReflectionDAO {
 		assertEquals(6, r.getFields().size());
 		
 		Hashtable<String, Object> f = new Hashtable<String, Object>();
-		f.put("dgetId", 1);
-		f.put("dgetCountry", "Test1");
-		f.put("dgetName", "Test2");
-		f.put("dgetState", "123");
-		f.put("dgetType", "Tipo1");
-		f.put("dgetNotice", "Notiz 12345678990");
+		f.put("dgetId", c.dgetId());
+		f.put("dgetCountry", c.dgetCountry());
+		f.put("dgetName", c.dgetName());
+		f.put("dgetState", c.dgetState());
+		f.put("dgetType", c.dgetType());
+		f.put("dgetNotice", c.dgetNotice());
 		
 		assertEquals(f.get("dgetId"), r.getFields().get("dgetId"));
 		assertEquals(f.get("dgetName"), r.getFields().get("dgetName"));
@@ -61,34 +59,47 @@ public class TestReflectionDAO {
 	}
 	
 	@Test
+	public void testExistModel(){
+		City c = this.getCity();
+		
+		assertFalse(DAO.getTestInstance().existModel(c));
+		DAO.getTestInstance().save(c);
+		
+		
+		assertTrue(DAO.getTestInstance().existModel(c));
+		DAO.getInstance().delete(c);
+	}
+	
+	@Test
 	public void testInsert(){
 		City c = this.getCity();
 
-		assertTrue(DAO.getInstance().insert(c).isSuccess());
-		DAO.getInstance().delete(c).isSuccess();
+		assertTrue(DAO.getTestInstance().save(c).isSuccess());
+		DAO.getTestInstance().delete(c).isSuccess();
 	}
 	
 	@Test 
 	public void testDelete(){
 		City c = getCity();
 		
-		DAO.getInstance().insert(c).isSuccess();
-		assertTrue(DAO.getInstance().delete(c).isSuccess());
+		DAO.getTestInstance().save(c);
+		assertTrue(DAO.getTestInstance().delete(c).isSuccess());
+		
 	}
 	
 	@Test
 	public void testUpdate(){
 		City c = getCity();
 		
-		DAO.getInstance().insert(c);
+		DAO.getTestInstance().save(c);
 		
 		c.dsetName("Nome update");
 		c.dsetCountry("Country update");
 		c.dsetNotice("jakljaljdfaj sda update");
 		c.dsetType("tipo de cidade update");
 		
-		assertTrue(DAO.getInstance().update(c).isSuccess());
-		DAO.getInstance().delete(c);
+		assertTrue(DAO.getTestInstance().save(c).isSuccess());
+		DAO.getTestInstance().delete(c);
 	}
 	
 }

@@ -9,4 +9,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>JSONServlet</display-name>
+    <servlet-name>JSONServlet</servlet-name>
+    <servlet-class>Servlets.JSONServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>JSONServlet</servlet-name>
+    <url-pattern>/JSONServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

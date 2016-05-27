@@ -1,7 +1,7 @@
 package Model;
 
-import GenericDao.Return;
 import Reflection.Entity;
+import Utils.Return;
 
 
 public class City extends Model{

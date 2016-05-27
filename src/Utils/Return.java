@@ -1,4 +1,4 @@
-package GenericDao;
+package Utils;
 
 import java.util.ArrayList;
 

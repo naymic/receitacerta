@@ -1,8 +1,10 @@
 package GenericDao;
 
+import java.lang.reflect.Method;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import DAOInterfaces.DAOInterface;
 import Model.Model;
@@ -77,7 +79,28 @@ public class DAO implements DAOInterface{
 		
 		return stmt;
 	}
+	
+	private ReflectionDAO setValueFromResultSet(ReflectionDAO rd, ResultSet rs, Method m, int i){
+		try {
+			if(rd.getMethodValueClass(m).toString().contains("java.lang.Integer")){
+					rd.setMethodValue(m.getName(), rs.getInt(i));
+			}else if(rd.getMethodValueClass(m).toString().contains("java.lang.Double")){
+				rd.setMethodValue(m.getName(), rs.getDouble(i));
+			}else if(rd.getMethodValueClass(m).toString().contains("java.lang.String")){
+				rd.setMethodValue(m.getName(), rs.getString(i));
+			}else if(rd.getMethodValueClass(m).toString().contains("java.lang.Float")){
+				rd.setMethodValue(m.getName(), rs.getFloat(i));
+			}else if(rd.getMethodValueClass(m).toString().contains("java.sql.Date")){
+				rd.setMethodValue(m.getName(), rs.getDate(i));
+			}
+		} catch (SQLException e) {
+			System.out.println("Error by set value to object: "+rd.getObject().toString()+" and method:"+ m.getName());
+			e.printStackTrace();
+		}
 		
+		return rd;
+	}
+	
 	/**
 	 * Insert a object into the database
 	 * @param object
@@ -117,12 +140,12 @@ public class DAO implements DAOInterface{
 		PreparedStatement stmt = null;
 		ReflectionDAO rd = new ReflectionDAO(object);
 		
-		String[] colums = rd.getColums(rd.getPKs());
+		String[] colums = rd.getColums(rd.getGetPKs());
 		
 		
 		try {
 			stmt = getDb().getCon().prepareStatement("DELETE FROM "+ object.getTableName() +" WHERE "+ SqlStringUtils.getPrepStmtColumns(colums, "AND"));
-			stmt = this.executeStatement(stmt, rd.getValues(rd.getPKs()) );
+			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()) );
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
@@ -144,13 +167,13 @@ public class DAO implements DAOInterface{
 		ReflectionDAO rd = new ReflectionDAO(object);
 		
 		String[] colums = rd.getColums(rd.getMethods());
-		String[] where = rd.getColums(rd.getPKs());
+		String[] where = rd.getColums(rd.getGetPKs());
 		
 		try {
 			Integer stmtIndex = new Integer(0);
 			stmt = getDb().getCon().prepareStatement("UPDATE "+ object.getTableName() +" SET "+ SqlStringUtils.getPrepStmtColumns(colums, ",") +" WHERE "+ SqlStringUtils.getPrepStmtColumns(where, "AND"));
 			stmt = this.executeStatement(stmt, rd.getValues(rd.getMethods()));
-			stmt = this.executeStatement(stmt, rd.getValues(rd.getPKs()), rd.getMethods().size());
+			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()), rd.getMethods().size());
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
@@ -159,14 +182,6 @@ public class DAO implements DAOInterface{
 		}
 			
 		return r;
-		
-		
-		
-	}
-	
-	
-	public Model select(Model object){
-		return object;
 		
 		
 		
@@ -188,11 +203,11 @@ public class DAO implements DAOInterface{
 		PreparedStatement stmt = null;
 		ReflectionDAO rd = new ReflectionDAO(object);
 		
-		String[] where = rd.getColums(rd.getPKs());
+		String[] where = rd.getColums(rd.getGetPKs());
 		
 		try {
-			stmt = getDb().getCon().prepareStatement("SELECT "+ SqlStringUtils.getCommaString(where) +" FROM "+ object.getTableName() +" WHERE "+ SqlStringUtils.getPrepStmtColumns(where, "AND"));
-			stmt = this.executeStatement(stmt, rd.getValues(rd.getPKs()));
+			stmt = getDb().getCon().prepareStatement("SELECT null FROM "+ object.getTableName() +" WHERE "+ SqlStringUtils.getPrepStmtColumns(where, "AND"));
+			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()));
 			
 			ResultSet rs = stmt.executeQuery();			
 			
@@ -211,6 +226,64 @@ public class DAO implements DAOInterface{
 			
 		return false;
 	}
+	
+	public ArrayList<Model> select(Model object){
+		Model newModel = null;
+		ReflectionDAO rd = new ReflectionDAO(object);
+		PreparedStatement stmt = null;
+
+		ArrayList<Method> mget = new ArrayList<>();
+		ArrayList<Method> mset = rd.getSetMethods();
+		ArrayList<Method> where = new ArrayList<>();
+		ArrayList<Model> returnList = new ArrayList<>();
+		
+		for(Method m : mset){
+			mget.add(rd.getGetMethod(m));
+		}
+		
+		
+		for(Method m : mget){
+		
+			if(rd.getMethodValue(m) != null ){
+				where.add(m);
+			}
+		}
+		
+		String[] colums = rd.getColums(mget);
+		String[] _where = rd.getColums(where);
+		String __where = "";
+		if(where.size() > 0){
+			__where = "WHERE " + SqlStringUtils.getPrepStmtColumns(_where, " AND");
+		}
+		
+		
+		try {
+			stmt = getDb().getCon().prepareStatement("SELECT "+ SqlStringUtils.getCommaString(colums) +" FROM "+ object.getTableName() +" "+ __where);
+			stmt = this.executeStatement(stmt, rd.getValues(where));
+			ResultSet rs = stmt.executeQuery();
+			int i = 1;
+			while(rs.next()){
+				for(Method m : mset){
+					rd = this.setValueFromResultSet(rd, rs, m, i);
+					
+					i++;
+				}
+				i=1;
+				returnList.add((Model)rd.cloneObject(rd.getObject()));
+			}
+			
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		
+		return returnList;		
+	}
+
 
 
 }

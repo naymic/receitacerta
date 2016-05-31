@@ -5,6 +5,8 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+import Model.Model;
+
 
 /**
  * 
@@ -26,7 +28,7 @@ public class ReflectionDAO extends GenericReflection{
 	 * Instanciate the object an executes the inicial methods
 	 * @param object
 	 */
-	public ReflectionDAO(Object object){
+	public ReflectionDAO(Model object){
 		super(object);
 		initGetMethods();
 		initSetMethods();
@@ -39,7 +41,7 @@ public class ReflectionDAO extends GenericReflection{
 	 */
 	private void initGetMethods(){
 		getMethods = this.getMethodsByName("dget", false, false);
-		getMethodsPK = this.getMethodsByName("dget", true, false);;
+		getMethodsPK = this.getMethodsByName("dget", true, false);
 		getMethodsFK = this.getMethodsByName("dget", false, true);
 	}
 	
@@ -128,54 +130,6 @@ public class ReflectionDAO extends GenericReflection{
 		
 	
 	/**
-	 * Get all primary keys of a table
-	 * @return
-	 */
-	public ArrayList<Method> getPKs(){		
-		return getMethodsPK;
-	}
-	
-	/**
-	 * Get all foreign keys of a table
-	 * @return
-	 */
-	public ArrayList<Method> getFKs(){		
-		return getMethodsFK;		
-	}
-	
-	/**
-	 * Get all methods of an object
-	 * @return
-	 */
-	public ArrayList<Method> getMethods(){
-		return this.getMethods;
-	}
-	
-	/**
-	 * Get all primary keys of a table
-	 * @return
-	 */
-	public ArrayList<Method> setPKs(){		
-		return getMethodsPK;
-	}
-	
-	/**
-	 * Get all foreign keys of a table
-	 * @return
-	 */
-	public ArrayList<Method> setFKs(){		
-		return getMethodsFK;		
-	}
-	
-	/**
-	 * Get all methods of an object
-	 * @return
-	 */
-	public ArrayList<Method> setMethods(){
-		return this.getMethods;
-	}
-	
-	/**
 	 * Get the entity instance of a method 
 	 * -> if method is a setter it is changed to a getter 
 	 *    and returns annotation of the getter
@@ -184,10 +138,7 @@ public class ReflectionDAO extends GenericReflection{
 	 */
 	private Entity getEntity(Method method) {
 		
-		if(method.getName().contains("set")){
-			String methodName = method.getName().replace("set", "get");
-			method = this.getMethod(methodName);
-		}
+		method = getGetMethod(method);
 		
 		Entity e =  method.getAnnotation(Entity.class);
 		
@@ -196,14 +147,40 @@ public class ReflectionDAO extends GenericReflection{
 		return 	e;			
 	}
 	
+	
+	/**
+	 * Return the class of the entity that a set or get method represents
+	 * @param m
+	 * @return
+	 */
+	public Class<?> getMethodValueClass(Method m){
+		return this.getGetMethod(m).getReturnType();
+	}
+	
+	/**
+	 * Returns always the getMethod 
+	 * if param method is a setMethod is is changed inside
+	 * @param method
+	 * @return
+	 */
+	public Method getGetMethod(Method method){
+		if(method.getName().contains("set")){
+			String methodName = method.getName().replace("set", "get");
+			method = this.getMethod(methodName);
+		}
+		return method;
+	}
+	
+	
+	
 	/**
 	 * Get the column name of a Method
 	 * @param method
 	 * @return
 	 */
 	private String getColumnName(Method method){
-		Entity e = getEntity(method);
-		return e.attributeName();
+
+		return getEntity(method).attributeName();
 	}
 	
 	/**
@@ -220,11 +197,16 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param method
 	 * @return
 	 */
-	private void setColumnValue(String columname, Object value){
-		
-		
-		this.setMethodValue(this.getMethodByColumname(columname).getName(), value);
+	private void setColumnValue(String methodName, Object value){		
+		this.setMethodValue(methodName, value);
 	}
+	
+
+	
+	private void setColumnValue(Method m, Object value){
+		this.setColumnValue(m.getName(), value);
+	}
+	
 	
 	private Method getMethodByColumname(String columname){		
 		for(Method m : setMethods){
@@ -235,7 +217,7 @@ public class ReflectionDAO extends GenericReflection{
 		
 		
 		try{
-			throw new Exception("Exist no method for the columname "+ columname + " in the class"+ this.getObject().getClass());
+			throw new Exception("Exist no method for the columname "+ columname + " in the "+ this.getObject().getClass());
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
@@ -243,7 +225,7 @@ public class ReflectionDAO extends GenericReflection{
 		
 	}
 	
-	
+		
 	/**
 	 * Check if the method returns a primary key
 	 * @param method
@@ -266,4 +248,61 @@ public class ReflectionDAO extends GenericReflection{
 
 	
 	/*	Common Setters & Getters	 */
+	
+	/**
+	 * Get all primary keys of a table
+	 * @return
+	 */
+	public ArrayList<Method> getGetPKs(){		
+		return getMethodsPK;
+	}
+	
+	/**
+	 * Get all foreign keys of a table
+	 * @return
+	 */
+	public ArrayList<Method> getGetFKs(){		
+		return getMethodsFK;		
+	}
+	
+	/**
+	 * Get all methods of an object
+	 * @return
+	 */
+	public ArrayList<Method> getMethods(){
+		return this.getMethods;
+	}
+	
+	/**
+	 * Get all primary keys of a table
+	 * @return
+	 */
+	public ArrayList<Method> getSetPKs(){		
+		return setMethodsPK;
+	}
+	
+	/**
+	 * Get all foreign keys of a table
+	 * @return
+	 */
+	public ArrayList<Method> getSetFKs(){		
+		return setMethodsFK;		
+	}
+	
+	/**
+	 * Get all set methods of an object
+	 * @return
+	 */
+	public ArrayList<Method> getGetMethods(){
+		return this.getMethods;
+	}
+	
+	/**
+	 * Get all set methods of an object
+	 * @return
+	 */
+	public ArrayList<Method> getSetMethods(){
+		return this.setMethods;
+	}
+	
 }

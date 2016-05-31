@@ -5,18 +5,19 @@ import Utils.Return;
 
 
 public class City extends Model{
-	int id;
+	Integer id;
 	String name;
 	String country;
 	String state;
 	String type;
 	String notice;
 	
+	
 	@Entity(attributeName = "id", pk = true)
-	public int dgetId() {
+	public Integer dgetId() {
 		return id;
 	}
-	public void dsetId(int id) {	this.id = id;}
+	public void dsetId(Integer id) {this.id = id;}
 	
 	@Entity(attributeName = "name")
 	public String dgetName() {

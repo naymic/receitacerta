@@ -1,5 +1,7 @@
 package DAOInterfaces;
 
+import java.util.ArrayList;
+
 import Model.Model;
 import Utils.Return;
 
@@ -13,6 +15,6 @@ public interface DAOInterface {
 	
 	public Return delete(Model object);
 	
-	public Model select(Model object); 
+	public ArrayList<Model> select(Model object); 
 	
 }

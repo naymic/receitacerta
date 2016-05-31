@@ -3,6 +3,7 @@ package Reflection;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class GenericReflection {
 	
@@ -10,8 +11,7 @@ public class GenericReflection {
 	
 	public GenericReflection(Object object){
 		setObject(object);
-	}
-	
+	}	
 	
 	public Method getMethod(String methodName){
 		Method m = null;
@@ -78,6 +78,16 @@ public class GenericReflection {
 
 	public void setObject(Object object) {
 		this.object = object;
+	}
+	
+	public Object cloneObject(Object object){
+		try {
+			return object.getClass().newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return object;
 	}
 
 	

@@ -29,6 +29,22 @@ public class GenericReflection {
 			return m;
 	}
 	
+	public Method getMethod(String methodName, Class<?> cl){
+		Method m = null;
+		
+		try {
+				 m = this.getObject().getClass().getMethod(methodName, cl);
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return m;
+	}
+	
 	public Object getMethodValue(String methodName){
 		Object value = null;	
 				try {
@@ -88,6 +104,14 @@ public class GenericReflection {
 			e.printStackTrace();
 		}
 		return object;
+	}
+	
+	/**
+	 * Checks if all primary keys (pk) are set
+	 * @return boolean	[false = if one or more of the pk is not set | true = if none of the pk is set]
+	 */
+	public boolean isValueNull(Method m){
+		return this.getMethodValue(m) == null;
 	}
 
 	

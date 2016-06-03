@@ -172,13 +172,28 @@ public class ReflectionDAO extends GenericReflection{
 	}
 	
 	
+	/**
+	 * Returns always the getMethod 
+	 * if param method is a setMethod is is changed inside
+	 * @param method
+	 * @return returns allways the setMethod of an attribute
+	 */
+	public Method getSetMethod(Method method){
+		if(method.getName().contains("get")){
+			String methodName = method.getName().replace("get", "set");
+			method = this.getMethod(methodName, this.getMethodValueClass(method));
+		}
+		return method;
+	}
+	
+	
 	
 	/**
 	 * Get the column name of a Method
 	 * @param method
 	 * @return
 	 */
-	private String getColumnName(Method method){
+	public String getColumnName(Method method){
 
 		return getEntity(method).attributeName();
 	}
@@ -232,8 +247,7 @@ public class ReflectionDAO extends GenericReflection{
 	 * @return
 	 */
 	private boolean isPK(Method method){
-		Entity e = this.getEntity(method);
-		return e.pk();
+		return this.getEntity(method).pk();
 	}
 	
 	/**
@@ -242,8 +256,17 @@ public class ReflectionDAO extends GenericReflection{
 	 * @return
 	 */
 	private boolean isFK(Method method){
-		Entity e = this.getEntity(method);
-		return e.fk();
+		return this.getEntity(method).fk();
+
+	}
+	
+	/**
+	 * Check if the attribute of belonging to that method is required
+	 * @param method
+	 * @return
+	 */
+	public boolean isRequired(Method method){
+		return this.getEntity(method).required();
 	}
 
 	

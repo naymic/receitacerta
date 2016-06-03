@@ -160,6 +160,9 @@ public class TestReflectionDAO {
 		c.dsetCountry("BR");
 		lista = DAO.getInstance().select(c);
 		assertEquals(2, lista.size());
+		c = (City) lista.get(0);
+		System.out.print(c.dgetName());
+		assertEquals(this.getCity2().dgetId(), c.dgetId());
 		
 		d.delete(this.getCity());
 		d.delete(this.getCity1());

@@ -8,6 +8,7 @@ public @interface Entity {
 
 	boolean pk() default false;
 	boolean fk() default false;
+	String fk_tablename() default "";
 	boolean required() default true;
 	String attributeName();
 }

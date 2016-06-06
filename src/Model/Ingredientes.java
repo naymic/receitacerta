@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 import Reflection.Entity;
 import Utils.Return;
 
@@ -8,9 +10,9 @@ public class Ingredientes extends Model{
 	private Integer id;
 	private String nome;
 	private Double calorias;
-	private Integer ingredientes_unidade_id1;
-	private Integer ingredientes_tipo_id;
-	private Integer ingrediente_armazenamentos_id;
+	private IngredienteUnidades ingredientesUnidade;
+	private IngredienteTipo ingredientesTipoId;
+	private IngredienteArmazenamentos ingredienteArmazenamentosId;
 	
 	
 	@Override
@@ -24,10 +26,8 @@ public class Ingredientes extends Model{
 		Return r = super.verify();
 		
 		if(this.dgetCalorias() < 0.0){
-			r.addError("Attribute calorias cannot be negative");
+			r.addError("Attribute calorias cannot be negative: "+ this.dgetCalorias());
 		}
-		
-		
 		return r;
 	}
 	
@@ -58,32 +58,35 @@ public class Ingredientes extends Model{
 		this.calorias = calorias;
 	}
 	
-	@Entity(attributeName = "ingredientes_unidade_id1", fk=true, fk_tablename="ingrediente_unidades")
-	public Integer dgetIngredientes_unidade_id1() {
-		return ingredientes_unidade_id1;
+	
+	@Entity(attributeName = "ingredientes_unidades_id", fk=true, fk_tablename="ingrediente_unidades")
+	public IngredienteUnidades dgetIngredientesUnidade() {
+		return ingredientesUnidade;
 	}
 
-	public void dsetIngredientes_unidade_id1(Integer ingredientes_unidade_id1) {
-		this.ingredientes_unidade_id1 = ingredientes_unidade_id1;
+	public void dsetIngredientesUnidade(IngredienteUnidades ingredientesUnidade) {
+		this.ingredientesUnidade = ingredientesUnidade;
 	}
-	
+
 	@Entity(attributeName = "ingredientes_tipo_id", fk=true, fk_tablename="ingrediente_tipo")
-	public Integer dgetIngredientes_tipo_id() {
-		return ingredientes_tipo_id;
+	public IngredienteTipo dgetIngredientesTipo() {
+		return ingredientesTipoId;
 	}
 
-	public void dsetIngredientes_tipo_id(Integer ingredientes_tipo_id) {
-		this.ingredientes_tipo_id = ingredientes_tipo_id;
+	public void dsetIngredientesTipo(IngredienteTipo ingredientesTipoId) {
+		this.ingredientesTipoId = ingredientesTipoId;
 	}
-	
+
 	@Entity(attributeName = "ingrediente_armazenamentos_id", fk=true, fk_tablename="ingrediente_armazenamentos")
-	public Integer dgetIngrediente_armazenamentos_id() {
-		return ingrediente_armazenamentos_id;
+	public IngredienteArmazenamentos dgetIngredienteArmazenamentos() {
+		return ingredienteArmazenamentosId;
 	}
 
-	public void dsetIngrediente_armazenamentos_id(Integer ingrediente_armazenamentos_id) {
-		this.ingrediente_armazenamentos_id = ingrediente_armazenamentos_id;
-	}	
-	
+
+	public void dsetIngredienteArmazenamentos(IngredienteArmazenamentos ingredienteArmazenamentosId) {
+		this.ingredienteArmazenamentosId = ingredienteArmazenamentosId;
+	}
+
+
 	
 }

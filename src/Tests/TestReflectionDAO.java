@@ -205,9 +205,13 @@ public class TestReflectionDAO {
 		DAO.getTestInstance().save(c);
 		DAO.getTestInstance().delete(c);
 		
-		c.dsetCountry(null);
-		assertFalse(!r.isSuccess());
 		
+		
+		c.dsetCountry(null);
+		c.dsetState(null);
+		r = c.verify();
+		assertFalse(r.isSuccess());
+		System.out.println(r.getErrors().toString());
 	}
 	
 }

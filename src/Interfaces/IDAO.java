@@ -1,15 +1,15 @@
-package DAOInterfaces;
+package Interfaces;
 
 import java.util.ArrayList;
 
 import Model.Model;
 import Utils.Return;
 
-public interface DAOInterface {
+public interface IDAO {
 	
-	Return insert(Model object);
+	public Return insert(Model object);
 	
-	Return update(Model object);
+	public Return update(Model object);
 	
 	public Return save(Model object);
 	

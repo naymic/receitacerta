@@ -211,7 +211,7 @@ public class TestReflectionDAO {
 		c.dsetState(null);
 		r = c.verify();
 		assertFalse(r.isSuccess());
-		System.out.println(r.getErrors().toString());
+		System.out.println(r.getMessageMap().toString());
 	}
 	
 }

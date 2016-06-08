@@ -2,9 +2,12 @@ package Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Return {
-	private HashMap<String, String> errorMap;
+	private HashMap<String, String> messageMap;
+	private ArrayList<String> messages;
+	private ArrayList<String> errors;
 
 	private boolean success;
 	
@@ -12,30 +15,70 @@ public class Return {
 	
 	public Return(){
 		setSuccess(true);
-		errorMap = new HashMap<String, String>();
+		messageMap = new HashMap<String, String>();
+		messages = new ArrayList<>();
+		errors = new ArrayList<>();	
 	}
 	
 	
-	public void addError(String errorMsg){
+	public void addMsg(String msg){
+		messages.add(msg);
+	}
+	
+	
+	public void addSimpleError(String errorMsg){
 		setSuccess(false);
-		
-		errorMap.put("error",errorMsg);
+		errors.add(errorMsg);
 	}
+	
+	
+	private int getNextIndexOfSubKey(String subkey){
+		int i;
+		for(i=0; messageMap.containsKey(subkey+"_"+i); i++){
+		}
+		return i;
+	}
+	
 
-	public void addError(String tableName, String attributeName, String errorMsg){
+	public void addAttributeError(String className, String attributeName, String errorMsg){
 		setSuccess(false);
-		
-		errorMap.put("atrb_"+attributeName,errorMsg);
+	
+		messageMap.put(("atb_"+className+"_"+attributeName),errorMsg);
 	}
 	
 	
-	public HashMap<String, String> getErrors(){return errorMap;}
+	public HashMap<String, String> getMessageMap(){return messageMap;}
 	
 	
 	public boolean isSuccess(){return success;}
 	public void setSuccess(boolean success){
 		this.success = success;
-		this.errorMap = new HashMap<>();
+	}
+	
+	public ArrayList<String> getSimpleErrors(){
+		return errors;
+	}
+	
+	public ArrayList<String> getMessage(){
+		return messages;
+	}
+	
+	
+	
+	
+	
+	public HashMap<String, String> getAttributeErrors(){
+		HashMap<String, String> attributeErrors = new HashMap<>();
+		Iterator<String> it = this.getMessageMap().keySet().iterator();
+		String errorKey = null;
+		
+		while(it.hasNext()){
+			errorKey = it.next();
+			if(errorKey.contains("atb_"))
+				attributeErrors.put(errorKey.substring(4),this.getMessageMap().get(errorKey));
+		}
+		
+		return attributeErrors;
 	}
 	
 	

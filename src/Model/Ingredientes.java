@@ -25,8 +25,8 @@ public class Ingredientes extends Model{
 	public Return verify() {
 		Return r = super.verify();
 		
-		if(this.dgetCalorias() < 0.0){
-			r.addError("Attribute calorias cannot be negative: "+ this.dgetCalorias());
+		if(this.dgetCalorias() != null && this.dgetCalorias() < 0.0){
+			r.addSimpleError("Attribute calorias cannot be negative: "+ this.dgetCalorias());
 		}
 		return r;
 	}

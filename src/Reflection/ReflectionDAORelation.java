@@ -3,7 +3,9 @@ package Reflection;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import GenericDao.DAO;
 import Model.Model;
 
 /**
@@ -61,6 +63,24 @@ public class ReflectionDAORelation extends ReflectionDAO {
 		return this.getColumnValue(this.getMethodsPK.get(0));
 		
 	}
+	
+	
+	/**
+	 * Gets the PK of the instance
+	 * @return Object
+	 */
+	public Object getSelectValue(){
+		
+		for(Method m : this.getMethods()){
+			if(!this.isPK(m) && this.isRequired(m))
+				return this.getColumnValue(m);
+		}
+		
+		return null;
+		
+		
+		
+	}
 		
 	/**
 	 * Checks if in the instance exist just one PK and
@@ -94,11 +114,23 @@ public class ReflectionDAORelation extends ReflectionDAO {
 	public void setValueFromAttributename(String attributeName, Object value){
 		
 		for(Method m : this.getGetMethods()){
-			if(getColumnName(m) == attributeName){
+			if(getColumnName(m).equals(attributeName)){
 				setMethodRelationValue(getSetMethod(m), value);
+				break;
 			}
 		}
 		
+	}
+	
+	
+	/**
+	 * Returns the PK value of a Relation 1..N in a Model class
+	 * @param columnName String
+	 * @return int	PK value of the relation class
+	 */
+	public Object getMethodRelationId(String colunmName){
+		Method m = this.getGetMethodByColumname(colunmName);
+		return this.getMethodRelationId(m);
 	}
 	
 	/**
@@ -106,7 +138,7 @@ public class ReflectionDAORelation extends ReflectionDAO {
 	 * @param m
 	 * @return int	PK value of the relation class
 	 */
-	public Object getMethodRelationValue(Method m){
+	public Object getMethodRelationId(Method m){
 
 		if(super.getMethodValue(m.getName()) != null && super.getMethodValue(m.getName()).getClass().getName().contains("Model")){
 			Model mod = (Model)super.getMethodValue(m.getName());
@@ -116,6 +148,59 @@ public class ReflectionDAORelation extends ReflectionDAO {
 		}
 		
 		return super.getMethodValue(m.getName());
+	}
+	
+	
+	
+	/**
+	 * Returns the PK value of a Relation 1..N in a Model class
+	 * @param m
+	 * @return int	PK value of the relation class
+	 */
+	public Object getMethodRelationValue(String colunmName){
+		Method m = this.getGetMethodByColumname(colunmName);
+		return this.getMethodRelationValue(m);
+	}
+	
+	/**
+	 * Returns the PK value of a Relation 1..N in a Model class
+	 * @param m
+	 * @return int	PK value of the relation class
+	 */
+	public Object getMethodRelationValue(Method m){
+		m = this.getGetMethod(m);
+		
+		if(getMethodValue(m) != null && super.getMethodValue(m.getName()).getClass().getName().contains("Model")){
+			Model mod = (Model)super.getMethodValue(m.getName());
+			ReflectionDAORelation rdr = new ReflectionDAORelation(mod);
+			
+			return rdr.getSelectValue();
+		}
+		
+		return super.getMethodValue(m.getName());
+	}
+	
+	/**
+	 * Get a Hashtable of each row with value object and VarType enum
+	 * @return Hashtable<Object, Vartype>
+	 */
+	public Object getValueFromAttributeName(String attributeName, boolean checkRelation){
+
+		if(checkRelation){
+			for(int i=0; i<this.getMethods().size(); i++){
+				Method m = this.getMethods.get(i);
+				if(this.getColumnName(m).equalsIgnoreCase(attributeName) && this.getMethodValue(m).getClass().getName().contains("Model.")){					
+					ReflectionDAORelation rdr = new ReflectionDAORelation( (Model) this.getMethodValue(m));
+					return this.getMethodRelationValue(m);
+				}else{
+					return this.getMethodValue(m);
+				}
+			}
+		}else{
+			return getValueFromAttributeName(attributeName);
+		}
+
+		return null;
 	}
 	
 	

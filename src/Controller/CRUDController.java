@@ -1,19 +1,95 @@
 package Controller;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import GenericDao.DAO;
+import GenericDao.DAORelation;
 import Interfaces.IController;
+import Model.Ingredientes;
 import Model.Model;
+import Reflection.ReflectionDAO;
+import Reflection.ReflectionDAORelation;
+import Utils.JSON;
 import Utils.Return;
 
 public class CRUDController extends GenericController{
-	
-	private HashMap<String, Object> attributemap;
+
+
 
 	@Override
+	public Return execute(String action){
+		Return r = super.execute(action);
+		Model object = this.initObj();
+		String json = "";
+		
+		if(action.equalsIgnoreCase("busca")){
+			json = this.selectObject(r, object);
+	
+		}else if(action.equalsIgnoreCase("novo")){
+			json = this.newObject(object);
+			
+		}else if(action.equalsIgnoreCase("edit")){
+			json = this.editObject(r, object);
+		
+		}else if(action.equalsIgnoreCase("salvar")){
+			json = this.saveObject(r, object);
+		
+		}else if(action.equalsIgnoreCase("remover")){
+			json = this.removeObject(r, object);
+		
+		}
+		
+		this.setUniqueJson(json);
+		return r;
+		
+	}
+	
+	/**
+	 * Creates a object and set values to attributes
+	 * @return Model object
+	 */
+	protected Model initObj(){
+
+
+		if(this.getClassName().length() > 0){
+			Iterator<String> it = this.getVariableKeys();
+			String paramName;
+
+			String className = (String) this.getVariableValue("className");
+			Model obj = ReflectionDAO.instanciateObjectByName(className);	
+			ReflectionDAORelation rd = new ReflectionDAORelation(obj);
+
+
+			while(it.hasNext()){
+				paramName = it.next();
+				if(paramName.contains(className+".") && this.getVariableValue(paramName).toString().length() > 0){
+					rd.setValueFromAttributename(paramName.split(".")[1], this.getVariableValue(paramName));
+				}
+			}
+			return obj;
+		}
+
+
+		return null;
+	}
+
+	/**
+	 * Gets the className of the mapper
+	 * @return
+	 */
+	public String getClassName() {
+		return (String) this.getVariableValue("className");
+	}
+	
+
+	@Override
+	/**
+	 * Gets the list of valid actions for this controller
+	 */
 	public List<String> getValidActionsList() {
 		validActions = new ArrayList<String>();
 		
@@ -38,34 +114,98 @@ public class CRUDController extends GenericController{
 	
 	
 	
-	
-	public HashMap<String, String> newObject( Model object){
-	
-				
-		return null;
-		
-	}
-	
-	public HashMap<String, String> editObject( Model object){
+	/**
+	 * Method for "novo" retrieves data for a new object
+	 * fill map with infos for the map
+	 * @param r 
+	 * @param object
+	 * @return			String	JSON string to print on view
+	 */
+	public String newObject(Model object){
+		String json = "";
 
+		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		
-		return null;
+		JSON j = new JSON();
+		return j.objectJson(rdr, false);		
 	}
 	
-	public HashMap<String, String> listObject( Model object){
-
+	/**
+	 * Method for "edit" -> retrieves data of an existent object ready to edit
+	 * @param r
+	 * @param object
+	 * @return			String	JSON string to print on view
+	 */
+	public String editObject( Return r, Model object){
+		JSON j = new JSON();
 		
-		return null;
+		List<Model> list = DAORelation.getTestInstance().select(object);
+		if(!list.isEmpty()){
+			object = list.get(0);
+		}else{
+			r.addSimpleError("Data for "+ object.getClass().getSimpleName() +" not found!");
+			return j.messageConstruct(r);
+		}
+		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
+		
+		return j.objectJson(rdr, true);
 	}
 	
-	
-	public void saveObject(Return r, Model object){
+	/**
+	 * Method for "salvar" -> save insert or update a row in database
+	 * @param r
+	 * @param object
+	 * @return			String	JSON string to print on view
+	 */
+	public String saveObject(Return r, Model object){
 		r = DAO.getInstance().save(object);
+		if(r.isSuccess()){
+			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully saved in database");
+		}else{
+			r.addSimpleError("Data "+ object.getClass().getSimpleName() +" could not be saved in database");
+		}
+		
+		JSON j = new JSON();
+		return j.messageConstruct(r);
 	}
 	
-	public void removeObject(Return r, Model object){
+	/**
+	 * Method for "remover" -> remove a row in database successfully could not
+	 * @param r
+	 * @param object
+	 * @return			String	JSON string to print on view
+	 */
+	public String removeObject(Return r, Model object){
 		r = DAO.getInstance().delete(object);
+		if(r.isSuccess()){
+			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully removed");
+		}else{
+			r.addSimpleError("Data "+ object.getClass().getSimpleName() +" could not be removed");
+		}
+		
+		JSON j = new JSON();
+		return j.messageConstruct(r);
 	}
+	
+	/**
+	 * Method for "busca" -> select rows in database
+	 * @param r
+	 * @param object
+	 * @return			String	JSON string to print on view
+	 */
+	public String selectObject(Return r, Model object){
+		List<Model> list = DAORelation.getTestInstance().select(object);
+		JSON j = new JSON();
+		if(list.size() > 0){
+			object = (Model) list.get(0); 
+		}else{
+			r.addMsg("No data found");	
+		}
+		
+		return j.listConstruct(object.getClass().getSimpleName(), r, list);
+		
+	}
+	
 
 	
 

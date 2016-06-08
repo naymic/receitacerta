@@ -9,5 +9,6 @@ public interface IView {
 	
 	public void initControllerList();
 	
+	public String getAction(HttpServletRequest requ);
 
 }

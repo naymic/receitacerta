@@ -120,6 +120,22 @@ public class ReflectionDAO extends GenericReflection{
 		return valueList;
 	}
 	
+	
+	/**
+	 * Get a Hashtable of each row with value object and VarType enum
+	 * @return Hashtable<Object, Vartype>
+	 */
+	public Object getValueFromAttributeName(String attributeName){
+		
+		for(int i=0; i<this.getMethods().size(); i++){
+			Method m = this.getMethods.get(i);
+			if(this.getColumnName(m).equalsIgnoreCase(attributeName))
+				return this.getMethodValue(m);
+		}
+		return null;
+	}
+	
+	
 	/**
 	 * Get a String vector for a prepared sql statement '?'
 	 * @return String[]
@@ -245,7 +261,24 @@ public class ReflectionDAO extends GenericReflection{
 	
 	
 	
-	protected Method getMethodByColumname(String columname){		
+	public Method getSetMethodByColumname(String columname){		
+		for(Method m : setMethods){
+			if(this.getEntity(m).attributeName().equals(columname)){
+				return m;
+			}
+		}
+		
+		
+		try{
+			throw new Exception("Exist no method for the columname "+ columname + " in the "+ this.getObject().getClass());
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	public Method getGetMethodByColumname(String columname){		
 		for(Method m : setMethods){
 			if(this.getEntity(m).attributeName().equals(columname)){
 				return m;
@@ -293,7 +326,7 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param method
 	 * @return
 	 */
-	protected boolean isPK(Method method){
+	public boolean isPK(Method method){
 		return this.getEntity(method).pk();
 	}
 	
@@ -302,7 +335,7 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param method
 	 * @return
 	 */
-	protected boolean isFK(Method method){
+	public boolean isFK(Method method){
 		return this.getEntity(method).fk();
 
 	}
@@ -314,6 +347,10 @@ public class ReflectionDAO extends GenericReflection{
 	 */
 	public boolean isRequired(Method method){
 		return this.getEntity(method).required();
+	}
+	
+	public static boolean isModelClass(Object obj){
+		return obj.getClass().getName().contains("Model.");		
 	}
 
 	

@@ -127,7 +127,7 @@ public class DAO implements IDAO{
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
-			r.addError(e.toString());
+			r.addSimpleError(e.toString());
 			e.printStackTrace();
 		}
 		
@@ -155,7 +155,7 @@ public class DAO implements IDAO{
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
-			r.addError(e.toString());
+			r.addSimpleError(e.toString());
 			e.printStackTrace();
 		}
 			
@@ -183,7 +183,7 @@ public class DAO implements IDAO{
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
-			r.addError(e.toString());
+			r.addSimpleError(e.toString());
 			e.printStackTrace();
 		}
 			
@@ -239,7 +239,7 @@ public class DAO implements IDAO{
 			}
 			
 		} catch (SQLException e) {
-			r.addError(e.toString());
+			r.addSimpleError(e.toString());
 			e.printStackTrace();
 		}
 			

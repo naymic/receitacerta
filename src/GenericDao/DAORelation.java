@@ -2,6 +2,7 @@ package GenericDao;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 import Model.Model;
@@ -55,7 +56,7 @@ public class DAORelation extends DAO{
 		//Retrieves all values not null of the object and attributes it to a method list 
 		for(Method m : mget){
 		
-			if(rdr.getMethodRelationValue(m) != null ){
+			if(rdr.getMethodRelationId(m) != null ){
 				
 				where.add(m);
 			}
@@ -66,7 +67,27 @@ public class DAORelation extends DAO{
 	}
 	
 	
-
+	public List<Model> getFKRelationList(ReflectionDAORelation rdr, String fk_attributeName){
+		Method m = rdr.getGetMethodByColumname(fk_attributeName);
+		Model obj = (Model) ReflectionDAORelation.instanciateObjectByName(rdr.getMethodValueClass(m));
+			return  DAO.getInstance().select(obj);
+	}
+	
+	
+	public static boolean isSameID(ReflectionDAORelation rdr, String columnName ,Object inheritID)throws Exception{
+		
+		if(rdr.getValueFromAttributeName(columnName) == null){
+			List<Model> list = DAORelation.getInstance().select(rdr.getObject());
+			if(list.size() > 1)
+				throw new Exception("Object need a primary key "+ rdr.getObject().getClass().getName());
+			rdr.setObject(list.get(0));
+		}
+		
+		Model relObject = (Model)rdr.getValueFromAttributeName(columnName);
+		ReflectionDAORelation rdr1 = new ReflectionDAORelation(relObject);
+		return rdr1.getPK().equals(inheritID);
+	}
+	
 
 	
 }

@@ -23,12 +23,12 @@ public abstract class Model {
 		for (int i = 0; i < getMethods.size(); i++) {
 			Method m = getMethods.get(i);
 			if(rd.isRequired(m) && rd.isValueNull(m)){
-				r.addError("Attribute "+rd.getColumnName(m)+" is required but null in object " + rd.getObject().getClass());
+				r.addAttributeError(rd.getObject().getClass().getSimpleName(),rd.getColumnName(m),"Attribute: "+ rd.getColumnName(m) +" is required but null in object ");
 			}
 			
 		}
-		
 		return r;
+		
 	}
 	
 }

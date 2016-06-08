@@ -37,16 +37,48 @@ public class TestReflectionDAORelation {
 		Ingredientes i = new Ingredientes();
 		ReflectionDAORelation rdr = new ReflectionDAORelation(i);
 		
+		
 		rdr.setValueFromAttributename("ingredientes_unidades_id", id);
-		assertEquals(id, i.dgetIngredienteArmazenamentos().dgetId());
+		assertEquals(id, i.dgetIngredientesUnidade().dgetId());
+	}
+	
+	@Test
+	public void testGetValueFromAtrributeName(){
+			
+		Ingredientes i = new Ingredientes();
+		i.dsetId(new Integer(1));
+		
+		ArrayList<Model> list = DAORelation.getTestInstance().select(i);
+		i = (Ingredientes) list.get(0);
+		ReflectionDAORelation rdr = new ReflectionDAORelation(i);
+		
+		
+		Model object = (Model) rdr.getValueFromAttributeName("ingredientes_unidades_id");
+		assertEquals(object.getClass().getSimpleName(), "IngredienteUnidades");
+	}
+	
+	@Test
+	public void testGetValueFromRelation(){
+			
+		Ingredientes i = new Ingredientes();
+		i.dsetId(new Integer(1));
+		
+		ArrayList<Model> list = DAORelation.getTestInstance().select(i);
+		i = (Ingredientes) list.get(0);
+		ReflectionDAORelation rdr = new ReflectionDAORelation(i);
+		
+		
+		assertEquals(i.dgetIngredientesUnidade().dgetNomeUnidade(), rdr.getMethodRelationValue("ingredientes_unidades_id"));
+		
 	}
 
 
 	@Test
 	public void testSelect(){
 		Ingredientes i = new Ingredientes();
-		i.dsetId(1);
+		
 		ArrayList<Model> lm = new ArrayList<>();		
+		i.dsetId(1);
 		lm = DAORelation.getTestInstance().select(i);
 		
 		i = (Ingredientes)lm.get(0);

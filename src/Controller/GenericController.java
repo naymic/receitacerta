@@ -27,12 +27,23 @@ public class GenericController implements IController{
 		jsonMapper= new HashMap<>();
 		
 	}
+	
 	/**
 	 * Gets a map of all attributes of a object and its strings
+	 * THIS METHOD IS NOT USER AT THE MOMENT
 	 * @return
 	 */
 	public HashMap<String, String> getJsonMapper() {
 		return jsonMapper;
+	}
+	
+	/**
+	 * Gets a map of all attributes of a object and its strings
+	 * THIS METHOD IS NOT USER AT THE MOMENT
+	 * @return
+	 */
+	public HashMap<String, Object> getVariableMapper() {
+		return variables;
 	}
 	
 	public void setUniqueJson(String json){

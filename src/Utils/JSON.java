@@ -23,7 +23,7 @@ public class JSON {
 		}
 		
 		
-		return json.substring(0, json.length()-2);
+		return "{"+json.substring(0, json.length()-2)+"}";
 	}
 	
 	private String attributeJson(ReflectionDAORelation rdr, String attributeName, boolean isEdit){
@@ -48,7 +48,7 @@ public class JSON {
 					
 					json +="\t{";
 					for(String s : columns){
-						json += "\""+s+"\":"+rd1.getValueFromAttributeName(s)+"\",";
+						json += "\""+s+"\":\""+rd1.getValueFromAttributeName(s)+"\",";
 					}
 					String selected = "";
 					if(isEdit && rdr.isFK(rdr.getGetMethodByColumname(attributeName)) && DAORelation.getInstance().isSameID(rdr, attributeName, rd1.getPK()))
@@ -56,6 +56,8 @@ public class JSON {
 					
 					json +="\"selected\":\""+ selected +"\"},\n";
 				}
+				
+				json = json.substring(0, json.length()-2);
 				json += "],\n";
 				
 			}catch(Exception e){
@@ -66,6 +68,7 @@ public class JSON {
 			json = this.getAttribute(rdr, attributeName, isEdit, false);
 		}
 		
+
 		
 		return json;
 	}
@@ -83,7 +86,7 @@ public class JSON {
 				for(String column : rdr1.getColums(rdr1.getGetMethods())){
 					json1 += this.getAttribute(rdr1, column, true, false);
 				}
-				return  "\t\""+ attributeName +"\":\"{"+value.getClass().getSimpleName()+"\":{"+json1.substring(0, json1.length()-2)+"}},\n";
+				return  "\t\""+ attributeName +"\":{"+json1.substring(0, json1.length()-2)+"},\n";
 			}
 		}
 		
@@ -130,9 +133,9 @@ public class JSON {
 	}
 	
 	public String listConstruct(String className, Return r, List<Model> objectList){
-		String finalJson = "{\nbusca:{";
+		String finalJson = "{\n\"busca\":{";
 			
-		finalJson += this.constructReturnMessages(r);
+		finalJson += this.constructReturnMessages(r)+",\n";
 		
 		if(objectList.size() > 0){
 			finalJson += "\""+className+"\":["+this.listJSON(objectList)+"]\n";
@@ -155,7 +158,7 @@ public class JSON {
 			errors += ",\""+error+"\"";
 		}
 		
-		if(errors.length() > 1){
+		if(errors.length() > 0){
 			errors = errors.substring(1);
 		}
 		
@@ -166,7 +169,7 @@ public class JSON {
 		String json = "";
 		json += this.constructMessage("erro", r.getSimpleErrors())+",\n";
 		json += this.constructMessage("msg", r.getMessage())+",\n";
-		json += this.constructAttributeMessage("atb", r.getAttributeErrors())+",\n";
+		json += this.constructAttributeMessage("atb", r.getAttributeErrors())+"\n";
 		return json;
 	}
 	
@@ -178,7 +181,7 @@ public class JSON {
 		
 		while(it.hasNext()){
 			String key = it.next();
-			errors += ",{\"nomeClasse\":"+key.split("_")[0]+"\",\"nomeAttributo\":"+key.split("_")[1]+"\",\"msg\":"+errorList.get(key)+"\"}";
+			errors += ",{\"nomeClasse\":\""+key.split("_")[0]+"\",\"nomeAttributo\":\""+key.split("_")[1]+"\",\"msg\":\""+errorList.get(key)+"\"}";
 		}
 		
 		if(errors.length() > 1)

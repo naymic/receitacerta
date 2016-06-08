@@ -183,7 +183,7 @@ public class DAO implements IDAO{
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
-			r.addSimpleError(e.toString());
+			r.addSimpleError(e.getMessage());
 			e.printStackTrace();
 		}
 			

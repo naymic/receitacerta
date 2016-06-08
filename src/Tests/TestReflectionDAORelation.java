@@ -84,8 +84,8 @@ public class TestReflectionDAORelation {
 		i = (Ingredientes)lm.get(0);
 		
 		assertEquals(new Integer(1), i.dgetId());
-		assertEquals("carne de sol", i.dgetNome());
-		assertEquals(new Double(250), i.dgetCalorias());
+		assertEquals("carne de sol1", i.dgetNome());
+		assertEquals(new Double(300), i.dgetCalorias());
 		
 		assertEquals(new Integer(1),i.dgetIngredientesUnidade().dgetId());
 		assertEquals("kg",i.dgetIngredientesUnidade().dgetNomeUnidade());

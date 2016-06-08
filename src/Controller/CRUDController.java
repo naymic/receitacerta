@@ -49,13 +49,21 @@ public class CRUDController extends GenericController{
 	 * Creates a object and set values to attributes 
 	 * @return Model object
 	 */
-	protected Model initObj(){
+	public Model initObj(){
 
-
-		if(this.getClassName().length() > 0){
+		try{
+			
+			if(!this.getVariableMapper().containsKey("className") && this.getClassName().length() > 0)
+				throw new Exception("No given className, the controller have to reveice a className from the view");
+			
+			//Add Model. before the classname if not exist
+			if(!this.getVariableMapper().get("className").toString().contains("Model.")){
+				this.getVariableMapper().put("className", "Model."+this.getVariableMapper().get("className"));
+			}
+			
+		
 			Iterator<String> it = this.getVariableKeys();
 			String paramName;
-
 			String className = (String) this.getVariableValue("className");
 			Model obj = ReflectionDAO.instanciateObjectByName(className);	
 			ReflectionDAORelation rd = new ReflectionDAORelation(obj);
@@ -63,11 +71,15 @@ public class CRUDController extends GenericController{
 
 			while(it.hasNext()){
 				paramName = it.next();
-				if(paramName.contains(className+".") && this.getVariableValue(paramName).toString().length() > 0){
-					rd.setValueFromAttributename(paramName.split(".")[1], this.getVariableValue(paramName));
+				String[] pN = paramName.split("[.]");
+				if(paramName.contains(obj.getClass().getSimpleName()+".") && this.getVariableValue(paramName).toString().length() > 0){
+					rd.setValueFromAttributename(paramName.split("[.]")[1], this.getVariableValue(paramName));
 				}
 			}
 			return obj;
+			
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 
 
@@ -136,6 +148,13 @@ public class CRUDController extends GenericController{
 	public String editObject( Return r, Model object){
 		JSON j = new JSON();
 		
+		//Check if PK is set or not
+		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
+		if(rdr.getPK() == null){
+			r.addSimpleError("Primary key is not set. Object "+ object.getClass().getSimpleName() +" not found!");
+			return j.messageConstruct(r);
+		}
+		
 		List<Model> list = DAORelation.getTestInstance().select(object);
 		if(!list.isEmpty()){
 			object = list.get(0);
@@ -143,9 +162,9 @@ public class CRUDController extends GenericController{
 			r.addSimpleError("Data for "+ object.getClass().getSimpleName() +" not found!");
 			return j.messageConstruct(r);
 		}
-		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
+		ReflectionDAORelation rdr1 = new ReflectionDAORelation(object);
 		
-		return j.objectJson(rdr, true);
+		return j.objectJson(rdr1, true);
 	}
 	
 	/**

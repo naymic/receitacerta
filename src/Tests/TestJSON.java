@@ -30,7 +30,7 @@ public class TestJSON {
 		
 		JSON j = new JSON();
 		json = j.objectJson(rdr, false);
-		System.out.println(json);
+		//System.out.println(json.replaceAll("[\n|\t]", ""));
 	}
 	
 	@Test
@@ -49,8 +49,9 @@ public class TestJSON {
 		
 		JSON j = new JSON();
 		json = j.objectJson(rdr, true);
+	
 		
-		System.out.println(json);
+		System.out.println(json.replaceAll("[\n|\t]", ""));
 		
 	}
 	

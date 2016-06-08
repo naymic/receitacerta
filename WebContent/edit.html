@@ -1,0 +1,45 @@
+<h1>Editando ingrediente</h1>
+
+<form action="#" method="post">
+    <div class="form-group">
+        <label for="nome">Nome do ingrediente:</label>
+        <input type="text" name="nome" class="form-control" id="nome" value="${ingrediente.nome}">
+    </div>
+
+    <div class="form-group">
+        <label for="tipo_ingrediente">Tipo do ingrediente:</label>
+        <select name="tipo_ingrediente" class="form-control" id="tipo_ingrediente">
+            <!-- $beginBlock relation.tipo -->
+            <option value="${tipo.idtipo}">${tipo_ingrediente}</option>
+            <!-- $endBlock relation.tipo -->
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="unidade">Unidade:</label>
+        <select class="form-control" name="unidade" id="unidade">
+            <!-- $beginBlock unidades -->
+            <option value="${unidade}">${unidade}</option>
+            <!-- $endBlock unidades -->
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="cal_un">Calorias por Unidade (Cal/Unid)</label>
+        <input class="form-control" type="text" name="cal_un" id="cal_un" value="${cal_un}">
+    </div>
+
+    <div class="form-group">
+        <label for="armazenamento">Tipo de armazenamento:</label>
+        <select class="form-control" name="armazenamento" id="armazenamento">
+            <!-- $beginBlock armazenamentos -->
+            <option value="${armazenamento}">${armazenamento}</option>
+            <!-- $endBlock armazenamentos -->
+        </select>
+    </div>
+
+    <div>
+    <input class="btn btn-primary" type="submit" name="" id="" value="Salvar">
+    <a class="btn btn-default" href="#">Retornar</a>
+    </div>
+</form>

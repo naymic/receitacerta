@@ -45,10 +45,17 @@ public class JSON {
 				for(Model mod : list) {
 					ReflectionDAORelation rd1 = new ReflectionDAORelation(mod);
 					String[] columns = rd1.getColums(rd1.getGetMethods());
+					String s1 = null;
 					
 					json +="\t{";
 					for(String s : columns){
-						json += "\""+s+"\":\""+rd1.getValueFromAttributeName(s)+"\",";
+						if(!s.equalsIgnoreCase("id")){
+							s1 = "label";
+						}else{
+							s1 = "id";
+						}
+						
+						json += "\""+s1+"\":\""+rd1.getValueFromAttributeName(s)+"\",";
 					}
 					String selected = "";
 					if(isEdit && rdr.isFK(rdr.getGetMethodByColumname(attributeName)) && DAORelation.getInstance().isSameID(rdr, attributeName, rd1.getPK()))

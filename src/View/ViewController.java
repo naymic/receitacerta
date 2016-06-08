@@ -75,8 +75,8 @@ public class ViewController extends HttpServlet {
 			//Get all variables from the view and save it to the controller
 			this.initVariables(requ, ic);
 			
-			//Execute the required action
-			r = ic.execute(action);
+			//Execute the required action, the Return object is already transfered to the jsonMapper in the controller and is not user anymore
+			ic.execute(r ,action);
 			
 			jString = ic.getUniqueJson();
 			

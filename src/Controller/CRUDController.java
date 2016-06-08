@@ -19,10 +19,9 @@ import Utils.Return;
 public class CRUDController extends GenericController{
 
 
-
 	@Override
-	public Return execute(String action){
-		Return r = super.execute(action);
+	public void execute(Return r, String action){
+		super.execute(r, action);
 		Model object = this.initObj();
 		String json = "";
 		
@@ -43,13 +42,11 @@ public class CRUDController extends GenericController{
 		
 		}
 		
-		this.setUniqueJson(json);
-		return r;
-		
+		this.setUniqueJson(json);		
 	}
 	
 	/**
-	 * Creates a object and set values to attributes
+	 * Creates a object and set values to attributes 
 	 * @return Model object
 	 */
 	protected Model initObj(){

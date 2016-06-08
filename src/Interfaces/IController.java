@@ -29,10 +29,11 @@ public interface IController {
 	
 	
 	/** Esse metodo deve ser chamado apos o comando setVariables, para executar uma a��o. 
+	 * @param r 
 	 * @param action string que indica uma a��o conhecida pelo controlador.
 	 * @return Object Return que indica o status da execu��o. contem uma mensagem
 	 */
-	Return execute(String action);
+	void execute(Return r, String action);
 	
 	/** retorna a lista de a��es reconhecidas pelo controlador
 	 * @return

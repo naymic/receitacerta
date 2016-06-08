@@ -60,9 +60,8 @@ public class GenericController implements IController{
 	}
 
 	@Override
-	public Return execute(String action) {
-		Return r = this.validateAction(action);
-		return r;
+	public void execute(Return r, String action) {
+		r = this.validateAction(action);
 	}
 
 	@Override

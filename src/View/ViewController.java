@@ -52,7 +52,7 @@ public class ViewController extends HttpServlet {
 		doGet(request, response);
 		String content = "";
 
-		process(request, response, content);
+		content = process(request, response, content);
 		
 		
 		response.getWriter().println(content);
@@ -70,10 +70,12 @@ public class ViewController extends HttpServlet {
 		//Get the controller for the required action
 		IController ic = getController(r, action);
 		
-		
+		System.out.println(ic.getClass().getName());
+		System.out.println(action);
 		if(r.isSuccess()){
 			//Get all variables from the view and save it to the controller
 			this.initVariables(requ, ic);
+			System.out.println(ic.getJsonMapper().size());
 			
 			//Execute the required action, the Return object is already transfered to the jsonMapper in the controller and is not user anymore
 			ic.execute(r ,action);

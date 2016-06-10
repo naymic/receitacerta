@@ -113,6 +113,8 @@ public class ReflectionDAORelation extends ReflectionDAO {
 	 */
 	public void setValueFromAttributename(String attributeName, Object value){
 		
+		//value = (this.g)
+		
 		for(Method m : this.getGetMethods()){
 			if(getColumnName(m).equals(attributeName)){
 				setMethodRelationValue(getSetMethod(m), value);
@@ -218,7 +220,7 @@ public class ReflectionDAORelation extends ReflectionDAO {
 			value = obj;
 		}
 		
-		super.setMethodValue(m.getName(), value);
+		super.setMethodValue(m.getName(), this.getMethodValueClass(m) , value);
 	}
 	
 	/**

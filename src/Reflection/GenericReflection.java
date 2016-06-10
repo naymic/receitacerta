@@ -166,7 +166,10 @@ public class GenericReflection {
 	 * @return boolean	[false = if one or more of the pk is not set | true = if none of the pk is set]
 	 */
 	public boolean isValueNull(Method m){
-		return this.getMethodValue(m) == null;
+		if(this.getMethodValue(m) == null || this.getMethodValue(m).equals(null))
+			return true;
+		else
+			return false;
 	}
 	
 	

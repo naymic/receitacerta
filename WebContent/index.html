@@ -51,7 +51,7 @@
                 </nav>
 
                 <div class="container-fluid" id="centralContent">
-                    ${conteudo}
+                    <h1 class="alert alert-success">Bem Vindo ao Receita Certa</h1>
                 </div>
             </div>
             <!-- /#page-content-wrapper -->
@@ -71,13 +71,13 @@
 
         <!-- Menu Toggle Script -->
         <script>
-        alert("teste");
         $("#menu-toggle").click(function(e) {
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
         });
         $(".newAction").click(function(e){
             $("#centralContent").load($(this).data("url"));
+			sessionStorage.id = '';
         })
         </script>
 

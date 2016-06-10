@@ -1,5 +1,21 @@
 
-	<table class="table table-striped table-bordered table-hover">
+<form id="formIngrediente">
+<div class="row">
+	<div class="col-sm-5">
+    	<label>Nome</label>
+        <input class="form-control" name="nome" />
+    </div>
+    <div class="col-sm-5">
+    	<input type="hidden" name="action" id="action" value="busca" />
+    	<input type="hidden" name="classname " id="classname" value="ingredientes" />
+        <button  class="btn btn-success" style="margin-top:23px;" type="submit">Procurar</button>
+    </div>
+</div>
+</form>
+
+<hr />
+	<table class="table table-striped table-bordered table-hover" id="tableDados">
+    <thead>
 		<tr>
 			<th>Id</th>
 			<th>Nome</th>
@@ -7,19 +23,178 @@
             <th>Unidade</th>
             <th>Cal/Un.</th>
             <th>Armazenamento</th>
+            <th>#</th>
 		</tr>
+        </thead>
+        <tbody>
+        
+        </tbody>
 <!-- $beginBlock listaringredientes -->
-		<tr>
-			<td>${idingrediente}</td>
-			<td>${nome}</td>
-            <td>${tipoingrediente}</td>
-            <td>${unidade}</td>
-            <td>${cal_un}</td>
-            <td>${armazenamento}</td>
-			<td>
-				<a href="#">Editar</a>
-				<a href="#">Remover</a>
-			</td>
-		</tr>
+		
 <!-- $endBlock listaringredientes -->
 	</table>
+
+<div class="modal fade" tabindex="-1" id="modalConfirm" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <h3 class="alert alert-warning">Deseja realmente excluir este item?</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" id="btnConfirmarDelete">Confirmar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+	var json = '{';
+json += '"busca":{"erro":[],'
+json += '"msg":["Teste de mensagem"],'
+json += '"atb":[{"nomeClasse":"Ingredientes","nomeAttributo":"nome","msg":"teste de mensagem"}],'
+json += '"Ingredientes":[{	"ingrediente_armazenamentos_id":{	"id":"2",'
+json += '	"nome_armazenamento":"geladeira"},'
+json += '	"id":"0",'
+json += '	"ingredientes_unidades_id":{	"id":"1",'
+json += '	"nome_unidade":"kg",'
+json += '	"descricao":"1kg = 1000g"},'
+json += '	"nome":"carne de sol1",'
+json += '	"calorias":"250.0",'
+json += '	"ingredientes_tipo_id":{	"id":"1",'
+json += '	"nome_tipo":"carne"}'
+json += '},{	"ingrediente_armazenamentos_id":{	"id":"2",'
+json += '	"nome_armazenamento":"geladeira"},'
+json += '	"id":"1",'
+json += '	"ingredientes_unidades_id":{	"id":"1",'
+json += '	"nome_unidade":"kg",'
+json += '	"descricao":"1kg = 1000g"},'
+json += '	"nome":"carne de sol1",'
+json += '	"calorias":"300.0",'
+json += '	"ingredientes_tipo_id":{	"id":"1",'
+json += '	"nome_tipo":"carne"}'
+json += '},{	"ingrediente_armazenamentos_id":{	"id":"1",'
+json += '	"nome_armazenamento":"dispensa"},'
+json += '	"id":"2",'
+json += '	"ingredientes_unidades_id":{	"id":"1",'
+json += '	"nome_unidade":"kg",'
+json += '	"descricao":"1kg = 1000g"},'
+json += '	"nome":"Abobra",'
+json += '	"calorias":"24.45",'
+json += '	"ingredientes_tipo_id":{	"id":"2",'
+json += '	"nome_tipo":"legume"}'
+json += '}]'
+json += '}'
+json += '}';
+
+	var jsonBusca = '{';
+jsonBusca += '"busca":{"erro":[],'
+jsonBusca += '"msg":["Teste de mensagem"],'
+jsonBusca += '"atb":[{"nomeClasse":"Ingredientes","nomeAttributo":"nome","msg":"teste de mensagem"}],'
+jsonBusca += '"Ingredientes":[{	"ingrediente_armazenamentos_id":{	"id":"2",'
+jsonBusca += '	"nome_armazenamento":"geladeira"},'
+jsonBusca += '	"id":"0",'
+jsonBusca += '	"ingredientes_unidades_id":{	"id":"1",'
+jsonBusca += '	"nome_unidade":"kg",'
+jsonBusca += '	"descricao":"1kg = 1000g"},'
+jsonBusca += '	"nome":"carne de sol1",'
+jsonBusca += '	"calorias":"250.0",'
+jsonBusca += '	"ingredientes_tipo_id":{	"id":"1",'
+jsonBusca += '	"nome_tipo":"carne"}'
+jsonBusca += '},{"ingrediente_armazenamentos_id":{	"id":"2",'
+jsonBusca += '	"nome_armazenamento":"geladeira"},'
+jsonBusca += '	"id":"1",'
+jsonBusca += '	"ingredientes_unidades_id":{	"id":"1",'
+jsonBusca += '	"nome_unidade":"kg",'
+jsonBusca += '	"descricao":"1kg = 1000g"},'
+jsonBusca += '	"nome":"carne de sol1",'
+jsonBusca += '	"calorias":"300.0",'
+jsonBusca += '	"ingredientes_tipo_id":{	"id":"1",'
+jsonBusca += '	"nome_tipo":"carne"}}]'
+jsonBusca += '}'
+jsonBusca += '}';
+
+var data = JSON.parse(json);
+var dataBusca = JSON.parse(jsonBusca);
+
+console.log(data);
+		var html = '';
+		var selectedOption = '';
+		if(!$.isEmptyObject(data.busca.Ingredientes)){
+		$.each(data.busca.Ingredientes,function(i,obj){
+			html += '<tr>'
+			html +=		'<td>'+obj.id+'</td>';
+			html +=		'<td>'+obj.nome+'</td>';
+          	html +=		  '<td>'+obj.ingredientes_tipo_id.nome_tipo+'</td>';
+           	html +=		' <td>'+obj.ingredientes_unidades_id.nome_unidade+'</td>';
+            html +=		'<td>'+obj.calorias+'</td>';
+            html +=		'<td>'+obj.ingrediente_armazenamentos_id.nome_armazenamento+'</td>';
+			html +=		'<td>';
+			html +=		'<a href="#" class="listAction btn btn-primary btn-sm" data-id="'+obj.id+'" data-tipo="1">Editar</a>';
+			html +=		' <a href="#" class="listAction btn btn-danger btn-sm" data-id="'+obj.id+'" data-tipo="2">Remover</a>';
+			html +=	'</td>';
+			html += '</tr>';
+			
+		});
+		$("#tableDados").children('tbody').html(html);
+		}else{
+		$("#tableDados").children('tbody').html('<tr><td colspan="7">Dados não encontrados</td></tr>');	
+		}
+
+$("#formIngrediente").submit(function(e) {
+            e.preventDefault();
+			//$.post(PATH_API,$(this).serialize(),function(data){
+			//	data = JSON.parse(data);
+				if(!$.isEmptyObject(data.erro)){
+				$.each(data.atb,function(cont,obj){
+					$("#"+obj.nomeAttributo).parent().append('<div class="alert alert-warning">'+obj.msg+'</div>');
+				});
+				}else{
+					var html = '';
+					if(!$.isEmptyObject(dataBusca.busca.Ingredientes)){
+					$.each(dataBusca.busca.Ingredientes,function(i,obj){
+						html += '<tr>'
+						html +=		'<td>'+obj.id+'</td>';
+						html +=		'<td>'+obj.nome+'</td>';
+						html +=		  '<td>'+obj.ingredientes_tipo_id.nome_tipo+'</td>';
+						html +=		' <td>'+obj.ingredientes_unidades_id.nome_unidade+'</td>';
+						html +=		'<td>'+obj.calorias+'</td>';
+						html +=		'<td>'+obj.ingrediente_armazenamentos_id.nome_armazenamento+'</td>';
+						html +=		'<td>';
+						html +=		'<a href="#" class="listAction btn btn-primary btn-sm" data-id="'+obj.id+'" data-tipo="1">Editar</a>';
+						html +=		' <a href="#" class="listAction btn btn-danger btn-sm" data-id="'+obj.id+'" data-tipo="2">Remover</a>';
+						html +=	'</td>';
+						html += '</tr>';
+						
+					});
+					$("#tableDados").children('tbody').html(html);
+					}else{
+					$("#tableDados").children('tbody').html('<tr><td colspan="7">Dados não encontrados</td></tr>');	
+					}	
+				}
+			//	}
+		//	});
+        });
+		
+		var btnGlobal;
+		
+		$(document).off('click','.listAction');
+		$(document).on('click','.listAction',function(e){
+			sessionStorage.id = $(this).data('id');
+			if($(this).data('tipo') == "1"){	
+				$("#centralContent").load('edit.html');
+			}else{
+				$("#modalConfirm").modal('show');
+				btnGlobal = $(this);	
+			}
+		});
+		
+		$("#btnConfirmarDelete").click(function(e) {
+            $("#modalConfirm").modal('hide'); 
+			btnGlobal.parent().parent().fadeOut('fast');
+        });
+</script>

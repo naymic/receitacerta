@@ -174,6 +174,9 @@ public class CRUDController extends GenericController{
 	 * @return			String	JSON string to print on view
 	 */
 	public String saveObject(Return r, Model object){
+		System.out.println(((Ingredientes)object).dgetCalorias());
+		System.out.println(((Ingredientes)object).dgetNome());
+		
 		r = DAO.getInstance().save(object);
 		if(r.isSuccess()){
 			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully saved in database");

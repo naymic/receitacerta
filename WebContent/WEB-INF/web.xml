@@ -9,14 +9,15 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+
   <servlet>
     <description></description>
-    <display-name>JSONServlet</display-name>
-    <servlet-name>JSONServlet</servlet-name>
-    <servlet-class>Servlets.JSONServlet</servlet-class>
+    <display-name>ViewController</display-name>
+    <servlet-name>ViewController</servlet-name>
+    <servlet-class>View.ViewController</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>JSONServlet</servlet-name>
-    <url-pattern>/JSONServlet</url-pattern>
+    <servlet-name>ViewController</servlet-name>
+    <url-pattern>/ViewController</url-pattern>
   </servlet-mapping>
 </web-app>

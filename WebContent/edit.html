@@ -1,0 +1,161 @@
+<form  method="post" id="formIngrediente">
+    <div class="form-group">
+        <label for="nome">Nome do ingrediente:</label>
+        <input type="text" name="Ingredientes.nome" class="form-control" id="nome" value="">
+    </div>
+
+    <div class="form-group">
+        <label for="ingredientes_tipo_id">Tipo do ingrediente:</label>
+        <select name="Ingredientes.ingredientes_tipo_id" class="form-control" id="ingredientes_tipo_id">
+            <!-- $beginBlock relation.tipo -->
+            <option value="">Selecione</option>
+            <!-- $endBlock relation.tipo -->
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="ingredientes_unidades_id">Unidade:</label>
+        <select class="form-control" name="Ingredientes.ingredientes_unidades_id" id="ingredientes_unidades_id">
+            <!-- $beginBlock unidades -->
+            <option value="">Selecione</option>
+            <!-- $endBlock unidades -->
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="calorias">Calorias por Unidade (Cal/Unid)</label>
+        <input class="form-control" type="text" name="Ingredientes.calorias" id="calorias" value="">
+    </div>
+
+    <div class="form-group">
+        <label for="ingrediente_armazenamentos_id">Tipo de armazenamento:</label>
+        <select class="form-control" name="Ingredientes.ingrediente_armazenamentos_id" id="ingrediente_armazenamentos_id">
+            <!-- $beginBlock armazenamentos -->
+             <option value="">Selecione</option>
+            <!-- $endBlock armazenamentos -->
+        </select>
+    </div>
+
+    <div>
+    <div id="camposHidden">
+    <input type="hidden" name="action" id="action" value="salvar"/>
+    <input type="hidden" name="className" id="className" value="Ingredientes" />
+   </div>
+
+    <input class="btn btn-primary" type="submit" id="btnSubmit"  value="Salvar">
+    </div>
+
+</form>
+
+<script>
+var PATH_API = "ViewController"
+/*	$.post(PATH_API,objIngrediente,function(data){
+		data = JSON.parse(data);
+		var html = '';
+		var selectedOption = '';
+		$.each(data.busca,function(i,values){
+			if($.isArray(values)){
+				$.each(values,function(cont,obj){
+					if(obj.selected != ''){
+							selectedOption = "selected";
+					}
+					html += '<option value="'+obj.id+'"  '+selectedOption+' >'+obj.label+'</option>';
+				});
+				$("#"+i).append(html);
+			}else{
+				$("#"+i).val(values);
+			}
+		});
+	});*/
+
+function criaForm(dados){
+var data = JSON.parse(dados);
+console.log(data);
+		var html = '';
+		var selectedOption = '';
+		$.each(data,function(i,values){
+			if($.isArray(values)){
+				$.each(values,function(cont,obj){
+					selectedOption = obj.selected;
+					html += '<option value="'+obj.id+'"  '+selectedOption+' >'+obj.label+'</option>';
+				});
+
+				$("#"+i).append(html);
+				html = '';
+			}else{
+				$("#"+i).val(values);
+			}
+		});
+}
+
+	
+var json = '{';
+json += '"erro":[1,2],';
+json += '"msg":["msg1","msg2"],';
+json += '"atb":[{"nomeClasse":"","nomeAttributo":"ingredientes_unidades_id","msg":"Tenso"}],';
+json += '"ingredientes_tipo_id":[';
+json += '	{"id":"1","label":"Fruta","selected":""},';
+json += '	{"id":"2","label":"Legume","selected":""},';
+json += '	{"id":"3","label":"Cereal","selected":""},';
+json += '	{"id":"4","label":"Granulado","selected":""},';
+json += '	{"id":"5","label":"Pó","selected":""},';
+json += '	{"id":"6","label":"Lactose","selected":""}';
+json += '],';
+json += '"ingrediente_armazenamentos_id":[';
+json += '	{"id":"1","label":"Dispensa","selected":""},';
+json += '	{"id":"2","label":"Freezer","selected":""},';
+json += '	{"id":"3","label":"Geladeira","selected":""}],';
+json += '	"calorias":"",';
+json += '	"id":"",';
+json += '	"nome":"",';
+json += '"ingredientes_unidades_id":[';
+json += '	{"id":"1","label":"grama","descricao":"unidade de peso","selected":""},';
+json += '	{"id":"2","label":"kilograma","descricao":"unidade de peso","selected":""},';
+json += '	{"id":"3","label":"litro","descricao":"unidade de volume","selected":""},';
+json += '	{"id":"4","label":"mililitro","descricao":"unidade de volume","selected":""},';
+json += '	{"id":"5","label":"colher de sopa","descricao":"unidade de um colher para comer sopa","selected":""},';
+json += '	{"id":"6","label":"colher de chá","descricao":"unidade de um colher para mexer a leite ou chá","selected":""}';
+json += ']}';
+var objIngrediente = '';
+if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
+	$("#action").val('salvar');
+		objIngrediente = {'action':'novo','className':'Ingredientes'};
+		$("#btnSubmit").val('Cadastrar');
+	}else{
+
+		$("#camposHidden").append('<input type="hidden" name="id " id="id" value="'+sessionStorage.id+'" />');
+		$("#action").val('edit');
+		objIngrediente = {'action':'edit','className':'Ingredientes','id':sessionStorage.id};
+	}
+
+$.post(PATH_API,objIngrediente,function(data){
+			console.log(data);
+			criaForm(data);
+		});
+
+
+
+
+
+		$("#formIngrediente").submit(function(e) {
+            e.preventDefault();
+            var data = "";
+			$.post(PATH_API,$(this).serialize(),function(dadosApi){
+				data = JSON.parse(dadosApi);
+			});
+			console.log(data);
+				if(!$.isEmptyObject(data.erro)){
+				$.each(data.atb,function(cont,obj){
+					$("#"+obj.nomeAttributo).parent().append('<div class="alert alert-warning">'+obj.msg+'</div>');
+				});
+				
+      }else{
+        alert(data.msg[0]);
+        $(this).each(function(e){
+          this.reset();
+        })
+    
+				}
+        });
+
+</script>

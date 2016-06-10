@@ -4,7 +4,7 @@ import Reflection.Entity;
 import Utils.Return;
 
 
-public class City extends Model{
+public class TestCity extends Model{
 	Integer id;
 	String name;
 	String country;
@@ -55,17 +55,6 @@ public class City extends Model{
 	}
 	public void dsetNotice(String notice) {this.notice = notice;}
 	
-	
-	@Override
-	public Return verify() {
-		
-		if(this.dgetId() != 0){
-			return null;
-		}
-		
-		
-		return null;
-	}
 
 	@Override
 	public String getTableName() {

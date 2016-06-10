@@ -4,14 +4,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import Model.City;
+import Model.TestCity;
 import Reflection.GenericReflection;
 
 public class TestGenericReflection {
 
 	@Test
 	public void testObject() {
-		City c = new City();
+		TestCity c = new TestCity();
 		c.dsetName("TestValueName");
 		GenericReflection r = new GenericReflection(c);
 		
@@ -22,7 +22,7 @@ public class TestGenericReflection {
 	
 	@Test
 	public void testMethod() {
-		City c = new City();
+		TestCity c = new TestCity();
 		c.dsetName("TestValueName");
 		GenericReflection r = new GenericReflection(c);
 		
@@ -38,7 +38,7 @@ public class TestGenericReflection {
 	
 	@Test
 	public void testMethodValue() {
-		City c = new City();
+		TestCity c = new TestCity();
 		c.dsetName("TestValueName");
 		GenericReflection r = new GenericReflection(c);
 		
@@ -48,7 +48,7 @@ public class TestGenericReflection {
 	
 	@Test
 	public void testSetMethod(){
-		City c = new City();
+		TestCity c = new TestCity();
 		c.dsetName("TestValueName");
 		GenericReflection r = new GenericReflection(c);
 		

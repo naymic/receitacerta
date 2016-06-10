@@ -6,6 +6,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 import Model.Model;
+import Utils.SqlStringUtils;
 
 
 /**
@@ -34,24 +35,29 @@ public class ReflectionDAO extends GenericReflection{
 		initSetMethods();
 	}
 	
+	
+	public Model getObject() {
+		return (Model)super.getObject();
+	}
+	
 	/**
 	 * Prepare a list for all table gettes ("dget") methods,
 	 * PK methods, and FK methods
 	 * 
 	 */
-	private void initGetMethods(){
+	protected void initGetMethods(){
 		getMethods = this.getMethodsByName("dget", false, false);
 		getMethodsPK = this.getMethodsByName("dget", true, false);
 		getMethodsFK = this.getMethodsByName("dget", false, true);
 	}
 	
-	private void initSetMethods(){
+	protected void initSetMethods(){
 		setMethods = this.getMethodsByName("dset", false, false);
 		setMethodsPK = this.getMethodsByName("dset", true, false);;
 		setMethodsFK = this.getMethodsByName("dset", false, true);
 	}
 	
-	private ArrayList<Method> getMethodsByName(String partOfMethodName, boolean isPK, boolean isFK){
+	protected ArrayList<Method> getMethodsByName(String partOfMethodName, boolean isPK, boolean isFK){
 		ArrayList<Method> list = new ArrayList<>();
 		
 		Method[] ms = this.getObject().getClass().getMethods();
@@ -114,6 +120,22 @@ public class ReflectionDAO extends GenericReflection{
 		return valueList;
 	}
 	
+	
+	/**
+	 * Get a Hashtable of each row with value object and VarType enum
+	 * @return Hashtable<Object, Vartype>
+	 */
+	public Object getValueFromAttributeName(String attributeName){
+		
+		for(int i=0; i<this.getMethods().size(); i++){
+			Method m = this.getMethods.get(i);
+			if(this.getColumnName(m).equalsIgnoreCase(attributeName))
+				return this.getMethodValue(m);
+		}
+		return null;
+	}
+	
+	
 	/**
 	 * Get a String vector for a prepared sql statement '?'
 	 * @return String[]
@@ -136,7 +158,7 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param method
 	 * @return
 	 */
-	private Entity getEntity(Method method) {
+	protected Entity getEntity(Method method) {
 		
 		method = getGetMethod(method);
 		
@@ -158,6 +180,20 @@ public class ReflectionDAO extends GenericReflection{
 	}
 	
 	/**
+	 * Return the class of the entity that a set or get method represents
+	 * @param m
+	 * @return
+	 */
+	public Class<?> getMethodValueClass(String methodName){
+		
+		if(methodName.contains("dset")){
+			methodName = methodName.replace("dset", "dget");
+		}
+		Method m = this.getMethod(methodName);
+		return this.getGetMethod(m).getReturnType();
+	}
+	
+	/**
 	 * Returns always the getMethod 
 	 * if param method is a setMethod is is changed inside
 	 * @param method
@@ -172,13 +208,28 @@ public class ReflectionDAO extends GenericReflection{
 	}
 	
 	
+	/**
+	 * Returns always the getMethod 
+	 * if param method is a setMethod is is changed inside
+	 * @param method
+	 * @return returns allways the setMethod of an attribute
+	 */
+	public Method getSetMethod(Method method){
+		if(method.getName().contains("get")){
+			String methodName = method.getName().replace("get", "set");
+			method = this.getMethod(methodName, this.getMethodValueClass(method));
+		}
+		return method;
+	}
+	
+	
 	
 	/**
 	 * Get the column name of a Method
 	 * @param method
 	 * @return
 	 */
-	private String getColumnName(Method method){
+	public String getColumnName(Method method){
 
 		return getEntity(method).attributeName();
 	}
@@ -188,8 +239,8 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param method
 	 * @return
 	 */
-	private String getColumnValue(Method method){
-		return this.getMethodValue(method.getName()).toString();
+	protected Object getColumnValue(Method method){
+		return this.getMethodValue(method.getName());
 	}
 	
 	/**
@@ -197,18 +248,20 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param method
 	 * @return
 	 */
-	private void setColumnValue(String methodName, Object value){		
-		this.setMethodValue(methodName, value);
+	protected void setColumnValue(String methodName, Object value){		
+		this.setMethodValue(methodName, this.getMethodValueClass(methodName), value);
 	}
 	
 
 	
-	private void setColumnValue(Method m, Object value){
+	protected void setColumnValue(Method m, Object value){
 		this.setColumnValue(m.getName(), value);
 	}
 	
 	
-	private Method getMethodByColumname(String columname){		
+	
+	
+	public Method getSetMethodByColumname(String columname){		
 		for(Method m : setMethods){
 			if(this.getEntity(m).attributeName().equals(columname)){
 				return m;
@@ -225,15 +278,56 @@ public class ReflectionDAO extends GenericReflection{
 		
 	}
 	
+	public Method getGetMethodByColumname(String columname){		
+		for(Method m : setMethods){
+			if(this.getEntity(m).attributeName().equals(columname)){
+				return m;
+			}
+		}
 		
+		
+		try{
+			throw new Exception("Exist no method for the columname "+ columname + " in the "+ this.getObject().getClass());
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	/**
+	 * Prepares a SQl String ready to execute in a SQL Statement
+	 * @param getMethods
+	 * @param where
+	 * @return
+	 */
+	public String prepareSelectSqlString(ArrayList<Method>  getMethods, ArrayList<Method> where){
+		Model object = (Model)this.getObject();
+		String[] colums = this.getColums(getMethods);
+		String[] _where = this.getColums(where);
+		String __where = "";
+		if(where.size() > 0){
+			__where = "WHERE " + SqlStringUtils.getPrepStmtColumns(_where, " AND");
+		}
+		
+		return "SELECT "+ SqlStringUtils.getCommaString(colums) +" FROM "+ object.getTableName() +" "+ __where;		
+	}
+	
+	
+	public static Model instanciateObjectByName(String className){
+		return (Model)GenericReflection.instanciateObjectByName(className);
+	}
+	
+		
+	/*	Methods to hide the Entity class */
+	
 	/**
 	 * Check if the method returns a primary key
 	 * @param method
 	 * @return
 	 */
-	private boolean isPK(Method method){
-		Entity e = this.getEntity(method);
-		return e.pk();
+	public boolean isPK(Method method){
+		return this.getEntity(method).pk();
 	}
 	
 	/**
@@ -241,9 +335,22 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param method
 	 * @return
 	 */
-	private boolean isFK(Method method){
-		Entity e = this.getEntity(method);
-		return e.fk();
+	public boolean isFK(Method method){
+		return this.getEntity(method).fk();
+
+	}
+	
+	/**
+	 * Check if the attribute of belonging to that method is required
+	 * @param method
+	 * @return
+	 */
+	public boolean isRequired(Method method){
+		return this.getEntity(method).required();
+	}
+	
+	public static boolean isModelClass(Object obj){
+		return obj.getClass().getName().contains("Model.");		
 	}
 
 	

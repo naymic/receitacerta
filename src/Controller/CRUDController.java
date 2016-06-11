@@ -69,31 +69,21 @@ public class CRUDController extends GenericController{
 			String paramName;
 			String className = (String) this.getVariableValue("className");
 			Model obj = ReflectionDAO.instanciateObjectByName(className);	
-			ReflectionDAORelation rd = new ReflectionDAORelation(obj);
+			ReflectionDAORelation rdr = new ReflectionDAORelation(obj);
 
 
 			while(it.hasNext()){
 				paramName = it.next();
-				if(paramName.contains(".")){
-					String attributeName = paramName.split("\\.")[1];
-					System.out.println(paramName);
-					Method m = rd.getGetMethodByColumname(attributeName);
-					String classReturn = rd.getMethodValueClass(m).getSimpleName();
-					Object value;
-					System.out.println(rd.getMethodValueClass(m).getName());
-					if( rd.getMethodValueClass(m).getName().contains("Model.")){
-						IConverter ic = (IConverter)GenericReflection.instanciateObjectByName("Converter.StringToInteger");
-						value = ic.convert(this.getVariableValue(paramName));
-					}else if(!classReturn.contains("String")){
-						//Convert value from String (View) to The object (Model)
-						IConverter ic = (IConverter)GenericReflection.instanciateObjectByName("Converter.StringTo"+classReturn);
-						value = ic.convert(this.getVariableValue(paramName));
-					}else{
-						value = this.getVariableValue(paramName);
-					}
-
-					if(paramName.contains(obj.getClass().getSimpleName()+".") && this.getVariableValue(paramName).toString().length() > 0){
-						rd.setValueFromAttributename(attributeName, value);
+				
+				//Get just variable for the object
+				if(paramName.contains(obj.getClass().getSimpleName()+".") ){
+					
+					//Convert the String value from the view to the Model class
+					Object value = this.convertObjectValue(rdr, paramName);
+					
+					//Set just if value is set
+					if(this.getVariableValue(paramName).toString().length() > 0){
+						rdr.setValueFromAttributename(paramName.split("\\.")[1], value);
 					}
 				}
 
@@ -107,6 +97,37 @@ public class CRUDController extends GenericController{
 
 		return null;
 	}
+	
+	
+	/**
+	 * Convert a String to the expected value for the Model object
+	 * @param rdr
+	 * @param paramName HTMl name of the Post variable
+	 * @return	converted Object
+	 */
+	private Object convertObjectValue(ReflectionDAORelation rdr, String paramName){
+		Object value;
+		String attributeName = paramName.split("\\.")[1];
+		Method m = rdr.getGetMethodByColumname(attributeName);
+		String classReturn = rdr.getMethodValueClass(m).getSimpleName();
+		
+		//Convert the ID for Model object subclasses of tha actual object
+		if( rdr.getMethodValueClass(m).getName().contains("Model.")){
+			value = GenericConverter.convert("Integer", this.getVariableValue(paramName));
+		
+		//Convert normal Objects
+		}else if(!classReturn.contains("String")){
+			//Convert value from String (View) to The object (Model)
+			value =  GenericConverter.convert(classReturn, this.getVariableValue(paramName));
+		
+		//The Model object value is string, just return it
+		}else{
+			return this.getVariableValue(paramName);
+		}
+		
+		return value;
+	}
+	
 
 	/**
 	 * Gets the className of the mapper
@@ -196,8 +217,6 @@ public class CRUDController extends GenericController{
 	 * @return			String	JSON string to print on view
 	 */
 	public String saveObject(Return r, Model object){
-		System.out.println(((Ingredientes)object).dgetCalorias());
-		System.out.println(((Ingredientes)object).dgetNome());
 		
 		r = DAO.getInstance().save(object);
 		if(r.isSuccess()){

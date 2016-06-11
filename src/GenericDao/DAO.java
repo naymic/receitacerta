@@ -339,7 +339,7 @@ public class DAO implements IDAO{
 	 * @throws SQLException
 	 */
 	private PreparedStatement setStmt(PreparedStatement stmt, int index, Object obj) throws SQLException{
-			
+	
 		if(obj == null){
 			stmt.setNull(index, java.sql.Types.VARCHAR, null);
 		}else if(obj.getClass().getName().equals("java.lang.Integer")){

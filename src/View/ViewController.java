@@ -70,8 +70,7 @@ public class ViewController extends HttpServlet {
 		//Get the controller for the required action
 		IController ic = getController(r, action);
 		
-		System.out.println(ic.getClass().getName());
-		System.out.println(action);
+	
 		if(r.isSuccess()){
 			//Get all variables from the view and save it to the controller
 			this.initVariables(requ, ic);

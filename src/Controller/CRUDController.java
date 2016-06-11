@@ -9,12 +9,15 @@ import java.util.List;
 import GenericDao.DAO;
 import GenericDao.DAORelation;
 import Interfaces.IController;
+import Interfaces.IConverter;
 import Model.Ingredientes;
 import Model.Model;
+import Reflection.GenericReflection;
 import Reflection.ReflectionDAO;
 import Reflection.ReflectionDAORelation;
 import Utils.JSON;
 import Utils.Return;
+import Converter.*;
 
 public class CRUDController extends GenericController{
 
@@ -71,10 +74,29 @@ public class CRUDController extends GenericController{
 
 			while(it.hasNext()){
 				paramName = it.next();
-				String[] pN = paramName.split("[.]");
-				if(paramName.contains(obj.getClass().getSimpleName()+".") && this.getVariableValue(paramName).toString().length() > 0){
-					rd.setValueFromAttributename(paramName.split("[.]")[1], this.getVariableValue(paramName));
+				if(paramName.contains(".")){
+					String attributeName = paramName.split("\\.")[1];
+					System.out.println(paramName);
+					Method m = rd.getGetMethodByColumname(attributeName);
+					String classReturn = rd.getMethodValueClass(m).getSimpleName();
+					Object value;
+					System.out.println(rd.getMethodValueClass(m).getName());
+					if( rd.getMethodValueClass(m).getName().contains("Model.")){
+						IConverter ic = (IConverter)GenericReflection.instanciateObjectByName("Converter.StringToInteger");
+						value = ic.convert(this.getVariableValue(paramName));
+					}else if(!classReturn.contains("String")){
+						//Convert value from String (View) to The object (Model)
+						IConverter ic = (IConverter)GenericReflection.instanciateObjectByName("Converter.StringTo"+classReturn);
+						value = ic.convert(this.getVariableValue(paramName));
+					}else{
+						value = this.getVariableValue(paramName);
+					}
+
+					if(paramName.contains(obj.getClass().getSimpleName()+".") && this.getVariableValue(paramName).toString().length() > 0){
+						rd.setValueFromAttributename(attributeName, value);
+					}
 				}
+
 			}
 			return obj;
 			

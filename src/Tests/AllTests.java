@@ -5,7 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ TestGenericReflection.class,TestReflectionDAO.class, TestReflectionDAORelation.class, TestJSON.class,   TestController.class })
+@SuiteClasses({ TestGenericReflection.class,TestReflectionDAO.class, TestReflectionDAORelation.class, TestJSON.class,TestController.class,TestViewMethods.class })
 public class AllTests {
 
 }

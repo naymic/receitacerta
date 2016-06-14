@@ -65,7 +65,7 @@ public class GenericController implements IController{
 			
 		}
 		
-		r.addSimpleError("Action dont exist in: "+ this.getClass() +" action:"+ action);
+		r.addSimpleError("Action "+ action +" don't exist in the controller: "+ this.getClass().getName());
 		return r;
 
 	}

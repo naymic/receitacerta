@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.gson.Gson;
 import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
 
 import GenericDao.DAO;
@@ -21,8 +22,8 @@ public class JSON {
 		for(Method m : rdr.getMethods()){
 			json +=this.attributeJson(rdr, rdr.getColumnName(m), isEdit);
 		}
-		
-		
+	
+
 		return "{"+json.substring(0, json.length()-2)+"}";
 	}
 	
@@ -49,7 +50,10 @@ public class JSON {
 					
 					json +="\t{";
 					for(String s : columns){
-						if(!s.equalsIgnoreCase("id")){
+						
+						if(!rd1.isRequired(rd1.getGetMethodByColumname(s))){
+							s1 = "else";
+						}else if(!s.equalsIgnoreCase("id") ){
 							s1 = "label";
 						}else{
 							s1 = "id";
@@ -58,7 +62,8 @@ public class JSON {
 						json += "\""+s1+"\":\""+rd1.getValueFromAttributeName(s)+"\",";
 					}
 					String selected = "";
-					if(isEdit && rdr.isFK(rdr.getGetMethodByColumname(attributeName)) && DAORelation.getInstance().isSameID(rdr, attributeName, rd1.getPK()))
+
+					if(isEdit && rdr.isFK(rdr.getGetMethodByColumname(attributeName)) && DAORelation.isSameID(rdr, attributeName, rd1.getPK()))
 						selected = "selected";
 					
 					json +="\"selected\":\""+ selected +"\"},\n";
@@ -97,9 +102,12 @@ public class JSON {
 			}
 		}
 		
+		if(value == null){
+			value = "";
+		}
 		
 		json +="\t";					
-		json += "\""+ attributeName +"\":\""+ value.toString() +"\",";
+		json += "\""+ attributeName +"\":\""+ value +"\",";
 		json +="\n";
 		
 		return json;

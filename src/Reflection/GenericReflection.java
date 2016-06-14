@@ -70,6 +70,9 @@ public class GenericReflection {
 	 * @return				Object		Returned value of the given method name	
 	 */
 	public Object getMethodValue(String methodName){
+		if(methodName.contains("set")){
+			methodName = methodName.replace("set", "get");
+		}
 		Object value = null;	
 				try {
 					value = this.getObject().getClass().getMethod(methodName, null).invoke(this.getObject(), null);
@@ -180,7 +183,7 @@ public class GenericReflection {
 	 */
 	public static Object instanciateObjectByName(String className){
 		
-		Class ref;
+		Class ref = null;
 		Object obj = null;
 		
 		try {

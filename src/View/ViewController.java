@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Controller.CRUDController;
-import Controller.GenericController;
+import Controller.*;
 import Interfaces.IController;
 import Model.Model;
+import Reflection.GenericReflection;
 import Reflection.ReflectionDAO;
 import Reflection.ReflectionDAORelation;
 import Utils.JSON;
@@ -62,15 +62,20 @@ public class ViewController extends HttpServlet {
 		return requ.getParameter("action");
 	}
 	
+	public String getUseCase(HttpServletRequest requ) {
+		return requ.getParameter("usecase");
+	}
+	
 	protected String process(HttpServletRequest requ, HttpServletResponse resp, String content){
 		Return r = new Return();
+		String usecase = this.getUseCase(requ);
 		String action = this.getAction(requ);
 		String jString = "";
 		
 		//Get the controller for the required action
-		IController ic = getController(r, action);
+		IController ic = getController(r, usecase);
+		ic.validateAction(action);
 		
-	
 		if(r.isSuccess()){
 			//Get all variables from the view and save it to the controller
 			this.initVariables(requ, ic);
@@ -118,15 +123,17 @@ public class ViewController extends HttpServlet {
 		return cList;
 	}
 	
-	protected IController getController(Return r, String action){
-		for(IController ic : this.getControllerList()){
-			r = ic.validateAction(action);
-			if(r.isSuccess()){
-				return ic;
-			}
+	public IController getController(Return r, String usecase){
+		String className = "Controller."+usecase+"Controller";
+
+		try{
+			Class.forName(className);
+		}catch(ClassNotFoundException e){
+			r.addSimpleError("Don't exist a controller for the use case "+ usecase +"!");
+			return null;
 		}
 		
-		return null;
+		return (IController) GenericReflection.instanciateObjectByName(className);
 	}
 	
 	

@@ -88,13 +88,13 @@ public class TestReflectionDAORelation {
 		assertEquals(new Double(300), i.dgetCalorias());
 		
 		assertEquals(new Integer(1),i.dgetIngredientesUnidade().dgetId());
-		assertEquals("kg",i.dgetIngredientesUnidade().dgetNomeUnidade());
+		assertEquals("l",i.dgetIngredientesUnidade().dgetNomeUnidade());
 		
 		assertEquals(new Integer(2),i.dgetIngredienteArmazenamentos().dgetId());
-		assertEquals("geladeira",i.dgetIngredienteArmazenamentos().dgetNomeArmazenamento());
+		assertEquals("test1",i.dgetIngredienteArmazenamentos().dgetNomeArmazenamento());
 		
 		assertEquals(new Integer(1),i.dgetIngredientesTipo().dgetId());
-		assertEquals("carne",i.dgetIngredientesTipo().dgetNomeTipo());
+		assertEquals("fruta",i.dgetIngredientesTipo().dgetNomeTipo());
 		
 	}
 	

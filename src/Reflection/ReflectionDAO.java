@@ -350,6 +350,9 @@ public class ReflectionDAO extends GenericReflection{
 	}
 	
 	public static boolean isModelClass(Object obj){
+		if(obj == null)
+			return false;
+		
 		return obj.getClass().getName().contains("Model.");		
 	}
 

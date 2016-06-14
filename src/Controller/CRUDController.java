@@ -106,25 +106,18 @@ public class CRUDController extends GenericController{
 	 * @return	converted Object
 	 */
 	private Object convertObjectValue(ReflectionDAORelation rdr, String paramName){
-		Object value;
+		Object value = null;
 		String attributeName = paramName.split("\\.")[1];
 		Method m = rdr.getGetMethodByColumname(attributeName);
-		String classReturn = rdr.getMethodValueClass(m).getSimpleName();
-		
-		//Convert the ID for Model object subclasses of tha actual object
-		if( rdr.getMethodValueClass(m).getName().contains("Model.")){
-			value = GenericConverter.convert("Integer", this.getVariableValue(paramName));
-		
-		//Convert normal Objects
-		}else if(!classReturn.contains("String")){
-			//Convert value from String (View) to The object (Model)
-			value =  GenericConverter.convert(classReturn, this.getVariableValue(paramName));
-		
-		//The Model object value is string, just return it
-		}else{
-			return this.getVariableValue(paramName);
-		}
-		
+		Class<?> classReturn = rdr.getMethodValueClass(m);
+		Class<?> classInput = this.getVariableValue(paramName).getClass();
+
+		/*if(classReturn != classInput)
+			value = GenericConverter.convert(classReturn, this.getVariableValue(paramName));
+		else{*/
+			value = this.getVariableValue(paramName);
+		//}
+
 		return value;
 	}
 	

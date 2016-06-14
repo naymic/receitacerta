@@ -19,7 +19,7 @@ import Utils.Return;
 
 public class TestJSON {
 
-	@Test
+	/*@Test
 	public void testNewObjectArrayToJSON() {
 		String json = "";
 		Ingredientes i = new Ingredientes();
@@ -31,7 +31,7 @@ public class TestJSON {
 		JSON j = new JSON();
 		json = j.objectJson(rdr, false);
 		//System.out.println(json.replaceAll("[\n|\t]", ""));
-	}
+	}*/
 	
 	@Test
 	public void testEditObjectArrayToJSON() {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import Converter.GenericConverter;
 import GenericDao.DAO;
 import Model.Model;
 
@@ -212,13 +213,8 @@ public class ReflectionDAORelation extends ReflectionDAO {
 	 * @param value
 	 */
 	public void setMethodRelationValue(Method m, Object value){
-
-		if(super.getMethodValueClass(m).getName().contains("Model.")){
-			Model obj = ReflectionDAORelation.instanciateObjectByName(super.getMethodValueClass(m).getName());
-			ReflectionDAORelation rdr = new ReflectionDAORelation(obj);
-			rdr.setPK(value);
-			value = obj;
-		}
+		
+		value = GenericConverter.convert(this.getMethodValueClass(m), value);
 		
 		super.setMethodValue(m.getName(), this.getMethodValueClass(m) , value);
 	}

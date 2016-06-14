@@ -109,5 +109,11 @@ public class TestController {
 		assertTrue(!r1.isSuccess());
 		assertTrue(json1.contains("Primary key is not set. Object Ingredientes not found!"));
 	}
+	
+	
+	@Test
+	public void testActions(){
+		
+	}
 
 }

@@ -115,14 +115,13 @@ public class ViewController extends HttpServlet {
 		
 	}
 	
-	
-	protected List<IController> getControllerList(){
-		List<IController> cList = new ArrayList<>();
-		cList.add(new GenericController());
-		cList.add(new CRUDController());
-		return cList;
-	}
-	
+
+	/**
+	 * Get a controller by its usecase
+	 * @param r 		Return		Return to set messages if fails
+	 * @param usecase	String		Name of the use case
+	 * @return 			IController child of a IController
+	 */
 	public IController getController(Return r, String usecase){
 		String className = "Controller."+usecase+"Controller";
 

@@ -9,7 +9,7 @@ import java.util.List;
 import GenericDao.DAO;
 import GenericDao.DAORelation;
 import Interfaces.IController;
-import Interfaces.IConverter;
+import Interfaces.ISimpleConverter;
 import Model.Ingredientes;
 import Model.Model;
 import Reflection.GenericReflection;

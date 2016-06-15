@@ -1,8 +1,10 @@
 package Converter;
 
-import Interfaces.IConverter;
+import Interfaces.IModelConverter;
+import Interfaces.ISimpleConverter;
 import Model.Model;
 import Reflection.GenericReflection;
+import Reflection.ReflectionDAORelation;
 
 public class GenericConverter {
 	
@@ -15,13 +17,19 @@ public class GenericConverter {
 			return value;
 		
 		//Check if its a Model Class return
-		//if(outputClass.getName().contains("Model")){
 		if(outputClass.getSuperclass() == Model.class){
-			StringToModel ic = new StringToModel();
+			IModelConverter ic = (IModelConverter)GenericReflection.instanciateObjectByName("Converter."+simpleClassNameInput+"ToModel");
 			return ic.convert(value, outputClass);
 		}
 		
-		IConverter ic = (IConverter)GenericReflection.instanciateObjectByName("Converter."+simpleClassNameInput+"To"+outputClass.getClass().getSimpleName());
+		//Check if its a Model Class return
+		if(value.getClass().getSuperclass() == Model.class){
+			ModelToInteger ic = new ModelToInteger();
+			return ic.convert(value);
+		}
+
+		
+		ISimpleConverter ic = (ISimpleConverter)GenericReflection.instanciateObjectByName("Converter."+simpleClassNameInput+"To"+outputClass.getClass().getSimpleName());
 		return ic.convert(value);
 	}
 	

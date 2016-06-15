@@ -1,6 +1,6 @@
 package Interfaces;
 
-public interface IConverter {
+public interface ISimpleConverter {
 	
 	public Object convert(Object entry);
 	

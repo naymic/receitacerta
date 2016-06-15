@@ -1,8 +1,8 @@
 package Converter;
 
-import Interfaces.IConverter;
+import Interfaces.ISimpleConverter;
 
-public class StringToDouble implements IConverter {
+public class StringToDouble implements ISimpleConverter {
 
 	@Override
 	public Object convert(Object entry) {

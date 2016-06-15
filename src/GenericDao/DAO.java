@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import Converter.GenericConverter;
 import Model.Model;
 import Reflection.GenericReflection;
 import Reflection.ReflectionDAO;
@@ -342,20 +343,14 @@ public class DAO implements IDAO{
 	
 		if(obj == null){
 			stmt.setNull(index, java.sql.Types.VARCHAR, null);
-		}else if(obj.getClass().getName().equals("java.lang.Integer")){
-			stmt.setInt(index, (int)obj);
-		}else if(obj.getClass().getName().equals("java.lang.Double")){
-			stmt.setDouble(index, (Double)obj);
-		}else if(obj.getClass().getName().equals("java.lang.String")){
-			stmt.setString(index, (String)obj);
-		}else if(obj.getClass().getName().equals("java.lang.Float")){
-			stmt.setFloat(index, (Float)obj);
-		}else if(obj.getClass().getName().equals("java.sql.Date")){
-			stmt.setDate(index, (java.sql.Date)obj);
+			return stmt;
 		}else if(obj.getClass().getName().contains("Model.")){
-			ReflectionDAORelation rdr = new ReflectionDAORelation((Model)obj);
-			stmt.setInt(index, (int)rdr.getPK());
+			obj = GenericConverter.convert(Integer.class, obj);
 		}
+			
+		stmt.setObject(index, obj);
+		
+		
 		
 		return stmt;
 	}
@@ -373,32 +368,10 @@ public class DAO implements IDAO{
 	private Model setValueFromResultSet(ReflectionDAO rd, ResultSet rs, Method m, int i){
 		
 		try {
-			if(rd.getMethodValueClass(m).toString().contains("java.lang.Integer")){
-					rd.setMethodValue(m.getName(), rs.getInt(i));
-			}else if(rd.getMethodValueClass(m).toString().contains("java.lang.Double")){
-				rd.setMethodValue(m.getName(), rs.getDouble(i));
-			}else if(rd.getMethodValueClass(m).toString().contains("java.lang.String")){
-				rd.setMethodValue(m.getName(), rs.getString(i));
-			}else if(rd.getMethodValueClass(m).toString().contains("java.lang.Float")){
-				rd.setMethodValue(m.getName(), rs.getFloat(i));
-			}else if(rd.getMethodValueClass(m).toString().contains("java.sql.Date")){
-				rd.setMethodValue(m.getName(), rs.getDate(i));
-			}else if(rd.getMethodValueClass(m).toString().contains("Model.")){
-				// create a object of the Class that is the attribute
-				Model obj = (Model)GenericReflection.instanciateObjectByName(rd.getMethodValueClass(m));
-				
-				//Create a new reflection of the retrieved obj
-				ReflectionDAORelation rdr = new ReflectionDAORelation(obj);
-				
-				//Sets its primary key
-				rdr.setPK(rs.getInt(i));
-				
-				//Select it from the database
-				obj = DAO.getInstance().select(obj).get(0);
-				
-				//Set the obj to the actual class
-				rd.setMethodValue(m.getName(), obj);
-			}
+			Object obj = GenericConverter.convert(rd.getMethodValueClass(m), rs.getObject(i));
+			rd.setMethodValue(m.getName(), obj);
+			
+			
 		} catch (SQLException e) {
 			System.out.println("Error by set value to object: "+rd.getObject().toString()+" and method:"+ m.getName());
 			e.printStackTrace();

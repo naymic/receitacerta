@@ -16,13 +16,13 @@ public class GenericConverter {
 		if(outputClass.getName() == value.getClass().getName())
 			return value;
 		
-		//Check if its a Model Class return
+		//Check if its a Model Class Output
 		if(outputClass.getSuperclass() == Model.class){
 			IModelConverter ic = (IModelConverter)GenericReflection.instanciateObjectByName("Converter."+simpleClassNameInput+"ToModel");
 			return ic.convert(value, outputClass);
 		}
 		
-		//Check if its a Model Class return
+		//Check if its a Model Class Input
 		if(value.getClass().getSuperclass() == Model.class){
 			ModelToInteger ic = new ModelToInteger();
 			return ic.convert(value);

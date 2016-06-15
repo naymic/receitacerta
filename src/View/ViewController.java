@@ -58,18 +58,35 @@ public class ViewController extends HttpServlet {
 		response.getWriter().println(content);
 	}
 	
-	public String getAction(HttpServletRequest requ) {
+	public String getAction(HttpServletRequest requ)throws Exception {
+		if(requ.getParameter("action") == null || requ.getParameter("action").length() == 0){
+			throw new Exception("Please set a action in on the Interface");
+		}
+		
 		return requ.getParameter("action");
 	}
 	
-	public String getUseCase(HttpServletRequest requ) {
+	public String getUseCase(HttpServletRequest requ)throws Exception {
+		if(requ.getParameter("usecase") == null || requ.getParameter("usecase").length() == 0){
+			throw new Exception("Please set a use case in on the Interface");
+		}
+		
 		return requ.getParameter("usecase");
 	}
 	
 	protected String process(HttpServletRequest requ, HttpServletResponse resp, String content){
 		Return r = new Return();
-		String usecase = this.getUseCase(requ);
-		String action = this.getAction(requ);
+		String usecase = "";
+		String action = "";
+		
+		try{
+			usecase = this.getUseCase(requ);
+			action = this.getAction(requ);
+		}catch(Exception e){
+			r.addSimpleError(e.getMessage());
+			System.out.println(e.toString());
+		}
+		
 		String jString = "";
 		
 		//Get the controller for the required action

@@ -91,7 +91,6 @@ public class ViewController extends HttpServlet {
 		
 		//Get the controller for the required action
 		IController ic = getController(r, usecase);
-		ic.validateAction(action);
 		
 		if(r.isSuccess()){
 			//Get all variables from the view and save it to the controller

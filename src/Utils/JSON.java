@@ -149,15 +149,19 @@ public class JSON {
 	
 	public String listConstruct(String className, Return r, List<Model> objectList){
 		String finalJson = "{\n\"busca\":{";
-			
+
 		finalJson += this.constructReturnMessages(r)+",\n";
-		
+
+		finalJson += "\n\"dados\":{";
 		if(objectList.size() > 0){
+
 			finalJson += "\""+className+"\":["+this.listJSON(objectList)+"]\n";
+
 		}else{
 			finalJson += "\""+className+"\":[]\n";
 		}
-		return finalJson+"}\n}";
+
+		return finalJson+"}}\n}";
 	}
 	
 	

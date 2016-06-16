@@ -70,8 +70,10 @@ public class GenericController implements IController{
 
 	}
 
+
 	@Override
 	public void execute(Return r, String action) {
+		//Checks if the given action is a valid action
 		r = this.validateAction(action);
 	}
 

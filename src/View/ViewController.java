@@ -111,7 +111,7 @@ public class ViewController extends HttpServlet {
 			jString = j.messageConstruct(r);
 			
 		}
-		
+		System.out.println(jString);
 		return jString;
 	}
 	

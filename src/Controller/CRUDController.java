@@ -77,13 +77,14 @@ public class CRUDController extends GenericController{
 				
 				//Get just variable for the object
 				if(paramName.contains(obj.getClass().getSimpleName()+".") ){
+					String attributeName = paramName.split("\\.")[1];
 					
 					//Convert the String value from the view to the Model class
-					Object value = this.convertObjectValue(rdr, paramName);
+					Object value = GenericConverter.convert(rdr.getMethodValueClass(rdr.getGetMethodByColumname(attributeName)), this.getVariableValue(paramName));
 					
 					//Set just if value is set
 					if(this.getVariableValue(paramName).toString().length() > 0){
-						rdr.setValueFromAttributename(paramName.split("\\.")[1], value);
+						rdr.setValueFromAttributename(attributeName, value);
 					}
 				}
 
@@ -96,29 +97,6 @@ public class CRUDController extends GenericController{
 
 
 		return null;
-	}
-	
-	
-	/**
-	 * Convert a String to the expected value for the Model object
-	 * @param rdr
-	 * @param paramName HTMl name of the Post variable
-	 * @return	converted Object
-	 */
-	private Object convertObjectValue(ReflectionDAORelation rdr, String paramName){
-		Object value = null;
-		String attributeName = paramName.split("\\.")[1];
-		Method m = rdr.getGetMethodByColumname(attributeName);
-		Class<?> classReturn = rdr.getMethodValueClass(m);
-		Class<?> classInput = this.getVariableValue(paramName).getClass();
-
-		/*if(classReturn != classInput)
-			value = GenericConverter.convert(classReturn, this.getVariableValue(paramName));
-		else{*/
-			value = this.getVariableValue(paramName);
-		//}
-
-		return value;
 	}
 	
 

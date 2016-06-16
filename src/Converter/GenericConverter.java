@@ -29,7 +29,7 @@ public class GenericConverter {
 		}
 
 		
-		ISimpleConverter ic = (ISimpleConverter)GenericReflection.instanciateObjectByName("Converter."+simpleClassNameInput+"To"+outputClass.getClass().getSimpleName());
+		ISimpleConverter ic = (ISimpleConverter)GenericReflection.instanciateObjectByName("Converter."+simpleClassNameInput+"To"+simpleClassNameOnput);
 		return ic.convert(value);
 	}
 	

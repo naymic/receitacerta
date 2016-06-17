@@ -127,7 +127,7 @@ public class JSON {
 		else 
 			attributeName = "else";
 						
-		return "\""+ attributeName +"\":\""+ value +"\",";		
+		return "\""+ attributeName +"\":\""+ value +"\" ,";		
 	}
 	
 	private String getNormalAttribue(ReflectionDAORelation rdr, String attributeName, boolean getValue){

@@ -8,6 +8,7 @@ var MODALMSG = 'modalMsg';
 var CORPOMODALMSG = 'corpoModalMsg';
 var KEYDADOS = 'dados';
 var KEYCAMPO = 'campo';
+var KEYBUSCA = 'busca';
 
 //	objAction = {'action':EDITACTION,'className':classe,'id':sessionStorage.id}; <- action, className, useCase, id
 
@@ -74,7 +75,7 @@ function validaInsert(objAction){
 }
 
 function validaUpdate(objAction){
-	$("#"+DIVHIDDENS).append('<input type="hidden" name="id" id="id" value="'+sessionStorage.id+'" />');
+	$("#"+DIVHIDDENS).append('<input type="hidden" name="campo.id" id="id" value="'+sessionStorage.id+'" />');
 	$("#action").val(SALVARACTION);
 	$("#btnSubmit").val('Salvar');
 	data = getResponse(objAction);
@@ -87,30 +88,56 @@ function validaConsulta(objAction){
   //$("#loadContent").load(PATH_API,objAction,function(data){
         //console.log(data);
         data = JSON.parse(data);
-        construirTabela(data.ingredientes_unidades_id,objAction.className);
+        //console.log(data[KEYBUSCA][KEYDADOS]);
+        construirTabela(data[KEYBUSCA][KEYDADOS],objAction.className);
+        ativaBtnList();
   //});
 
 }
 
+function ativaBtnList(){
+	$(document).off('click','.btnActionList');
+	$(document).on('click','.btnActionList',function(e){
+		var nameAction = $(this).data('tipoaction');
+		var objAction = {"url":$(this).data('url')};
+		sessionStorage.id = $(this).val();
+		validaAction(nameAction,objAction);
+	});
+}
+
+
+
 function construirTabela(dados,nomeTabela){
   var htmlTd;
   var htmlTr = "";
+  var idItem = "";
   $.each(dados,function(i, obj){
+	//  console.log(i);
+	 // console.log(obj);
       htmlTd = "";
+      idItem = obj.id;
       $.each(obj,function(key,value){
-    	  if($.isArray(value)){
-    		  htmlTd += "<td data-key="+key+">"+value.label+"</td>";
+    	  
+    	  if($.isPlainObject(value)){
+    		  console.log(value);
+    		  htmlTd += "<td data-key='"+key+"'>"+value.label+"</td>";
     	  }else{
-    		  htmlTd += "<td data-key="+key+">"+value+"</td>";
+    		  htmlTd += "<td data-key='"+key+"'>"+value+"</td>";
     	  }
           
       });
-      htmlTd += '<td><button class="btn btn-sm btn-primary btnActionList" data-tipoaction="editList" type="button">Editar</button> <button class="btn btn-sm btn-danger btnActionList" data-tipoaction="editList" type="button">Excluir</button></td>';
+      htmlTd += '<td><button class="btn btn-sm btn-primary btnActionList" data-tipoaction="EditList" type="button" data-url="modulos/ingredientes/cad_ingredientes.html" value="'+idItem+'">Editar</button> <button value="'+idItem+'" class="btn btn-sm btn-danger btnActionList" data-tipoaction="ExcluiList" type="button">Excluir</button></td>';
       htmlTr += '<tr>'+htmlTd+'</tr>'
   });
+  //console.log(htmlTr);
   $("#"+nomeTabela).children('tbody').append(htmlTr);
 
 }
+
+function validaEditList(objAction){
+	$("#conteudoCentral").load(objAction.url);
+}
+
 
 function getResponse(objAction){
 	var resposta;

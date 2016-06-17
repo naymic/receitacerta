@@ -9,6 +9,8 @@ var CORPOMODALMSG = 'corpoModalMsg';
 var KEYDADOS = 'dados';
 var KEYCAMPO = 'campo';
 var KEYBUSCA = 'busca';
+var KEYTITULOMODAL = 'Sistema';
+var MODALTITULO = 'tituloModalGeral';
 
 //	objAction = {'action':EDITACTION,'className':classe,'id':sessionStorage.id}; <- action, className, useCase, id
 
@@ -19,7 +21,7 @@ String.prototype.capitalizeFirstLetter = function() {
 }
 
 
-function construirForm(dados){ // Construção dinamica de um formulario
+function construirForm(dados,nomeForme){ // Construção dinamica de um formulario
   console.log(dados);
   var data = JSON.parse(dados);
 	console.log(data);
@@ -36,6 +38,7 @@ function construirForm(dados){ // Construção dinamica de um formulario
 				$("#"+campo).val(values);
 			}
 		});
+    submitGeral("form"+nomeForme);
 }
 
 function checkboxConstroi(dados){
@@ -69,15 +72,20 @@ function validaInsert(objAction){
 	data = getResponse(objAction);
  // $("#loadContent").load(PATH_API,objAction,function(data){
         //console.log(data);
-        construirForm(data);
+        construirForm(data,objAction.className);
   //});
 
+}
+
+function navCentral(url){
+  $("#conteudoCentral").load(url);
 }
 
 function validaUpdate(objAction){
 	$("#"+DIVHIDDENS).append('<input type="hidden" name="campo.id" id="id" value="'+sessionStorage.id+'" />');
 	$("#action").val(SALVARACTION);
 	$("#btnSubmit").val('Salvar');
+  $("#divSubmit").prepend('<input onClick="navCentral(modulos/ingredientes/list_ingredientes.html)" class="btn btn-success" type="button" id="btnSubmit"  value="Salvar" />');
 	data = getResponse(objAction);
 	construirForm(data);
 }
@@ -117,14 +125,14 @@ function construirTabela(dados,nomeTabela){
       htmlTd = "";
       idItem = obj.id;
       $.each(obj,function(key,value){
-    	  
+
     	  if($.isPlainObject(value)){
     		  console.log(value);
     		  htmlTd += "<td data-key='"+key+"'>"+value.label+"</td>";
     	  }else{
     		  htmlTd += "<td data-key='"+key+"'>"+value+"</td>";
     	  }
-          
+
       });
       htmlTd += '<td><button class="btn btn-sm btn-primary btnActionList" data-tipoaction="EditList" type="button" data-url="modulos/ingredientes/cad_ingredientes.html" value="'+idItem+'">Editar</button> <button value="'+idItem+'" class="btn btn-sm btn-danger btnActionList" data-tipoaction="ExcluiList" type="button">Excluir</button></td>';
       htmlTr += '<tr>'+htmlTd+'</tr>'
@@ -167,7 +175,7 @@ function getResponse(objAction){
     $("#loadContent").load(PATH_API,objAction,function(data){
           //console.log(data);
           resposta = data;
-         
+
     });
 
 }*/
@@ -189,6 +197,7 @@ function validaMenu(data){
     });
     $(".navMenu").html(htmlMenu);
     $(".btnMenuAction").click(function(e){
+      sessionStorage.id = "";
       $(".liMenu").removeClass('active');
       $("#conteudoCentral").html('<h4 class="text-warning">Aguarde</h4>');
       console.log($(this).data('url'));
@@ -199,7 +208,7 @@ function validaMenu(data){
 
 
 function validaRetorno(data){
-	
+    $(".infoErro").remove();
 		$.each(data,function(key,objs){
 				if($.isArray(data[key])){
 						if(!$.isEmptyObject(data[key])){
@@ -225,10 +234,11 @@ function validaErro(objAction){
 		});
 		$("#"+CORPOMODALMSG).html(htmlMsg);
 		$("#"+MODALMSG).modal('show');
+    $("#"+MODALTITULO).text(KEYTITULOMODAL);
 }
 
 function validaAtb(objAction){
 	$.each(objAction,function(cont,obj){
-			$("#"+obj.nomeAttributo).parent().append('<div class="alert alert-warning">'+obj.msg+'</div>');
+			$("#"+obj.nomeAttributo).parent().append('<div class="alert alert-warning infoErro">'+obj.msg+'</div>');
 	});
 }

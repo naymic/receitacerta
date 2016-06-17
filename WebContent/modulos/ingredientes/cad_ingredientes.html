@@ -43,6 +43,7 @@
     <input type="hidden" name="usecase" id="usecase" value="CRUD" />
    </div>
 
+   <div id="divSubmit">
     <input class="btn btn-primary" type="submit" id="btnSubmit"  value="Salvar" />
     </div>
 
@@ -52,10 +53,8 @@ if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
   var objIngrediente = {"className":"Ingredientes","action":NOVOACTION,"usecase":"CRUD"};
   validaAction('Insert',objIngrediente);
 }else{
-	console.log("Micha");
   var objIngrediente = {"className":"Ingredientes","action":EDITACTION,"campo.id":sessionStorage.id,"usecase":"CRUD"};
   validaAction('Update',objIngrediente);
 }
 
-submitGeral("formIngrediente");
 </script>

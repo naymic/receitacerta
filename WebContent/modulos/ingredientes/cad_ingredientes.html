@@ -53,10 +53,8 @@ if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
   var objIngrediente = {"className":"Ingredientes","action":NOVOACTION,"usecase":"CRUD"};
   validaAction('Insert',objIngrediente);
 }else{
-	console.log("Micha");
   var objIngrediente = {"className":"Ingredientes","action":EDITACTION,"campo.id":sessionStorage.id,"usecase":"CRUD"};
   validaAction('Update',objIngrediente);
 }
 
-submitGeral("formIngrediente");
 </script>

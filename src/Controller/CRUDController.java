@@ -86,10 +86,10 @@ public class CRUDController extends GenericController{
 					String attributeName = paramName.split("\\.")[1];
 					Object value = null;
 					try{
-					//Convert the String value from the view to the Model class
-					value = GenericConverter.convert(rdr.getMethodValueClass(rdr.getGetMethodByColumname(attributeName)), this.getVariableValue(paramName));
+						//Convert the String value from the view to the Model class
+						value = GenericConverter.convert(rdr.getMethodValueClass(rdr.getGetMethodByColumname(attributeName)), this.getVariableValue(paramName));
 					}catch(Exception e){
-						r.addAttributeError(obj.getClass().getName(), attributeName, "Conversion error on attribute: "+ attributeName +" in class: "+ rdr.getObject().getClass().getName());
+						r.addAttributeError(obj.getClass().getName(), attributeName, "Field has wrong caracters or is empty: "+ attributeName +" in for: "+ rdr.getObject().getClass().getName());
 					}
 					//Set just if value is set
 					if(this.getVariableValue(paramName).toString().length() > 0){

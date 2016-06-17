@@ -45,7 +45,6 @@ public class ViewController extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		Config.getInstance().setFilepath(request.getServletContext().getRealPath("/"));
-
 		
 		response.getWriter().println("");
 	}

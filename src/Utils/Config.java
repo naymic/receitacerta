@@ -7,11 +7,27 @@ import java.io.IOException;
 
 public class Config {
 
-	private static Config config = null;
+	private boolean testDB;
+	private boolean fileFound;
+	public String dbhost;
+	public String dbport;
+	public String dbdriver;
 	private String filepath;
 	
+	private static Config config = null;
+	
 	private Config(){
+		testDB=false;
+		fileFound=true;
 		
+		//Special for test database
+		dbhost="naymic.dlinkddns.com";
+		dbport="3306";
+		dbdriver="mysql";
+	}
+	
+	public void setTestDB(boolean b){
+		this.testDB=b;
 	}
 	
 	public static Config getInstance(){
@@ -29,44 +45,53 @@ public class Config {
 		this.filepath = filepath;
 	}
 	
-	public String DBHost(){
+	public String DBHost(){		
+		//return this.dbhost;
 		return this.getConfigLineByName("dbhost");
 		
 	}
 	
 	public String DBPort(){
+		//return this.dbport;
 		return this.getConfigLineByName("dbport");
-		
 	}
 	
+	public String DBDriver() {
+		//return this.dbdriver;
+		return this.getConfigLineByName("dbdriver");
+	}
+
+	
+
+
 	private String getConfigLineByName(String configName){
-		try{
-			BufferedReader br = new BufferedReader(new FileReader(this.getFilepath()+"config.txt"));
-			String[] config;
-		    String line;
-		    while ((line = br.readLine()) != null) {
-		    	line = line.toLowerCase();
-		    	configName = configName.toLowerCase();
-		       
-		    	if(line.contains(configName) && !line.contains("#") && !line.contains("/") && !line.contains("*")){
-		    	  config = line.split("=");
-		    	  System.out.println(line);
-		    	  return config[1].trim();
-		       }
-		    }
-		    
-		    
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		try{	
+			if(!testDB){
+				BufferedReader br = new BufferedReader(new FileReader(filepath+"/config.txt"));
+				String[] config;
+				String line;
+				while ((line = br.readLine()) != null) {
+					line = line.toLowerCase();
+					configName = configName.toLowerCase();
+
+					if(line.contains(configName) && !line.contains("#") && !line.contains("/") && !line.contains("*")){
+						config = line.split("=");
+						System.out.println(line);
+						return config[1].trim();
+					}
+				}
+			}else{
+				return this.getClass().getField(configName).get(this).toString();
+			}
+		} catch(Exception e){
+			System.out.println("Please create a config.txt file in the WebContent folder.\nAdd following lines:\ndbhost=naymic.dlinkddns.com\ndbport=3306\ndbdriver=mysql");
+			//e.printStackTrace();
+			fileFound=false;
 		}
-		
+
 		return "";
 	}
 
-	public String DBDriver() {
-		return this.getConfigLineByName("dbdriver");
-	}
 
 	
 	

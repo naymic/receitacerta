@@ -212,12 +212,12 @@ public class JSON {
 	
 	private String constructAttributeMessage(String messageName, HashMap<String, String> errorList){
 		String errors = "";
-		
+		String splitKey = "_";
 		Iterator<String> it= errorList.keySet().iterator();
 		
 		while(it.hasNext()){
 			String key = it.next();
-			errors += ",{\"nomeClasse\":\""+key.split("_")[0]+"\",\"nomeAttributo\":\""+key.split("_")[1]+"\",\"msg\":\""+errorList.get(key)+"\"}";
+			errors += ",{\"nomeClasse\":\""+key.split(splitKey)[0]+"\",\"nomeAttributo\":\""+key.split(splitKey)[1]+"\",\"msg\":\""+errorList.get(key)+"\"}";
 		}
 		
 		if(errors.length() > 1)

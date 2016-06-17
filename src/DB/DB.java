@@ -7,6 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import Utils.Config;
+
+
 
 public class DB {
 
@@ -49,11 +52,15 @@ public class DB {
 			System.out.println("JDBC driver loaded.");
 			
 			if(!testDatabase){
-				con = DriverManager.getConnection("jdbc:mysql://naymic.dlinkddns.com:3306/receita_certa", "receita_certa", "nosestamosonline75113");
+				String host = Config.getInstance().DBHost();
+				String port = Config.getInstance().DBPort();
+				String driver = Config.getInstance().DBDriver();
+				
+				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/receita_certa", "receita_certa", "nosestamosonline75113");
 				System.out.println("DB conection etablished");
 			}else{
 				System.out.println("Try connect to test database");
-				con = DriverManager.getConnection("jdbc:mysql://naymic.dlinkddns.com:3306/testDB", "receita_certa", "nosestamosonline75113");
+				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/testDB", "receita_certa", "nosestamosonline75113");
 			}
 			
 			/*if(con.isClosed() == false){

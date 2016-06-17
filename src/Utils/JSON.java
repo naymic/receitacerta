@@ -16,7 +16,8 @@ import Reflection.ReflectionDAO;
 import Reflection.ReflectionDAORelation;
 
 public class JSON {
-
+	
+	
 	public String objectJson(ReflectionDAORelation rdr, boolean isEdit){
 		String json ="";
 		for(Method m : rdr.getMethods()){
@@ -24,7 +25,7 @@ public class JSON {
 		}
 	
 
-		return "{"+json.substring(0, json.length()-2)+"}";
+		return "{\"dados\":{"+json.substring(0, json.length()-2)+"}}";
 	}
 	
 	private String attributeJson(ReflectionDAORelation rdr, String attributeName, boolean isEdit){
@@ -152,16 +153,16 @@ public class JSON {
 
 		finalJson += this.constructReturnMessages(r)+",\n";
 
-		finalJson += "\n\"dados\":{";
+		finalJson += "\n\"dados\":";
 		if(objectList.size() > 0){
 
-			finalJson += "\""+className+"\":["+this.listJSON(objectList)+"]\n";
+			finalJson += "["+this.listJSON(objectList)+"]\n";
 
 		}else{
-			finalJson += "\""+className+"\":[]\n";
+			finalJson += "[]\n";
 		}
 
-		return finalJson+"}}\n}";
+		return finalJson+"}\n}";
 	}
 	
 	

@@ -1,0 +1,13 @@
+/****Database configuration ****/
+
+#HOST
+dbhost=localhost
+#dbhost=naymic.dlinkddns.com
+
+#PORT
+dbport=3306
+#dbport=5432
+
+#JDBC
+#dbdriver=mysql
+#dbdriver=postgres

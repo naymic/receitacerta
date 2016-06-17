@@ -28,7 +28,9 @@ public class CRUDController extends GenericController{
 		Model object = this.initObj();
 		String json = "";
 		
-		if(action.equalsIgnoreCase("busca")){
+		if(!r.isSuccess()){
+		
+		}else if(action.equalsIgnoreCase("busca")){
 			json = this.selectObject(r, object);
 	
 		}else if(action.equalsIgnoreCase("novo")){

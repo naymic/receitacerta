@@ -1,6 +1,7 @@
 package View;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import Model.Model;
 import Reflection.GenericReflection;
 import Reflection.ReflectionDAO;
 import Reflection.ReflectionDAORelation;
+import Utils.Config;
 import Utils.JSON;
 import Utils.Return;
 
@@ -26,7 +28,8 @@ import Utils.Return;
  */
 public class ViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+  
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -40,6 +43,9 @@ public class ViewController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		Config.getInstance().setFilepath(request.getServletContext().getRealPath("/"));
+
 		
 		response.getWriter().println("");
 	}
@@ -110,7 +116,7 @@ public class ViewController extends HttpServlet {
 			jString = j.messageConstruct(r);
 			
 		}
-		System.out.println(jString);
+	
 		return jString;
 	}
 	

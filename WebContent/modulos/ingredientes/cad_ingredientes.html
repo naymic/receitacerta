@@ -1,0 +1,60 @@
+<form  method="post" id="formIngrediente">
+    <div class="form-group">
+        <label for="nome">Nome do ingrediente:</label>
+        <input type="text" name="campo.nome" class="form-control" id="nome" value="" />
+    </div>
+
+    <div class="form-group">
+        <label for="ingredientes_tipo_id">Tipo do ingrediente:</label>
+        <select name="campo.ingredientes_tipo_id" data-tipo="select" class="form-control" id="ingredientes_tipo_id">
+            <!-- $beginBlock relation.tipo -->
+            <option value="">Selecione</option>
+            <!-- $endBlock relation.tipo -->
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="ingredientes_unidades_id">Unidade:</label>
+        <select class="form-control" data-tipo="select" name="campo.ingredientes_unidades_id" id="ingredientes_unidades_id">
+            <!-- $beginBlock unidades -->
+            <option value="">Selecione</option>
+            <!-- $endBlock unidades -->
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="calorias">Calorias por Unidade (Cal/Unid)</label>
+        <input class="form-control" type="text" name="campo.calorias" id="calorias" value="" />
+    </div>
+
+    <div class="form-group">
+        <label for="ingrediente_armazenamentos_id">Tipo de armazenamento:</label>
+        <select class="form-control" data-tipo="select" name="campo.ingrediente_armazenamentos_id" id="ingrediente_armazenamentos_id">
+            <!-- $beginBlock armazenamentos -->
+             <option value="">Selecione</option>
+            <!-- $endBlock armazenamentos -->
+        </select>
+    </div>
+
+    <div>
+    <div id="camposHidden">
+    <input type="hidden" name="action" id="action" value="save"  />
+    <input type="hidden" name="className" id="className" value="Ingredientes" />
+    <input type="hidden" name="usecase" id="usecase" value="CRUD" />
+   </div>
+
+    <input class="btn btn-primary" type="submit" id="btnSubmit"  value="Salvar" />
+    </div>
+
+</form>
+<script>
+if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
+  var objIngrediente = {"className":"Ingredientes","action":NOVOACTION,"usecase":"CRUD"};
+  validaAction('Insert',objIngrediente);
+}else{
+  var objIngrediente = {"className":"Ingredientes","action":EDITACTION,"id":sessionStorage.id,"usecase":"CRUD"};
+  validaAction('Update',objIngrediente);
+}
+
+submitGeral("formIngrediente");
+</script>

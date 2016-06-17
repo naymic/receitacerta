@@ -1,4 +1,0 @@
-#Configuration file
-
-#Database configuration 
-database:rem

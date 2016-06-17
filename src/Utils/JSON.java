@@ -97,7 +97,7 @@ public class JSON {
 				
 				String json1 = "";
 				for(String column : rdr1.getColums(rdr1.getGetMethods())){
-					json1 += this.getAttribute(rdr1, column, true, false);
+					json1 += this.getSubAttribute(rdr1, column, rdr1.getValueFromAttributeName(column));
 				}
 				return  "\t\""+ attributeName +"\":{"+json1.substring(0, json1.length()-2)+"},\n";
 			}
@@ -112,6 +112,22 @@ public class JSON {
 		json +="\n";
 		
 		return json;
+	}
+	
+	
+	
+	private String getSubAttribute(ReflectionDAORelation rdr, String attributeName, Object value){
+		String json = "";
+		Method m = rdr.getGetMethodByColumname(attributeName);
+		
+		if(rdr.isPK(m))
+			attributeName = "id";
+		else if(rdr.isRequired(m))
+			attributeName = "label";
+		else 
+			attributeName = "else";
+						
+		return "\""+ attributeName +"\":\""+ value +"\",";		
 	}
 	
 	private String getNormalAttribue(ReflectionDAORelation rdr, String attributeName, boolean getValue){

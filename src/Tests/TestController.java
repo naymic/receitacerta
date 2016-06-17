@@ -14,12 +14,12 @@ public class TestController {
 	
 	public CRUDController getCRUDController(){
 		CRUDController cc = new CRUDController();
-		cc.addVariable("Ingredientes.id", 1);
-		cc.addVariable("Ingredientes.ingrediente_armazenamentos_id", 2);
-		cc.addVariable("Ingredientes.calorias", 250.0);
-		cc.addVariable("Ingredientes.nome", "carne de sol1");
-		cc.addVariable("Ingredientes.ingredientes_unidades_id", 1);
-		cc.addVariable("Ingredientes.ingredientes_tipo_id", 1);
+		cc.addVariable("campo.id", 1);
+		cc.addVariable("campo.ingrediente_armazenamentos_id", 2);
+		cc.addVariable("campo.calorias", 250.0);
+		cc.addVariable("campo.nome", "carne de sol1");
+		cc.addVariable("campo.ingredientes_unidades_id", 1);
+		cc.addVariable("campo.ingredientes_tipo_id", 1);
 		cc.addVariable("className", "Ingredientes");
 		return cc;
 	}
@@ -27,14 +27,15 @@ public class TestController {
 	public CRUDController getCRUDControllerEdit(){
 		CRUDController cc = new CRUDController();
 		cc.addVariable("className", "Ingredientes");
-		cc.addVariable("Ingredientes.id", 1);
+		cc.addVariable("campo.id", 1);
 		return cc;
 	}
 	
 	@Test
 	public void testInitObject() {
 		CRUDController cc = this.getCRUDController();
-		Ingredientes obj = (Ingredientes)cc.initObj();
+		Return r = new Return();
+		Ingredientes obj = (Ingredientes)cc.initObj(r);
 		
 		
 		assertEquals(new Integer(1), obj.dgetId());
@@ -49,10 +50,10 @@ public class TestController {
 	@Test
 	public void testSaveObject() {
 		CRUDController cc = this.getCRUDController();
-		Ingredientes obj = (Ingredientes)cc.initObj();
+		Return r = new Return();
+		Ingredientes obj = (Ingredientes)cc.initObj(r);
 		obj.dsetCalorias(300.0);
 		
-		Return r = new Return();
 		String json = cc.saveObject(r, obj);
 		
 		assertTrue(r.isSuccess());
@@ -68,10 +69,9 @@ public class TestController {
 	@Test
 	public void testRemoveObject() {
 		CRUDController cc = this.getCRUDController();
-		Ingredientes obj = (Ingredientes)cc.initObj();
-
-		
 		Return r = new Return();
+		Ingredientes obj = (Ingredientes)cc.initObj(r);
+
 		String json = cc.removeObject(r, obj);
 		System.out.println(json);
 		assertTrue(r.isSuccess());
@@ -81,7 +81,8 @@ public class TestController {
 	@Test
 	public void testNewOject() {
 		CRUDController cc = this.getCRUDController();
-		Ingredientes obj = (Ingredientes)cc.initObj();
+		Return r = new Return();
+		Ingredientes obj = (Ingredientes)cc.initObj(r);
 		
 		String json = cc.newObject(obj);
 		System.out.println(json);
@@ -92,9 +93,9 @@ public class TestController {
 	@Test
 	public void testEditOject() {
 		CRUDController cc = this.getCRUDControllerEdit();
-		Model obj = cc.initObj();
-	
 		Return r = new Return();
+		Model obj = cc.initObj(r);
+		
 		String json = cc.editObject(r, obj);
 		assertTrue(r.isSuccess());
 		//assertEquals(549, json.length());

@@ -345,7 +345,11 @@ public class DAO implements IDAO{
 			stmt.setNull(index, java.sql.Types.VARCHAR, null);
 			return stmt;
 		}else if(obj.getClass().getName().contains("Model.")){
-			obj = GenericConverter.convert(Integer.class, obj);
+			try{
+				obj = GenericConverter.convert(Integer.class, obj);
+			}catch(Exception e){
+				System.out.println("Error in DAO setStmt: "+ e.getMessage());
+			}
 		}
 			
 		stmt.setObject(index, obj);
@@ -372,7 +376,7 @@ public class DAO implements IDAO{
 			rd.setMethodValue(m.getName(), obj);
 			
 			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			System.out.println("Error by set value to object: "+rd.getObject().toString()+" and method:"+ m.getName());
 			e.printStackTrace();
 		}

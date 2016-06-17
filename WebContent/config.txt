@@ -9,5 +9,5 @@ dbport=3306
 #dbport=5432
 
 #JDBC
-#dbdriver=mysql
+dbdriver=mysql
 #dbdriver=postgres

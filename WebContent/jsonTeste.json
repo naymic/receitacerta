@@ -1,0 +1,24 @@
+{
+"ingredientes_tipo_id":[
+	{"id":"1","label":"Fruta","selected":""},
+	{"id":"2","label":"Legume","selected":""},
+	{"id":"3","label":"Cereal","selected":""},
+	{"id":"4","label":"Granulado","selected":""},
+	{"id":"5","label":"Pó","selected":""},
+	{"id":"6","label":"Lactose","selected":""}
+],
+"ingrediente_armazenamentos_id":[
+	{"id":"1","label":"Dispensa","selected":""},
+	{"id":"2","label":"Freezer","selected":""},
+	{"id":"3","label":"Geladeira","selected":"selected"}],
+	"calorias":"",
+	"id":"",
+	"nome":"",
+"ingredientes_unidades_id":[
+	{"id":"1","label":"grama","descricao":"unidade de peso","selected":""},
+	{"id":"2","label":"kilograma","descricao":"unidade de peso","selected":""},
+	{"id":"3","label":"litro","descricao":"unidade de volume","selected":""},
+	{"id":"4","label":"mililitro","descricao":"unidade de volume","selected":""},
+	{"id":"5","label":"colher de sopa","descricao":"unidade de um colher para comer sopa","selected":""},
+	{"id":"6","label":"colher de chá","descricao":"unidade de um colher para mexer a leite ou chá","selected":""}
+]}

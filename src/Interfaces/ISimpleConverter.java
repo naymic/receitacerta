@@ -2,6 +2,6 @@ package Interfaces;
 
 public interface ISimpleConverter {
 	
-	public Object convert(Object entry);
+	public Object convert(Object entry)throws Exception;
 	
 }

@@ -25,11 +25,12 @@ public class CRUDController extends GenericController{
 	@Override
 	public void execute(Return r, String action){
 		super.execute(r, action);
-		Model object = this.initObj();
+		Model object = this.initObj(r);
 		String json = "";
 		
 		if(!r.isSuccess()){
-		
+			JSON j = new JSON();
+			json = j.messageConstruct(r);
 		}else if(action.equalsIgnoreCase("busca")){
 			json = this.selectObject(r, object);
 	
@@ -40,6 +41,7 @@ public class CRUDController extends GenericController{
 			json = this.editObject(r, object);
 		
 		}else if(action.equalsIgnoreCase("salvar")){
+			r = object.verify();
 			json = this.saveObject(r, object);
 		
 		}else if(action.equalsIgnoreCase("remover")){
@@ -54,12 +56,14 @@ public class CRUDController extends GenericController{
 	 * Creates a object and set values to attributes 
 	 * @return Model object
 	 */
-	public Model initObj(){
+	public Model initObj(Return r){
 
-		try{
-			
-			if(!this.getVariableMapper().containsKey("className") && this.getClassName().length() > 0)
-				throw new Exception("No given className, the controller have to reveice a className from the view");
+		
+			//Check if className is set
+			if(!this.getVariableMapper().containsKey("className") && this.getClassName().length() > 0){
+				r.addSimpleError("No given className, the controller have to reveice a className from the view");
+				return null;
+			}
 			
 			//Add Model. before the classname if not exist
 			if(!this.getVariableMapper().get("className").toString().contains("Model.")){
@@ -78,12 +82,15 @@ public class CRUDController extends GenericController{
 				paramName = it.next();
 				
 				//Get just variable for the object
-				if(paramName.contains(obj.getClass().getSimpleName()+".") ){
+				if(paramName.contains("campo.") ){
 					String attributeName = paramName.split("\\.")[1];
-					
+					Object value = null;
+					try{
 					//Convert the String value from the view to the Model class
-					Object value = GenericConverter.convert(rdr.getMethodValueClass(rdr.getGetMethodByColumname(attributeName)), this.getVariableValue(paramName));
-					
+					value = GenericConverter.convert(rdr.getMethodValueClass(rdr.getGetMethodByColumname(attributeName)), this.getVariableValue(paramName));
+					}catch(Exception e){
+						r.addAttributeError(obj.getClass().getName(), attributeName, e.getMessage());
+					}
 					//Set just if value is set
 					if(this.getVariableValue(paramName).toString().length() > 0){
 						rdr.setValueFromAttributename(attributeName, value);
@@ -93,12 +100,7 @@ public class CRUDController extends GenericController{
 			}
 			return obj;
 			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-
-
-		return null;
+	
 	}
 	
 

@@ -1,85 +1,81 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-        <title>Receita Certa</title>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="biblioteca/bootstrap/css/bootstrap.min.css" type="text/css">
 
-        <!-- Sidebar CSS -->
-        <link rel="stylesheet" href="biblioteca/sidebar/css/simple-sidebar.css" type="text/css">
+    <title>Projeto 2VA</title>
 
-    </head>
-    <body>
-        <div id="wrapper">
+    <!-- Bootstrap core CSS -->
+    <link href="biblioteca/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-            <!-- Sidebar -->
-            <div id="sidebar-wrapper">
-                <ul class="sidebar-nav">
-                    <li class="sidebar-brand">
-                        <a href="${contextpath}">Receita Certa</a>
-                    </li>
-                    <li><a href="#" >Ingredientes</a>
-                        <ul>
-                          <li>
-                            <a href="#" data-url="edit.html?v=1.1" class="newAction">Novo</a>
-                            <a href="#" data-url="listall.html?v=1.0" class="newAction">Listar</a>
-                          </li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Receitas</a></li>
-                    <li><a href="#">Estoque</a></li>
-                    <li><a href="#">Planejador</a></li>
-                </ul>
-            </div>
-            <!-- /#sidebar-wrapper -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="biblioteca/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
-            <!-- Page Content -->
-            <div class="page-content-wrapper">
+    <!-- Custom styles for this template -->
+    <link href="biblioteca/bootstrap/dashboard.css" rel="stylesheet">
 
-                <!-- Static top navbar -->
-                <nav class="navbar navbar-default navbar-static-top">
-                    <div class="container-fluid">
-                        <button type="button" class="btn btn-default navbar-btn">
-                            <a href="#menu-toggle" id="menu-toggle">
-                            <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-                            </a>
-                        </button>
-                    </div>
-                </nav>
+  </head>
 
-                <div class="container-fluid" id="centralContent">
-                    <h1 class="alert alert-success">Bem Vindo ao Receita Certa</h1>
-                </div>
-            </div>
-            <!-- /#page-content-wrapper -->
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right navMenu">
+
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar navMenu">
+
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">CRUD - Entidade</h1>
+          <div id="conteudoCentral">
+              <h3 class="text-primary">
+                  Apresentação da implementação de um CRUD utilizando reaproveitamento de codigo!
+              </h3>
+          </div>
 
         </div>
-        <!-- /#wrapper -->
+      </div>
+    </div>
+    <div style="display:none" id="loadContent"></div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="biblioteca/js/jquery-1.12.4.min.js"></script>
+    <script src="biblioteca/bootstrap/js/bootstrap.min.js"></script>
+    <script src="biblioteca/js/geral.js"></script>
+    <script>
+      var objMenu = [{"url":"modulos/ingredientes/cad_ingredientes.html","name":"Novo Ingrediente"},{"url":"modulos/ingredientes/list_ingredientes.html","name":"Listar Ingredientes"}];
+      validaAction('Menu',objMenu);
+    </script>
 
-        <!-- Bootstrap JavaScript -->
 
-        <script src="biblioteca/sidebar/js/jquery.js"></script>
-        <script src="biblioteca/bootstrap/js/bootstrap.min.js"></script>
-
-
-
-        <!-- Sidebar JavaScript -->
-
-
-        <!-- Menu Toggle Script -->
-        <script>
-        $("#menu-toggle").click(function(e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-        $(".newAction").click(function(e){
-            $("#centralContent").load($(this).data("url"));
-			sessionStorage.id = '';
-        })
-        </script>
-
-    </body>
+  </body>
 </html>

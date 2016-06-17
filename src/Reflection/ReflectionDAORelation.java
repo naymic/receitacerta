@@ -214,7 +214,11 @@ public class ReflectionDAORelation extends ReflectionDAO {
 	 */
 	public void setMethodRelationValue(Method m, Object value){
 		
+		try{
 		value = GenericConverter.convert(this.getMethodValueClass(m), value);
+		}catch(Exception e){
+			System.out.println("Error in ReflectionDAORelation in setMethodRelationValue: "+ e.getMessage());
+		}
 		
 		super.setMethodValue(m.getName(), this.getMethodValueClass(m) , value);
 	}

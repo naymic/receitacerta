@@ -50,10 +50,10 @@
 </form>
 <script>
 if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
-  var objIngrediente = {"className":"Ingredientes","action":NOVOACTION,"usecase":"CRUD"};
+  var objIngrediente = {"dados":{"className":"Ingredientes","action":NOVOACTION,"usecase":"CRUD"},"config":{"formRest":true}};
   validaAction('Insert',objIngrediente);
 }else{
-  var objIngrediente = {"className":"Ingredientes","action":EDITACTION,"campo.id":sessionStorage.id,"usecase":"CRUD"};
+  var objIngrediente = {"dados":{"className":"Ingredientes","action":EDITACTION,"campo.id":sessionStorage.id,"usecase":"CRUD"},"config":{"formRest":true}};
   validaAction('Update',objIngrediente);
 }
 

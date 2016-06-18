@@ -11,7 +11,7 @@ var KEYCAMPO = 'campo';
 var KEYBUSCA = 'busca';
 var KEYTITULOMODAL = 'Sistema';
 var MODALTITULO = 'tituloModalGeral';
-
+var KEYCONFIG = 'config';
 //	objAction = {'action':EDITACTION,'className':classe,'id':sessionStorage.id}; <- action, className, useCase, id
 
 // Uso de prototypes
@@ -21,7 +21,7 @@ String.prototype.capitalizeFirstLetter = function() {
 }
 
 
-function construirForm(dados,nomeForm){ // Construção dinamica de um formulario
+function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um formulario
   console.log(dados);
   var data = JSON.parse(dados);
 	console.log(data);
@@ -39,8 +39,7 @@ function construirForm(dados,nomeForm){ // Construção dinamica de um formulari
 			}
 		});
 		console.log("form"+nomeForm);
-	var cleanForm = true;
-    submitGeral("form"+nomeForm,cleanForm);
+    submitGeral("form"+nomeForm,resetForm);
 }
 
 function checkboxConstroi(dados){
@@ -71,10 +70,10 @@ function validaAction(actionStart,objAction){
 function validaInsert(objAction){
 	$("#action").val(SALVARACTION);
 	$("#btnSubmit").val('Cadastrar');
-	data = getResponse(objAction);
+	data = getResponse(objAction[KEYDADOS]);
  // $("#loadContent").load(PATH_API,objAction,function(data){
         //console.log(data);
-        construirForm(data,objAction.className);
+        construirForm(data,objAction[KEYDADOS].className,objAction[KEYCONFIG].formReset);
   //});
 
 }
@@ -89,7 +88,21 @@ function validaUpdate(objAction){
 	$("#btnSubmit").val('Salvar');
   $("#divSubmit").prepend('<input onClick="navCentral()" class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
 	data = getResponse(objAction);
-	construirForm(data);
+	construirForm(data,objAction[KEYDADOS].className,objAction[KEYCONFIG].formReset);
+}
+
+function validaGetSerialForm(idForm){
+  var dadosSeriais = "";
+  $(document).off("submit","#"+idForm);
+	$(document).on("submit","#"+idForm,function(e) {
+      e.preventDefault();
+      dadosSeriais = $(this).serialize();
+  });
+  return dadosSeriais;
+}
+
+function validaBusca(objAction){
+
 }
 
 function validaConsulta(objAction){
@@ -101,6 +114,7 @@ function validaConsulta(objAction){
         //console.log(data[KEYBUSCA][KEYDADOS]);
         construirTabela(data[KEYBUSCA][KEYDADOS],objAction.className);
         ativaBtnList();
+        submitConsulta("consulta"+objAction.className);
   //});
 
 }
@@ -182,13 +196,30 @@ function getResponse(objAction){
 
 }*/
 
+function submitConsulta(idForm,cleanForm){
+	$(document).off("submit","#"+idForm);
+	$(document).on("submit","#"+idForm,function(e) {
+      e.preventDefault();
+			var data = getResponse($(this).serialize());
+			data = JSON.parse(data);
+      construirTabela(data[KEYBUSCA][KEYDADOS],$(this).next("#className").val());
+
+  });
+}
+
 function submitGeral(idForm,cleanForm){
 	$(document).off("submit","#"+idForm);
 	$(document).on("submit","#"+idForm,function(e) {
       e.preventDefault();
 			var data = getResponse($(this).serialize());
 			data = JSON.parse(data);
-			validaRetorno(data);
+      //var acao = "";
+      //$.each(data,function(key,dados){
+      //    acao = "valida"+key.capitalizeFirstLetter();
+        //  window[acao](dados);
+      validaRetorno(data);
+      //});
+
 			if(cleanForm == true){
 				$(this).each(function(){
 					this.reset();

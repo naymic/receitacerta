@@ -24,9 +24,10 @@ public class Ingredientes extends Model{
 	@Override
 	public Return verify(Return r) {
 		super.verify(r);
+		int compare = Double.compare(this.dgetCalorias(), new Double(0.0));
 		
-		if(this.dgetCalorias() != null && this.dgetCalorias() < 0.0){
-			r.addSimpleError("Attribute calorias cannot be negative: "+ this.dgetCalorias());
+		if(this.dgetCalorias() != null && compare < 0 ){
+			r.addAttributeError(this.getClass().getSimpleName(), "calorias", "Attribute calorias cannot be negative: "+ this.dgetCalorias());
 		}
 		return r;
 	}

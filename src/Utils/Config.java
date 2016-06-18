@@ -66,7 +66,7 @@ public class Config {
 
 	private String getConfigLineByName(String configName){
 		try{	
-			if(!testDB){
+			
 				BufferedReader br = new BufferedReader(new FileReader(filepath+"/config.txt"));
 				String[] config;
 				String line;
@@ -80,9 +80,7 @@ public class Config {
 						return config[1].trim();
 					}
 				}
-			}else{
-				return this.getClass().getField(configName).get(this).toString();
-			}
+			
 		} catch(Exception e){
 			System.out.println("Please create a config.txt file in the WebContent folder.\nAdd following lines:\ndbhost=naymic.dlinkddns.com\ndbport=3306\ndbdriver=mysql");
 			//e.printStackTrace();

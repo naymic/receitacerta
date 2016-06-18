@@ -82,7 +82,8 @@ public class TestJSON {
 
 		
 
-		Return r = i.verify();
+		Return r = new Return();
+		i.verify(r);
 		if(r.isSuccess())
 			cc.saveObject(r, i);
 		

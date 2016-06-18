@@ -16,7 +16,7 @@ public abstract class Model {
 		ArrayList<Method> getMethods = rd.getGetMethods();
 		for (int i = 0; i < getMethods.size(); i++) {
 			Method m = getMethods.get(i);
-			if(rd.isRequired(m) && (rd.getMethodValue(m) == null || rd.getMethodValue(m).toString().length() == 0)){
+			if(rd.isRequired(m) && !rd.isPK(m) && (rd.getMethodValue(m) == null || rd.getMethodValue(m).toString().length() == 0)){
 				r.addAttributeError(rd.getObject().getClass().getSimpleName(),rd.getColumnName(m),"Attribute: "+ rd.getColumnName(m) +" is required but null in object ");
 			}
 			

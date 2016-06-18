@@ -51,22 +51,25 @@ public class DB {
 			Class.forName("com.mysql.jdbc.Driver");
 			System.out.println("JDBC driver loaded.");
 
-			
+			String host;
+			String port;
+			String driver ;
 			if(!testDatabase){
-				String host = Config.getInstance().DBHost();
-				String port = Config.getInstance().DBPort();
-				String driver = Config.getInstance().DBDriver();
+				host = Config.getInstance().DBHost();
+				port = Config.getInstance().DBPort();
+				driver = Config.getInstance().DBDriver();
 				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/receita_certa", "receita_certa", "nosestamosonline75113");
 				System.out.println("DB conection etablished");
 			}else{
 				Config.getInstance().setTestDB(true);
-				String host = Config.getInstance().DBHost();
-				String port = Config.getInstance().DBPort();
-				String driver = Config.getInstance().DBDriver();
+				host = Config.getInstance().DBHost();
+				port = Config.getInstance().DBPort();
+				driver = Config.getInstance().DBDriver();
 				System.out.println("Try connect to test database");
 				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/testDB", "receita_certa", "nosestamosonline75113");
 			}
 			
+			System.out.println(host+port+driver);
 			/*if(con.isClosed() == false){
 				System.out.println("Connection to remote database failed");
 				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/receita_certa", "receita_certa", "nosestamosonline75113");

@@ -41,10 +41,13 @@ public class CRUDController extends GenericController{
 			json = this.editObject(r, object);
 		
 		}else if(action.equalsIgnoreCase("salvar")){
-			//object.verify(r);
-			
-			json = this.saveObject(r, object);
-			
+			object.verify(r);
+			if(!r.isSuccess()){
+				JSON j = new JSON();
+				json = j.messageConstruct(r);
+			}else{
+				json = this.saveObject(r, object);
+			}
 		}else if(action.equalsIgnoreCase("remover")){
 			json = this.removeObject(r, object);
 		

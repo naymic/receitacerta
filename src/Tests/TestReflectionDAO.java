@@ -198,7 +198,8 @@ public class TestReflectionDAO {
 	@Test
 	public void testVerify(){
 		TestCity c = this.getCity();
-		Return r = c.verify();
+		Return r = new Return();
+		c.verify(r);
 		c.dsetNotice(null);
 		assertTrue(r.isSuccess());
 		
@@ -209,7 +210,8 @@ public class TestReflectionDAO {
 		
 		c.dsetCountry(null);
 		c.dsetState(null);
-		r = c.verify();
+		r = new Return();
+		r = c.verify(r);
 		assertFalse(r.isSuccess());
 		System.out.println(r.getMessageMap().toString());
 	}

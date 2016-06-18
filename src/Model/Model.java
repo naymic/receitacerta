@@ -10,8 +10,7 @@ public abstract class Model {
 	
 	public abstract String getTableName();
 	
-	public Return verify(){
-		Return r = new Return();
+	public Return verify(Return r){
 		ReflectionDAO rd = new ReflectionDAO(this);
 		
 		ArrayList<Method> getMethods = rd.getGetMethods();

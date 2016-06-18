@@ -212,7 +212,7 @@ public class JSON {
 	
 	private String constructAttributeMessage(String messageName, HashMap<String, String> errorList){
 		String errors = "";
-		String splitKey = "_";
+		String splitKey = "-";
 		Iterator<String> it= errorList.keySet().iterator();
 		
 		while(it.hasNext()){

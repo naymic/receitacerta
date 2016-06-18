@@ -43,7 +43,7 @@ public class Return {
 	public void addAttributeError(String className, String attributeName, String errorMsg){
 		setSuccess(false);
 	
-		messageMap.put(("atb_"+className+"_"+attributeName),errorMsg);
+		messageMap.put("atb-"+className+"-"+attributeName,errorMsg);
 	}
 	
 	
@@ -74,7 +74,7 @@ public class Return {
 		
 		while(it.hasNext()){
 			errorKey = it.next();
-			if(errorKey.contains("atb_"))
+			if(errorKey.contains("atb-"))
 				attributeErrors.put(errorKey.substring(4),this.getMessageMap().get(errorKey));
 		}
 		

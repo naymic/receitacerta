@@ -21,7 +21,7 @@ String.prototype.capitalizeFirstLetter = function() {
 }
 
 
-function construirForm(dados,nomeForme){ // Construção dinamica de um formulario
+function construirForm(dados,nomeForm){ // Construção dinamica de um formulario
   console.log(dados);
   var data = JSON.parse(dados);
 	console.log(data);
@@ -38,7 +38,9 @@ function construirForm(dados,nomeForme){ // Construção dinamica de um formular
 				$("#"+campo).val(values);
 			}
 		});
-    submitGeral("form"+nomeForme);
+		console.log("form"+nomeForm);
+	var cleanForm = true;
+    submitGeral("form"+nomeForm,cleanForm);
 }
 
 function checkboxConstroi(dados){
@@ -85,7 +87,7 @@ function validaUpdate(objAction){
 	$("#"+DIVHIDDENS).append('<input type="hidden" name="campo.id" id="id" value="'+sessionStorage.id+'" />');
 	$("#action").val(SALVARACTION);
 	$("#btnSubmit").val('Salvar');
-  $("#divSubmit").prepend('<input onClick="navCentral(modulos/ingredientes/list_ingredientes.html)" class="btn btn-success" type="button" id="btnSubmit"  value="Salvar" />');
+  $("#divSubmit").prepend('<input onClick="navCentral()" class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
 	data = getResponse(objAction);
 	construirForm(data);
 }
@@ -180,13 +182,18 @@ function getResponse(objAction){
 
 }*/
 
-function submitGeral(idForm){
+function submitGeral(idForm,cleanForm){
 	$(document).off("submit","#"+idForm);
 	$(document).on("submit","#"+idForm,function(e) {
       e.preventDefault();
 			var data = getResponse($(this).serialize());
 			data = JSON.parse(data);
 			validaRetorno(data);
+			if(cleanForm == true){
+				$(this).each(function(){
+					this.reset();
+				})
+			}
   });
 }
 

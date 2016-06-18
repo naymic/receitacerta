@@ -41,9 +41,13 @@ public class CRUDController extends GenericController{
 			json = this.editObject(r, object);
 		
 		}else if(action.equalsIgnoreCase("salvar")){
-			r = object.verify();
-			json = this.saveObject(r, object);
-		
+			object.verify(r);
+			if(!r.isSuccess()){
+				JSON j = new JSON();
+				json = j.messageConstruct(r);
+			}else{
+				json = this.saveObject(r, object);
+			}
 		}else if(action.equalsIgnoreCase("remover")){
 			json = this.removeObject(r, object);
 		
@@ -89,7 +93,7 @@ public class CRUDController extends GenericController{
 						//Convert the String value from the view to the Model class
 						value = GenericConverter.convert(rdr.getMethodValueClass(rdr.getGetMethodByColumname(attributeName)), this.getVariableValue(paramName));
 					}catch(Exception e){
-						r.addAttributeError(obj.getClass().getName(), attributeName, "Field has wrong caracters or is empty: "+ attributeName +" in for: "+ rdr.getObject().getClass().getName());
+						r.addAttributeError(obj.getClass().getName(), attributeName, "Field has wrong caracters or is empty: "+ attributeName +" for "+ rdr.getObject().getClass().getSimpleName());
 					}
 					//Set just if value is set
 					if(this.getVariableValue(paramName).toString().length() > 0){

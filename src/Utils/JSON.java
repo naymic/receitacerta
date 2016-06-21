@@ -182,6 +182,11 @@ public class JSON {
 	}
 	
 	
+	public String returnConstruct(Return r){
+		//return "{\"retorno\":"+this.messageConstruct(r)+"}";
+		return this.messageConstruct(r);
+	}
+	
 	public String messageConstruct(Return r){
 		String json = this.constructReturnMessages(r);
 		json = json.substring(0, json.length()-1);

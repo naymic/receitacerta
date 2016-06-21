@@ -30,7 +30,7 @@ public class CRUDController extends GenericController{
 		
 		if(!r.isSuccess()){
 			JSON j = new JSON();
-			json = j.messageConstruct(r);
+			json = j.returnConstruct(r);
 		}else if(action.equalsIgnoreCase("busca")){
 			json = this.selectObject(r, object);
 	
@@ -44,7 +44,7 @@ public class CRUDController extends GenericController{
 			object.verify(r);
 			if(!r.isSuccess()){
 				JSON j = new JSON();
-				json = j.messageConstruct(r);
+				json = j.returnConstruct(r);
 			}else{
 				json = this.saveObject(r, object);
 			}
@@ -210,7 +210,7 @@ public class CRUDController extends GenericController{
 		}
 		
 		JSON j = new JSON();
-		return j.messageConstruct(r);
+		return j.returnConstruct(r);
 	}
 	
 	/**

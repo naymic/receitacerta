@@ -13,6 +13,7 @@ public class Config {
 	public String dbport;
 	public String dbdriver;
 	private String filepath;
+	private String db;
 	
 	private static Config config = null;
 	
@@ -24,6 +25,8 @@ public class Config {
 		dbhost="naymic.dlinkddns.com";
 		dbport="3306";
 		dbdriver="mysql";
+		//db="receita_prog2";
+		db="receita_certa";
 	}
 	
 	public void setTestDB(boolean b){
@@ -59,6 +62,11 @@ public class Config {
 	public String DBDriver() {
 		//return this.dbdriver;
 		return this.getConfigLineByName("dbdriver");
+	}
+	
+	public String DB() {
+		//return this.dbdriver;
+		return this.getConfigLineByName("db");
 	}
 
 	

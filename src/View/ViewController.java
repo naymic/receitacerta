@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Controller.*;
 import Interfaces.IController;
@@ -30,6 +31,10 @@ import Utils.toHtml;
 public class ViewController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
   
+	public void init() {
+		
+		
+	}
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -45,9 +50,9 @@ public class ViewController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		Config.getInstance().setFilepath(request.getServletContext().getRealPath("/"));
+	
 		
-		response.getWriter().println("");
+		//response.getWriter().println("");
 	}
 
 	/**
@@ -57,10 +62,11 @@ public class ViewController extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 		String content = "";
-
-		content = process(request, response, content);
+		HttpSession session = request.getSession(true);
 		
+		Config.getInstance().setFilepath(request.getServletContext().getRealPath("/"));
 		
+		content = process(request, response, session, content);
 		response.getWriter().println(content);
 	}
 	

@@ -53,12 +53,14 @@ public class DB {
 
 			String host;
 			String port;
-			String driver ;
+			String driver;
+			String db;
 			if(!testDatabase){
 				host = Config.getInstance().DBHost();
 				port = Config.getInstance().DBPort();
 				driver = Config.getInstance().DBDriver();
-				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/receita_certa", "receita_certa", "nosestamosonline75113");
+				db = Config.getInstance().DB();
+				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/"+db, "receita_certa", "nosestamosonline75113");
 				System.out.println("DB conection etablished");
 			}else{
 				Config.getInstance().setTestDB(true);

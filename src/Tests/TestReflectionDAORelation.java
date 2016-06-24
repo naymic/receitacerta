@@ -11,7 +11,7 @@ import GenericDao.DAORelation;
 import Model.IngredienteArmazenamentos;
 import Model.IngredienteTipo;
 import Model.IngredienteUnidades;
-import Model.Ingredientes;
+import Model.TestIngredientes;
 import Model.Model;
 import Reflection.ReflectionDAORelation;
 
@@ -23,7 +23,7 @@ public class TestReflectionDAORelation {
 	public void testSetValue(){
 			
 		Integer id = new Integer(1);
-		Ingredientes i = new Ingredientes();
+		TestIngredientes i = new TestIngredientes();
 		ReflectionDAORelation rdr = new ReflectionDAORelation(i);
 		
 		rdr.setMethodRelationValue("dsetIngredienteArmazenamentos", id);
@@ -33,8 +33,8 @@ public class TestReflectionDAORelation {
 	@Test
 	public void testSetValueFromAtrributeName(){
 			
-		Integer id = new Integer(1);
-		Ingredientes i = new Ingredientes();
+		Integer id = new Integer(2);
+		TestIngredientes i = new TestIngredientes();
 		ReflectionDAORelation rdr = new ReflectionDAORelation(i);
 		
 		
@@ -45,11 +45,11 @@ public class TestReflectionDAORelation {
 	@Test
 	public void testGetValueFromAtrributeName(){
 			
-		Ingredientes i = new Ingredientes();
-		i.dsetId(new Integer(1));
+		TestIngredientes i = new TestIngredientes();
+		i.dsetId(new Integer(4));
 		
 		ArrayList<Model> list = DAORelation.getTestInstance().select(i);
-		i = (Ingredientes) list.get(0);
+		i = (TestIngredientes) list.get(0);
 		ReflectionDAORelation rdr = new ReflectionDAORelation(i);
 		
 		
@@ -60,11 +60,11 @@ public class TestReflectionDAORelation {
 	@Test
 	public void testGetValueFromRelation(){
 			
-		Ingredientes i = new Ingredientes();
-		i.dsetId(new Integer(1));
+		TestIngredientes i = new TestIngredientes();
+		i.dsetId(new Integer(2));
 		
 		ArrayList<Model> list = DAORelation.getTestInstance().select(i);
-		i = (Ingredientes) list.get(0);
+		i = (TestIngredientes) list.get(0);
 		ReflectionDAORelation rdr = new ReflectionDAORelation(i);
 		
 		
@@ -75,13 +75,13 @@ public class TestReflectionDAORelation {
 
 	@Test
 	public void testSelect(){
-		Ingredientes i = new Ingredientes();
+		TestIngredientes i = new TestIngredientes();
 		
 		ArrayList<Model> lm = new ArrayList<>();		
 		i.dsetId(1);
 		lm = DAORelation.getTestInstance().select(i);
 		
-		i = (Ingredientes)lm.get(0);
+		i = (TestIngredientes)lm.get(0);
 		
 		assertEquals(new Integer(1), i.dgetId());
 		assertEquals("carne de sol1", i.dgetNome());
@@ -100,7 +100,7 @@ public class TestReflectionDAORelation {
 	
 	@Test
 	public void testSave(){
-		Ingredientes i = new Ingredientes();
+		TestIngredientes i = new TestIngredientes();
 		i.dsetCalorias(23.45);
 		i.dsetNome("Abobra");
 		
@@ -129,7 +129,7 @@ public class TestReflectionDAORelation {
 	
 	@Test
 	public void testDelete(){
-		Ingredientes i = new Ingredientes();
+		TestIngredientes i = new TestIngredientes();
 		i.dsetCalorias(23.45);
 		i.dsetNome("Abobra");
 		

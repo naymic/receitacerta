@@ -1,17 +1,11 @@
 package Controller;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import Interfaces.IController;
-import Model.Model;
-import Reflection.ReflectionDAO;
-import Reflection.ReflectionDAORelation;
 import Utils.Return;
 
 public class GenericController implements IController{

@@ -2,6 +2,8 @@ package Tests;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Field;
+
 import org.junit.Test;
 
 import Model.TestCity;
@@ -58,6 +60,30 @@ public class TestGenericReflection {
 		
 		
 	}
+	
+	@Test
+	public void testGetFieldValue() {
+		
+		TestCity c = new TestCity();
+
+		c.dsetName("TestValueName");
+		GenericReflection r = new GenericReflection(c);
+		
+		assertEquals(c.dgetName(), r.getFieldValue("name"));
+	}
+	
+	
+	@Test
+	public void testSetFieldValue() {
+		
+		TestCity c = new TestCity();
+
+		c.dsetName("TestValueName");
+		GenericReflection r = new GenericReflection(c);
+		r.setFieldValue("name", "testString");
+		assertEquals(c.dgetName(), "testString");
+	}
+	
 	
 
 

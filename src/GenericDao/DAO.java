@@ -8,9 +8,7 @@ import java.util.ArrayList;
 
 import Converter.GenericConverter;
 import Model.Model;
-import Reflection.GenericReflection;
 import Reflection.ReflectionDAO;
-import Reflection.ReflectionDAORelation;
 import Utils.Return;
 import Utils.SqlStringUtils;
 import DB.DB;
@@ -177,7 +175,6 @@ public class DAO implements IDAO{
 		String[] where = rd.getColums(rd.getGetPKs());
 		
 		try {
-			Integer stmtIndex = new Integer(0);
 			stmt = getDb().getCon().prepareStatement("UPDATE "+ object.getTableName() +" SET "+ SqlStringUtils.getPrepStmtColumns(colums, ",") +" WHERE "+ SqlStringUtils.getPrepStmtColumns(where, "AND"));
 			stmt = this.executeStatement(stmt, rd.getValues(rd.getMethods()));
 			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()), rd.getMethods().size());
@@ -217,7 +214,6 @@ public class DAO implements IDAO{
 		Return r = new Return();
 		PreparedStatement stmt = null;
 		ReflectionDAO rd = new ReflectionDAO(object);
-		Method m = null;
 		
 		String[] where = rd.getColums(rd.getGetPKs());
 		
@@ -429,7 +425,6 @@ public class DAO implements IDAO{
 			ResultSet rs = stmt.executeQuery();			
 			
 			rs.next();
-			int i = rs.getInt(1);
 			return rs.getInt(1);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

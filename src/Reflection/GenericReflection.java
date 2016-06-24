@@ -1,11 +1,8 @@
 package Reflection;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import Model.*;
 
 /**
  * Class that has some generic reflection methods
@@ -183,7 +180,7 @@ public class GenericReflection {
 	 */
 	public static Object instanciateObjectByName(String className){
 		
-		Class ref = null;
+		Class<?> ref = null;
 		Object obj = null;
 		
 		try {
@@ -205,5 +202,49 @@ public class GenericReflection {
 	public static Object instanciateObjectByName(Class<?> _class){
 		return instanciateObjectByName(_class.getName());
 	}
+	
+	
+	/**
+	 * Return field value of a class
+	 * @param className
+	 * @return
+	 */
+	public Object getFieldValue(String fieldName){
+		Field f = null;
+		
+		try {
+			f = this.getObject().getClass().getDeclaredField(fieldName);
+			f.setAccessible(true);
+			return f.get(getObject());
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
+	/**
+	 * Set field value of a class
+	 * @param className
+	 * @return
+	 */
+	public void setFieldValue(String fieldName, Object value){
+		Field f = null;
+		
+		try {
+			f = this.getObject().getClass().getDeclaredField(fieldName);
+			f.setAccessible(true);
+			f.set(this.getObject(), value);
+		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+		
+		
+	
 	
 }

@@ -71,13 +71,6 @@ public class DB {
 				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/testDB", "receita_certa", "nosestamosonline75113");
 			}
 			
-			System.out.println(host+port+driver);
-			/*if(con.isClosed() == false){
-				System.out.println("Connection to remote database failed");
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/receita_certa", "receita_certa", "nosestamosonline75113");
-				System.out.println("Try connect to local database");
-			}*/
-			
 			setCon(con);
 			
 		}catch (ClassNotFoundException e) {

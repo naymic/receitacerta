@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import Controller.CRUDController;
-import Model.Ingredientes;
 import Model.Model;
+import Model.TestIngredientes;
 import Utils.Return;
 
 public class TestController {
@@ -20,14 +20,14 @@ public class TestController {
 		cc.addVariable("campo.nome", "carne de sol1");
 		cc.addVariable("campo.ingredientes_unidades_id", 1);
 		cc.addVariable("campo.ingredientes_tipo_id", 1);
-		cc.addVariable("className", "Ingredientes");
+		cc.addVariable("className", "TestIngredientes");
 		return cc;
 	}
 	
 	public CRUDController getCRUDControllerEdit(){
 		CRUDController cc = new CRUDController();
-		cc.addVariable("className", "Ingredientes");
-		cc.addVariable("campo.id", 1);
+		cc.addVariable("className", "TestIngredientes");
+		cc.addVariable("campo.id", 2);
 		return cc;
 	}
 	
@@ -35,7 +35,7 @@ public class TestController {
 	public void testInitObject() {
 		CRUDController cc = this.getCRUDController();
 		Return r = new Return();
-		Ingredientes obj = (Ingredientes)cc.initObj(r);
+		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 		
 		
 		assertEquals(new Integer(1), obj.dgetId());
@@ -51,18 +51,19 @@ public class TestController {
 	public void testSaveObject() {
 		CRUDController cc = this.getCRUDController();
 		Return r = new Return();
-		Ingredientes obj = (Ingredientes)cc.initObj(r);
+		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 		obj.dsetCalorias(300.0);
 		
 		String json = cc.saveObject(r, obj);
 		
 		assertTrue(r.isSuccess());
-		assertTrue(json.contains("Data Ingredientes successfully saved in database"));
+		//assertTrue(json.contains("Data Ingredientes successfully saved in database"));
 		
-		/*obj.dsetNome(null);
+		obj.dsetNome(null);
 		json = cc.saveObject(r, obj);
-		assertTrue(json.contains("Column 'nome' cannot be null"));
-		assertTrue(json.contains("Data Ingredientes could not be saved in database"));*/
+		obj.verify(r);
+		assertFalse(r.isSuccess());
+
 
 	}
 	
@@ -70,19 +71,19 @@ public class TestController {
 	public void testRemoveObject() {
 		CRUDController cc = this.getCRUDController();
 		Return r = new Return();
-		Ingredientes obj = (Ingredientes)cc.initObj(r);
+		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 
 		String json = cc.removeObject(r, obj);
 		System.out.println(json);
 		assertTrue(r.isSuccess());
-		assertTrue(json.contains("Data Ingredientes successfully removed"));
+		//assertTrue(json.contains("Data Ingredientes successfully removed"));
 	}
 	
 	@Test
 	public void testNewOject() {
 		CRUDController cc = this.getCRUDController();
 		Return r = new Return();
-		Ingredientes obj = (Ingredientes)cc.initObj(r);
+		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 		
 		String json = cc.newObject(obj);
 		System.out.println(json);
@@ -102,13 +103,13 @@ public class TestController {
 		
 		System.out.println(json);
 		
-		Ingredientes i = (Ingredientes)obj;
+		TestIngredientes i = (TestIngredientes)obj;
 		i.dsetId(null);
 		
 		Return r1 = new Return();
 		String json1 = cc.editObject(r1, i);
 		assertTrue(!r1.isSuccess());
-		assertTrue(json1.contains("Primary key is not set. Object Ingredientes not found!"));
+		assertTrue(json1.contains("Primary key is not set."));
 	}
 	
 	

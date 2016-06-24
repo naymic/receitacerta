@@ -86,7 +86,7 @@ public class ViewController extends HttpServlet {
 		return requ.getParameter("usecase");
 	}
 	
-	protected String process(HttpServletRequest requ, HttpServletResponse resp, String content){
+	protected String process(HttpServletRequest requ, HttpServletResponse resp, HttpSession session, String content){
 		Return r = new Return();
 		String usecase = "";
 		String action = "";

@@ -1,23 +1,17 @@
 package Controller;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import Converter.GenericConverter;
 import GenericDao.DAO;
 import GenericDao.DAORelation;
-import Interfaces.IController;
-import Interfaces.ISimpleConverter;
-import Model.Ingredientes;
 import Model.Model;
-import Reflection.GenericReflection;
 import Reflection.ReflectionDAO;
 import Reflection.ReflectionDAORelation;
 import Utils.JSON;
 import Utils.Return;
-import Converter.*;
 
 public class CRUDController extends GenericController{
 
@@ -158,7 +152,6 @@ public class CRUDController extends GenericController{
 	 * @return			String	JSON string to print on view
 	 */
 	public String newObject(Model object){
-		String json = "";
 
 		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		

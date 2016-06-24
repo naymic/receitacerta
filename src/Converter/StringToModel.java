@@ -1,8 +1,6 @@
 package Converter;
 
-import GenericDao.DAO;
 import Interfaces.IModelConverter;
-import Interfaces.ISimpleConverter;
 import Model.Model;
 import Reflection.ReflectionDAORelation;
 

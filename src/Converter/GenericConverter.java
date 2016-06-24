@@ -4,8 +4,6 @@ import Interfaces.IModelConverter;
 import Interfaces.ISimpleConverter;
 import Model.Model;
 import Reflection.GenericReflection;
-import Reflection.ReflectionDAORelation;
-import Utils.Return;
 
 public class GenericConverter {
 

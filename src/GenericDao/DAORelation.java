@@ -3,10 +3,8 @@ package GenericDao;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import Model.Model;
-import Reflection.ReflectionDAO;
 import Reflection.ReflectionDAORelation;
 
 public class DAORelation extends DAO{

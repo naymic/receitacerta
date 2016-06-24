@@ -1,7 +1,6 @@
 package Model;
 
 import Reflection.Entity;
-import Utils.Return;
 
 public class IngredienteArmazenamentos extends Model{
 

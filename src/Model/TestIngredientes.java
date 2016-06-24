@@ -3,7 +3,7 @@ package Model;
 import Reflection.Entity;
 import Utils.Return;
 
-public class Ingredientes extends Model{
+public class TestIngredientes extends Model{
 
 	private Integer id;
 	private String nome;
@@ -11,9 +11,7 @@ public class Ingredientes extends Model{
 	private IngredienteUnidades ingredientesUnidade;
 	private IngredienteTipo ingredientesTipoId;
 	private IngredienteArmazenamentos ingredienteArmazenamentosId;
-	private Integer importancia;
-	private Integer gluten;
-	private String anotacoes;
+
 	
 	
 	@Override
@@ -89,35 +87,6 @@ public class Ingredientes extends Model{
 		this.ingredienteArmazenamentosId = ingredienteArmazenamentosId;
 	}
 
-	@Entity(attributeName= "importancia")
-	public Integer dgetImportancia() {
-		return importancia;
-	}
-
-	
-	public void dsetImportancia(Integer importancia) {
-		this.importancia = importancia;
-	}
-
-	@Entity(attributeName= "gluten")
-	public Integer dgetGluten() {
-		return gluten;
-	}
-
-
-	public void dsetGluten(Integer gluten) {
-		this.gluten = gluten;
-	}
-
-	@Entity(attributeName= "anotacoes", required=false)
-	public String dgetAnotacoes() {
-		return anotacoes;
-	}
-
-	
-	public void dsetAnotacoes(String anotacoes) {
-		this.anotacoes = anotacoes;
-	}
 
 
 	

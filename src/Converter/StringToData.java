@@ -3,7 +3,6 @@ package Converter;
 import java.sql.Date;
 
 import Interfaces.ISimpleConverter;
-import Model.Model;
 
 public class StringToData implements ISimpleConverter {
 

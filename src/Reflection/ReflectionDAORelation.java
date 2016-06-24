@@ -1,12 +1,7 @@
 package Reflection;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import Converter.GenericConverter;
-import GenericDao.DAO;
 import Model.Model;
 
 /**
@@ -190,10 +185,9 @@ public class ReflectionDAORelation extends ReflectionDAO {
 	public Object getValueFromAttributeName(String attributeName, boolean checkRelation){
 
 		if(checkRelation){
-			for(int i=0; i<this.getMethods().size(); i++){
-				Method m = this.getMethods.get(i);
-				if(this.getColumnName(m).equalsIgnoreCase(attributeName) && this.getMethodValue(m).getClass().getName().contains("Model.")){					
-					ReflectionDAORelation rdr = new ReflectionDAORelation( (Model) this.getMethodValue(m));
+			for(Method m : this.getMethods()){
+			
+				if(this.getColumnName(m).equalsIgnoreCase(attributeName) && this.getMethodValue(m).getClass().getSuperclass() == Model.class){					
 					return this.getMethodRelationValue(m);
 				}else{
 					return this.getMethodValue(m);

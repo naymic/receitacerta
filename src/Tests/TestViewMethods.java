@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import Controller.CRUDController;
+import Controller.CrudController;
 import Interfaces.IController;
 import Utils.Return;
 import View.ViewController;
@@ -15,9 +15,9 @@ public class TestViewMethods {
 	public void testGetController() {
 		ViewController vc = new ViewController();
 		Return r = new Return();
-		Class<?> c = CRUDController.class;
+		Class<?> c = CrudController.class;
 		IController ic = vc.getController(r, "CRUD");
-		assertEquals(ic.getClass(), CRUDController.class);
+		assertEquals(ic.getClass(), CrudController.class);
 		assertTrue(r.isSuccess());
 		
 		ic = vc.getController(r, "BliBla");

@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import Controller.CRUDController;
+import Controller.CrudController;
 import GenericDao.DAO;
 import GenericDao.DAORelation;
 import Model.Model;
@@ -77,7 +77,7 @@ public class TestJSON {
 		String json = "";
 		TestIngredientes i = new TestIngredientes();
 		i.dsetCalorias(new Double(0.0));
-		CRUDController cc = new CRUDController();
+		CrudController cc = new CrudController();
 
 		
 

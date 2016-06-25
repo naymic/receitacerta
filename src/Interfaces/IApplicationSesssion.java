@@ -21,13 +21,6 @@ public interface IApplicationSesssion {
 	 */
 	void setSession(HttpSession session);
 	
-	
-	/**
-	 * Get class intern session variable map
-	 * @return
-	 */
-	public HashMap<String, Object> getSessionMap();
-	
 	/**
 	 * Set a specifiv attribute by it's name and value
 	 * @param name

@@ -5,7 +5,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import Converter.GenericConverter;
 import Interfaces.IController;
+import Model.Model;
+import Reflection.ReflectionDAO;
+import Reflection.ReflectionDAORelation;
 import Utils.Return;
 
 public class GenericController implements IController{
@@ -113,6 +117,65 @@ public class GenericController implements IController{
 	
 	public Iterator<Object> getVariableValues(){
 		return this.variables.values().iterator();
+	}
+	
+	
+	public Model initObj(Return r){
+
+		
+		//Check if className is set
+		if(!this.getVariableMapper().containsKey("className") && this.getClassName().length() > 0){
+			r.addSimpleError("No given className, the controller have to reveice a className from the view");
+			return null;
+		}
+		
+		//Add Model. before the classname if not exist
+		if(!this.getVariableMapper().get("className").toString().contains("Model.")){
+			this.getVariableMapper().put("className", "Model."+this.getVariableMapper().get("className"));
+		}
+		
+	
+		Iterator<String> it = this.getVariableKeys();
+		String paramName;
+		String className = (String) this.getVariableValue("className");
+		Model obj = ReflectionDAO.instanciateObjectByName(className);	
+		ReflectionDAORelation rdr = new ReflectionDAORelation(obj);
+
+
+		while(it.hasNext()){
+			paramName = it.next();
+			
+			//Get just variable for the object
+			if(paramName.contains("campo.") ){
+				String attributeName = paramName.split("\\.")[1];
+				Object value = null;
+				try{
+					//Convert the String value from the view to the Model class
+					value = GenericConverter.convert(rdr.getMethodValueClass(rdr.getGetMethodByColumname(attributeName)), this.getVariableValue(paramName));
+					
+					if(rdr.isRequired(rdr.getGetMethodByColumname(attributeName)) && value.toString().length() == 0)
+						r.addAttributeError(obj.getClass().getName(), attributeName, "Field  is empty but required: "+ attributeName +" for "+ rdr.getObject().getClass().getSimpleName());
+					
+				}catch(Exception e){
+					System.out.println(e.getMessage());
+					r.addAttributeError(obj.getClass().getName(), attributeName, "Field has wrong caracters or is empty: "+ attributeName +" for "+ rdr.getObject().getClass().getSimpleName());
+				}
+				//Set just if value is set
+				if(this.getVariableValue(paramName).toString().length() > 0){
+					rdr.setValueFromAttributename(attributeName, value);
+				}
+			}
+
+		}
+		return obj;
+	}
+	
+	/**
+	 * Gets the className of the mapper
+	 * @return
+	 */
+	public String getClassName() {
+		return (String) this.getVariableValue("className");
 	}
 	
 

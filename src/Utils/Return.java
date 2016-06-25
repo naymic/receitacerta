@@ -8,6 +8,7 @@ public class Return {
 	private HashMap<String, String> messageMap;
 	private ArrayList<String> messages;
 	private ArrayList<String> errors;
+	private HashMap<String, String> redirect;
 
 	private boolean success;
 	
@@ -80,6 +81,20 @@ public class Return {
 		
 		return attributeErrors;
 	}
+
+
+	public HashMap<String, String> getRedirect() {
+		return redirect;
+	}
+
+
+	public void setRedirect(String useCaseOld, String useCaseNew, String msg) {
+		this.getRedirect().put("usecaseold", useCaseOld);
+		this.getRedirect().put("usecasenew", useCaseNew);
+		this.getRedirect().put("msg", msg);
+	
+	}
+
 	
 	
 }

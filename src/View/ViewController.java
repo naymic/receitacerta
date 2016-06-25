@@ -1,12 +1,7 @@
 package View;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,16 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Controller.*;
 import Interfaces.IController;
-import Model.Model;
 import Reflection.GenericReflection;
-import Reflection.ReflectionDAO;
-import Reflection.ReflectionDAORelation;
 import Utils.Config;
 import Utils.JSON;
 import Utils.Return;
-import Utils.toHtml;
 
 /**
  * Servlet implementation class ViewController
@@ -104,6 +94,16 @@ public class ViewController extends HttpServlet {
 		//Get the controller for the required action
 		IController ic = getController(r, usecase);
 		
+		
+		if(ic.needAuthentication()){
+			ic = getController(r, "login");
+			
+			
+			r.setRedirect(usecase, "Login", ");
+		}
+		
+		
+		
 		if(r.isSuccess()){
 			//Get all variables from the view and save it to the controller
 			this.initVariables(requ, ic);
@@ -162,6 +162,11 @@ public class ViewController extends HttpServlet {
 		
 		return (IController) GenericReflection.instanciateObjectByName(className);
 	}
+	
+	
+	
+	
+	
 	
 	
 }

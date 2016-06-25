@@ -13,7 +13,7 @@ import Reflection.ReflectionDAORelation;
 import Utils.JSON;
 import Utils.Return;
 
-public class CRUDController extends GenericController{
+public class CrudController extends GenericController{
 
 
 	@Override
@@ -107,13 +107,7 @@ public class CRUDController extends GenericController{
 	}
 	
 
-	/**
-	 * Gets the className of the mapper
-	 * @return
-	 */
-	public String getClassName() {
-		return (String) this.getVariableValue("className");
-	}
+
 	
 
 	@Override
@@ -243,8 +237,10 @@ public class CRUDController extends GenericController{
 		
 	}
 	
-
-	
+	@Override
+	public boolean needAuthentication(){
+		return true;
+	}
 
 
 }

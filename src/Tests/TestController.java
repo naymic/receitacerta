@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import Controller.CRUDController;
+import Controller.CrudController;
 import Model.Model;
 import Model.TestIngredientes;
 import Utils.Return;
@@ -12,8 +12,8 @@ import Utils.Return;
 public class TestController {
 
 	
-	public CRUDController getCRUDController(){
-		CRUDController cc = new CRUDController();
+	public CrudController getCRUDController(){
+		CrudController cc = new CrudController();
 		cc.addVariable("campo.id", 1);
 		cc.addVariable("campo.ingrediente_armazenamentos_id", 2);
 		cc.addVariable("campo.calorias", 250.0);
@@ -24,8 +24,8 @@ public class TestController {
 		return cc;
 	}
 	
-	public CRUDController getCRUDControllerEdit(){
-		CRUDController cc = new CRUDController();
+	public CrudController getCRUDControllerEdit(){
+		CrudController cc = new CrudController();
 		cc.addVariable("className", "TestIngredientes");
 		cc.addVariable("campo.id", 2);
 		return cc;
@@ -33,7 +33,7 @@ public class TestController {
 	
 	@Test
 	public void testInitObject() {
-		CRUDController cc = this.getCRUDController();
+		CrudController cc = this.getCRUDController();
 		Return r = new Return();
 		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 		
@@ -49,7 +49,7 @@ public class TestController {
 	
 	@Test
 	public void testSaveObject() {
-		CRUDController cc = this.getCRUDController();
+		CrudController cc = this.getCRUDController();
 		Return r = new Return();
 		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 		obj.dsetCalorias(300.0);
@@ -69,7 +69,7 @@ public class TestController {
 	
 	@Test
 	public void testRemoveObject() {
-		CRUDController cc = this.getCRUDController();
+		CrudController cc = this.getCRUDController();
 		Return r = new Return();
 		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 
@@ -81,7 +81,7 @@ public class TestController {
 	
 	@Test
 	public void testNewOject() {
-		CRUDController cc = this.getCRUDController();
+		CrudController cc = this.getCRUDController();
 		Return r = new Return();
 		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 		
@@ -93,7 +93,7 @@ public class TestController {
 	
 	@Test
 	public void testEditOject() {
-		CRUDController cc = this.getCRUDControllerEdit();
+		CrudController cc = this.getCRUDControllerEdit();
 		Return r = new Return();
 		Model obj = cc.initObj(r);
 		

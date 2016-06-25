@@ -1,5 +1,6 @@
 package Model;
 
+import Interfaces.IApplicationSesssion;
 import Reflection.Entity;
 import Utils.CryptString;
 import Utils.StringUtils;
@@ -30,6 +31,8 @@ public class Usuario extends Model {
 		if(this.dgetCelular().length() < 12 && this.dgetCelular().length() > 12){
 			r.addAttributeError(this.getClass().getSimpleName(), "celular", "Please use only number from 0-9 and string lenght exactly 12 like 062995652132");
 		}
+		
+		
 		
 		return r;
 	}
@@ -64,12 +67,14 @@ public class Usuario extends Model {
 
 	public void dsetSenha(String senha) {
 		
-		//Crypting Password
 		
-		try {
-			senha = CryptString.crypt(senha);
-		} catch (Exception e) {
+		if(senha.length() < 40 ){
+			//Crypting Password
+			try {
+				senha = CryptString.crypt(senha);
+			} catch (Exception e) {
 
+			}
 		}
 
 		this.senha = senha;
@@ -115,7 +120,6 @@ public class Usuario extends Model {
 	public void dsetCaminhoFoto(String caminhoFoto) {
 		this.caminhoFoto = caminhoFoto;
 	}
-	
 	
 	
 

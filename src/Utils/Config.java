@@ -64,7 +64,7 @@ public class Config {
 		return this.getConfigLineByName("dbdriver");
 	}
 
-	public String DB() {
+	public String getDB() {
 		//return this.dbdriver;
 		return this.getConfigLineByName("db");
 	}
@@ -95,8 +95,8 @@ public class Config {
 					//One line comments
 					if(line.contains(configName) && !line.contains("#") && !line.contains("/") && !line.contains("*")){
 						config = line.split("=");
-						System.out.println(line);
-						result = config[1].trim();
+						
+						return config[1].trim();
 					}
 				}
 
@@ -113,6 +113,7 @@ public class Config {
 		}else{
 			result = getStandartConfig(configName);
 		}
+		System.out.println(result);
 		return result;
 	}
 	

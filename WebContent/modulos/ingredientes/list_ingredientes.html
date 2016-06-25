@@ -5,8 +5,9 @@
         <input class="form-control" name="nome" />
     </div>
     <div class="col-sm-5">
-    	<input type="hidden" name="action" id="action" value="busca" />
-    	<input type="hidden" name="classname " id="classname" value="ingredientes" />
+    	<input type="hidden" name="action" id="action" value="busca"  />
+    <input type="hidden" name="className" id="className" value="Ingredientes" />
+    <input type="hidden" name="usecase" id="usecase" value="CRUD" />
         <button  class="btn btn-success" style="margin-top:23px;" type="submit">Procurar</button>
     </div>
 </div>
@@ -21,7 +22,10 @@
 			<th>Id</th>
 			<th>Calorias</th>
       		<th>Unidade</th>
-      		<th>Tipo Ingrediente</th>
+      		<th>Tipo Armazenamento</th>
+      		<th>Gluten</th>
+      		<th>Importancia</th>
+      		<th>Desc.</th>
 			<th>#</th>
 		</tr>
         </thead>
@@ -30,6 +34,18 @@
         </tbody>
 	</table>
 <script>
-	var objIngrediente = {"className":"Ingredientes","action":"busca", "usecase":"CRUD"};
+	var tableHead = [
+	{ "data": "ingredientes_tipo_id","label":"nome_tipo" },
+    { "data": "nome" },
+    { "data": "id" },
+    { "data": "calorias" },
+    { "data": "ingredientes_unidades_id","label":"nome_unidade" },
+    { "data": "ingrediente_armazenamentos_id","label":"nome_armazenamento" },
+    { "data": "gluten" },
+    { "data": "importancia" },
+    { "data": "anotacoes" }
+];
+	var objIngrediente = {"dados":{"className":"Ingredientes","action":"busca", "usecase":"CRUD"},"config": tableHead};
+	console.log(objIngrediente);
 	validaAction('Consulta',objIngrediente);
 </script>

@@ -54,22 +54,23 @@ public class DB {
 			String host;
 			String port;
 			String driver;
-			String db;
-			if(!testDatabase){
-				host = Config.getInstance().DBHost();
+			String getdb;
+			//if(!testDatabase){
+				/*host = Config.getInstance().DBHost();
 				port = Config.getInstance().DBPort();
 				driver = Config.getInstance().DBDriver();
-				db = Config.getInstance().DB();
-				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/"+db, "receita_certa", "nosestamosonline75113");
+				getdb = Config.getInstance().getDB();
+				System.out.println("jdbc:"+driver+"://localhost:"+port+"/"+getdb);*/
+				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/receita_prog2", "receita_certa", "nosestamosonline75113");
 				System.out.println("DB conection etablished");
-			}else{
+			/*}else{
 				Config.getInstance().setTestDB(true);
 				host = Config.getInstance().DBHost();
 				port = Config.getInstance().DBPort();
 				driver = Config.getInstance().DBDriver();
 				System.out.println("Try connect to test database");
 				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/testDB", "receita_certa", "nosestamosonline75113");
-			}
+			}*/
 			
 			setCon(con);
 			

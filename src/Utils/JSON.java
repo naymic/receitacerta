@@ -119,13 +119,6 @@ public class JSON {
 	private String getSubAttribute(ReflectionDAORelation rdr, String attributeName, Object value){
 		String json = "";
 		Method m = rdr.getGetMethodByColumname(attributeName);
-		
-		if(rdr.isPK(m))
-			attributeName = "id";
-		else if(rdr.isRequired(m))
-			attributeName = "label";
-		else 
-			attributeName = "else";
 						
 		return "\""+ attributeName +"\":\""+ value +"\" ,";		
 	}

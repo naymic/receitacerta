@@ -84,7 +84,7 @@ public class ViewController extends HttpServlet {
 		try{
 			usecase = this.getUseCase(requ);
 			action = this.getAction(requ);
-		}catch(Exception e){
+ 		}catch(Exception e){
 			r.addSimpleError(e.getMessage());
 			System.out.println(e.toString());
 		}

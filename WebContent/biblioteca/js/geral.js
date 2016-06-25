@@ -12,6 +12,7 @@ var KEYBUSCA = 'busca';
 var KEYTITULOMODAL = 'Sistema';
 var MODALTITULO = 'tituloModalGeral';
 var KEYCONFIG = 'config';
+
 //	objAction = {'action':EDITACTION,'className':classe,'id':sessionStorage.id}; <- action, className, useCase, id
 
 // Uso de prototypes
@@ -67,6 +68,10 @@ function validaAction(actionStart,objAction){
 	window[nameAction](objAction);
 }
 
+function validaLogin(objAction){
+	submitGeral(objAction.nomeForm,objAction.resetForm);
+}
+
 function validaInsert(objAction){
 	$("#action").val(SALVARACTION);
 	$("#btnSubmit").val('Cadastrar');
@@ -87,7 +92,7 @@ function validaUpdate(objAction){
 	$("#action").val(SALVARACTION);
 	$("#btnSubmit").val('Salvar');
   $("#divSubmit").prepend('<input onClick="navCentral()" class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
-	data = getResponse(objAction);
+	data = getResponse(objAction[KEYDADOS]);
 	construirForm(data,objAction[KEYDADOS].className,objAction[KEYCONFIG].formReset);
 }
 
@@ -107,14 +112,16 @@ function validaBusca(objAction){
 
 function validaConsulta(objAction){
 	var data;
-	data = getResponse(objAction);
+
+	//return false;
+	data = getResponse(objAction[KEYDADOS]);
   //$("#loadContent").load(PATH_API,objAction,function(data){
         //console.log(data);
         data = JSON.parse(data);
         //console.log(data[KEYBUSCA][KEYDADOS]);
-        construirTabela(data[KEYBUSCA][KEYDADOS],objAction.className);
+        construirTabela(data[KEYBUSCA][KEYDADOS],objAction[KEYDADOS].className,objAction[KEYCONFIG]);
         ativaBtnList();
-        submitConsulta("consulta"+objAction.className);
+        submitConsulta("consulta"+objAction[KEYDADOS].className);
   //});
 
 }
@@ -131,7 +138,7 @@ function ativaBtnList(){
 
 
 
-function construirTabela(dados,nomeTabela){
+function construirTabela(dados,nomeTabela,config){
   var htmlTd;
   var htmlTr = "";
   var idItem = "";
@@ -140,13 +147,17 @@ function construirTabela(dados,nomeTabela){
 	 // console.log(obj);
       htmlTd = "";
       idItem = obj.id;
-      $.each(obj,function(key,value){
+      console.log("config "+config);
+      //return false;
+      $.each(config,function(key,value){
+    	  console.log("valor "+value.data);
+    	  console.log("key "+key);
 
-    	  if($.isPlainObject(value)){
+    	  if($.isPlainObject(obj[value.data])){
     		  console.log(value);
-    		  htmlTd += "<td data-key='"+key+"'>"+value.label+"</td>";
+    		  htmlTd += "<td data-key='"+key+"'>"+obj[value.data][value.label]+"</td>";
     	  }else{
-    		  htmlTd += "<td data-key='"+key+"'>"+value+"</td>";
+    		  htmlTd += "<td data-key='"+key+"'>"+obj[value.data]+"</td>";
     	  }
 
       });
@@ -196,13 +207,13 @@ function getResponse(objAction){
 
 }*/
 
-function submitConsulta(idForm,cleanForm){
+function submitConsulta(idForm){
 	$(document).off("submit","#"+idForm);
 	$(document).on("submit","#"+idForm,function(e) {
       e.preventDefault();
 			var data = getResponse($(this).serialize());
 			data = JSON.parse(data);
-      construirTabela(data[KEYBUSCA][KEYDADOS],$(this).next("#className").val());
+      construirTabela(data[KEYBUSCA][KEYDADOS],$(this).find("#className").val());
 
   });
 }
@@ -213,20 +224,48 @@ function submitGeral(idForm,cleanForm){
       e.preventDefault();
 			var data = getResponse($(this).serialize());
 			data = JSON.parse(data);
-      //var acao = "";
-      //$.each(data,function(key,dados){
-      //    acao = "valida"+key.capitalizeFirstLetter();
-        //  window[acao](dados);
-      validaRetorno(data);
-      //});
-
-			if(cleanForm == true){
+			var casoUso = data.usecase;
+			var actionRetorno = "Retorno"+casoUso;
+			validaAction(actionRetorno,data);
+			if(cleanForm == true){ 
 				$(this).each(function(){
 					this.reset();
 				})
 			}
   });
 }
+
+function validaRetornoLogin(data){
+	if (textfield.val() != "") {
+        $("#output").addClass("alert alert-success animated fadeInUp").html("Welcome back " + "<span style='text-transform:uppercase'>" + textfield.val() + "</span>");
+        $("#output").removeClass(' alert-danger');
+        $("input").css({
+        "height":"0",
+        "padding":"0",
+        "margin":"0",
+        "opacity":"0"
+        });
+        //change button text 
+        $('button[type="submit"]').html("continue")
+        .removeClass("btn-info")
+        .addClass("btn-default").click(function(){
+        $("input").css({
+        "height":"auto",
+        "padding":"10px",
+        "opacity":"1"
+        }).val("");
+        });
+        
+        $(".avatar").css({
+            "background-image": "url('https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRL1uzmgyrfPwUC7UwnOFHFtkAhQrAUYufbLzWvOt9N8pRt1zlV')"
+        });
+    } else {
+        $("#output").removeClass(' alert alert-success');
+        $("#output").addClass("alert alert-danger animated fadeInUp").html("sorry enter a username ");
+    }
+}
+
+                                          
 
 function validaMenu(data){
     var htmlMenu = '';
@@ -245,7 +284,7 @@ function validaMenu(data){
 }
 
 
-function validaRetorno(data){
+function validaRetornoCrud(data){
     $(".infoErro").remove();
 		$.each(data,function(key,objs){
 				if($.isArray(data[key])){

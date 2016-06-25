@@ -5,7 +5,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 import Model.Model;
-import Utils.SqlStringUtils;
+import Utils.StringUtils;
 
 
 /**
@@ -247,7 +247,7 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param method
 	 * @return
 	 */
-	protected void setColumnValue(String methodName, Object value){		
+	protected void setColumnValue(String methodName, Object value){				
 		this.setMethodValue(methodName, this.getMethodValueClass(methodName), value);
 	}
 	
@@ -306,10 +306,10 @@ public class ReflectionDAO extends GenericReflection{
 		String[] _where = this.getColums(where);
 		String __where = "";
 		if(where.size() > 0){
-			__where = "WHERE " + SqlStringUtils.getPrepStmtColumns(_where, " AND");
+			__where = "WHERE " + StringUtils.getPrepStmtColumns(_where, " AND");
 		}
 		
-		return "SELECT "+ SqlStringUtils.getCommaString(colums) +" FROM "+ object.getTableName() +" "+ __where;		
+		return "SELECT "+ StringUtils.getCommaString(colums) +" FROM "+ object.getTableName() +" "+ __where;		
 	}
 	
 	

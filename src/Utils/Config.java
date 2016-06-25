@@ -73,9 +73,10 @@ public class Config {
 
 
 	private String getConfigLineByName(String configName){
-
-		if(!testDB){
-
+		String result = "";
+		
+		
+		if(!this.testDB){
 			try{				
 				BufferedReader br = new BufferedReader(new FileReader(filepath+"/config.txt"));
 				String[] config;
@@ -95,7 +96,7 @@ public class Config {
 					if(line.contains(configName) && !line.contains("#") && !line.contains("/") && !line.contains("*")){
 						config = line.split("=");
 						System.out.println(line);
-						return config[1].trim();
+						result = config[1].trim();
 					}
 				}
 
@@ -106,16 +107,18 @@ public class Config {
 			}
 
 
-			return "";
+			if(result.length() == 0 || result == null){
+				result =  getStandartConfig(configName);
+			}
 		}else{
-			
-			
-			GenericReflection gr = new GenericReflection(this);
-			return (String) gr.getFieldValue(configName);
+			result = getStandartConfig(configName);
 		}
+		return result;
 	}
-
-
-
-
+	
+	
+	private String getStandartConfig(String configName){
+		GenericReflection gr = new GenericReflection(this);
+		return (String) gr.getFieldValue(configName);
+	}
 }

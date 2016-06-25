@@ -10,7 +10,7 @@ import Converter.GenericConverter;
 import Model.Model;
 import Reflection.ReflectionDAO;
 import Utils.Return;
-import Utils.SqlStringUtils;
+import Utils.StringUtils;
 import DB.DB;
 import Interfaces.IDAO;
 
@@ -115,8 +115,8 @@ public class DAO implements IDAO{
 		PreparedStatement stmt;
 		ReflectionDAO rd = new ReflectionDAO(object);
 		
-		String colums = SqlStringUtils.getCommaString(rd.getColums(rd.getMethods()));
-		String preparedStmt = SqlStringUtils.getCommaString(rd.getPreparedValues(rd.getMethods()));
+		String colums = StringUtils.getCommaString(rd.getColums(rd.getMethods()));
+		String preparedStmt = StringUtils.getCommaString(rd.getPreparedValues(rd.getMethods()));
 		
 		
 		try {
@@ -149,7 +149,7 @@ public class DAO implements IDAO{
 		
 		
 		try {
-			stmt = getDb().getCon().prepareStatement("DELETE FROM "+ object.getTableName() +" WHERE "+ SqlStringUtils.getPrepStmtColumns(colums, "AND"));
+			stmt = getDb().getCon().prepareStatement("DELETE FROM "+ object.getTableName() +" WHERE "+ StringUtils.getPrepStmtColumns(colums, "AND"));
 			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()) );
 			stmt.executeUpdate();
 			stmt.close();
@@ -175,7 +175,7 @@ public class DAO implements IDAO{
 		String[] where = rd.getColums(rd.getGetPKs());
 		
 		try {
-			stmt = getDb().getCon().prepareStatement("UPDATE "+ object.getTableName() +" SET "+ SqlStringUtils.getPrepStmtColumns(colums, ",") +" WHERE "+ SqlStringUtils.getPrepStmtColumns(where, "AND"));
+			stmt = getDb().getCon().prepareStatement("UPDATE "+ object.getTableName() +" SET "+ StringUtils.getPrepStmtColumns(colums, ",") +" WHERE "+ StringUtils.getPrepStmtColumns(where, "AND"));
 			stmt = this.executeStatement(stmt, rd.getValues(rd.getMethods()));
 			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()), rd.getMethods().size());
 			stmt.executeUpdate();
@@ -222,7 +222,7 @@ public class DAO implements IDAO{
 			
 		
 		try {
-			stmt = getDb().getCon().prepareStatement("SELECT null FROM "+ object.getTableName() +" WHERE "+ SqlStringUtils.getPrepStmtColumns(where, "AND"));
+			stmt = getDb().getCon().prepareStatement("SELECT null FROM "+ object.getTableName() +" WHERE "+ StringUtils.getPrepStmtColumns(where, "AND"));
 			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()));
 			
 			ResultSet rs = stmt.executeQuery();			

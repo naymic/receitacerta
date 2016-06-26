@@ -1,9 +1,7 @@
 package Tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,7 +10,6 @@ import org.junit.Test;
 import com.google.gson.Gson;
 
 import Controller.CrudController;
-import GenericDao.DAO;
 import GenericDao.DAORelation;
 import Model.Model;
 import Model.TestIngredientes;

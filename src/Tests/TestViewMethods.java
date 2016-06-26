@@ -27,6 +27,17 @@ public class TestViewMethods {
 	}
 	
 	
+	@Test
+	public void testRedirect() {
+		ViewController vc = new ViewController();
+		Return r = new Return();
+		
+vc
+		
+		
+		
+	}
+	
 
 
 }

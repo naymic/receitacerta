@@ -9,7 +9,7 @@ import Model.Model;
 import Model.TestIngredientes;
 import Utils.Return;
 
-public class TestController {
+public class TestCrudController {
 
 	
 	public CrudController getCRUDController(){

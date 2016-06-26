@@ -6,8 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import Converter.GenericConverter;
+import Interfaces.IApplicationSession;
 import Interfaces.IController;
 import Model.Model;
+import Model.Usuario;
 import Reflection.ReflectionDAO;
 import Reflection.ReflectionDAORelation;
 import Utils.Return;
@@ -17,8 +19,8 @@ public class GenericController implements IController{
 	ArrayList<String> validActions;
 	HashMap<String, Object> variables;
 	HashMap<String, String> jsonMapper; 
-	
-	
+	IApplicationSession appSession;
+
 	public GenericController(){
 		validActions = new ArrayList<>();
 		variables = new HashMap<>();
@@ -176,6 +178,31 @@ public class GenericController implements IController{
 	 */
 	public String getClassName() {
 		return (String) this.getVariableValue("className");
+	}
+	
+	/**
+	 * Get the application session
+	 * @return
+	 */
+	public IApplicationSession getAppSession() {
+		return appSession;
+	}
+
+	/**
+	 * Sets the application session
+	 * @param appSession
+	 */
+	public void setAppSession(IApplicationSession appSession) {
+		this.appSession = appSession;
+	}
+	
+	
+	public void setRedirect(String redirect){
+		this.getAppSession().setMapAttribute("redirect", redirect);
+	}
+	
+	public String getRedirect(){
+		return (String) this.getAppSession().getMapAttribute("redirect");
 	}
 	
 

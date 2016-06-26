@@ -16,11 +16,11 @@ public class TestViewMethods {
 		ViewController vc = new ViewController();
 		Return r = new Return();
 		Class<?> c = CrudController.class;
-		IController ic = vc.getController(r, "CRUD");
+		IController ic = vc.getController(r, "Crud", null);
 		assertEquals(ic.getClass(), CrudController.class);
 		assertTrue(r.isSuccess());
 		
-		ic = vc.getController(r, "BliBla");
+		ic = vc.getController(r, "BliBla", null);
 		assertFalse(r.isSuccess());
 		assertEquals(1, r.getSimpleErrors().size());
 		

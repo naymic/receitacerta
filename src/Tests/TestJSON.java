@@ -4,9 +4,12 @@ import static org.junit.Assert.*;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Test;
+
+import com.google.gson.Gson;
 
 import Controller.CrudController;
 import GenericDao.DAO;
@@ -28,7 +31,7 @@ public class TestJSON {
 		
 		JSON j = new JSON();
 		json = j.objectJson(rdr, false);
-		//System.out.println(json.replaceAll("[\n|\t]", ""));
+		System.out.println(json.replaceAll("[\n|\t]", ""));
 	}
 	
 	@Test
@@ -88,11 +91,21 @@ public class TestJSON {
 		
 		JSON j = new JSON();
 
-		assertEquals(4, r.getMessageMap().entrySet().size());
+		r.setRedirect("Login");
+		r.addMsg("Mensagem de teste1");
+		r.addMsg("Mensagem de teste2");
 		
+		r.addSimpleError("Mensagem de teste de erro1");
+		r.addSimpleError("Mensagem de teste de erro2");
+		
+		assertEquals(4, r.getMessageMap().entrySet().size());
 		
 		System.out.println(j.messageConstruct(r));
 		
+		Gson g = new Gson();
+		HashMap<String, Object> map = g.fromJson(j.messageConstruct(r), HashMap.class);
+		System.out.println(map.get("redirect"));
+
 	}
 	
 	

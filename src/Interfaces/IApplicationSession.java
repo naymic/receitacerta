@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
-public interface IApplicationSesssion {
+public interface IApplicationSession {
 	
 	public HttpSession session = null;
 	public HashMap<String, Object> sessionMap = null;

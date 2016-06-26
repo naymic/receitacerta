@@ -19,6 +19,7 @@ public class Return {
 		messageMap = new HashMap<String, String>();
 		messages = new ArrayList<>();
 		errors = new ArrayList<>();	
+		redirect = new HashMap<>();
 	}
 	
 	
@@ -88,11 +89,8 @@ public class Return {
 	}
 
 
-	public void setRedirect(String useCaseOld, String useCaseNew, String msg) {
-		this.getRedirect().put("usecaseold", useCaseOld);
-		this.getRedirect().put("usecasenew", useCaseNew);
-		this.getRedirect().put("msg", msg);
-	
+	public void setRedirect(String redirection) {
+		this.getRedirect().put("redirection", redirection);
 	}
 
 	

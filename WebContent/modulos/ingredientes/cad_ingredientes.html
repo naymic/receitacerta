@@ -64,7 +64,7 @@
     <div id="camposHidden">
     <input type="hidden" name="action" id="action" value="save"  />
     <input type="hidden" name="className" id="className" value="Ingredientes" />
-    <input type="hidden" name="usecase" id="usecase" value="CRUD" />
+    <input type="hidden" name="usecase" id="usecase" value="Crud" />
    </div>
 
    <div id="divSubmit">
@@ -74,10 +74,10 @@
 </form>
 <script>
 if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
-  var objIngrediente = {"dados":{"className":"Ingredientes","action":NOVOACTION,"usecase":"CRUD"},"config":{"formRest":true}};
+  var objIngrediente = {"dados":{"className":"Ingredientes","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true}};
   validaAction('Insert',objIngrediente);
 }else{
-  var objIngrediente = {"dados":{"className":"Ingredientes","action":EDITACTION,"campo.id":sessionStorage.id,"usecase":"CRUD"},"config":{"formRest":false}};
+  var objIngrediente = {"dados":{"className":"Ingredientes","action":EDITACTION,"campo.id":sessionStorage.id,"usecase":"Crud"},"config":{"formRest":false}};
   validaAction('Update',objIngrediente);
 }
 

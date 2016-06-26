@@ -85,5 +85,16 @@ public interface IController {
 	 */
 	public Iterator<Object> getVariableValues();
 	
+	
+	/**
+	 * Get the application session
+	 * @return
+	 */
+	public IApplicationSession getAppSession();
 
+	/**
+	 * Sets the application session
+	 * @param appSession
+	 */
+	public void setAppSession(IApplicationSession appSession);
 }

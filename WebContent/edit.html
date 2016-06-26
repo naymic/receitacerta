@@ -38,7 +38,7 @@
 
     <div>
     <div id="camposHidden">
-    <input type="hidden" name="usecase" id="usecase" value="CRUD"/>
+    <input type="hidden" name="usecase" id="usecase" value="Crud"/>
     <input type="hidden" name="action" id="action" value="salvar"/>
     <input type="hidden" name="className" id="className" value="Ingredientes" />
    </div>
@@ -120,13 +120,13 @@ json += ']}';
 var objIngrediente = '';
 if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
 	$("#action").val('salvar');
-		objIngrediente = {'usecase':'CRUD','action':'novo','className':'Ingredientes'};
+		objIngrediente = {'usecase':'Crud','action':'novo','className':'Ingredientes'};
 		$("#btnSubmit").val('Cadastrar');
 	}else{
 
 		$("#camposHidden").append('<input type="hidden" name="id " id="id" value="'+sessionStorage.id+'" />');
 		$("#action").val('edit');
-		objIngrediente = {'usecase':'CRUD','action':'edit','className':'Ingredientes','id':sessionStorage.id};
+		objIngrediente = {'usecase':'Crud','action':'edit','className':'Ingredientes','id':sessionStorage.id};
 	}
 
 $.post(PATH_API,objIngrediente,function(data){

@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
-import Interfaces.IApplicationSesssion;
+import Interfaces.IApplicationSession;
 
-public class SessionController implements IApplicationSesssion {
+public class ViewSessionController implements IApplicationSession {
 	
 	HttpSession session;
 	
@@ -29,6 +29,7 @@ public class SessionController implements IApplicationSesssion {
 
 	@Override
 	public Object getMapAttribute(String attributeName) {
+		
 		return this.session.getAttribute(attributeName);
 	}
 

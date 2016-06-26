@@ -1,6 +1,6 @@
 package Model;
 
-import Interfaces.IApplicationSesssion;
+import Interfaces.IApplicationSession;
 import Reflection.Entity;
 import Utils.CryptString;
 import Utils.StringUtils;

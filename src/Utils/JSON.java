@@ -1,15 +1,12 @@
 package Utils;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
 
-import GenericDao.DAO;
 import GenericDao.DAORelation;
 import Model.Model;
 import Reflection.ReflectionDAO;
@@ -133,26 +130,11 @@ public class JSON {
 	
 	
 	
-	public String listJSON(List<Model> objecList){
+	public String listJSON(List<Model> objectList){
 		String json = "";
 		
-		for(Model object : objecList){
-			ReflectionDAORelation rdr = new ReflectionDAORelation(object);
-			
-			json +=",{";
-			
-			for(Method m : rdr.getMethods()){
-				json +=this.getAttribute(rdr, rdr.getColumnName(m), true, false);
-			}
-			json = json.substring(0,json.length()-2)+"\n";
-			
-			json +="}";
-		}
-		
-		
-		if(json.length() > 1){
-			json = json.substring(1);
-		}
+		Gson jo = new Gson();
+		json = jo.toJson(objectList);
 		
 		return json;
 	}
@@ -182,28 +164,24 @@ public class JSON {
 	
 	public String messageConstruct(Return r){
 		String json = this.constructReturnMessages(r);
-		json = json.substring(0, json.length()-1);
 		return "{\n\t"+json+"\n}";
 	}
 	
-	private String constructMessage(String messageName, List<String> errorList){
+	private String constructMessage(String messageName, Object list){
 		String errors = "";
-		for(String error : errorList){
-			errors += ",\""+error+"\"";
-		}
+		Gson jo = new Gson();
 		
-		if(errors.length() > 0){
-			errors = errors.substring(1);
-		}
-		
-		return "\""+ messageName +"\":["+errors+"]";
+		return "\""+ messageName +"\":"+jo.toJson(list);
 	}
 	
 	private String constructReturnMessages(Return r){
-		String json = "";
+		String json ="";
+		
 		json += this.constructMessage("erro", r.getSimpleErrors())+",\n";
 		json += this.constructMessage("msg", r.getMessage())+",\n";
-		json += this.constructAttributeMessage("atb", r.getAttributeErrors())+"\n";
+		json += this.constructAttributeMessage("atb", r.getAttributeErrors())+",\n";
+		json += this.constructMessage("redirect", r.getRedirect())+"\n";
+		//json += "\"redirect\":"+this.constructRedirect(r.getRedirect());
 		return json;
 	}
 	
@@ -223,8 +201,5 @@ public class JSON {
 		
 		return "\""+ messageName +"\":["+errors+"]";
 	}
-	
-	
-
 	
 }

@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Controller.LoginController;
+import Interfaces.IApplicationSession;
 import Interfaces.IController;
 import Reflection.GenericReflection;
 import Utils.Config;
@@ -78,9 +80,17 @@ public class ViewController extends HttpServlet {
 	
 	protected String process(HttpServletRequest requ, HttpServletResponse resp, HttpSession session, String content){
 		Return r = new Return();
+		JSON j = new JSON();
 		String usecase = "";
 		String action = "";
+		String jString = "";
 		
+		//Set HTTP ViewSessionController
+		ViewSessionController ics = new ViewSessionController();
+		ics.setSession(session);
+		
+		
+		//Set usecase and action
 		try{
 			usecase = this.getUseCase(requ);
 			action = this.getAction(requ);
@@ -89,21 +99,24 @@ public class ViewController extends HttpServlet {
 			System.out.println(e.toString());
 		}
 		
-		String jString = "";
 		
 		//Get the controller for the required action
-		IController ic = getController(r, usecase);
+		IController ic = getController(r, usecase, ics);
 		
 		
-		if(ic.needAuthentication()){
-			ic = getController(r, "login");
+		//Check if use case needs authentication
+		if(r.isSuccess() && ic.needAuthentication()){
+			LoginController lc = (LoginController) getController(r, "Login", ics);
 			
-			
-			r.setRedirect(usecase, "Login", ");
+			//Check if user is already logged in
+			if(!lc.isUserLoggedin()){
+				r.setRedirect("Login");// Set redirect for the view framework
+				r.setSuccess(false);
+				lc.setRedirect(usecase);
+			}
 		}
 		
-		
-		
+		//Generic use case execution
 		if(r.isSuccess()){
 			//Get all variables from the view and save it to the controller
 			this.initVariables(requ, ic);
@@ -114,14 +127,12 @@ public class ViewController extends HttpServlet {
 			
 			jString = ic.getUniqueJson();
 			
-			
+			//Execution when no controller is found
 		}else{
-			
-			JSON j = new JSON();
-			r.addSimpleError("No controller found for this action: "+ action);
 			jString = j.messageConstruct(r);
-			
 		}
+		
+		
 		System.out.println(jString);
 		return jString;
 	}
@@ -150,7 +161,7 @@ public class ViewController extends HttpServlet {
 	 * @param usecase	String		Name of the use case
 	 * @return 			IController child of a IController
 	 */
-	public IController getController(Return r, String usecase){
+	public IController getController(Return r, String usecase, IApplicationSession ics){
 		String className = "Controller."+usecase+"Controller";
 
 		try{
@@ -160,7 +171,9 @@ public class ViewController extends HttpServlet {
 			return null;
 		}
 		
-		return (IController) GenericReflection.instanciateObjectByName(className);
+		IController ic = (IController) GenericReflection.instanciateObjectByName(className);
+		ic.setAppSession(ics);
+		return ic;
 	}
 	
 	

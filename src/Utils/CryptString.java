@@ -2,8 +2,6 @@ package Utils;
 
 import java.security.MessageDigest;
 
-import Interfaces.ISimpleConverter;
-
 public class CryptString{
 	
 	

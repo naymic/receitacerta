@@ -108,8 +108,10 @@ public class ViewController extends HttpServlet {
 		if(r.isSuccess() && ic.needAuthentication()){
 			LoginController lc = (LoginController) getController(r, "Login", ics);
 			
+			lc.setUserSessionLoggedin(true);
+			
 			//Check if user is already logged in
-			if(!lc.isUserLoggedin()){
+			if(!lc.getUserSessionLoggedin()){
 				r.setRedirect("Login");// Set redirect for the view framework
 				r.setSuccess(false);
 				lc.setRedirect(usecase);

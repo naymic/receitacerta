@@ -21,6 +21,13 @@ public class GenericController implements IController{
 	HashMap<String, String> jsonMapper; 
 	IApplicationSession appSession;
 
+	public GenericController(IApplicationSession appSession){
+		validActions = new ArrayList<>();
+		variables = new HashMap<>();
+		jsonMapper= new HashMap<>();
+		this.setAppSession(appSession);
+	}
+	
 	public GenericController(){
 		validActions = new ArrayList<>();
 		variables = new HashMap<>();

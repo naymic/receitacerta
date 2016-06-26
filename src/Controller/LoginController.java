@@ -76,20 +76,20 @@ public class LoginController extends GenericController{
 		}
 		
 		if(test){		
-			this.setUserLoggedin(true);
-			this.setUser(u);
+			this.setUserSessionLoggedin(true);
+			this.setUserSession(u);
 			r.addMsg("User sucessfully indentified!");
 			r.setRedirect(this.getRedirect()); //Sets the redirection previos saved
 		}else{
-			this.setUserLoggedin(false);
-			this.setUser(null);
+			this.setUserSessionLoggedin(false);
+			this.setUserSession(null);
 			r.addSimpleError("Email and password combination could not be found. Login failed!");
 		}
 	}
 	
 	public void logout(Return r){
-		this.setUserLoggedin(false);
-		this.setUser(null);
+		this.setUserSessionLoggedin(false);
+		this.setUserSession(null);
 		this.setRedirect("index");
 	}
 	
@@ -103,10 +103,10 @@ public class LoginController extends GenericController{
 	public void setAppSession(IApplicationSession appSession) {this.appSession = appSession;}
 	
 
-	/* Specific User Methods */
+	/* Specific User Session Methods */
 	
 
-	public boolean isUserLoggedin(){
+	public boolean getUserSessionLoggedin(){
 		
 		if(this.getAppSession().getMapAttribute("loggedin") == null)
 			return false;
@@ -114,15 +114,18 @@ public class LoginController extends GenericController{
 		return (boolean)this.getAppSession().getMapAttribute("loggedin");
 	}
 	
-	public  void setUserLoggedin(boolean loggedin){
-		this.getAppSession().setMapAttribute("loggendin", loggedin);
+	public  void setUserSessionLoggedin(boolean loggedin){
+		this.getAppSession().setMapAttribute("loggedin", loggedin);
 	}
 	
-	public void setUser( Usuario u){
+	public void setUserSession( Usuario u){
 		this.getAppSession().setMapAttribute("user", u);
 	}
 	
-	public Usuario getUser(){
+	public Usuario getUserSession(){
+		if(this.getAppSession().getMapAttribute("user") == null)
+			return null;
+		
 		return (Usuario) this.getAppSession().getMapAttribute("user");
 	}
 	

@@ -27,7 +27,6 @@ public class JSON {
 	
 	private String attributeJson(ReflectionDAORelation rdr, String attributeName, boolean isEdit){
 		String json = "";
-		Model obj = rdr.getObject();
 		
 		
 		if(rdr.isFK(rdr.getGetMethodByColumname(attributeName))){
@@ -113,10 +112,7 @@ public class JSON {
 	
 	
 	
-	private String getSubAttribute(ReflectionDAORelation rdr, String attributeName, Object value){
-		String json = "";
-		Method m = rdr.getGetMethodByColumname(attributeName);
-						
+	private String getSubAttribute(ReflectionDAORelation rdr, String attributeName, Object value){						
 		return "\""+ attributeName +"\":\""+ value +"\" ,";		
 	}
 	
@@ -167,20 +163,18 @@ public class JSON {
 		return "{\n\t"+json+"\n}";
 	}
 	
-	private String constructMessage(String messageName, Object list){
-		String errors = "";
+	private String constructObject(String messageName, Object list){
 		Gson jo = new Gson();
-		
 		return "\""+ messageName +"\":"+jo.toJson(list);
 	}
 	
 	private String constructReturnMessages(Return r){
 		String json ="";
 		
-		json += this.constructMessage("erro", r.getSimpleErrors())+",\n";
-		json += this.constructMessage("msg", r.getMessage())+",\n";
+		json += this.constructObject("erro", r.getSimpleErrors())+",\n";
+		json += this.constructObject("msg", r.getMessage())+",\n";
 		json += this.constructAttributeMessage("atb", r.getAttributeErrors())+",\n";
-		json += this.constructMessage("redirect", r.getRedirect())+"\n";
+		json += this.constructObject("redirect", r.getRedirect())+"\n";
 		//json += "\"redirect\":"+this.constructRedirect(r.getRedirect());
 		return json;
 	}

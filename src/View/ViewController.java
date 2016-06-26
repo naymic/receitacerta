@@ -78,12 +78,12 @@ public class ViewController extends HttpServlet {
 		return requ.getParameter("usecase");
 	}
 	
-	protected String process(HttpServletRequest requ, HttpServletResponse resp, HttpSession session, String content){
+	public String process(HttpServletRequest requ, HttpServletResponse resp, HttpSession session, String content){
 		Return r = new Return();
 		JSON j = new JSON();
-		String usecase = "";
-		String action = "";
-		String jString = "";
+		String usecase = new String("");
+		String action = new String("");
+		String jString = new String("");
 		
 		//Set HTTP ViewSessionController
 		ViewSessionController ics = new ViewSessionController();
@@ -103,20 +103,9 @@ public class ViewController extends HttpServlet {
 		//Get the controller for the required action
 		IController ic = getController(r, usecase, ics);
 		
-		
-		//Check if use case needs authentication
-		if(r.isSuccess() && ic.needAuthentication()){
-			LoginController lc = (LoginController) getController(r, "Login", ics);
-			
-			lc.setUserSessionLoggedin(true);
-			
-			//Check if user is already logged in
-			if(!lc.getUserSessionLoggedin()){
-				r.setRedirect("Login");// Set redirect for the view framework
-				r.setSuccess(false);
-				lc.setRedirect(usecase);
-			}
-		}
+		//Check if usecase needs authentication 
+		//check if user is loggedin
+		this.checkUserLogin(ic, r, ics, usecase);
 		
 		//Generic use case execution
 		if(r.isSuccess()){
@@ -178,6 +167,26 @@ public class ViewController extends HttpServlet {
 		return ic;
 	}
 	
+	/**
+	 *  Set redirect to login user is not logged in && authentication is obligatory
+	 * @param ic		IController				Use case controller
+	 * @param r			Return					Return with messages for the view framework
+	 * @param ics		ViewSessionController	Class with Global Session inside
+	 * @param usecase	String					Use case to execute
+	 */
+	public void checkUserLogin(IController ic, Return r, ViewSessionController ics, String usecase){
+		//Check if use case needs authentication
+		if(r.isSuccess() && ic.needAuthentication()){
+			LoginController lc = (LoginController) getController(r, "Login", ics);
+
+			//Check if user is already logged in
+			if(!lc.getUserSessionLoggedin()){
+				r.setRedirect("Login");// Set redirect for the view framework
+				r.setSuccess(false);
+				lc.setRedirect(usecase);
+			}
+		}		
+	}
 	
 	
 	

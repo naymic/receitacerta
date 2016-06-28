@@ -23,8 +23,8 @@
             <div class="avatar"></div>
             <div class="form-box">
                 <form id="formUser">
-                    <input name="email" type="email" placeholder="Email" id="email">
-                    <input type="senha" id="senha" placeholder="Senha">
+                    <input name="campo.email" type="email" placeholder="Email" id="email">
+                    <input type="password" name="campo.senha" id="senha" placeholder="Senha">
                     <input type="hidden" name="action" id="action" value="login"  />
     				<input type="hidden" name="className" id="className" value="Usuario" />
     				<input type="hidden" name="usecase" id="usecase" value="Login" />
@@ -34,7 +34,25 @@
         </div>
         
 </div>
+ <div class="modal fade" id="modalMsg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="tituloModalGeral">Sistema</h4>
+      </div>
+      <div class="modal-body" id="corpoModalMsg">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+
  <script src="biblioteca/js/jquery-1.12.4.min.js"></script>
+ <script src="biblioteca/bootstrap/js/bootstrap.min.js"></script>
   <script src="biblioteca/js/geral.js"></script>
   <script>
   var objLogin = {"nomeForm":"formUser","resetForm":false};

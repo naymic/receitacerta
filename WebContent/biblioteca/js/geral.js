@@ -12,6 +12,7 @@ var KEYBUSCA = 'busca';
 var KEYTITULOMODAL = 'Sistema';
 var MODALTITULO = 'tituloModalGeral';
 var KEYCONFIG = 'config';
+var MAPNAV = {"Login":{"url":"acess.html","central":false},"Crud":{"novo":"cad_","busca":"list_","edit":"cad_"}} // Mapa de navegação
 
 //	objAction = {'action':EDITACTION,'className':classe,'id':sessionStorage.id}; <- action, className, useCase, id
 
@@ -170,7 +171,7 @@ function construirTabela(dados,nomeTabela,config){
 }
 
 function validaEditList(objAction){
-	$("#conteudoCentral").load(objAction.url);
+	navCentral(objAction.url);
 }
 
 
@@ -183,10 +184,21 @@ function getResponse(objAction){
 		url:PATH_API,
 		type:"POST",
 		success: function(objResposta){
+			objResposta = JSON.parse(objResposta);
 			console.log('Sucesso');
 			console.log(objResposta);
-			if(objResposta.session){
-					document.location.replace(PATH_LOGIN);
+			if(!objResposta.loggedin){
+				if(!$.isEmptyObject(objResposta.redirect)){
+					console.log(MAPNAV[objResposta.redirect.redirectUseCase]);
+					if(MAPNAV[objResposta.redirect.redirectUseCase].central){
+						navCentral(MAPNAV[objResposta.redirect.redirectUseCase].url);
+					}else{
+						document.location.replace(MAPNAV[objResposta.redirect.redirectUseCase].url);
+					}
+				}else{
+					resposta = objResposta;
+				}
+				
 			}else{
 				resposta = objResposta;
 			}
@@ -223,10 +235,10 @@ function submitGeral(idForm,cleanForm){
 	$(document).on("submit","#"+idForm,function(e) {
       e.preventDefault();
 			var data = getResponse($(this).serialize());
-			data = JSON.parse(data);
-			var casoUso = data.usecase;
-			var actionRetorno = "Retorno"+casoUso;
-			validaAction(actionRetorno,data);
+			console.log("Retorno------------");
+			
+			//data = JSON.parse(data);
+			validaRetorno(data)
 			if(cleanForm == true){ 
 				$(this).each(function(){
 					this.reset();
@@ -235,9 +247,11 @@ function submitGeral(idForm,cleanForm){
   });
 }
 
-function validaRetornoLogin(data){
-	if (textfield.val() != "") {
-        $("#output").addClass("alert alert-success animated fadeInUp").html("Welcome back " + "<span style='text-transform:uppercase'>" + textfield.val() + "</span>");
+/*function validaRetornoLogin(data){
+	
+	if (!$.isEmptyObject(data.erro)) {
+		var erroMsg = validaErroMsg(data.erro);
+        $("#output").addClass("alert alert-success animated fadeInUp").html("Welcome back " + "<span style='text-transform:uppercase'>" + erroMsg + "</span>");
         $("#output").removeClass(' alert-danger');
         $("input").css({
         "height":"0",
@@ -263,7 +277,7 @@ function validaRetornoLogin(data){
         $("#output").removeClass(' alert alert-success');
         $("#output").addClass("alert alert-danger animated fadeInUp").html("sorry enter a username ");
     }
-}
+}*/
 
                                           
 
@@ -284,7 +298,7 @@ function validaMenu(data){
 }
 
 
-function validaRetornoCrud(data){
+function validaRetorno(data){
     $(".infoErro").remove();
 		$.each(data,function(key,objs){
 				if($.isArray(data[key])){
@@ -304,6 +318,16 @@ function validaMsg(objAction){
 		$("#"+MODALMSG).modal('show');
 }
 
+function validaErroMsg(objAction){
+	var htmlMsg = "";
+	$.each(objAction,function(i,msg){
+		htmlMsg += "<spam class='text-warning'>"+msg+"</spam>";
+	});
+	
+	return htmlMsg;
+	
+}
+
 function validaErro(objAction){
 		var htmlMsg = "";
 		$.each(objAction,function(i,msg){
@@ -319,3 +343,10 @@ function validaAtb(objAction){
 			$("#"+obj.nomeAttributo).parent().append('<div class="alert alert-warning infoErro">'+obj.msg+'</div>');
 	});
 }
+
+$("#"+MODALMSG).on('hidden.bs.modal',function(){
+	$(document).find('input').focus();
+});
+$("#"+MODALMSG).on('show.bs.modal',function(){
+	$(document).find('input').focus();
+});

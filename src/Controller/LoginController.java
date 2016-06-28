@@ -69,7 +69,8 @@ public class LoginController extends GenericController{
 		//Check if exist user
 		for(Model bdUser : usuarios){
 			u = (Usuario) bdUser;
-			
+			System.out.println(u.dgetEmail()+" "+ u.dgetSenha());
+			System.out.println(loginUser.dgetEmail()+" "+ loginUser.dgetSenha());
 			if(u.dgetEmail().equalsIgnoreCase(loginUser.dgetEmail()) && u.dgetSenha().equalsIgnoreCase(loginUser.dgetSenha())){
 				test = true;
 				break;
@@ -80,7 +81,7 @@ public class LoginController extends GenericController{
 			this.setUserSessionLoggedin(true);
 			this.setUserSession(u);
 			r.addMsg("User sucessfully indentified!");
-			r.setRedirect(this.getRedirect()); //Sets the redirection previos saved
+			r.setRedirect((String)this.getAppSession().getMapAttribute("redirectUseCase"), (String)this.getAppSession().getMapAttribute("redirectAction") ,(String)this.getAppSession().getMapAttribute("redirectClassname")); //Sets the redirection previos saved
 		}else{
 			this.setUserSessionLoggedin(false);
 			this.setUserSession(null);
@@ -91,7 +92,7 @@ public class LoginController extends GenericController{
 	public void logout(Return r){
 		this.setUserSessionLoggedin(false);
 		this.setUserSession(null);
-		this.setRedirect("index");
+		r.setRedirect("Login", "login", "login");
 	}
 	
 	

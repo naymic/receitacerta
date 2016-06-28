@@ -10,6 +10,8 @@ public abstract class Model {
 	
 	public abstract String getTableName();
 	
+	//public abstract Return verify(Return r, boolean checkSuper);
+	
 	public Return verify(Return r){
 		ReflectionDAO rd = new ReflectionDAO(this);
 		
@@ -24,5 +26,7 @@ public abstract class Model {
 		return r;
 		
 	}
+	
+	
 	
 }

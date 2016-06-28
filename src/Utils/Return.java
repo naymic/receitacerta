@@ -93,8 +93,14 @@ public class Return {
 	}
 
 
-	public void setRedirect(String redirection) {
-		this.getRedirect().put("redirection", redirection);
+	public void setRedirect(String usecase, String action, String classname) {
+		this.getRedirect().put("redirectUseCase", usecase);
+		this.getRedirect().put("redirectAction", action);
+		this.getRedirect().put("redirectClassname", classname);
+	}
+	
+	public void setRedirect(HashMap<String, String> redirect) {
+		this.redirect = redirect;
 	}
 
 

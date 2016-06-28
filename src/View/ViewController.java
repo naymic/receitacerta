@@ -80,11 +80,20 @@ public class ViewController extends HttpServlet {
 		return requ.getParameter("usecase");
 	}
 	
+	public String getClassname(HttpServletRequest requ)throws Exception {
+		if(requ.getParameter("className") == null || requ.getParameter("className").length() == 0){
+			throw new Exception("Please set a classname in on the Interface");
+		}
+		
+		return requ.getParameter("className");
+	}
+	
 	public String process(HttpServletRequest requ, HttpServletResponse resp, HttpSession session, String content){
 		Return r = new Return();
 		JSON j = new JSON();
 		String usecase = new String("");
 		String action = new String("");
+		String classname = new String("");
 		String jString = new String("");
 		
 		//Set HTTP ViewSessionController
@@ -96,6 +105,7 @@ public class ViewController extends HttpServlet {
 		try{
 			usecase = this.getUseCase(requ);
 			action = this.getAction(requ);
+			classname = this.getClassname(requ);
  		}catch(Exception e){
 			r.addSimpleError(e.getMessage());
 			System.out.println(e.toString());
@@ -107,7 +117,7 @@ public class ViewController extends HttpServlet {
 		
 		//Check if usecase needs authentication 
 		//check if user is loggedin
-		this.checkUserLogin(ic, r, ics, usecase);
+		this.checkUserLogin(ic, r, ics, usecase, action, classname);
 		
 		//Generic use case execution
 		if(r.isSuccess()){
@@ -176,7 +186,7 @@ public class ViewController extends HttpServlet {
 	 * @param ics		ViewSessionController	Class with Global Session inside
 	 * @param usecase	String					Use case to execute
 	 */
-	public void checkUserLogin(IController ic, Return r, ViewSessionController ics, String usecase){
+	public void checkUserLogin(IController ic, Return r, ViewSessionController ics, String usecase, String action, String classname){
 		
 		//Add User status to Return		
 		r.setLoggedIn(ic.getUserSessionLoggedin());		
@@ -187,9 +197,11 @@ public class ViewController extends HttpServlet {
 
 			//Check if user is already logged in
 			if(!lc.getUserSessionLoggedin()){
-				r.setRedirect("Login");// Set redirect for the view framework
+				r.setRedirect("Login", "login", "login");// Set redirect for the view framework
 				r.setSuccess(false);
-				lc.setRedirect(usecase);
+				lc.getAppSession().setMapAttribute("redirectUseCase", usecase);
+				lc.getAppSession().setMapAttribute("redirectAction", action);
+				lc.getAppSession().setMapAttribute("redirectClassname", classname);
 			}
 		}		
 	}

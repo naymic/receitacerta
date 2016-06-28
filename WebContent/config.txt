@@ -1,0 +1,26 @@
+/* 
+Configuration File
+
+Observations:
+-You can write comments inside /* */ over more than one line
+-You can write one line comments beginning with /,* or #
+
+*/
+
+/** Database Configuration **/
+
+//Choose your database
+db=receita_prog2
+#db=receita_certa
+
+//Choose your host, where your database is running
+dbhost=localhost
+#dbhost=naymic.dlinkddns.com
+
+//Choose your database port
+dbport=3306
+#dbport=5432
+
+//Choose your database driver
+dbdriver=mysql
+#dbdriver=postgres

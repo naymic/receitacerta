@@ -38,11 +38,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right navMenu">
-
+				<li><a href="javascript:;" onClick="validaAction('Logout','')">Logout</a></li>
           </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
+       
         </div>
       </div>
     </nav>
@@ -51,11 +49,11 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar navMenu">
-
+			<li><a href="javascript:;" onClick="validaAction('Logout','')">Logout</a></li>
           </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Crud - Entidade</h1>
+          <h1 class="page-header">Crud - Ingredientes</h1>
           <div id="conteudoCentral">
               <h3 class="text-primary">
                   Apresentação da implementação de um Crud utilizando reaproveitamento de codigo!
@@ -76,11 +74,30 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+        <button type="button" class="btn btn-primary" id="btnModalMsg">Ok</button>
       </div>
     </div>
   </div>
 </div>
+
+ <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" >Atenção</h4>
+      </div>
+      <div class="modal-body" id="corpoConfirmModal">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-warning" id="btnConfirmModal" data-action="0" data-usecase="0" data-classname="0" data-id="">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <div style="display:none" id="loadContent"></div>
     <!-- Bootstrap core JavaScript
     ================================================== -->

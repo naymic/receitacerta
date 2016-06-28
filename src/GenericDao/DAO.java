@@ -108,10 +108,10 @@ public class DAO implements IDAO{
 	/**
 	 * Insert a object into the database
 	 * @param object
+	 * @param r2 
 	 * @return
 	 */
-	public Return insert(Model object){
-		Return r = new Return();
+	public Return insert(Model object, Return r){
 		PreparedStatement stmt;
 		ReflectionDAO rd = new ReflectionDAO(object);
 		
@@ -140,8 +140,7 @@ public class DAO implements IDAO{
 	 * @param object
 	 * @return
 	 */
-	public Return delete(Model object){
-		Return r = new Return();
+	public Return delete(Model object, Return r){
 		PreparedStatement stmt = null;
 		ReflectionDAO rd = new ReflectionDAO(object);
 		
@@ -164,10 +163,10 @@ public class DAO implements IDAO{
 	/**
 	 * Update a object in the database
 	 * @param object
+	 * @param r2 
 	 * @return
 	 */
-	public Return update(Model object){
-		Return r = new Return();
+	public Return update(Model object, Return r){
 		PreparedStatement stmt = null;
 		ReflectionDAO rd = new ReflectionDAO(object);
 		
@@ -195,12 +194,13 @@ public class DAO implements IDAO{
 	 * Saves a object in the database
 	 * if the object exist then just updates it
 	 * else insert a new line in the database
+	 * @param r 
 	 */
-	public Return save(Model object) {
-		if(this.existModel(object)){
-			return this.update(object);
+	public Return save(Model object, Return r) {
+		if(this.existModel(object, r)){
+			return this.update(object, r);
 		}else{
-			return this.insert(object);
+			return this.insert(object, r);
 		}
 		
 	}
@@ -210,8 +210,7 @@ public class DAO implements IDAO{
 	 * @param object
 	 * @return boolean [true = object exist in the database | false = object don't exist in the database]
 	 */
-	public boolean existModel(Model object){
-		Return r = new Return();
+	public boolean existModel(Model object, Return r){
 		PreparedStatement stmt = null;
 		ReflectionDAO rd = new ReflectionDAO(object);
 		

@@ -12,6 +12,7 @@ import Reflection.ReflectionDAO;
 import Reflection.ReflectionDAORelation;
 import Utils.JSON;
 import Utils.Return;
+import Utils.StringUtils;
 
 public class CrudController extends GenericController{
 
@@ -19,37 +20,43 @@ public class CrudController extends GenericController{
 	@Override
 	public void execute(Return r, String action){
 		super.execute(r, action);
-		Model object = this.initObj(r);
+		
 		String json = "";
 		
-		if(!r.isSuccess()){
-			JSON j = new JSON();
-			json = j.returnConstruct(r);
-		}else if(action.equalsIgnoreCase("busca")){
-			json = this.selectObject(r, object, false);
-	
-		}else if(action.equalsIgnoreCase("buscaavancada")){
-			json = this.selectObject(r, object, true);
-	
-		}else if(action.equalsIgnoreCase("novo")){
-			json = this.newObject(object);
+		if(action.equalsIgnoreCase("buscaavancada")){
+			Model object = this.initObj(r, true);
 			
-		}else if(action.equalsIgnoreCase("edit")){
-			json = this.editObject(r, object);
-		
-		}else if(action.equalsIgnoreCase("salvar")){
-			object.verify(r);
+			json = this.selectObject(r, object, true);
+
+		}else{
+			Model object = this.initObj(r, false);
+			
 			if(!r.isSuccess()){
 				JSON j = new JSON();
 				json = j.returnConstruct(r);
-			}else{
-				json = this.saveObject(r, object);
+			}else if(action.equalsIgnoreCase("busca")){
+				json = this.selectObject(r, object, false);
+
+			}else if(action.equalsIgnoreCase("novo")){
+				json = this.newObject(object);
+
+			}else if(action.equalsIgnoreCase("edit")){
+				json = this.editObject(r, object);
+
+			}else if(action.equalsIgnoreCase("salvar")){
+				object.verify(r);
+				if(!r.isSuccess()){
+					JSON j = new JSON();
+					json = j.returnConstruct(r);
+				}else{
+					json = this.saveObject(r, object);
+				}
+			}else if(action.equalsIgnoreCase("remover")){
+				json = this.removeObject(r, object);
+
 			}
-		}else if(action.equalsIgnoreCase("remover")){
-			json = this.removeObject(r, object);
-		
 		}
-		
+
 		this.setUniqueJson(json);		
 	}
 	
@@ -136,7 +143,7 @@ public class CrudController extends GenericController{
 	 */
 	public String saveObject(Return r, Model object){
 		
-		r = DAO.getInstance().save(object);
+		r = DAO.getInstance().save(object, r);
 		if(r.isSuccess()){
 			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully saved in database");
 		}else{
@@ -154,7 +161,7 @@ public class CrudController extends GenericController{
 	 * @return			String	JSON string to print on view
 	 */
 	public String removeObject(Return r, Model object){
-		r = DAO.getInstance().delete(object);
+		r = DAO.getInstance().delete(object, r);
 		if(r.isSuccess()){
 			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully removed");
 		}else{
@@ -183,12 +190,15 @@ public class CrudController extends GenericController{
 		if(list.size() > 0){
 			object = (Model) list.get(0); 
 		}else{
-			r.addMsg("No data found");	
+			r.addMsg("No data found with params: "+ StringUtils.searchString(object));	
 		}
 		
 		return j.listConstruct(object.getClass().getSimpleName(), r, list);
 		
 	}
+	
+	
+
 	
 	@Override
 	public boolean needAuthentication(){

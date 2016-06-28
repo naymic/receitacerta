@@ -44,7 +44,7 @@ public class LoginController extends GenericController{
 		JSON j = new JSON();
 		
 		//Iniciate user from view
-		Usuario loginUser = (Usuario)super.initObj(r);
+		Usuario loginUser = (Usuario)super.initObj(r, false);
 				
 		if(r.isSuccess()){
 			

@@ -11,7 +11,7 @@ public class GenericConverter {
 		String simpleClassNameInput;
 		
 		if(value == null){
-			simpleClassNameInput = "Null";
+			return null;
 		}else{
 			simpleClassNameInput = value.getClass().getSimpleName();
 		}

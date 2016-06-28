@@ -35,7 +35,7 @@ public class TestCrudController {
 	public void testInitObject() {
 		CrudController cc = this.getCRUDController();
 		Return r = new Return();
-		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
+		TestIngredientes obj = (TestIngredientes)cc.initObj(r, false);
 		
 		
 		assertEquals(new Integer(1), obj.dgetId());
@@ -51,7 +51,7 @@ public class TestCrudController {
 	public void testSaveObject() {
 		CrudController cc = this.getCRUDController();
 		Return r = new Return();
-		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
+		TestIngredientes obj = (TestIngredientes)cc.initObj(r, false);
 		obj.dsetCalorias(300.0);
 		
 		String json = cc.saveObject(r, obj);
@@ -71,7 +71,7 @@ public class TestCrudController {
 	public void testRemoveObject() {
 		CrudController cc = this.getCRUDController();
 		Return r = new Return();
-		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
+		TestIngredientes obj = (TestIngredientes)cc.initObj(r, false);
 
 		String json = cc.removeObject(r, obj);
 		System.out.println(json);
@@ -83,7 +83,7 @@ public class TestCrudController {
 	public void testNewOject() {
 		CrudController cc = this.getCRUDController();
 		Return r = new Return();
-		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
+		TestIngredientes obj = (TestIngredientes)cc.initObj(r, false);
 		
 		String json = cc.newObject(obj);
 		System.out.println(json);
@@ -95,7 +95,7 @@ public class TestCrudController {
 	public void testEditOject() {
 		CrudController cc = this.getCRUDControllerEdit();
 		Return r = new Return();
-		Model obj = cc.initObj(r);
+		Model obj = cc.initObj(r, false);
 		
 		String json = cc.editObject(r, obj);
 		assertTrue(r.isSuccess());

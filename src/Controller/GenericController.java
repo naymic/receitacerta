@@ -131,7 +131,7 @@ public class GenericController implements IController{
 	}
 	
 	
-	public Model initObj(Return r){
+	public Model initObj(Return r, boolean search){
 
 		
 		//Check if className is set
@@ -164,7 +164,7 @@ public class GenericController implements IController{
 					//Convert the String value from the view to the Model class
 					value = GenericConverter.convert(rdr.getMethodValueClass(rdr.getGetMethodByColumname(attributeName)), this.getVariableValue(paramName));
 					
-					if(rdr.isRequired(rdr.getGetMethodByColumname(attributeName)) && value.toString().length() == 0)
+					if(rdr.isRequired(rdr.getGetMethodByColumname(attributeName)) && value.toString().length() == 0 && !search)
 						r.addAttributeError(obj.getClass().getName(), attributeName, "Field  is empty but required: "+ attributeName +" for "+ rdr.getObject().getClass().getSimpleName());
 					
 				}catch(Exception e){

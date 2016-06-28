@@ -61,7 +61,9 @@ public class DB {
 				driver = Config.getInstance().DBDriver();
 				getdb = Config.getInstance().getDB();
 				System.out.println("jdbc:"+driver+"://localhost:"+port+"/"+getdb);
-				con = DriverManager.getConnection("jdbc:mysql://naymic.dlinkddns.com:3306/receita_prog2?characterEncoding=UTF-8", "receita_certa", "nosestamosonline75113");
+				//con = DriverManager.getConnection("jdbc:mysql://naymic.dlinkddns.com:3306/receita_prog2?characterEncoding=UTF-8", "receita_certa", "nosestamosonline75113");
+				
+				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/receita_prog2?characterEncoding=UTF-8", "receita_certa", "nosestamosonline75113");
 				
 				System.out.println("DB conection etablished");
 			}else{

@@ -202,6 +202,9 @@ public class ViewController extends HttpServlet {
 				lc.getAppSession().setMapAttribute("redirectUseCase", usecase);
 				lc.getAppSession().setMapAttribute("redirectAction", action);
 				lc.getAppSession().setMapAttribute("redirectClassname", classname);
+			}else{
+				r.setLoggedIn(true);
+				r.setSuccess(true);
 			}
 		}		
 	}

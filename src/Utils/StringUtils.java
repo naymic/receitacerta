@@ -1,5 +1,12 @@
 package Utils;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import Model.Model;
+import Reflection.ReflectionDAORelation;
+
 public class StringUtils {
 
 	/**
@@ -56,6 +63,20 @@ public class StringUtils {
 	 */
 	public static String justNumbers(String mixedString){
 		return mixedString.replaceAll("\\D+", "");
+	}
+	
+	
+	public static String searchString(Model object){
+		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
+		String searchParams = "";
+		
+		for(Method m : rdr.getGetMethods()){
+			if(rdr.getMethodValue(m) != null)
+				searchParams += ", "+rdr.getMethodValue(m);
+		}
+		
+		
+		return searchParams.substring(2);		
 	}
 	
 }

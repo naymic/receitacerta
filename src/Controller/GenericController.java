@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import Converter.GenericConverter;
+import GenericDao.DAO;
 import Interfaces.IApplicationSession;
 import Interfaces.IController;
 import Model.Model;
@@ -83,8 +84,6 @@ public class GenericController implements IController{
 		//Checks if the given action is a valid action
 		r = this.validateAction(action);
 		
-		//Add the user 
-		r.setUsuario(this.getUserSession());		
 	}
 
 	@Override
@@ -215,17 +214,17 @@ public class GenericController implements IController{
 		return (String) this.getAppSession().getMapAttribute("redirect");
 	}
 	
-	
-	public void setUserSession( Usuario u){
-		this.getAppSession().setMapAttribute("user", u);
-	}
-	
-	public Usuario getUserSession(){
-		if(this.getAppSession().getMapAttribute("user") == null)
-			return null;
+
+	public boolean getUserSessionLoggedin(){
 		
-		return (Usuario) this.getAppSession().getMapAttribute("user");
+		if(this.getAppSession().getMapAttribute("loggedin") == null)
+			return false;
+		
+		return (boolean)this.getAppSession().getMapAttribute("loggedin");
 	}
 	
+	public  void setUserSessionLoggedin(boolean loggedin){
+		this.getAppSession().setMapAttribute("loggedin", loggedin);
+	}
 
 }

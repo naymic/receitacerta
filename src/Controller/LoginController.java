@@ -39,6 +39,7 @@ public class LoginController extends GenericController{
 	
 	@Override
 	public void execute(Return r, String action) {
+		super.execute(r, action);
 		r = this.validateAction(action);
 		JSON j = new JSON();
 		
@@ -106,18 +107,17 @@ public class LoginController extends GenericController{
 	/* Specific User Session Methods */
 	
 
-	public boolean getUserSessionLoggedin(){
-		
-		if(this.getAppSession().getMapAttribute("loggedin") == null)
-			return false;
-		
-		return (boolean)this.getAppSession().getMapAttribute("loggedin");
-	}
-	
-	public  void setUserSessionLoggedin(boolean loggedin){
-		this.getAppSession().setMapAttribute("loggedin", loggedin);
-	}
-	
 
 	
+
+	public void setUserSession( Usuario u){
+		this.getAppSession().setMapAttribute("user", u);
+	}
+	
+	public Usuario getUserSession(){
+		if(this.getAppSession().getMapAttribute("user") == null)
+			return null;
+		
+		return (Usuario) this.getAppSession().getMapAttribute("user");
+	}
 }

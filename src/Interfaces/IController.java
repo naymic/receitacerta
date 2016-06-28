@@ -97,4 +97,18 @@ public interface IController {
 	 * @param appSession
 	 */
 	public void setAppSession(IApplicationSession appSession);
+	
+	/**
+	 * Get the User Session logged in status
+	 * @return
+	 */
+	public boolean getUserSessionLoggedin();
+	
+	/**
+	 * Set the User Session logged in status
+	 * @param loggedin
+	 */
+	public  void setUserSessionLoggedin(boolean loggedin);
+	
+	
 }

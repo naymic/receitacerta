@@ -178,7 +178,7 @@ public class JSON {
 		json += this.constructObject("msg", r.getMessage())+",\n";
 		json += this.constructAttributeMessage("atb", r.getAttributeErrors())+",\n";
 		json += this.constructObject("redirect", r.getRedirect())+",\n";
-		json += this.constructObject("user", g.toJson(r.getUsuario()))+"\n";
+		json += this.constructObject("loggedin", r.getLoggedIn())+"\n";
 		//json += "\"redirect\":"+this.constructRedirect(r.getRedirect());
 		return json;
 	}

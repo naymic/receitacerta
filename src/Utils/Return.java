@@ -11,7 +11,7 @@ public class Return {
 	private ArrayList<String> messages;
 	private ArrayList<String> errors;
 	private HashMap<String, String> redirect;
-	private Usuario usuario;
+	private boolean loggedIn;
 
 	private boolean success;
 	
@@ -101,16 +101,16 @@ public class Return {
 	/**
 	 * @return the usuario
 	 */
-	public Usuario getUsuario() {
-		return usuario;
+	public boolean getLoggedIn() {
+		return loggedIn;
 	}
 
 
 	/**
 	 * @param usuario 
 	 */
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setLoggedIn(boolean loggedIn) {
+		this.loggedIn = loggedIn;
 	}
 
 	

@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Controller.LoginController;
+import GenericDao.DAO;
 import Interfaces.IApplicationSession;
 import Interfaces.IController;
+import Model.Usuario;
 import Reflection.GenericReflection;
 import Utils.Config;
 import Utils.JSON;
@@ -175,6 +177,10 @@ public class ViewController extends HttpServlet {
 	 * @param usecase	String					Use case to execute
 	 */
 	public void checkUserLogin(IController ic, Return r, ViewSessionController ics, String usecase){
+		
+		//Add User status to Return		
+		r.setLoggedIn(ic.getUserSessionLoggedin());		
+		
 		//Check if use case needs authentication
 		if(r.isSuccess() && ic.needAuthentication()){
 			LoginController lc = (LoginController) getController(r, "Login", ics);

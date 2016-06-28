@@ -38,7 +38,16 @@ function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um
         console.log(metodoGeral);
 				$("#"+campo).append(window[metodoGeral](values));
 			}else{
-				$("#"+campo).val(values);
+				if($("#"+campo).data('tipo') == 'radio' || $("#"+campo).data('tipo') == 'checkbox'){
+					$("input[name='campo."+campo+"']").each(function(i,value){
+						if($(this).val() == values){
+							$(this).prop('checked',true);
+						}
+					});
+				}else{
+					$("#"+campo).val(values);
+				}
+				
 			}
 		});
 		console.log("form"+nomeForm);
@@ -267,38 +276,6 @@ function submitGeral(idForm,cleanForm){
 			}
   });
 }
-
-/*function validaRetornoLogin(data){
-	
-	if (!$.isEmptyObject(data.erro)) {
-		var erroMsg = validaErroMsg(data.erro);
-        $("#output").addClass("alert alert-success animated fadeInUp").html("Welcome back " + "<span style='text-transform:uppercase'>" + erroMsg + "</span>");
-        $("#output").removeClass(' alert-danger');
-        $("input").css({
-        "height":"0",
-        "padding":"0",
-        "margin":"0",
-        "opacity":"0"
-        });
-        //change button text 
-        $('button[type="submit"]').html("continue")
-        .removeClass("btn-info")
-        .addClass("btn-default").click(function(){
-        $("input").css({
-        "height":"auto",
-        "padding":"10px",
-        "opacity":"1"
-        }).val("");
-        });
-        
-        $(".avatar").css({
-            "background-image": "url('https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRL1uzmgyrfPwUC7UwnOFHFtkAhQrAUYufbLzWvOt9N8pRt1zlV')"
-        });
-    } else {
-        $("#output").removeClass(' alert alert-success');
-        $("#output").addClass("alert alert-danger animated fadeInUp").html("sorry enter a username ");
-    }
-}*/
 
                                           
 

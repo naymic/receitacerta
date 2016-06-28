@@ -101,9 +101,6 @@ public class Ingredientes extends Model{
 
 	@Entity(attributeName= "gluten", required=false)
 	public Integer dgetGluten() {
-		if(gluten == null)
-			return 0;		
-		else
 			return gluten;
 	}
 

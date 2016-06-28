@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import Model.Usuario;
+
 public class Return {
 	private HashMap<String, String> messageMap;
 	private ArrayList<String> messages;
 	private ArrayList<String> errors;
 	private HashMap<String, String> redirect;
+	private Usuario usuario;
 
 	private boolean success;
 	
@@ -92,6 +95,22 @@ public class Return {
 
 	public void setRedirect(String redirection) {
 		this.getRedirect().put("redirection", redirection);
+	}
+
+
+	/**
+	 * @return the usuario
+	 */
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+
+	/**
+	 * @param usuario 
+	 */
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	

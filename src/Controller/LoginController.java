@@ -118,15 +118,6 @@ public class LoginController extends GenericController{
 		this.getAppSession().setMapAttribute("loggedin", loggedin);
 	}
 	
-	public void setUserSession( Usuario u){
-		this.getAppSession().setMapAttribute("user", u);
-	}
-	
-	public Usuario getUserSession(){
-		if(this.getAppSession().getMapAttribute("user") == null)
-			return null;
-		
-		return (Usuario) this.getAppSession().getMapAttribute("user");
-	}
+
 	
 }

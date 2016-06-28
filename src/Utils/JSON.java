@@ -171,10 +171,14 @@ public class JSON {
 	private String constructReturnMessages(Return r){
 		String json ="";
 		
+		Gson g = new Gson();
+		
+		
 		json += this.constructObject("erro", r.getSimpleErrors())+",\n";
 		json += this.constructObject("msg", r.getMessage())+",\n";
 		json += this.constructAttributeMessage("atb", r.getAttributeErrors())+",\n";
-		json += this.constructObject("redirect", r.getRedirect())+"\n";
+		json += this.constructObject("redirect", r.getRedirect())+",\n";
+		json += this.constructObject("user", g.toJson(r.getUsuario()))+"\n";
 		//json += "\"redirect\":"+this.constructRedirect(r.getRedirect());
 		return json;
 	}

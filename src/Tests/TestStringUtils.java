@@ -34,7 +34,7 @@ public class TestStringUtils {
 	public void testStmtString(){
 		String test = "jka,kasj,jakfdlj,kjafkljasfl";
 		String[] vect = test.split(",");
-		String test1 = StringUtils.getPrepStmtColumns(vect, " AND");
+		String test1 = StringUtils.getPrepStmtColumns(vect, " AND", false);
 		assertEquals(" jka=? AND kasj=? AND jakfdlj=? AND kjafkljasfl=?", test1);
 	}
 	 

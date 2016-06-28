@@ -31,13 +31,17 @@ public class StringUtils {
 	 * Separate a string vector by a needle and add =? (Used for SQL Prepared Statements)
 	 * @param stringVect
 	 * @param separator
+	 * @param search 
 	 * @return
 	 */
-	public static String getPrepStmtColumns(String[] stringVect, String separator){
+	public static String getPrepStmtColumns(String[] stringVect, String separator, boolean search){
 		String string = "";
-
+		
 		for(String s : stringVect){
-			string += separator+" "+ s + "=?";
+			if(!search)
+				string += separator+" "+ s + "=?";
+			else
+				string += separator+" "+ s + " LIKE ?";
 		}
 		
 		return string.substring(separator.length());

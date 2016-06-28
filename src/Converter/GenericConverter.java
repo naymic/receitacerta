@@ -28,7 +28,7 @@ public class GenericConverter {
 		}
 
 		//Check if its a Model Class Input
-		if(value.getClass().getSuperclass() == Model.class){
+		if( value != null && value.getClass().getSuperclass() == Model.class){
 			ModelToInteger ic = new ModelToInteger();
 			return ic.convert(value);
 		}

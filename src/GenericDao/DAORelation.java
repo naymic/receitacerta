@@ -38,6 +38,31 @@ public class DAORelation extends DAO{
 	 * @return  returnList	ArrayList<Model> 	List of Model objects 
 	 */
 	public ArrayList<Model> select(Model object){
+		return select(object, false);
+	}
+	
+	
+	
+	/**
+	 * Select rows in a table 
+	 * if all attributes are null all rows are selected
+	 * if one or more attributes are set rows are selected by them
+	 * @param	object 		Model				Object to set table and filter 
+	 * @return  returnList	ArrayList<Model> 	List of Model objects 
+	 */
+	public ArrayList<Model> search(Model object){
+		return select(object, true);
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @param rdr
+	 * @param fk_attributeName
+	 * @return
+	 */
+	public ArrayList<Model> select(Model object, boolean search){
 		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		
 
@@ -61,7 +86,7 @@ public class DAORelation extends DAO{
 		}
 		
 		//Return all objects of the executed sql query
-		return this.getObjectsFromRS(rdr, rdr.prepareSelectSqlString(mget, where), mget, mset, where);
+		return this.getObjectsFromRS(rdr, rdr.prepareSelectSqlString(mget, where, search), mget, mset, where, search);
 	}
 	
 	

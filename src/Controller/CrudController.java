@@ -26,7 +26,10 @@ public class CrudController extends GenericController{
 			JSON j = new JSON();
 			json = j.returnConstruct(r);
 		}else if(action.equalsIgnoreCase("busca")){
-			json = this.selectObject(r, object);
+			json = this.selectObject(r, object, false);
+	
+		}else if(action.equalsIgnoreCase("buscaavancada")){
+			json = this.selectObject(r, object, true);
 	
 		}else if(action.equalsIgnoreCase("novo")){
 			json = this.newObject(object);
@@ -61,6 +64,9 @@ public class CrudController extends GenericController{
 		
 		//Busca normal
 		validActions.add("busca");
+		
+		//Busca avançada
+		validActions.add("buscaavancada");
 		
 		//Nova inserção (trazer as relações para select options)
 		validActions.add("novo");
@@ -165,9 +171,14 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public String selectObject(Return r, Model object){
+	public String selectObject(Return r, Model object, boolean search){
+		List<Model> list =null;
+		if(search){
+			list = DAORelation.getInstance().search(object);
+		}else{
+			list = DAORelation.getInstance().select(object);
+		}
 		
-		List<Model> list = DAORelation.getInstance().select(object);
 		JSON j = new JSON();
 		if(list.size() > 0){
 			object = (Model) list.get(0); 

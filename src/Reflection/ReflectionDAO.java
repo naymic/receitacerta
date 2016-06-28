@@ -298,15 +298,16 @@ public class ReflectionDAO extends GenericReflection{
 	 * Prepares a SQl String ready to execute in a SQL Statement
 	 * @param getMethods
 	 * @param where
+	 * @param search 
 	 * @return
 	 */
-	public String prepareSelectSqlString(ArrayList<Method>  getMethods, ArrayList<Method> where){
+	public String prepareSelectSqlString(ArrayList<Method>  getMethods, ArrayList<Method> where, boolean search){
 		Model object = (Model)this.getObject();
 		String[] colums = this.getColums(getMethods);
 		String[] _where = this.getColums(where);
 		String __where = "";
 		if(where.size() > 0){
-			__where = "WHERE " + StringUtils.getPrepStmtColumns(_where, " AND");
+			__where = "WHERE " + StringUtils.getPrepStmtColumns(_where, " AND", search);
 		}
 		
 		return "SELECT "+ StringUtils.getCommaString(colums) +" FROM "+ object.getTableName() +" "+ __where;		

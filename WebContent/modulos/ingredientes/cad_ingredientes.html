@@ -53,6 +53,7 @@
 <div class="col-md-3" data-tipo="checkbox" id="gluten">
         <label for="gluten">Gluten</label>
         <input  type="checkbox" name="campo.gluten"  value='1' >
+        <input type="hidden" name="campo.gluten" value="0" />
     </div>
     </div>
 	
@@ -77,7 +78,7 @@ if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
   var objIngrediente = {"dados":{"className":"Ingredientes","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true}};
   validaAction('Insert',objIngrediente);
 }else{
-  var objIngrediente = {"dados":{"className":"Ingredientes","action":EDITACTION,"campo.id":sessionStorage.id,"usecase":"Crud"},"config":{"formRest":false}};
+  var objIngrediente = {"dados":{"className":"Ingredientes","action":EDITACTION,"campo.id":sessionStorage.id,"usecase":"Crud"},"config":{"formRest":false,"returnPage":"modulos/ingredientes/list_ingredientes.html"}};
   validaAction('Update',objIngrediente);
 }
 

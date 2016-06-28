@@ -166,6 +166,7 @@ public class CrudController extends GenericController{
 	 * @return			String	JSON string to print on view
 	 */
 	public String selectObject(Return r, Model object){
+		
 		List<Model> list = DAORelation.getInstance().select(object);
 		JSON j = new JSON();
 		if(list.size() > 0){

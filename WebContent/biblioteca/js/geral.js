@@ -19,12 +19,14 @@ var BTNMODALMSG = "btnModalMsg";
 
 // Uso de prototypes
 
+// Prototipo para colocar o primeiro caracter de uma string em Maiusculo
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
 
-function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um formulario
+
+function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um formulario qualquer
   console.log(dados);
   var data = dados;
 	console.log(data);
@@ -38,6 +40,9 @@ function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um
         console.log(metodoGeral);
 				$("#"+campo).append(window[metodoGeral](values));
 			}else{
+				// Caso haja checkbox ou radios estaticas na pagina ela é tratada atraves desse if, 
+				//Modo de uso: Coloque o id de um objeto referente aos inputs:checkbox||radio igual ao name deles ex: name="campo.teste" id do objeto -> teste
+				//			   Coloque um atributo html5 data-tipo no objeto ex: <div id="teste" data-tipo="checkbox"> ou <div id="teste" data-tipo="radio">
 				if($("#"+campo).data('tipo') == 'radio' || $("#"+campo).data('tipo') == 'checkbox'){
 					$("input[name='campo."+campo+"']").each(function(i,value){
 						if($(this).val() == values){
@@ -102,7 +107,7 @@ function validaUpdate(objAction){
 	$("#"+DIVHIDDENS).append('<input type="hidden" name="campo.id" id="id" value="'+sessionStorage.id+'" />');
 	$("#action").val(SALVARACTION);
 	$("#btnSubmit").val('Salvar');
-  $("#divSubmit").prepend('<input onClick="navCentral()" class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
+  $("#divSubmit").prepend('<input onClick=navCentral("'+objAction[KEYCONFIG].returnPage+'") class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
 	data = getResponse(objAction[KEYDADOS]);
 	construirForm(data,objAction[KEYDADOS].className,objAction[KEYCONFIG].formReset);
 }

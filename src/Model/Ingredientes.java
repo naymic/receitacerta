@@ -99,9 +99,12 @@ public class Ingredientes extends Model{
 		this.importancia = importancia;
 	}
 
-	@Entity(attributeName= "gluten")
+	@Entity(attributeName= "gluten", required=false)
 	public Integer dgetGluten() {
-		return gluten;
+		if(gluten == null)
+			return 0;		
+		else
+			return gluten;
 	}
 
 

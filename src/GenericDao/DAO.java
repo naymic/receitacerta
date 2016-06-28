@@ -298,7 +298,7 @@ public class DAO implements IDAO{
 		ArrayList<Model> returnList = new ArrayList<>();
 		
 		try {
-			stmt = getDb().getCon().prepareStatement(sql); 
+			stmt = getDb().getCon().prepareStatement(sql ); 
 			stmt = this.executeStatement(stmt, rd.getValues(where));
 			ResultSet rs = stmt.executeQuery();
 			int i = 1;
@@ -374,7 +374,7 @@ public class DAO implements IDAO{
 			
 		} catch (Exception e) {
 			System.out.println("Error by set value to object: "+rd.getObject().toString()+" and method:"+ m.getName());
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 		return (Model)rd.getObject();

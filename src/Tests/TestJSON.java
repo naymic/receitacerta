@@ -88,7 +88,7 @@ public class TestJSON {
 		
 		JSON j = new JSON();
 
-		r.setRedirect("Login");
+		r.setRedirect("Login", "login", "login");
 		r.addMsg("Mensagem de teste1");
 		r.addMsg("Mensagem de teste2");
 		

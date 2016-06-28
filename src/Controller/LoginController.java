@@ -80,6 +80,7 @@ public class LoginController extends GenericController{
 		if(test){		
 			this.setUserSessionLoggedin(true);
 			this.setUserSession(u);
+			r.setLoggedIn(true);
 			r.addMsg("User sucessfully indentified!");
 			r.setRedirect((String)this.getAppSession().getMapAttribute("redirectUseCase"), (String)this.getAppSession().getMapAttribute("redirectAction") ,(String)this.getAppSession().getMapAttribute("redirectClassname")); //Sets the redirection previos saved
 		}else{

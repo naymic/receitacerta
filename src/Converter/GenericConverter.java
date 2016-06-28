@@ -8,7 +8,13 @@ import Reflection.GenericReflection;
 public class GenericConverter {
 
 	public static Object convert(Class<?> outputClass, Object value) throws Exception{
-		String simpleClassNameInput = value.getClass().getSimpleName();
+		String simpleClassNameInput;
+		
+		if(value == null){
+			simpleClassNameInput = "Null";
+		}else{
+			simpleClassNameInput = value.getClass().getSimpleName();
+		}
 		String simpleClassNameOnput = outputClass.getSimpleName();
 
 		//No Conversion needed

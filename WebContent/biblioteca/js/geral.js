@@ -12,7 +12,8 @@ var KEYBUSCA = 'busca';
 var KEYTITULOMODAL = 'Sistema';
 var MODALTITULO = 'tituloModalGeral';
 var KEYCONFIG = 'config';
-var MAPNAV = {"Login":{"url":"acess.html","central":false},"Crud":{"novo":"cad_","busca":"list_","edit":"cad_"}} // Mapa de navegação
+var MAPNAV = {"Login":{"url":"acess.html","central":false},"Crud":{"url":"index.html","central":false}}; // Mapa de navegação
+var BTNMODALMSG = "btnModalMsg";
 
 //	objAction = {'action':EDITACTION,'className':classe,'id':sessionStorage.id}; <- action, className, useCase, id
 
@@ -25,7 +26,7 @@ String.prototype.capitalizeFirstLetter = function() {
 
 function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um formulario
   console.log(dados);
-  var data = JSON.parse(dados);
+  var data = dados;
 	console.log(data);
 		var html = '';
 		var selectedOption = '';
@@ -117,8 +118,8 @@ function validaConsulta(objAction){
 	//return false;
 	data = getResponse(objAction[KEYDADOS]);
   //$("#loadContent").load(PATH_API,objAction,function(data){
-        //console.log(data);
-        data = JSON.parse(data);
+        console.log(data);
+        //data = JSON.parse(data);
         //console.log(data[KEYBUSCA][KEYDADOS]);
         construirTabela(data[KEYBUSCA][KEYDADOS],objAction[KEYDADOS].className,objAction[KEYCONFIG]);
         ativaBtnList();
@@ -187,21 +188,16 @@ function getResponse(objAction){
 			objResposta = JSON.parse(objResposta);
 			console.log('Sucesso');
 			console.log(objResposta);
-			if(!objResposta.loggedin){
-				if(!$.isEmptyObject(objResposta.redirect)){
-					console.log(MAPNAV[objResposta.redirect.redirectUseCase]);
-					if(MAPNAV[objResposta.redirect.redirectUseCase].central){
-						navCentral(MAPNAV[objResposta.redirect.redirectUseCase].url);
-					}else{
-						document.location.replace(MAPNAV[objResposta.redirect.redirectUseCase].url);
-					}
-				}else{
-					resposta = objResposta;
-				}
-				
-			}else{
+			if($.isEmptyObject(objResposta.redirect)){
+				console.log("Vazio");
 				resposta = objResposta;
+			}else{
+				validaRetorno(objResposta);
+				console.log("Não vazio");
+				return false;
 			}
+			
+
 		},
 		error: function(data){
 			console.log('Erro');
@@ -218,6 +214,31 @@ function getResponse(objAction){
     });
 
 }*/
+
+function ativaBtnModalMsg(config){
+	$(document).off('click','#'+BTNMODALMSG);
+	$(document).on('click','#'+BTNMODALMSG,function(){
+		if(config.dismiss){
+			$("#"+MODALMSG).modal('hide');
+		}
+		if(config.redirect){
+			document.location.replace(config.url);
+		}
+	});
+}
+
+function validaStatusLogin(objResposta){
+	if(objResposta.loggedin){
+		if(!$.isEmptyObject(objResposta.redirect)){
+			console.log(MAPNAV[objResposta.redirect.redirectUseCase]);
+			if(MAPNAV[objResposta.redirect.redirectUseCase].central){
+				navCentral(MAPNAV[objResposta.redirect.redirectUseCase].url);
+			}else{
+				document.location.replace(MAPNAV[objResposta.redirect.redirectUseCase].url);
+			}
+		}
+	}
+}
 
 function submitConsulta(idForm){
 	$(document).off("submit","#"+idForm);
@@ -300,10 +321,14 @@ function validaMenu(data){
 
 function validaRetorno(data){
     $(".infoErro").remove();
+    console.log(data);
+    var objOp = {"dados":"","redirect":""};
 		$.each(data,function(key,objs){
-				if($.isArray(data[key])){
+				if($.isArray(data[key]) || $.isPlainObject(data[key])){
 						if(!$.isEmptyObject(data[key])){
-							 validaAction(key.capitalizeFirstLetter(),data[key]);
+							objOp.dados = data[key];
+							objOp.redirect = data["redirect"];
+							 validaAction(key.capitalizeFirstLetter(),objOp);
 						}
 				}
 		});
@@ -311,11 +336,16 @@ function validaRetorno(data){
 
 function validaMsg(objAction){
 		var htmlMsg = "";
-		$.each(objAction,function(i,msg){
+		$.each(objAction[KEYDADOS],function(i,msg){
 			htmlMsg += "<h3 class='text-success'>"+msg+"</h3>";
 		});
 		$("#"+CORPOMODALMSG).html(htmlMsg);
 		$("#"+MODALMSG).modal('show');
+		console.log();
+		var url = "index.html";
+		console.log(url);
+		var config = {"redirect":true,"url":url};
+		ativaBtnModalMsg(config);
 }
 
 function validaErroMsg(objAction){
@@ -326,6 +356,11 @@ function validaErroMsg(objAction){
 	
 	return htmlMsg;
 	
+}
+
+function validaRedirect(objAction){
+	console.log(objAction);
+	document.location.replace(MAPNAV[objAction.redirect.redirectUseCase].url);
 }
 
 function validaErro(objAction){

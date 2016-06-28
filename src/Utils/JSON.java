@@ -143,7 +143,7 @@ public class JSON {
 		finalJson += "\n\"dados\":";
 		if(objectList.size() > 0){
 
-			finalJson += "["+this.listJSON(objectList)+"]\n";
+			finalJson += ""+this.listJSON(objectList)+"\n";
 
 		}else{
 			finalJson += "[]\n";

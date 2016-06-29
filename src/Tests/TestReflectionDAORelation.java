@@ -14,6 +14,7 @@ import Model.IngredienteUnidades;
 import Model.TestIngredientes;
 import Model.Model;
 import Reflection.ReflectionDAORelation;
+import Utils.Return;
 
 
 
@@ -100,6 +101,7 @@ public class TestReflectionDAORelation {
 	
 	@Test
 	public void testSave(){
+		
 		TestIngredientes i = new TestIngredientes();
 		i.dsetCalorias(23.45);
 		i.dsetNome("Abobra");
@@ -116,14 +118,17 @@ public class TestReflectionDAORelation {
 		ia.dsetId(new Integer(1));
 		i.dsetIngredienteArmazenamentos(ia);
 		
-		assertTrue(DAORelation.getTestInstance().save(i).isSuccess());
+		Return r = new Return();
+		assertTrue(DAORelation.getTestInstance().save(i, r).isSuccess());
+		
+		r = new Return();
 		i.dsetId(3);
-		DAORelation.getTestInstance().delete(i);
+		DAORelation.getTestInstance().delete(i, r);
 		
-		
+		r = new Return();
 		i.dsetId(2);
 		i.dsetCalorias(i.dgetCalorias()+1);
-		assertTrue(DAORelation.getTestInstance().save(i).isSuccess());
+		assertTrue(DAORelation.getTestInstance().save(i, r).isSuccess());
 	}
 	
 	
@@ -145,12 +150,18 @@ public class TestReflectionDAORelation {
 		ia.dsetId(new Integer(1));
 		i.dsetIngredienteArmazenamentos(ia);
 		
-		DAORelation.getTestInstance().save(i);
-		assertTrue(DAO.getTestInstance().existModel(i));
-		i.dsetId(3);
-		assertTrue(DAORelation.getTestInstance().delete(i).isSuccess());
+		Return r = new Return();
+		DAORelation.getTestInstance().save(i, r);
 		
-		assertFalse(DAO.getTestInstance().existModel(i));
+		r = new Return();
+		assertTrue(DAO.getTestInstance().existModel(i, r));
+		
+		r = new Return();
+		i.dsetId(3);
+		assertTrue(DAORelation.getTestInstance().delete(i, r).isSuccess());
+		
+		r = new Return();
+		assertFalse(DAO.getTestInstance().existModel(i, r));
 	}
 
 }

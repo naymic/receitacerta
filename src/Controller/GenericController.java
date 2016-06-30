@@ -130,8 +130,14 @@ public class GenericController implements IController{
 		return this.variables.values().iterator();
 	}
 	
-	
-	public Model initObj(Return r, boolean search){
+	/**
+	 * Initializes a object
+	 * 
+	 * @param Return	r
+	 * @param boolean 	search 	Used to know if needs to check empty  
+	 * @return
+	 */
+	public Model initObj(Return r){
 
 		
 		//Check if className is set
@@ -164,7 +170,7 @@ public class GenericController implements IController{
 					//Convert the String value from the view to the Model class
 					value = GenericConverter.convert(rdr.getMethodValueClass(rdr.getGetMethodByColumname(attributeName)), this.getVariableValue(paramName));
 					
-					if(rdr.isRequired(rdr.getGetMethodByColumname(attributeName)) && value.toString().length() == 0 && !search)
+					if(rdr.isRequired(rdr.getGetMethodByColumname(attributeName)) && value.toString().length() == 0)
 						r.addAttributeError(obj.getClass().getName(), attributeName, "Field  is empty but required: "+ attributeName +" for "+ rdr.getObject().getClass().getSimpleName());
 					
 				}catch(Exception e){

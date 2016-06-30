@@ -22,20 +22,19 @@ public class CrudController extends GenericController{
 		super.execute(r, action);
 		
 		String json = "";
+		Model object;
 		
-		if(action.equalsIgnoreCase("buscaavancada")){
-			Model object = this.initObj(r, true);
-			
-			json = this.selectObject(r, object, true);
-
-		}else{
-			Model object = this.initObj(r, false);
+	
+			object = this.initObj(r);
 			
 			if(!r.isSuccess()){
 				JSON j = new JSON();
 				json = j.returnConstruct(r);
-			}else if(action.equalsIgnoreCase("busca")){
-				json = this.selectObject(r, object, false);
+			}else  if(action.equalsIgnoreCase("buscaavancada")){
+				json = this.selectObjectSearch(r, object);
+
+			}if(action.equalsIgnoreCase("busca")){
+				json = this.selectObject(r, object);
 
 			}else if(action.equalsIgnoreCase("novo")){
 				json = this.newObject(object);
@@ -55,9 +54,9 @@ public class CrudController extends GenericController{
 				json = this.removeObject(r, object);
 
 			}
-		}
 
-		this.setUniqueJson(json);		
+
+			this.setUniqueJson(json);		
 	}
 	
 
@@ -178,26 +177,46 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public String selectObject(Return r, Model object, boolean search){
+	public String selectObject(Return r, Model object){
 		List<Model> list =null;
-		if(search){
-			list = DAORelation.getInstance().search(object);
-		}else{
-			list = DAORelation.getInstance().select(object);
-		}
+		
+		list = DAORelation.getInstance().select(object);
 		
 		JSON j = new JSON();
+		this.selectObjectCheck(r, list, object);
+		
+		return j.listConstruct(object.getClass().getSimpleName(), r, list);
+	}
+	
+	
+	/**
+	 * Method for advanced "busca" -> select rows in database
+	 * Advanced means that the WHERE SQL params are LIKE and not =
+	 * @param r
+	 * @param object
+	 * @return			String	JSON string to print on view
+	 */
+	public String selectObjectSearch(Return r, Model object){
+		List<Model> list =null;
+		
+		list = DAORelation.getInstance().search(object);
+		
+		
+		JSON j = new JSON();
+		this.selectObjectCheck(r, list, object);
+		
+		return j.listConstruct(object.getClass().getSimpleName(), r, list);
+	}
+	
+	
+	
+	public void selectObjectCheck(Return r, List<Model> list, Model object){
 		if(list.size() > 0){
 			object = (Model) list.get(0); 
 		}else{
 			r.addMsg("No data found with params: "+ StringUtils.searchString(object));	
 		}
-		
-		return j.listConstruct(object.getClass().getSimpleName(), r, list);
-		
 	}
-	
-	
 
 	
 	@Override

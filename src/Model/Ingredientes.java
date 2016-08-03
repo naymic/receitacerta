@@ -1,7 +1,7 @@
 package Model;
 
+import JsonClasses.JReturn;
 import Reflection.Entity;
-import Utils.Return;
 
 public class Ingredientes extends Model{
 
@@ -23,7 +23,7 @@ public class Ingredientes extends Model{
 	}
 
 	@Override
-	public Return verify(Return r) {
+	public JReturn verify(JReturn r) {
 		super.verify(r);
 		int compare = 0;
 		

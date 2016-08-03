@@ -301,13 +301,34 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param search 
 	 * @return
 	 */
-	public String prepareSelectSqlString(ArrayList<Method>  getMethods, ArrayList<Method> where, boolean search){
+	public String prepareSelectSqlString(ArrayList<Method>  getMethods, ArrayList<Method> where){
 		Model object = (Model)this.getObject();
 		String[] colums = this.getColums(getMethods);
 		String[] _where = this.getColums(where);
 		String __where = "";
 		if(where.size() > 0){
-			__where = "WHERE " + StringUtils.getPrepStmtColumns(_where, " AND", search);
+			__where = "WHERE " + StringUtils.getPrepStmtColumns(_where, " AND");
+		}
+		
+		return "SELECT "+ StringUtils.getCommaString(colums) +" FROM "+ object.getTableName() +" "+ __where;		
+	}
+	
+
+	
+	/**
+	 * Prepares a SQl String ready to execute in a SQL Statement
+	 * @param getMethods
+	 * @param where
+	 * @param search 
+	 * @return
+	 */
+	public String prepareSarchSqlString(ArrayList<Method>  getMethods, ArrayList<Method> where){
+		Model object = (Model)this.getObject();
+		String[] colums = this.getColums(getMethods);
+		String[] _where = this.getColums(where);
+		String __where = "";
+		if(where.size() > 0){
+			__where = "WHERE " + StringUtils.getPrepStmtColumnsSearch(_where);
 		}
 		
 		return "SELECT "+ StringUtils.getCommaString(colums) +" FROM "+ object.getTableName() +" "+ __where;		

@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import Converter.GenericConverter;
 import Model.Model;
 import Reflection.ReflectionDAO;
-import Utils.Return;
 import Utils.StringUtils;
 import DB.DB;
 import Interfaces.IDAO;
+import JsonClasses.JReturn;
 
 
 
@@ -80,13 +80,13 @@ public class DAO implements IDAO{
 	 * @param fields
 	 * @throws SQLException
 	 */
-	private PreparedStatement executeStatement(PreparedStatement stmt, Object[] objects, Integer index, boolean search) throws SQLException{
+	private PreparedStatement executeStatement(PreparedStatement stmt, Object[] objects, Integer index) throws SQLException{
 		Object obj;
 		
 		for(int i = 0 ; i<objects.length; i++){
 				obj = objects[i];
 			
-				stmt = this.setStmt(stmt, i+index+1, obj, search);
+				stmt = this.setStmt(stmt, i+index+1, obj, "");
 		}
 		return stmt;
 	}
@@ -98,10 +98,38 @@ public class DAO implements IDAO{
 	 * @return
 	 * @throws SQLException
 	 */
-	private PreparedStatement executeStatement(PreparedStatement stmt, Object[] objects, boolean search) throws SQLException{
-		return this.executeStatement(stmt, objects, new Integer(0), search);
+	private PreparedStatement executeStatement(PreparedStatement stmt, Object[] objects) throws SQLException{
+		return this.executeStatement(stmt, objects, new Integer(0));
 	}
 	
+	
+	/**
+	 * Executes the Search SQL Query securely
+	 * @param stmt
+	 * @param fields
+	 * @throws SQLException
+	 */
+	private PreparedStatement executeSearchStatement(PreparedStatement stmt, Object[] objects, Integer index) throws SQLException{
+		Object obj;
+		
+		for(int i = 0 ; i<objects.length; i++){
+				obj = objects[i];
+			
+				stmt = this.setStmt(stmt, i+index+1, obj, "%");
+		}
+		return stmt;
+	}
+	
+	/**
+	 * Executes the Search SQL Query securely beginning with a 0 for column index
+	 * @param stmt
+	 * @param objects
+	 * @return
+	 * @throws SQLException
+	 */
+	private PreparedStatement executeSearchStatement(PreparedStatement stmt, Object[] objects) throws SQLException{
+		return this.executeSearchStatement(stmt, objects, new Integer(0));
+	}
 	
 	
 	
@@ -111,7 +139,7 @@ public class DAO implements IDAO{
 	 * @param r2 
 	 * @return
 	 */
-	public Return insert(Model object, Return r){
+	public JReturn insert(Model object, JReturn r){
 		PreparedStatement stmt;
 		ReflectionDAO rd = new ReflectionDAO(object);
 		
@@ -122,7 +150,7 @@ public class DAO implements IDAO{
 		try {
 			
 			stmt = getDb().getCon().prepareStatement("INSERT INTO "+ object.getTableName() +" (" + colums +") VALUES ("+ preparedStmt +")");
-			stmt = this.executeStatement(stmt, rd.getValues(rd.getMethods()), false);
+			stmt = this.executeStatement(stmt, rd.getValues(rd.getMethods()));
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
@@ -140,7 +168,7 @@ public class DAO implements IDAO{
 	 * @param object
 	 * @return
 	 */
-	public Return delete(Model object, Return r){
+	public JReturn delete(Model object, JReturn r){
 		PreparedStatement stmt = null;
 		ReflectionDAO rd = new ReflectionDAO(object);
 		
@@ -148,8 +176,8 @@ public class DAO implements IDAO{
 		
 		
 		try {
-			stmt = getDb().getCon().prepareStatement("DELETE FROM "+ object.getTableName() +" WHERE "+ StringUtils.getPrepStmtColumns(colums, "AND", false));
-			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()), false);
+			stmt = getDb().getCon().prepareStatement("DELETE FROM "+ object.getTableName() +" WHERE "+ StringUtils.getPrepStmtColumns(colums, "AND"));
+			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()));
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
@@ -166,7 +194,7 @@ public class DAO implements IDAO{
 	 * @param r2 
 	 * @return
 	 */
-	public Return update(Model object, Return r){
+	public JReturn update(Model object, JReturn r){
 		PreparedStatement stmt = null;
 		ReflectionDAO rd = new ReflectionDAO(object);
 		
@@ -174,9 +202,9 @@ public class DAO implements IDAO{
 		String[] where = rd.getColums(rd.getGetPKs());
 		
 		try {
-			stmt = getDb().getCon().prepareStatement("UPDATE "+ object.getTableName() +" SET "+ StringUtils.getPrepStmtColumns(colums, ",", false) +" WHERE "+ StringUtils.getPrepStmtColumns(where, "AND", false));
-			stmt = this.executeStatement(stmt, rd.getValues(rd.getMethods()), false);
-			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()), rd.getMethods().size(), false);
+			stmt = getDb().getCon().prepareStatement("UPDATE "+ object.getTableName() +" SET "+ StringUtils.getPrepStmtColumns(colums, ",") +" WHERE "+ StringUtils.getPrepStmtColumns(where, "AND"));
+			stmt = this.executeStatement(stmt, rd.getValues(rd.getMethods()));
+			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()), rd.getMethods().size());
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
@@ -196,7 +224,7 @@ public class DAO implements IDAO{
 	 * else insert a new line in the database
 	 * @param r 
 	 */
-	public Return save(Model object, Return r) {
+	public JReturn save(Model object, JReturn r) {
 		if(this.existModel(object, r)){
 			return this.update(object, r);
 		}else{
@@ -210,7 +238,7 @@ public class DAO implements IDAO{
 	 * @param object
 	 * @return boolean [true = object exist in the database | false = object don't exist in the database]
 	 */
-	public boolean existModel(Model object, Return r){
+	public boolean existModel(Model object, JReturn r){
 		PreparedStatement stmt = null;
 		ReflectionDAO rd = new ReflectionDAO(object);
 		
@@ -221,8 +249,8 @@ public class DAO implements IDAO{
 			
 		
 		try {
-			stmt = getDb().getCon().prepareStatement("SELECT null FROM "+ object.getTableName() +" WHERE "+ StringUtils.getPrepStmtColumns(where, "AND", false));
-			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()), false);
+			stmt = getDb().getCon().prepareStatement("SELECT null FROM "+ object.getTableName() +" WHERE "+ StringUtils.getPrepStmtColumns(where, "AND"));
+			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()));
 			
 			ResultSet rs = stmt.executeQuery();			
 			
@@ -273,7 +301,7 @@ public class DAO implements IDAO{
 		}
 		
 		//Return all objects of the executed sql query
-		return this.getObjectsFromRS(rd, rd.prepareSelectSqlString(mget, where, false), mget, mset, where, false);
+		return this.getObjectsFromRS(rd, rd.prepareSelectSqlString(mget, where), mget, mset, where, false);
 	}
 
 
@@ -299,8 +327,12 @@ public class DAO implements IDAO{
 		
 		try {
 			stmt = getDb().getCon().prepareStatement(sql ); 
-			stmt = this.executeStatement(stmt, rd.getValues(where), search);
 			
+			if(search)
+				stmt = this.executeSearchStatement(stmt, rd.getValues(where));
+			else
+				stmt = this.executeStatement(stmt, rd.getValues(where));
+				
 			ResultSet rs = stmt.executeQuery();
 			int i = 1;
 			while(rs.next()){
@@ -336,7 +368,7 @@ public class DAO implements IDAO{
 	 * @return 			New stmt with one ? replaced
 	 * @throws SQLException
 	 */
-	private PreparedStatement setStmt(PreparedStatement stmt, int index, Object obj, boolean search) throws SQLException{
+	private PreparedStatement setStmt(PreparedStatement stmt, int index, Object obj, String stringAdd) throws SQLException{
 	
 		if(obj == null){
 			stmt.setNull(index, java.sql.Types.VARCHAR, null);
@@ -349,10 +381,7 @@ public class DAO implements IDAO{
 			}
 		}
 		
-		if(!search)
-			stmt.setObject(index, obj);
-		else
-			stmt.setObject(index, "%"+obj+"%");
+		stmt.setObject(index, stringAdd+obj+stringAdd);
 		
 		return stmt;
 	}

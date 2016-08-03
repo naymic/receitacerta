@@ -1,12 +1,13 @@
 package Model;
 
 import Interfaces.IApplicationSession;
+import Interfaces.IUser;
+import JsonClasses.JReturn;
 import Reflection.Entity;
 import Utils.CryptString;
 import Utils.StringUtils;
-import Utils.Return;
 
-public class Usuario extends Model {
+public class Usuario extends Model implements IUser{
 
 	Integer id;
 	String email;
@@ -15,6 +16,7 @@ public class Usuario extends Model {
 	String nome;
 	String sobrenome;
 	String caminhoFoto;
+	boolean loggedin;
 	
 	
 	@Override
@@ -23,7 +25,7 @@ public class Usuario extends Model {
 	}
 	
 	
-	public Return verify(Return r){
+	public JReturn verify(JReturn r){
 		r = super.verify(r);
 		
 		this.celular = StringUtils.justNumbers(this.celular);
@@ -122,6 +124,71 @@ public class Usuario extends Model {
 	public void dsetCaminhoFoto(String caminhoFoto) {
 		this.caminhoFoto = caminhoFoto;
 	}
+
+	
+	/* 
+	 * IUser Interface Methods
+	 * @see Interfaces.IUser#getId()
+	 */
+
+	@Override
+	public Integer getId() {
+		// TODO Auto-generated method stub
+		return this.dgetId();
+	}
+
+
+	@Override
+	public void setId(Integer id) {
+		this.dsetId(id);		
+	}
+
+
+	@Override
+	public boolean isLoggedin() {
+		return this.loggedin;
+	}
+
+
+	@Override
+	public void setLoggedin(boolean loggedin) {
+		this.loggedin=loggedin;
+	}
+
+
+	@Override
+	public String getUsername() {
+		return this.dgetNome();
+	}
+
+
+	@Override
+	public void setUsername(String username) {
+		this.dsetNome(username);
+	}
+
+
+	@Override
+	public String getImagepath() {
+		return this.dgetCaminhoFoto();
+	}
+
+
+	@Override
+	public void setImagepath(String imagepath) {
+		this.dsetCaminhoFoto(imagepath);
+	}
+
+
+	@Override
+	public void setSelf(IUser iu) {
+		this.setId(iu.getId());
+		this.setLoggedin(iu.isLoggedin());
+		this.setUsername(iu.getUsername());
+		this.setImagepath(iu.getImagepath());
+	}
+	
+
 	
 	
 

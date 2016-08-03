@@ -8,6 +8,7 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import GenericDao.DAORelation;
+import JsonClasses.JReturn;
 import Model.Model;
 import Reflection.ReflectionDAO;
 import Reflection.ReflectionDAORelation;
@@ -133,71 +134,14 @@ public class JSON {
 		json = jo.toJson(objectList);
 		
 		return json;
-	}
+	}	
 	
-	public String listConstruct(String className, Return r, List<Model> objectList){
-		String finalJson = "{\n\"busca\":{";
-
-		finalJson += this.constructReturnMessages(r)+",\n";
-
-		finalJson += "\n\"dados\":";
-		if(objectList.size() > 0){
-
-			finalJson += ""+this.listJSON(objectList)+"\n";
-
-		}else{
-			finalJson += "[]\n";
-		}
-
-		return finalJson+"}\n}";
-	}
-	
-	
-	public String returnConstruct(Return r){
-		//return "{\"retorno\":"+this.messageConstruct(r)+"}";
-		return this.messageConstruct(r);
-	}
-	
-	public String messageConstruct(Return r){
-		String json = this.constructReturnMessages(r);
-		return "{\n\t"+json+"\n}";
-	}
-	
-	private String constructObject(String messageName, Object list){
-		Gson jo = new Gson();
-		return "\""+ messageName +"\":"+jo.toJson(list);
-	}
-	
-	private String constructReturnMessages(Return r){
-		String json ="";
-		
+	public String returnConstruct(JReturn r){
 		Gson g = new Gson();
-		
-		
-		json += this.constructObject("erro", r.getSimpleErrors())+",\n";
-		json += this.constructObject("msg", r.getMessage())+",\n";
-		json += this.constructAttributeMessage("atb", r.getAttributeErrors())+",\n";
-		json += this.constructObject("redirect", r.getRedirect())+",\n";
-		json += this.constructObject("loggedin", r.getLoggedIn())+"\n";
-		//json += "\"redirect\":"+this.constructRedirect(r.getRedirect());
-		return json;
+		return g.toJson(r);
 	}
 	
 	
-	private String constructAttributeMessage(String messageName, HashMap<String, String> errorList){
-		String errors = "";
-		String splitKey = "-";
-		Iterator<String> it= errorList.keySet().iterator();
-		
-		while(it.hasNext()){
-			String key = it.next();
-			errors += ",{\"nomeClasse\":\""+key.split(splitKey)[0]+"\",\"nomeAttributo\":\""+key.split(splitKey)[1]+"\",\"msg\":\""+errorList.get(key)+"\"}";
-		}
-		
-		if(errors.length() > 1)
-			errors = errors.substring(1);
-		
-		return "\""+ messageName +"\":["+errors+"]";
-	}
+	
 	
 }

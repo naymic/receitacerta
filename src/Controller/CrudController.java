@@ -5,20 +5,22 @@ import java.util.Iterator;
 import java.util.List;
 
 import Converter.GenericConverter;
+import Enums.ReturnType;
 import GenericDao.DAO;
 import GenericDao.DAORelation;
+import JsonClasses.JData;
+import JsonClasses.JReturn;
 import Model.Model;
 import Reflection.ReflectionDAO;
 import Reflection.ReflectionDAORelation;
 import Utils.JSON;
-import Utils.Return;
 import Utils.StringUtils;
 
 public class CrudController extends GenericController{
 
 
 	@Override
-	public void execute(Return r, String action){
+	public void execute(JReturn r, String action){
 		super.execute(r, action);
 		
 		String json = "";
@@ -112,14 +114,14 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public String editObject( Return r, Model object){
+	public String editObject( JReturn r, Model object){
 		JSON j = new JSON();
 		
 		//Check if PK is set or not
 		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		if(rdr.getPK() == null){
 			r.addSimpleError("Primary key is not set. Object "+ object.getClass().getSimpleName() +" not found!");
-			return j.messageConstruct(r);
+			return j.returnConstruct(r);
 		}
 		
 		List<Model> list = DAORelation.getTestInstance().select(object);
@@ -127,7 +129,7 @@ public class CrudController extends GenericController{
 			object = list.get(0);
 		}else{
 			r.addSimpleError("Data for "+ object.getClass().getSimpleName() +" not found!");
-			return j.messageConstruct(r);
+			return j.returnConstruct(r);
 		}
 		ReflectionDAORelation rdr1 = new ReflectionDAORelation(object);
 		
@@ -140,7 +142,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public String saveObject(Return r, Model object){
+	public String saveObject(JReturn r, Model object){
 		
 		r = DAO.getInstance().save(object, r);
 		if(r.isSuccess()){
@@ -159,7 +161,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public String removeObject(Return r, Model object){
+	public String removeObject(JReturn r, Model object){
 		r = DAO.getInstance().delete(object, r);
 		if(r.isSuccess()){
 			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully removed");
@@ -168,7 +170,7 @@ public class CrudController extends GenericController{
 		}
 		
 		JSON j = new JSON();
-		return j.messageConstruct(r);
+		return j.returnConstruct(r);
 	}
 	
 	/**
@@ -177,15 +179,17 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public String selectObject(Return r, Model object){
+	public String selectObject(JReturn r, Model object){
 		List<Model> list =null;
 		
 		list = DAORelation.getInstance().select(object);
 		
 		JSON j = new JSON();
 		this.selectObjectCheck(r, list, object);
+		r.setReturnType(ReturnType.SEARCH);
 		
-		return j.listConstruct(object.getClass().getSimpleName(), r, list);
+		r.getData().setData((ArrayList<Model>)list);
+		return j.returnConstruct(r);
 	}
 	
 	
@@ -196,7 +200,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public String selectObjectSearch(Return r, Model object){
+	public String selectObjectSearch(JReturn r, Model object){
 		List<Model> list =null;
 		
 		list = DAORelation.getInstance().search(object);
@@ -205,12 +209,15 @@ public class CrudController extends GenericController{
 		JSON j = new JSON();
 		this.selectObjectCheck(r, list, object);
 		
-		return j.listConstruct(object.getClass().getSimpleName(), r, list);
+		JData jd =  new JData();
+		jd.setData((ArrayList<Model>)list);
+		r.setData(jd);
+		return j.returnConstruct(r);
 	}
 	
 	
 	
-	public void selectObjectCheck(Return r, List<Model> list, Model object){
+	public void selectObjectCheck(JReturn r, List<Model> list, Model object){
 		if(list.size() > 0){
 			object = (Model) list.get(0); 
 		}else{

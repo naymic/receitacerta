@@ -13,11 +13,12 @@ import Controller.LoginController;
 import GenericDao.DAO;
 import Interfaces.IApplicationSession;
 import Interfaces.IController;
+import JsonClasses.JRedirect;
+import JsonClasses.JReturn;
 import Model.Usuario;
 import Reflection.GenericReflection;
 import Utils.Config;
 import Utils.JSON;
-import Utils.Return;
 
 /**
  * Servlet implementation class ViewController
@@ -89,7 +90,7 @@ public class ViewController extends HttpServlet {
 	}
 	
 	public String process(HttpServletRequest requ, HttpServletResponse resp, HttpSession session, String content){
-		Return r = new Return();
+		JReturn r = new JReturn();
 		JSON j = new JSON();
 		String usecase = new String("");
 		String action = new String("");
@@ -132,7 +133,7 @@ public class ViewController extends HttpServlet {
 			
 			//Execution when no controller is found
 		}else{
-			jString = j.messageConstruct(r);
+			jString = j.returnConstruct(r);
 		}
 		
 		
@@ -164,7 +165,7 @@ public class ViewController extends HttpServlet {
 	 * @param usecase	String		Name of the use case
 	 * @return 			IController child of a IController
 	 */
-	public IController getController(Return r, String usecase, IApplicationSession ics){
+	public IController getController(JReturn r, String usecase, IApplicationSession ics){
 		String className = "Controller."+usecase+"Controller";
 
 		try{
@@ -186,10 +187,10 @@ public class ViewController extends HttpServlet {
 	 * @param ics		ViewSessionController	Class with Global Session inside
 	 * @param usecase	String					Use case to execute
 	 */
-	public void checkUserLogin(IController ic, Return r, ViewSessionController ics, String usecase, String action, String classname){
+	public void checkUserLogin(IController ic, JReturn r, ViewSessionController ics, String usecase, String action, String classname){
 		
-		//Add User status to Return		
-		r.setLoggedIn(ic.getUserSessionLoggedin());		
+		//Add User status to Return				
+		r.getUser().setLoggedin(ic.getUserSessionLoggedin());
 		
 		//Check if use case needs authentication
 		if(r.isSuccess() && ic.needAuthentication()){
@@ -197,13 +198,15 @@ public class ViewController extends HttpServlet {
 
 			//Check if user is already logged in
 			if(!lc.getUserSessionLoggedin()){
-				r.setRedirect("Login", "login", "login");// Set redirect for the view framework
+				JRedirect redrct = new JRedirect();
+				redrct.setRedirection("Login", "login", "login");
+				
 				r.setSuccess(false);
 				lc.getAppSession().setMapAttribute("redirectUseCase", usecase);
 				lc.getAppSession().setMapAttribute("redirectAction", action);
 				lc.getAppSession().setMapAttribute("redirectClassname", classname);
 			}else{
-				r.setLoggedIn(true);
+				r.getUser().setLoggedin(true);
 				r.setSuccess(true);
 			}
 		}		

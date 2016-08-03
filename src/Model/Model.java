@@ -3,16 +3,19 @@ package Model;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import JsonClasses.JReturn;
 import Reflection.ReflectionDAO;
-import Utils.Return;
+import Enums.ObjectState;
 
 public abstract class Model {
+	
+	ObjectState objState;
 	
 	public abstract String getTableName();
 	
 	//public abstract Return verify(Return r, boolean checkSuper);
 	
-	public Return verify(Return r){
+	public JReturn verify(JReturn r){
 		ReflectionDAO rd = new ReflectionDAO(this);
 		
 		ArrayList<Method> getMethods = rd.getGetMethods();
@@ -25,6 +28,22 @@ public abstract class Model {
 		}
 		return r;
 		
+	}
+
+	/**
+	 * Get the storage state of this object
+	 * @return
+	 */
+	public ObjectState getObjState() {
+		return objState;
+	}
+
+	/**
+	 * Set the storage state of this object
+	 * @param objState
+	 */
+	public void setObjState(ObjectState objState) {
+		this.objState = objState;
 	}
 	
 	

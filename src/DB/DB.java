@@ -55,6 +55,7 @@ public class DB {
 			String port;
 			String driver;
 			String getdb;
+			
 			if(!testDatabase){
 				host = Config.getInstance().DBHost();
 				port = Config.getInstance().DBPort();
@@ -70,6 +71,7 @@ public class DB {
 				host = Config.getInstance().DBHost();
 				port = Config.getInstance().DBPort();
 				driver = Config.getInstance().DBDriver();
+				getdb = Config.getInstance().getDB();
 				System.out.println("Try connect to test database");
 				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/testDB?characterEncoding=utf8", "receita_certa", "nosestamosonline75113");
 			}

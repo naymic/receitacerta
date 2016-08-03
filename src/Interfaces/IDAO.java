@@ -2,18 +2,19 @@ package Interfaces;
 
 import java.util.ArrayList;
 
+import JsonClasses.JReturn;
 import Model.Model;
-import Utils.Return;
+
 
 public interface IDAO {
 	
-	public Return insert(Model object, Return r);
+	public JReturn insert(Model object, JReturn r);
 	
-	public Return update(Model object, Return r);
+	public JReturn update(Model object, JReturn r);
 	
-	public Return save(Model object, Return r);
+	public JReturn save(Model object, JReturn r);
 	
-	public Return delete(Model object, Return r);
+	public JReturn delete(Model object, JReturn r);
 	
 	public ArrayList<Model> select(Model object); 
 	

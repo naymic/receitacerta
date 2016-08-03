@@ -5,10 +5,11 @@ import java.util.List;
 
 import GenericDao.DAO;
 import Interfaces.IApplicationSession;
+import JsonClasses.JRedirect;
+import JsonClasses.JReturn;
 import Model.Model;
 import Model.Usuario;
 import Utils.JSON;
-import Utils.Return;
 
 public class LoginController extends GenericController{
 	
@@ -38,13 +39,13 @@ public class LoginController extends GenericController{
 	
 	
 	@Override
-	public void execute(Return r, String action) {
+	public void execute(JReturn r, String action) {
 		super.execute(r, action);
 		r = this.validateAction(action);
 		JSON j = new JSON();
 		
 		//Iniciate user from view
-		Usuario loginUser = (Usuario)super.initObj(r, false);
+		Usuario loginUser = (Usuario)super.initObj(r);
 				
 		if(r.isSuccess()){
 			
@@ -55,12 +56,12 @@ public class LoginController extends GenericController{
 			}
 		}
 		
-		this.setUniqueJson(j.messageConstruct(r));
+		this.setUniqueJson(j.returnConstruct(r));
 		
 	}
 	
 	
-	public void login(Usuario loginUser, Return r){
+	public void login(Usuario loginUser, JReturn r){
 		boolean test = false;
 		Usuario u = null;
 		//Get a list of all users
@@ -80,9 +81,12 @@ public class LoginController extends GenericController{
 		if(test){		
 			this.setUserSessionLoggedin(true);
 			this.setUserSession(u);
-			r.setLoggedIn(true);
+			r.getUser().setLoggedin(true);
 			r.addMsg("User sucessfully indentified!");
-			r.setRedirect((String)this.getAppSession().getMapAttribute("redirectUseCase"), (String)this.getAppSession().getMapAttribute("redirectAction") ,(String)this.getAppSession().getMapAttribute("redirectClassname")); //Sets the redirection previos saved
+			
+			JRedirect redirect = new JRedirect();
+			redirect.setRedirection((String)this.getAppSession().getMapAttribute("redirectUseCase"), (String)this.getAppSession().getMapAttribute("redirectAction") ,(String)this.getAppSession().getMapAttribute("redirectClassname")); //Sets the redirection previos saved
+			r.setRedirect(redirect);
 		}else{
 			this.setUserSessionLoggedin(false);
 			this.setUserSession(null);
@@ -90,10 +94,12 @@ public class LoginController extends GenericController{
 		}
 	}
 	
-	public void logout(Return r){
+	public void logout(JReturn r){
 		this.setUserSessionLoggedin(false);
 		this.setUserSession(null);
-		r.setRedirect("Login", "login", "login");
+		JRedirect redirect = new JRedirect();
+		redirect.setRedirection("Login", "login", "login");
+		r.setRedirect(redirect);
 	}
 	
 	

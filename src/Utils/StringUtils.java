@@ -41,13 +41,29 @@ public class StringUtils {
 	 * @param search 
 	 * @return
 	 */
-	public static String getPrepStmtColumns(String[] stringVect, String separator, boolean search){
+	public static String getPrepStmtColumns(String[] stringVect, String separator){
 		String string = "";
 		
 		for(String s : stringVect){
-			if(!search)
 				string += separator+" "+ s + "=?";
-			else
+		}
+		
+		return string.substring(separator.length());
+		
+	}
+	
+	/**
+	 * Separate a string vector by a needle and add =? (Used for SQL Prepared Statements)
+	 * @param stringVect
+	 * @param separator
+	 * @param search 
+	 * @return
+	 */
+	public static String getPrepStmtColumnsSearch(String[] stringVect){
+		String string = "";
+		String separator ="AND";
+		
+		for(String s : stringVect){
 				string += separator+" "+ s + " LIKE ?";
 		}
 		

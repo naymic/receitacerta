@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import Utils.Return;
+import JsonClasses.JReturn;
 
 public interface IController {
 	/**
@@ -32,7 +32,7 @@ public interface IController {
 	 * @param action string que indica uma a��o conhecida pelo controlador.
 	 * @return Object Return que indica o status da execu��o. contem uma mensagem
 	 */
-	void execute(Return r, String action);
+	void execute(JReturn r, String action);
 	
 	/** retorna a lista de a��es reconhecidas pelo controlador
 	 * @return
@@ -43,7 +43,7 @@ public interface IController {
 	 * @param action
 	 * @return retorn um Objeto Return informado a situa��o da valida��o.
 	 */
-	public Return validateAction(String action);
+	public JReturn validateAction(String action);
 	
 	/**
 	 * @return true se o caso de uso necessita de autentica��o.

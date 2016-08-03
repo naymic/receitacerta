@@ -1,7 +1,7 @@
 package Model;
 
+import JsonClasses.JReturn;
 import Reflection.Entity;
-import Utils.Return;
 
 public class TestIngredientes extends Model{
 
@@ -21,7 +21,7 @@ public class TestIngredientes extends Model{
 	}
 
 	@Override
-	public Return verify(Return r) {
+	public JReturn verify(JReturn r) {
 		super.verify(r);
 		int compare = Double.compare(this.dgetCalorias(), new Double(0.0));
 		

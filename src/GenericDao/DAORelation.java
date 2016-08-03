@@ -25,44 +25,19 @@ public class DAORelation extends DAO{
 		return dr;
 	}
 	
-	private DAORelation(boolean istestDB){
+	protected DAORelation(boolean istestDB){
 		super(istestDB);	
 	};
 	
 	
 	/**
-	 * Select rows in a table 
+	 * Select rows in a table ( = <parameter>)
 	 * if all attributes are null all rows are selected
 	 * if one or more attributes are set rows are selected by them
 	 * @param	object 		Model				Object to set table and filter 
 	 * @return  returnList	ArrayList<Model> 	List of Model objects 
 	 */
 	public ArrayList<Model> select(Model object){
-		return select(object, false);
-	}
-	
-	
-	
-	/**
-	 * Select rows in a table 
-	 * if all attributes are null all rows are selected
-	 * if one or more attributes are set rows are selected by them
-	 * @param	object 		Model				Object to set table and filter 
-	 * @return  returnList	ArrayList<Model> 	List of Model objects 
-	 */
-	public ArrayList<Model> search(Model object){
-		return select(object, true);
-	}
-	
-	
-	
-	/**
-	 * 
-	 * @param rdr
-	 * @param fk_attributeName
-	 * @return
-	 */
-	public ArrayList<Model> select(Model object, boolean search){
 		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		
 
@@ -71,6 +46,48 @@ public class DAORelation extends DAO{
 		ArrayList<Method> where = new ArrayList<>();
 		
 		
+		prepareSelect(rdr, mget, mset, where);
+		
+		//Return all objects of the executed sql query
+
+			return this.getObjectsFromRS(rdr, rdr.prepareSelectSqlString(mget, where), mget, mset, where, false);
+	}
+	
+	
+	
+	/**
+	 * Search rows in a table (LIKE %<parameter>%)
+	 * if all attributes are null all rows are selected
+	 * if one or more attributes are set rows are selected by them
+	 * @param	object 		Model				Object to set table and filter 
+	 * @return  returnList	ArrayList<Model> 	List of Model objects 
+	 */
+	public ArrayList<Model> search(Model object){
+ReflectionDAORelation rdr = new ReflectionDAORelation(object);
+		
+
+		ArrayList<Method> mget = new ArrayList<>();
+		ArrayList<Method> mset = rdr.getSetMethods();
+		ArrayList<Method> where = new ArrayList<>();
+		
+		
+		prepareSelect(rdr, mget, mset, where);
+		
+		//Return all objects of the executed sql query
+
+		return this.getObjectsFromRS(rdr, rdr.prepareSelectSqlString(mget, where), mget, mset, where, true);
+	}
+	
+	
+	
+	/**
+	 * Prepare methods in variables for select and search Methods
+	 * @param rdr
+	 * @param fk_attributeName
+	 * @return void
+	 */
+	protected void prepareSelect(ReflectionDAORelation rdr, ArrayList<Method> mget, ArrayList<Method> mset,
+			ArrayList<Method> where) {
 		//Retrieves a list for the get Methods in the same order than the set Methods are
 		for(Method m : mset){
 			mget.add(rdr.getGetMethod(m));
@@ -84,9 +101,6 @@ public class DAORelation extends DAO{
 				where.add(m);
 			}
 		}
-		
-		//Return all objects of the executed sql query
-		return this.getObjectsFromRS(rdr, rdr.prepareSelectSqlString(mget, where, search), mget, mset, where, search);
 	}
 	
 	

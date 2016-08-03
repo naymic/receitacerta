@@ -9,11 +9,12 @@ import Converter.GenericConverter;
 import GenericDao.DAO;
 import Interfaces.IApplicationSession;
 import Interfaces.IController;
+import JsonClasses.JReturn;
 import Model.Model;
 import Model.Usuario;
 import Reflection.ReflectionDAO;
 import Reflection.ReflectionDAORelation;
-import Utils.Return;
+
 
 public class GenericController implements IController{
 
@@ -64,8 +65,8 @@ public class GenericController implements IController{
 
 	
 	@Override
-	public Return validateAction(String action) {
-		Return r = new Return();
+	public JReturn validateAction(String action) {
+		JReturn r = new JReturn();
 		for(String s : getValidActionsList()){
 			if(s.equalsIgnoreCase(action)){
 				return r;
@@ -80,7 +81,7 @@ public class GenericController implements IController{
 
 
 	@Override
-	public void execute(Return r, String action) {
+	public void execute(JReturn r, String action) {
 		//Checks if the given action is a valid action
 		r = this.validateAction(action);
 		
@@ -137,7 +138,7 @@ public class GenericController implements IController{
 	 * @param boolean 	search 	Used to know if needs to check empty  
 	 * @return
 	 */
-	public Model initObj(Return r){
+	public Model initObj(JReturn r){
 
 		
 		//Check if className is set

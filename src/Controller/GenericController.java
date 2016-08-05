@@ -20,30 +20,19 @@ public class GenericController implements IController{
 
 	ArrayList<String> validActions;
 	HashMap<String, Object> variables;
-	HashMap<String, String> jsonMapper; 
+	String jsonString; 
 	IApplicationSession appSession;
 
 	public GenericController(IApplicationSession appSession){
 		validActions = new ArrayList<>();
 		variables = new HashMap<>();
-		jsonMapper= new HashMap<>();
 		this.setAppSession(appSession);
 	}
 	
 	public GenericController(){
 		validActions = new ArrayList<>();
 		variables = new HashMap<>();
-		jsonMapper= new HashMap<>();
 		
-	}
-	
-	/**
-	 * Gets a map of all attributes of a object and its strings
-	 * THIS METHOD IS NOT USER AT THE MOMENT
-	 * @return
-	 */
-	public HashMap<String, String> getJsonMapper() {
-		return jsonMapper;
 	}
 	
 	/**
@@ -55,12 +44,12 @@ public class GenericController implements IController{
 		return variables;
 	}
 	
-	public void setUniqueJson(String json){
-		this.jsonMapper.put("json", json);
+	public void setJson(String json){
+		this.jsonString=json;
 	}
 	
-	public String getUniqueJson(){
-		return this.jsonMapper.get("json");
+	public String getJson(){
+		return this.jsonString;
 	}
 
 	

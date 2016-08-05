@@ -1,4 +1,4 @@
-package Reflection;
+package Annotations;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,7 +15,7 @@ public @interface Entity {
 
 	boolean pk() default false;
 	boolean fk() default false;
-	String fk_tablename() default "";
+	String fk_modelname() default "";
 	boolean required() default true;
 	String attributeName();
 }

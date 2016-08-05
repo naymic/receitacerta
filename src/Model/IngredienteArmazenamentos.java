@@ -1,6 +1,6 @@
 package Model;
 
-import Reflection.Entity;
+import Annotations.Entity;
 
 public class IngredienteArmazenamentos extends Model{
 

@@ -1,7 +1,7 @@
 package Model;
 
+import Annotations.Entity;
 import JsonClasses.JReturn;
-import Reflection.Entity;
 
 public class TestIngredientes extends Model{
 
@@ -59,7 +59,7 @@ public class TestIngredientes extends Model{
 	}
 	
 	
-	@Entity(attributeName = "ingredientes_unidades_id", fk=true, fk_tablename="ingrediente_unidades")
+	@Entity(attributeName = "ingredientes_unidades_id", fk=true)
 	public IngredienteUnidades dgetIngredientesUnidade() {
 		return ingredientesUnidade;
 	}
@@ -68,7 +68,7 @@ public class TestIngredientes extends Model{
 		this.ingredientesUnidade = ingredientesUnidade;
 	}
 
-	@Entity(attributeName = "ingredientes_tipo_id", fk=true, fk_tablename="ingrediente_tipo")
+	@Entity(attributeName = "ingredientes_tipo_id", fk=true)
 	public IngredienteTipo dgetIngredientesTipo() {
 		return ingredientesTipoId;
 	}
@@ -77,7 +77,7 @@ public class TestIngredientes extends Model{
 		this.ingredientesTipoId = ingredientesTipoId;
 	}
 
-	@Entity(attributeName = "ingrediente_armazenamentos_id", fk=true, fk_tablename="ingrediente_armazenamentos")
+	@Entity(attributeName = "ingrediente_armazenamentos_id", fk=true)
 	public IngredienteArmazenamentos dgetIngredienteArmazenamentos() {
 		return ingredienteArmazenamentosId;
 	}

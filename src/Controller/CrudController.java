@@ -58,7 +58,7 @@ public class CrudController extends GenericController{
 			}
 
 
-			this.setUniqueJson(json);		
+			this.setJson(json);		
 	}
 	
 

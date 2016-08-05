@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+import Annotations.Entity;
 import Model.Model;
 import Utils.StringUtils;
 

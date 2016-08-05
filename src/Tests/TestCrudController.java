@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import Controller.CrudController;
+import JsonClasses.JReturn;
 import Model.Model;
 import Model.TestIngredientes;
-import Utils.Return;
 
 public class TestCrudController {
 
@@ -34,7 +34,7 @@ public class TestCrudController {
 	@Test
 	public void testInitObject() {
 		CrudController cc = this.getCRUDController();
-		Return r = new Return();
+		JReturn r = new JReturn();
 		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 		
 		
@@ -50,7 +50,7 @@ public class TestCrudController {
 	@Test
 	public void testSaveObject() {
 		CrudController cc = this.getCRUDController();
-		Return r = new Return();
+		JReturn r = new JReturn();
 		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 		obj.dsetCalorias(300.0);
 		
@@ -70,7 +70,7 @@ public class TestCrudController {
 	@Test
 	public void testRemoveObject() {
 		CrudController cc = this.getCRUDController();
-		Return r = new Return();
+		JReturn r = new JReturn();
 		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 
 		String json = cc.removeObject(r, obj);
@@ -82,7 +82,7 @@ public class TestCrudController {
 	@Test
 	public void testNewOject() {
 		CrudController cc = this.getCRUDController();
-		Return r = new Return();
+		JReturn r = new JReturn();
 		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 		
 		String json = cc.newObject(obj);
@@ -94,7 +94,7 @@ public class TestCrudController {
 	@Test
 	public void testEditOject() {
 		CrudController cc = this.getCRUDControllerEdit();
-		Return r = new Return();
+		JReturn r = new JReturn();
 		Model obj = cc.initObj(r);
 		
 		String json = cc.editObject(r, obj);
@@ -106,7 +106,7 @@ public class TestCrudController {
 		TestIngredientes i = (TestIngredientes)obj;
 		i.dsetId(null);
 		
-		Return r1 = new Return();
+		JReturn r1 = new JReturn();
 		String json1 = cc.editObject(r1, i);
 		assertTrue(!r1.isSuccess());
 		assertTrue(json1.contains("Primary key is not set."));

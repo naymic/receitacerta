@@ -1,9 +1,9 @@
 package Model;
 
+import Annotations.Entity;
 import Interfaces.IApplicationSession;
 import Interfaces.IUser;
 import JsonClasses.JReturn;
-import Reflection.Entity;
 import Utils.CryptString;
 import Utils.StringUtils;
 

@@ -124,12 +124,12 @@ public class ViewController extends HttpServlet {
 		if(r.isSuccess()){
 			//Get all variables from the view and save it to the controller
 			this.initVariables(requ, ic);
-			System.out.println(ic.getJsonMapper().size());
+			System.out.println(ic.getJson().length());
 			
 			//Execute the required action, the Return object is already transfered to the jsonMapper in the controller and is not user anymore
 			ic.execute(r ,action);
 			
-			jString = ic.getUniqueJson();
+			jString = ic.getJson();
 			
 			//Execution when no controller is found
 		}else{

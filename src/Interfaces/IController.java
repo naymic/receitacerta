@@ -11,20 +11,13 @@ public interface IController {
 	 * Gets a hashmap to save parts of json to return it to the view
 	 * @return JSON Hashmap
 	 */
-	public HashMap<String, String> getJsonMapper();
+	public String getJson();
 	
 	/**
 	 * Set a simple string for json r
 	 * @param JSON String
 	 */
-	public void setUniqueJson(String json);
-
-	/**
-	 * Get a simple json string
-	 * @return JSON String 
-	 */
-	public String getUniqueJson();
-
+	public void setJson(String json);
 	
 	
 	/** Esse metodo deve ser chamado apos o comando setVariables, para executar uma a��o. 

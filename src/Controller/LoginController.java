@@ -56,7 +56,7 @@ public class LoginController extends GenericController{
 			}
 		}
 		
-		this.setUniqueJson(j.returnConstruct(r));
+		this.setJson(j.returnConstruct(r));
 		
 	}
 	

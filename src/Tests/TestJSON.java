@@ -11,11 +11,11 @@ import com.google.gson.Gson;
 
 import Controller.CrudController;
 import GenericDao.DAORelation;
+import JsonClasses.JReturn;
 import Model.Model;
 import Model.TestIngredientes;
 import Reflection.ReflectionDAORelation;
 import Utils.JSON;
-import Utils.Return;
 
 public class TestJSON {
 
@@ -60,7 +60,7 @@ public class TestJSON {
 		List<Model> list = DAORelation.getTestInstance().select(i);
 		if(list.size() > 0){
 			i = (TestIngredientes) list.get(0);
-			Return r = new Return();
+			JReturn r = new JReturn();
 			r.addAttributeError("TestIngredientes", "nome", "teste de mensagem");
 			r.addMsg("Teste de mensagem");
 			
@@ -81,7 +81,7 @@ public class TestJSON {
 
 		
 
-		Return r = new Return();
+		JReturn r = new JReturn();
 		i.verify(r);
 		if(r.isSuccess())
 			cc.saveObject(r, i);

@@ -1,7 +1,7 @@
 package Model;
 
+import Annotations.Entity;
 import JsonClasses.JReturn;
-import Reflection.Entity;
 
 public class Ingredientes extends Model{
 
@@ -11,9 +11,9 @@ public class Ingredientes extends Model{
 	private IngredienteUnidades ingredientesUnidade;
 	private IngredienteTipo ingredientesTipoId;
 	private IngredienteArmazenamentos ingredienteArmazenamentosId;
-	private Integer importancia;
+	/*private Integer importancia;
 	private Integer gluten;
-	private String anotacoes;
+	private String anotacoes;*/
 	
 	
 	@Override
@@ -64,7 +64,7 @@ public class Ingredientes extends Model{
 	}
 	
 	
-	@Entity(attributeName = "ingredientes_unidades_id", fk=true, fk_tablename="ingrediente_unidades")
+	@Entity(attributeName = "ingredientes_unidades_id", fk=true)
 	public IngredienteUnidades dgetIngredientesUnidade() {
 		return ingredientesUnidade;
 	}
@@ -73,7 +73,7 @@ public class Ingredientes extends Model{
 		this.ingredientesUnidade = ingredientesUnidade;
 	}
 
-	@Entity(attributeName = "ingredientes_tipo_id", fk=true, fk_tablename="ingrediente_tipo")
+	@Entity(attributeName = "ingredientes_tipo_id", fk=true)
 	public IngredienteTipo dgetIngredientesTipo() {
 		return ingredientesTipoId;
 	}
@@ -82,7 +82,7 @@ public class Ingredientes extends Model{
 		this.ingredientesTipoId = ingredientesTipoId;
 	}
 
-	@Entity(attributeName = "ingrediente_armazenamentos_id", fk=true, fk_tablename="ingrediente_armazenamentos")
+	@Entity(attributeName = "ingrediente_armazenamentos_id", fk=true)
 	public IngredienteArmazenamentos dgetIngredienteArmazenamentos() {
 		return ingredienteArmazenamentosId;
 	}
@@ -92,7 +92,7 @@ public class Ingredientes extends Model{
 		this.ingredienteArmazenamentosId = ingredienteArmazenamentosId;
 	}
 
-	@Entity(attributeName= "importancia")
+	/*@Entity(attributeName= "importancia")
 	public Integer dgetImportancia() {
 		return importancia;
 	}
@@ -120,7 +120,7 @@ public class Ingredientes extends Model{
 	
 	public void dsetAnotacoes(String anotacoes) {
 		this.anotacoes = anotacoes;
-	}
+	}*/
 
 
 	

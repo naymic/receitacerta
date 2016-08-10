@@ -73,7 +73,7 @@ public class DB {
 				driver = Config.getInstance().DBDriver();
 				db = Config.getInstance().getDB();
 				System.out.println("Try connect to test database");
-				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/testDB?characterEncoding=utf8", "receita_certa", "nosestamosonline75113");
+				con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB?characterEncoding=utf8", "receita_certa", "nosestamosonline75113");
 			}
 			
 			setCon(con);

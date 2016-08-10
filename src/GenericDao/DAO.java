@@ -350,7 +350,7 @@ public class DAO implements IDAO{
 			
 			rs.close();
 			stmt.close();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			
 			e.printStackTrace();
 		}

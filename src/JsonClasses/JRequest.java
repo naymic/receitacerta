@@ -6,7 +6,8 @@ public class JRequest {
 	
 	String usercase;
 	String action;
-	ArrayList<JObject> objects;
+	String classname;
+	ArrayList<Object> objects;
 	
 	
 }

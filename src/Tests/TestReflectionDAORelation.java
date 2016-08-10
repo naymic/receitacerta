@@ -8,13 +8,14 @@ import org.junit.Test;
 
 import GenericDao.DAO;
 import GenericDao.DAORelation;
+import JsonClasses.JReturn;
 import Model.IngredienteArmazenamentos;
 import Model.IngredienteTipo;
 import Model.IngredienteUnidades;
 import Model.TestIngredientes;
 import Model.Model;
 import Reflection.ReflectionDAORelation;
-import Utils.Return;
+
 
 
 
@@ -118,14 +119,14 @@ public class TestReflectionDAORelation {
 		ia.dsetId(new Integer(1));
 		i.dsetIngredienteArmazenamentos(ia);
 		
-		Return r = new Return();
+		JReturn r = new JReturn();
 		assertTrue(DAORelation.getTestInstance().save(i, r).isSuccess());
 		
-		r = new Return();
+		r = new JReturn();
 		i.dsetId(3);
 		DAORelation.getTestInstance().delete(i, r);
 		
-		r = new Return();
+		r = new JReturn();
 		i.dsetId(2);
 		i.dsetCalorias(i.dgetCalorias()+1);
 		assertTrue(DAORelation.getTestInstance().save(i, r).isSuccess());
@@ -150,17 +151,17 @@ public class TestReflectionDAORelation {
 		ia.dsetId(new Integer(1));
 		i.dsetIngredienteArmazenamentos(ia);
 		
-		Return r = new Return();
+		JReturn r = new JReturn();
 		DAORelation.getTestInstance().save(i, r);
 		
-		r = new Return();
+		r = new JReturn();
 		assertTrue(DAO.getTestInstance().existModel(i, r));
 		
-		r = new Return();
+		r = new JReturn();
 		i.dsetId(3);
 		assertTrue(DAORelation.getTestInstance().delete(i, r).isSuccess());
 		
-		r = new Return();
+		r = new JReturn();
 		assertFalse(DAO.getTestInstance().existModel(i, r));
 	}
 

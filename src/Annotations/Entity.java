@@ -18,4 +18,5 @@ public @interface Entity {
 	String fk_modelname() default "";
 	boolean required() default true;
 	String attributeName();
+	boolean isMapped() default false;
 }

@@ -54,16 +54,16 @@ public class DB {
 			String host;
 			String port;
 			String driver;
-			String getdb;
+			String db;
 			
 			if(!testDatabase){
 				host = Config.getInstance().DBHost();
 				port = Config.getInstance().DBPort();
 				driver = Config.getInstance().DBDriver();
-				getdb = Config.getInstance().getDB();
+				db = Config.getInstance().getDB();
 				//con = DriverManager.getConnection("jdbc:mysql://naymic.dlinkddns.com:3306/receita_prog2?characterEncoding=UTF-8", "receita_certa", "nosestamosonline75113");
 				
-				con = DriverManager.getConnection("jdbc:mysql://localhost:3306/receita_prog2?characterEncoding=UTF-8", "receita_certa", "nosestamosonline75113");
+				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/"+db+"?characterEncoding=utf8", "receita_certa", "nosestamosonline75113");
 				
 				System.out.println("DB conection etablished");
 			}else{
@@ -71,7 +71,7 @@ public class DB {
 				host = Config.getInstance().DBHost();
 				port = Config.getInstance().DBPort();
 				driver = Config.getInstance().DBDriver();
-				getdb = Config.getInstance().getDB();
+				db = Config.getInstance().getDB();
 				System.out.println("Try connect to test database");
 				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/testDB?characterEncoding=utf8", "receita_certa", "nosestamosonline75113");
 			}

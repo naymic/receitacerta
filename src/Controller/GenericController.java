@@ -24,15 +24,21 @@ public class GenericController implements IController{
 	IApplicationSession appSession;
 
 	public GenericController(IApplicationSession appSession){
-		validActions = new ArrayList<>();
-		variables = new HashMap<>();
+		this.initVariables();
 		this.setAppSession(appSession);
 	}
 	
 	public GenericController(){
+		this.initVariables();
+		
+	}
+	
+	/**
+	 * Iniciate class variables
+	 */
+	private void initVariables(){
 		validActions = new ArrayList<>();
 		variables = new HashMap<>();
-		
 	}
 	
 	/**

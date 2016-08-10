@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import Converter.GenericConverter;
 import Model.Model;
@@ -373,12 +374,15 @@ public class DAO implements IDAO{
 		if(obj == null){
 			stmt.setNull(index, java.sql.Types.VARCHAR, null);
 			return stmt;
-		}else if(obj.getClass().getName().contains("Model.")){
+		}else if(obj instanceof Model){
 			try{
 				obj = GenericConverter.convert(Integer.class, obj);
 			}catch(Exception e){
 				System.out.println("Error in DAO setStmt: "+ e.getMessage());
 			}
+		}else if(obj instanceof ArrayList){
+			stmt.setNull(index, java.sql.Types.VARCHAR, null);
+			return stmt;
 		}
 		
 		stmt.setObject(index, stringAdd+obj+stringAdd);

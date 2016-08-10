@@ -1,8 +1,10 @@
 package Reflection;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 
 import Annotations.Entity;
 import Model.Model;
@@ -46,21 +48,28 @@ public class ReflectionDAO extends GenericReflection{
 	 * 
 	 */
 	protected void initGetMethods(){
-		getMethods = this.getMethodsByName("dget", false, false);
-		getMethodsPK = this.getMethodsByName("dget", true, false);
-		getMethodsFK = this.getMethodsByName("dget", false, true);
+		getMethods = this.getObjectMethods("dget", false, false);
+		getMethodsPK = this.getObjectMethods("dget", true, false);
+		getMethodsFK = this.getObjectMethods("dget", false, true);
 	}
 	
 	protected void initSetMethods(){
-		setMethods = this.getMethodsByName("dset", false, false);
-		setMethodsPK = this.getMethodsByName("dset", true, false);;
-		setMethodsFK = this.getMethodsByName("dset", false, true);
+		setMethods = this.getObjectMethods("dset", false, false);
+		setMethodsPK = this.getObjectMethods("dset", true, false);;
+		setMethodsFK = this.getObjectMethods("dset", false, true);
 	}
 	
-	protected ArrayList<Method> getMethodsByName(String partOfMethodName, boolean isPK, boolean isFK){
+	/**
+	 * Returns the Methods by filtering them by the parameters
+	 * @param partOfMethodName String
+	 * @param isPK boolean
+	 * @param isFK boolean
+	 * @return ArrayList<Method> Filtered Methods
+	 */	
+	protected ArrayList<Method> getObjectMethods(String partOfMethodName, boolean isPK, boolean isFK){
 		ArrayList<Method> list = new ArrayList<>();
 		
-		Method[] ms = this.getObject().getClass().getMethods();
+		Method[] ms = this.getObjectClass().getMethods();
 		
 		for(Method m : ms){
 			if(m.getName().startsWith(partOfMethodName) && this.getEntity(m) != null){
@@ -375,7 +384,7 @@ public class ReflectionDAO extends GenericReflection{
 		if(obj == null)
 			return false;
 		
-		return obj.getClass().getName().contains("Model.");		
+		return obj instanceof Model;		
 	}
 
 	

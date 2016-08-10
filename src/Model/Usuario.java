@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 import Annotations.Entity;
 import Interfaces.IApplicationSession;
 import Interfaces.IUser;
@@ -124,7 +126,6 @@ public class Usuario extends Model implements IUser{
 	public void dsetCaminhoFoto(String caminhoFoto) {
 		this.caminhoFoto = caminhoFoto;
 	}
-
 	
 	/* 
 	 * IUser Interface Methods
@@ -187,8 +188,6 @@ public class Usuario extends Model implements IUser{
 		this.setUsername(iu.getUsername());
 		this.setImagepath(iu.getImagepath());
 	}
-	
-
 	
 	
 

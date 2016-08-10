@@ -11,6 +11,8 @@ import com.google.gson.Gson;
 
 import Controller.CrudController;
 import GenericDao.DAORelation;
+import JsonClasses.JData;
+import JsonClasses.JRedirect;
 import JsonClasses.JReturn;
 import Model.Model;
 import Model.TestIngredientes;
@@ -65,7 +67,12 @@ public class TestJSON {
 			r.addMsg("Teste de mensagem");
 			
 			JSON j = new JSON();
-			json = j.listConstruct(i.getClass().getSimpleName(), r, list);
+			JData d = new JData(i.getClass().getSimpleName());
+			d.setData(list);
+			r.addData(d);
+			
+			
+			
 		}
 		System.out.println("\n test list objects:\n"+json);
 		
@@ -86,22 +93,24 @@ public class TestJSON {
 		if(r.isSuccess())
 			cc.saveObject(r, i);
 		
-		JSON j = new JSON();
-
-		r.setRedirect("Login", "login", "login");
+		
+		JRedirect jr = new JRedirect();
+		jr.setRedirection("Login", "login", "login");
+		
 		r.addMsg("Mensagem de teste1");
 		r.addMsg("Mensagem de teste2");
 		
 		r.addSimpleError("Mensagem de teste de erro1");
 		r.addSimpleError("Mensagem de teste de erro2");
 		
-		assertEquals(4, r.getMessageMap().entrySet().size());
-		
-		System.out.println(j.messageConstruct(r));
+		assertEquals(4, r.getAtberrors().size());
+		assertEquals(2, r.getSimpleErrors().size());
+		assertEquals(2, r.getMessages().size());
 		
 		Gson g = new Gson();
-		HashMap<String, Object> map = g.fromJson(j.messageConstruct(r), HashMap.class);
-		System.out.println(map.get("redirect"));
+		System.out.println(g.toJson(r));
+		
+		
 
 	}
 	

@@ -95,4 +95,14 @@ public class StringUtils {
 		return searchParams.substring(2);		
 	}
 	
+	/**
+	 * Changes the First letter to Uppercase
+	 * @param s
+	 * @return
+	 */
+	public static String setFirstLetterUppercase(String s){
+		String s1 = s.substring(0, 1).toUpperCase();
+		return s1 + s.substring(1); 
+	}
+	
 }

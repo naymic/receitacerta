@@ -12,20 +12,21 @@ public class JReturn {
 	boolean success;
 	private JUser user;
 	private JRedirect redirect;
-	private ArrayList<JAttributeError> atberror;
+	private ArrayList<JAttributeError> atberrors;
 	private ArrayList<String> messages;
 	private ArrayList<String> errors;
-	private JData data;
+	private ArrayList<JData> data;
 	private ReturnType returnType;
 	
 	public JReturn(){
 		setSuccess(true);
 		redirect = new JRedirect();
 		user = new JUser();
-		atberror = new ArrayList<>();
+		atberrors = new ArrayList<>();
 		messages = new ArrayList<>();
 		errors = new ArrayList<>();	
-		data = new JData();
+		data = new ArrayList<>();
+		returnType = ReturnType.SEARCH;
 	}
 	
 	public void setUser(IUser iu){
@@ -63,19 +64,27 @@ public class JReturn {
 		auxAtbError.setClassname(classname);
 		auxAtbError.setError(errorMsg);
 		
-		this.atberror.add(auxAtbError);
+		this.atberrors.add(auxAtbError);
 	}
 	
 	public void setRedirect(JRedirect redirect){
 		this.redirect=redirect;
 	}
 
-	public JData getData() {
+	public void addData(JData d){
+		this.getData().add(d);
+	}
+	
+	
+	public ArrayList<JData> getData() {
 		return data;
 	}
 
-	public void setData(JData data) {
+	public void setData(ArrayList<JData> data) {
 		this.data = data;
+	}
+	public void setData(List<JData> data) {
+		this.data = (ArrayList<JData>) data;
 	}
 
 	public ReturnType getReturnType() {
@@ -86,8 +95,17 @@ public class JReturn {
 		this.returnType = returnType;
 	}
 
-	
-	
-	
+	public ArrayList<String> getSimpleErrors() {
+		return errors;
+	}
+
+	public List<String> getMessages() {
+		return messages;
+	}
+
+	public ArrayList<JAttributeError> getAtberrors() {
+		return atberrors;
+	}
+
 	
 }

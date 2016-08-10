@@ -3,6 +3,9 @@ package Reflection;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+
+import Utils.Transform;
 
 /**
  * Class that has some generic reflection methods
@@ -12,9 +15,11 @@ import java.lang.reflect.Method;
 public class GenericReflection {
 	
 	protected Object object;
+	protected Class<?> objClass;
 	
 	public GenericReflection(Object object){
 		setObject(object);
+		setObjectClass(object.getClass());
 	}	
 	
 	
@@ -27,7 +32,7 @@ public class GenericReflection {
 		Method m = null;
 		
 		try {
-				 m = this.getObject().getClass().getMethod(methodName, null);
+				 m = this.getObjectClass().getMethod(methodName, null);
 			} catch (NoSuchMethodException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -49,7 +54,7 @@ public class GenericReflection {
 		Method m = null;
 		
 		try {
-				 m = this.getObject().getClass().getMethod(methodName, cl);
+				 m = this.getObjectClass().getMethod(methodName, cl);
 			} catch (NoSuchMethodException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -72,7 +77,7 @@ public class GenericReflection {
 		}
 		Object value = null;	
 				try {
-					value = this.getObject().getClass().getMethod(methodName, null).invoke(this.getObject(), null);
+					value = this.getObjectClass().getMethod(methodName, null).invoke(this.getObject(), null);
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
 						| NoSuchMethodException | SecurityException e) {
 					// TODO Auto-generated catch block
@@ -88,7 +93,7 @@ public class GenericReflection {
 	
 	public boolean setMethodValue(String methodName, Object value){
 		try {
-			this.setMethodValue(this.getObject().getClass().getMethod(methodName, value.getClass()), value);
+			this.setMethodValue(this.getObjectClass().getMethod(methodName, value.getClass()), value);
 		} catch (NoSuchMethodException | SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -136,6 +141,22 @@ public class GenericReflection {
 	 */
 	public Object getObject() {
 		return object;
+	}
+
+	/**
+	 * Sets the object with objective to reflect it
+	 * @param object
+	 */
+	public void setObjectClass(Class<?> objClass) {
+		this.objClass = objClass;
+	}
+	
+	/**
+	 * Gets the reflected object
+	 * @return
+	 */
+	public Class<?> getObjectClass() {
+		return objClass;
 	}
 
 	/**
@@ -213,7 +234,7 @@ public class GenericReflection {
 		Field f = null;
 		
 		try {
-			f = this.getObject().getClass().getDeclaredField(fieldName);
+			f = this.getObjectClass().getDeclaredField(fieldName);
 			f.setAccessible(true);
 			return f.get(getObject());
 		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
@@ -234,7 +255,7 @@ public class GenericReflection {
 		Field f = null;
 		
 		try {
-			f = this.getObject().getClass().getDeclaredField(fieldName);
+			f = this.getObjectClass().getDeclaredField(fieldName);
 			f.setAccessible(true);
 			f.set(this.getObject(), value);
 		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {

@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import org.junit.Test;
+
+import com.google.gson.Gson;
+
 import GenericDao.DAO;
+import JsonClasses.JReturn;
 import Model.TestCity;
 import Model.Model;
 import Reflection.ReflectionDAO;
-import Utils.Return;
 
 
 public class TestReflectionDAO {
@@ -99,6 +102,7 @@ public class TestReflectionDAO {
 		f.put("dgetState", c.dgetState());
 		f.put("dgetType", c.dgetType());
 		f.put("dgetNotice", c.dgetNotice());
+
 		
 		assertEquals(f.get("dgetId"), r.getFields().get("dgetId"));
 		assertEquals(f.get("dgetName"), r.getFields().get("dgetName"));
@@ -112,7 +116,7 @@ public class TestReflectionDAO {
 	@Test
 	public void testExistModel(){
 		TestCity c = this.getCity();
-		Return r = new Return();
+		JReturn r = new JReturn();
 		assertFalse(DAO.getTestInstance().existModel(c, r));
 		DAO.getTestInstance().save(c, r);
 		
@@ -126,13 +130,13 @@ public class TestReflectionDAO {
 		TestCity c = this.getCity();
 		TestCity c1 = this.getCity4();
 		
-		Return r = new Return();
+		JReturn r = new JReturn();
 		assertTrue(DAO.getTestInstance().save(c, r).isSuccess());
-		r = new Return();
+		r = new JReturn();
 		DAO.getTestInstance().delete(c , r).isSuccess();
-		r = new Return();
+		r = new JReturn();
 		assertTrue(DAO.getTestInstance().save(c1, r).isSuccess());
-		r = new Return();
+		r = new JReturn();
 		DAO.getTestInstance().delete(c1, r);
 	}
 	
@@ -140,9 +144,9 @@ public class TestReflectionDAO {
 	public void testDelete(){
 		TestCity c = getCity();
 		
-		Return r = new Return();
+		JReturn r = new JReturn();
 		DAO.getTestInstance().save(c, r);
-		r = new Return();
+		r = new JReturn();
 		assertTrue(DAO.getTestInstance().delete(c, r).isSuccess());
 		
 	}
@@ -151,7 +155,7 @@ public class TestReflectionDAO {
 	public void testUpdate(){
 		TestCity c = getCity();
 		
-		Return r = new Return();
+		JReturn r = new JReturn();
 		DAO.getTestInstance().save(c,r);
 		
 		c.dsetName("Nome update");
@@ -159,9 +163,9 @@ public class TestReflectionDAO {
 		c.dsetNotice("jakljaljdfaj sda update");
 		c.dsetType("tipo de cidade update");
 		
-		r = new Return();
+		r = new JReturn();
 		assertTrue(DAO.getTestInstance().save(c,r).isSuccess());
-		r = new Return();
+		r = new JReturn();
 		DAO.getTestInstance().delete(c, r);
 	}
 	
@@ -169,13 +173,13 @@ public class TestReflectionDAO {
 	public void testSelect(){
 		ArrayList<Model> lista = new ArrayList<>();
 		DAO d = DAO.getTestInstance();
-		Return r = new Return();
+		JReturn r = new JReturn();
 		d.save(this.getCity(), r);
-		r = new Return();
+		r = new JReturn();
 		d.save(this.getCity1(), r);
-		r = new Return();
+		r = new JReturn();
 		d.save(this.getCity2(), r);
-		r = new Return();
+		r = new JReturn();
 		d.save(this.getCity3(), r);
 		TestCity c1 = null;
 		TestCity c = new TestCity();
@@ -201,36 +205,39 @@ public class TestReflectionDAO {
 		assertEquals(this.getCity3().dgetId(), c1.dgetId());
 		assertEquals(this.getCity3().dgetNotice(), c1.dgetNotice());
 		
-		r = new Return();
+		r = new JReturn();
 		d.delete(this.getCity(),r );
-		r = new Return();
+		r = new JReturn();
 		d.delete(this.getCity1(),r);
-		r = new Return();
+		r = new JReturn();
 		d.delete(this.getCity2(),r);
-		r = new Return();
+		r = new JReturn();
 		d.delete(this.getCity3(),r);
 	}
 	
 	@Test
 	public void testVerify(){
 		TestCity c = this.getCity();
-		Return r = new Return();
+		JReturn r = new JReturn();
 		c.verify(r);
 		c.dsetNotice(null);
 		assertTrue(r.isSuccess());
-		r = new Return();
+		r = new JReturn();
 		DAO.getTestInstance().save(c, r);
-		r = new Return();
+		r = new JReturn();
 		DAO.getTestInstance().delete(c, r);
 		
 		
 		
 		c.dsetCountry(null);
 		c.dsetState(null);
-		r = new Return();
+		r = new JReturn();
 		r = c.verify(r);
 		assertFalse(r.isSuccess());
-		System.out.println(r.getMessageMap().toString());
+		
+		Gson g = new Gson();
+		
+		System.out.println(g.toJson(r));
 	}
 	
 }

@@ -187,8 +187,9 @@ public class CrudController extends GenericController{
 		JSON j = new JSON();
 		this.selectObjectCheck(r, list, object);
 		r.setReturnType(ReturnType.SEARCH);
-		
-		r.getData().setData((ArrayList<Model>)list);
+		JData jd = new JData(this.getClassName());
+		jd.setData(list);
+		r.addData(jd);
 		return j.returnConstruct(r);
 	}
 	
@@ -209,9 +210,9 @@ public class CrudController extends GenericController{
 		JSON j = new JSON();
 		this.selectObjectCheck(r, list, object);
 		
-		JData jd =  new JData();
-		jd.setData((ArrayList<Model>)list);
-		r.setData(jd);
+		JData jd =  new JData(this.getClassName());
+		jd.setData(list);
+		r.addData(jd);
 		return j.returnConstruct(r);
 	}
 	

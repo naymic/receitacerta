@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import Controller.CrudController;
 import Interfaces.IController;
-import Utils.Return;
+import JsonClasses.JReturn;
 import View.ViewController;
 
 public class TestViewMethods {
@@ -18,7 +18,7 @@ public class TestViewMethods {
 	@Test
 	public void testGetController() {
 		ViewController vc = new ViewController();
-		Return r = new Return();
+		JReturn r = new JReturn();
 		Class<?> c = CrudController.class;
 		IController ic = vc.getController(r, "Crud", null);
 		assertEquals(ic.getClass(), CrudController.class);
@@ -34,7 +34,7 @@ public class TestViewMethods {
 	@Test
 	public void testRedirect() {
 		ViewController vc = new ViewController();
-		Return r = new Return();
+		JReturn r = new JReturn();
 		
 	
 		

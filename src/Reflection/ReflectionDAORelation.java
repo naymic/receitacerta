@@ -126,8 +126,8 @@ public class ReflectionDAORelation extends ReflectionDAO {
 	 * @param columnName String
 	 * @return int	PK value of the relation class
 	 */
-	public Object getMethodRelationId(String colunmName){
-		Method m = this.getGetMethodByColumname(colunmName);
+	public Object getMethodRelationId(String columnName){
+		Method m = this.getGetMethodByColumname(columnName);
 		return this.getMethodRelationId(m);
 	}
 	

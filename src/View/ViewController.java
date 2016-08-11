@@ -2,6 +2,8 @@ package View;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,11 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
+
 import Controller.LoginController;
 import GenericDao.DAO;
 import Interfaces.IApplicationSession;
 import Interfaces.IController;
 import JsonClasses.JRedirect;
+import JsonClasses.JRequest;
 import JsonClasses.JReturn;
 import Model.Usuario;
 import Reflection.GenericReflection;
@@ -59,38 +64,50 @@ public class ViewController extends HttpServlet {
 		String content = "";
 		HttpSession session = request.getSession(true);
 		
+		//Get real path
 		Config.getInstance().setFilepath(request.getServletContext().getRealPath("/"));
 		
-		content = process(request, response, session, content);
+		//Create a global return
+		JReturn r = new JReturn();
+		
+		//Transform Json to JRequest
+		Gson g = new Gson();
+		JRequest[] jrequ;
+		String json = request.getParameter("request");
+		jrequ = g.fromJson(json,  JRequest[].class);
+		
+		//Iterate throught all requests
+		for(int i=0; i<jrequ.length; i++){
+			content = process(jrequ[i], response, session, content, r);
+		}
 		response.getWriter().println(content);
 	}
 	
-	public String getAction(HttpServletRequest requ)throws Exception {
-		if(requ.getParameter("action") == null || requ.getParameter("action").length() == 0){
+	public String getAction(JRequest requ)throws Exception {
+		if(requ.getAction() == null || requ.getAction().length() == 0){
 			throw new Exception("Please set a action in on the Interface");
 		}
 		
-		return requ.getParameter("action");
+		return requ.getAction();
 	}
 	
-	public String getUseCase(HttpServletRequest requ)throws Exception {
-		if(requ.getParameter("usecase") == null || requ.getParameter("usecase").length() == 0){
+	public String getUseCase(JRequest requ)throws Exception {
+		if(requ.getUsecase() == null || requ.getUsecase().length() == 0){
 			throw new Exception("Please set a use case in on the Interface");
 		}
 		
-		return requ.getParameter("usecase");
+		return requ.getUsecase();
 	}
 	
-	public String getClassname(HttpServletRequest requ)throws Exception {
-		if(requ.getParameter("className") == null || requ.getParameter("className").length() == 0){
+	public String getClassname(JRequest requ)throws Exception {
+		if(requ.getClassname() == null || requ.getClassname().length() == 0){
 			throw new Exception("Please set a classname in on the Interface");
 		}
 		
-		return requ.getParameter("className");
+		return requ.getClassname();
 	}
 	
-	public String process(HttpServletRequest requ, HttpServletResponse resp, HttpSession session, String content){
-		JReturn r = new JReturn();
+	public String process(JRequest requ, HttpServletResponse resp, HttpSession session, String content, JReturn r){
 		JSON j = new JSON();
 		String usecase = new String("");
 		String action = new String("");
@@ -148,12 +165,12 @@ public class ViewController extends HttpServlet {
 	 * @param requ	Http request
 	 * @param ic	Controlador
 	 */
-	protected void initVariables(HttpServletRequest requ, IController ic){
+	protected void initVariables(JRequest requ, IController ic){
 		String key = null;
-		Enumeration<String> e = requ.getParameterNames();
-		while(e.hasMoreElements()){
-			key = e.nextElement();
-			ic.addVariable(key, requ.getParameter(key));
+		Iterator<String> i = requ.getData().keySet().iterator();
+		while(i.hasNext()){
+			key = i.next();
+			ic.addVariable(key, requ.getData().get(key));
 		}
 		
 	}

@@ -18,6 +18,8 @@ import Reflection.ReflectionDAORelation;
 
 public class GenericController implements IController{
 
+	String usecase;
+	String action;
 	ArrayList<String> validActions;
 	HashMap<String, Object> variables;
 	String jsonString; 
@@ -159,25 +161,24 @@ public class GenericController implements IController{
 			paramName = it.next();
 			
 			//Get just variable for the object
-			if(paramName.contains("campo.") ){
-				String attributeName = paramName.split("\\.")[1];
-				Object value = null;
-				try{
-					//Convert the String value from the view to the Model class
-					value = GenericConverter.convert(rdr.getMethodValueClass(rdr.getGetMethodByColumname(attributeName)), this.getVariableValue(paramName));
-					
-					if(rdr.isRequired(rdr.getGetMethodByColumname(attributeName)) && value.toString().length() == 0)
-						r.addAttributeError(obj.getClass().getName(), attributeName, "Field  is empty but required: "+ attributeName +" for "+ rdr.getObject().getClass().getSimpleName());
-					
-				}catch(Exception e){
-					System.out.println(e.getMessage());
-					r.addAttributeError(obj.getClass().getName(), attributeName, "Field has wrong caracters or is empty: "+ attributeName +" for "+ rdr.getObject().getClass().getSimpleName());
-				}
-				//Set just if value is set
-				if(this.getVariableValue(paramName).toString().length() > 0){
-					rdr.setValueFromAttributename(attributeName, value);
-				}
+			String attributeName = paramName;
+			Object value = null;
+			try{
+				//Convert the String value from the view to the Model class
+				value = GenericConverter.convert(rdr.getMethodValueClass(rdr.getGetMethodByColumname(attributeName)), this.getVariableValue(paramName));
+				
+				if(rdr.isRequired(rdr.getGetMethodByColumname(attributeName)) && value.toString().length() == 0)
+					r.addAttributeError(obj.getClass().getName(), attributeName, "Field  is empty but required: "+ attributeName +" for "+ rdr.getObject().getClass().getSimpleName());
+				
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+				r.addAttributeError(obj.getClass().getName(), attributeName, "Field has wrong caracters or is empty: "+ attributeName +" for "+ rdr.getObject().getClass().getSimpleName());
 			}
+			//Set just if value is set
+			if(this.getVariableValue(paramName).toString().length() > 0){
+				rdr.setValueFromAttributename(attributeName, value);
+			}
+			
 
 		}
 		

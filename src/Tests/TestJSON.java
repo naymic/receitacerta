@@ -2,7 +2,9 @@ package Tests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 import org.junit.Test;
@@ -18,6 +20,7 @@ import Model.Model;
 import Model.TestIngredientes;
 import Reflection.ReflectionDAORelation;
 import Utils.JSON;
+import JsonClasses.*;
 
 public class TestJSON {
 
@@ -112,6 +115,20 @@ public class TestJSON {
 		
 		
 
+	}
+	
+	@Test
+	public void requestToJson(){
+		String json ="[{\"classname\":\"Pessoa\",\"usecase\":\"crud\",\"action\":\"delete\",\"data\":{\"nome_pessoa\":\"Thiago\",\"idade_pessoa\":\"26\",\"rg_pessoa\":\"559988\"}},{\"classname\":\"Pessoa\",\"usecase\":\"crud\",\"action\":\"insert\",\"data\":{\"nome_pessoa\":\"Thiago1\",\"idade_pessoa\":\"261\",\"rg_pessoa\":\"5599881\"}}]";
+		Gson g = new Gson();
+		JRequest[] requs;
+		
+		requs = g.fromJson(json,  JRequest[].class);
+		System.out.println(requs[0].getData());
+		System.out.println(requs.toString());
+		System.out.println(requs[0].getClassname());
+		System.out.println(requs[1].getAction());
+		
 	}
 	
 	

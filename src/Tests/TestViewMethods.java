@@ -13,7 +13,7 @@ import Interfaces.IController;
 import JsonClasses.JReturn;
 import View.ViewController;
 
-public class TestViewMethods {
+public class TestViewMethods extends TestCases{
 
 	@Test
 	public void testGetController() {

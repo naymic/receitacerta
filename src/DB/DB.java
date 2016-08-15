@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import Tests.Debug;
 import Utils.Config;
 
 
@@ -20,31 +22,24 @@ public class DB {
 	private static DB db = null;
 
 
-	public DB(boolean b) {
-		this.etablishConnection(b);
+	public DB() {
+		this.etablishConnection();
 	}
 
 	public static DB getInstance(){
 
 		if(db == null){
-			db = new DB(false);	
+			db = new DB();	
 		}
 
 		return db;
 	}
 	
-	public static DB getTestInstance(){
-		
-		if(db == null){
-			db = new DB(true);	
-		}
 
-		return db;
-	}
 
 	
 	
-	private void etablishConnection(boolean testDatabase){
+	private void etablishConnection(){
 		Connection con = null;
 		
 		try {
@@ -56,7 +51,7 @@ public class DB {
 			String driver;
 			String db;
 			
-			if(!testDatabase){
+			if(!Debug.getInstance().isDebug()){
 				host = Config.getInstance().DBHost();
 				port = Config.getInstance().DBPort();
 				driver = Config.getInstance().DBDriver();
@@ -71,9 +66,8 @@ public class DB {
 				host = Config.getInstance().DBHost();
 				port = Config.getInstance().DBPort();
 				driver = Config.getInstance().DBDriver();
-				db = Config.getInstance().getDB();
 				System.out.println("Try connect to test database");
-				con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testDB?characterEncoding=utf8", "receita_certa", "nosestamosonline75113");
+				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/testDB", "receita_certa", "nosestamosonline75113");
 			}
 			
 			setCon(con);

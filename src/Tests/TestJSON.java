@@ -19,21 +19,23 @@ import JsonClasses.JReturn;
 import Model.Model;
 import Model.TestIngredientes;
 import Reflection.ReflectionDAORelation;
-import Utils.JSON;
 import JsonClasses.*;
 
-public class TestJSON {
+public class TestJSON extends TestCases{
 
+
+	
+	
 	@Test
 	public void testNewObjectArrayToJSON() {
 		String json = "";
 		TestIngredientes i = new TestIngredientes();
 		
 		ReflectionDAORelation rdr = new ReflectionDAORelation(i);
+	
 		
-		JSON j = new JSON();
-		json = j.objectJson(rdr, false);
-		System.out.println(json.replaceAll("[\n|\t]", ""));
+		Gson g = new Gson();
+		System.out.println(g.toJson(rdr.getObject()));
 	}
 	
 	@Test
@@ -42,7 +44,7 @@ public class TestJSON {
 		TestIngredientes i = new TestIngredientes();
 		i.dsetId(4);
 		
-		List<Model> list = DAORelation.getTestInstance().select(i);
+		List<Model> list = DAORelation.getInstance().select(i);
 		if(!list.isEmpty()){
 			i = (TestIngredientes)list.get(0);
 		}
@@ -50,8 +52,8 @@ public class TestJSON {
 		
 
 		
-		JSON j = new JSON();
-		json = j.objectJson(rdr, true);
+		/*JSON j = new JSON();
+		json = j.objectJson(rdr, true);*/
 	
 		
 		System.out.println(json.replaceAll("[\n|\t]", ""));
@@ -62,17 +64,14 @@ public class TestJSON {
 	public void listObject(){
 		String json = "";
 		TestIngredientes i = new TestIngredientes();
-		List<Model> list = DAORelation.getTestInstance().select(i);
+		List<Model> list = DAORelation.getInstance().select(i);
 		if(list.size() > 0){
 			i = (TestIngredientes) list.get(0);
 			JReturn r = new JReturn();
 			r.addAttributeError("TestIngredientes", "nome", "teste de mensagem");
 			r.addMsg("Teste de mensagem");
 			
-			JSON j = new JSON();
-			JData d = new JData(i.getClass().getSimpleName());
-			d.setData(list);
-			r.addData(d);
+			r.getData().setDataList(list);
 			
 			
 			
@@ -124,10 +123,10 @@ public class TestJSON {
 		JRequest[] requs;
 		
 		requs = g.fromJson(json,  JRequest[].class);
-		System.out.println(requs[0].getData());
-		System.out.println(requs.toString());
-		System.out.println(requs[0].getClassname());
-		System.out.println(requs[1].getAction());
+		
+		assertEquals("Pessoa", requs[0].getClassname());
+		assertEquals("insert", requs[1].getAction());
+		assertEquals("5599881", requs[1].getData().get("rg_pessoa"));
 		
 	}
 	

@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
-public class JRequest {
+public class JRequest{
 	
 	public String usecase;
 	public String action;
 	public String classname;
-	public Map<String, String> data;
+	public HashMap<String, String> data;
 	
 	JRequest(){
 		data = new HashMap<String, String>();
@@ -37,7 +37,7 @@ public class JRequest {
 	public HashMap<String, String> getData() {
 		return (HashMap<String,String>)data;
 	}
-	public void setData(Map<String, String> objects) {
+	public void setData(HashMap<String, String> objects) {
 		this.data = objects;
 	}
 	

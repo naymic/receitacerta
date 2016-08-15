@@ -8,7 +8,7 @@ package JsonClasses;
  * in the JSON Response
  *
  */
-public class JRedirect {
+public class JRedirect{
 	String usecase;
 	String action;
 	String classname;

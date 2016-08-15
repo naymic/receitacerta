@@ -19,7 +19,9 @@ import Reflection.ReflectionDAORelation;
 
 
 
-public class TestReflectionDAORelation {
+public class TestReflectionDAORelation extends TestCases {
+
+	
 
 	@Test
 	public void testSetValue(){
@@ -50,7 +52,7 @@ public class TestReflectionDAORelation {
 		TestIngredientes i = new TestIngredientes();
 		i.dsetId(new Integer(4));
 		
-		ArrayList<Model> list = DAORelation.getTestInstance().select(i);
+		ArrayList<Model> list = DAORelation.getInstance().select(i);
 		i = (TestIngredientes) list.get(0);
 		ReflectionDAORelation rdr = new ReflectionDAORelation(i);
 		
@@ -65,7 +67,7 @@ public class TestReflectionDAORelation {
 		TestIngredientes i = new TestIngredientes();
 		i.dsetId(new Integer(2));
 		
-		ArrayList<Model> list = DAORelation.getTestInstance().select(i);
+		ArrayList<Model> list = DAORelation.getInstance().select(i);
 		i = (TestIngredientes) list.get(0);
 		ReflectionDAORelation rdr = new ReflectionDAORelation(i);
 		
@@ -81,7 +83,7 @@ public class TestReflectionDAORelation {
 		
 		ArrayList<Model> lm = new ArrayList<>();		
 		i.dsetId(1);
-		lm = DAORelation.getTestInstance().select(i);
+		lm = DAORelation.getInstance().select(i);
 		
 		i = (TestIngredientes)lm.get(0);
 		
@@ -120,16 +122,16 @@ public class TestReflectionDAORelation {
 		i.dsetIngredienteArmazenamentos(ia);
 		
 		JReturn r = new JReturn();
-		assertTrue(DAORelation.getTestInstance().save(i, r).isSuccess());
+		assertTrue(DAORelation.getInstance().save(i, r).isSuccess());
 		
 		r = new JReturn();
 		i.dsetId(3);
-		DAORelation.getTestInstance().delete(i, r);
+		DAORelation.getInstance().delete(i, r);
 		
 		r = new JReturn();
 		i.dsetId(2);
 		i.dsetCalorias(i.dgetCalorias()+1);
-		assertTrue(DAORelation.getTestInstance().save(i, r).isSuccess());
+		assertTrue(DAORelation.getInstance().save(i, r).isSuccess());
 	}
 	
 	
@@ -152,17 +154,17 @@ public class TestReflectionDAORelation {
 		i.dsetIngredienteArmazenamentos(ia);
 		
 		JReturn r = new JReturn();
-		DAORelation.getTestInstance().save(i, r);
+		DAORelation.getInstance().save(i, r);
 		
 		r = new JReturn();
-		assertTrue(DAO.getTestInstance().existModel(i, r));
+		assertTrue(DAO.getInstance().existModel(i, r));
 		
 		r = new JReturn();
 		i.dsetId(3);
-		assertTrue(DAORelation.getTestInstance().delete(i, r).isSuccess());
+		assertTrue(DAORelation.getInstance().delete(i, r).isSuccess());
 		
 		r = new JReturn();
-		assertFalse(DAO.getTestInstance().existModel(i, r));
+		assertFalse(DAO.getInstance().existModel(i, r));
 	}
 
 }

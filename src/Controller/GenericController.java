@@ -9,6 +9,7 @@ import Converter.GenericConverter;
 import GenericDao.DAO;
 import Interfaces.IApplicationSession;
 import Interfaces.IController;
+import Interfaces.IUser;
 import JsonClasses.JReturn;
 import Model.Model;
 import Model.Usuario;
@@ -218,17 +219,28 @@ public class GenericController implements IController{
 		return (String) this.getAppSession().getMapAttribute("redirect");
 	}
 	
-
-	public boolean getUserSessionLoggedin(){
+	public IUser getUserSession(){
 		
-		if(this.getAppSession().getMapAttribute("loggedin") == null)
-			return false;
+		if(this.getAppSession().getMapAttribute("user") == null)
+			return null;
 		
-		return (boolean)this.getAppSession().getMapAttribute("loggedin");
+		return (IUser)this.getAppSession().getMapAttribute("user");
 	}
 	
-	public  void setUserSessionLoggedin(boolean loggedin){
-		this.getAppSession().setMapAttribute("loggedin", loggedin);
+	public  void setUserSession(IUser user){
+		this.getAppSession().setMapAttribute("user", user);
 	}
+	
+
+	public boolean isUserSessionLoggedin(){
+		
+		if(this.getAppSession().getMapAttribute("user") == null)
+			return false;
+		
+		IUser iu= (IUser)this.getAppSession().getMapAttribute("user");
+		return iu.isLoggedin();
+	}
+	
+
 
 }

@@ -1,4 +1,5 @@
-package Tests;import org.junit.Test;
+package Tests;
+import org.junit.Test;
 import Interfaces.ISimpleConverter;
 import Model.Usuario;
 import Reflection.GenericReflection;
@@ -8,7 +9,9 @@ import static org.junit.Assert.assertEquals;
 
 
 
-public class TestCrypt {
+public class TestCrypt extends TestCases{
+	
+	
 	@Test
 	public void testSpecificSHAConverter() {
 		try {

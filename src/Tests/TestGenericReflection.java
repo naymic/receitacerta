@@ -9,8 +9,10 @@ import org.junit.Test;
 import Model.TestCity;
 import Reflection.GenericReflection;
 
-public class TestGenericReflection {
+public class TestGenericReflection extends TestCases {
 
+
+	
 	@Test
 	public void testObject() {
 		TestCity c = new TestCity();

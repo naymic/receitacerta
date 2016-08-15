@@ -6,8 +6,11 @@ import org.junit.Test;
 
 import Utils.StringUtils;
 
-public class TestStringUtils {
+public class TestStringUtils extends TestCases {
 
+
+	
+	
 	@Test
 	public void testReturnJustNumbers() {
 		

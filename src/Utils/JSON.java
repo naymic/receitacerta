@@ -12,23 +12,32 @@ import JsonClasses.JReturn;
 import Model.Model;
 import Reflection.ReflectionDAO;
 import Reflection.ReflectionDAORelation;
-
+/*
 public class JSON {
+	private Gson g;
 	
+	public JSON(){
+		g = new Gson();
+	}
+	
+	public Gson getGson(){
+		return this.g;
+	}
 	
 	public String objectJson(ReflectionDAORelation rdr, boolean isEdit){
-		String json ="";
+		String[] json = ;
 		for(Method m : rdr.getMethods()){
 			json +=this.attributeJson(rdr, rdr.getColumnName(m), isEdit);
 		}
 	
 
-		return "{\"dados\":{"+json.substring(0, json.length()-2)+"}}";
+		return "{\"data\":{"+json[0]+","json[1]+"}}";
 	}
 	
-	private String attributeJson(ReflectionDAORelation rdr, String attributeName, boolean isEdit){
-		String json = "";
-		
+	private String[] attributeJson(ReflectionDAORelation rdr, String attributeName, boolean isEdit){
+		String[] rdata = new String[2];
+		String data = "{\"data\":{";
+		String form = "{\"form\":{";
 		
 		if(rdr.isFK(rdr.getGetMethodByColumname(attributeName))){
 			// Retrive all options of the Relation Table
@@ -40,47 +49,36 @@ public class JSON {
 					throw new Exception("List is Empty list, please entre some values to table"+ rdr.getObject().getClass());
 				
 				
-				json += "\""+attributeName+"\":[\n";
+				data += "\""+attributeName+"\":[\n";
 				for(Model mod : list) {
 					ReflectionDAORelation rd1 = new ReflectionDAORelation(mod);
 					String[] columns = rd1.getColums(rd1.getGetMethods());
 					String s1 = null;
 					
-					json +="\t{";
-					for(String s : columns){
-						
-						if(!rd1.isRequired(rd1.getGetMethodByColumname(s))){
-							s1 = "else";
-						}else if(!s.equalsIgnoreCase("id") ){
-							s1 = "label";
-						}else{
-							s1 = "id";
-						}
-						
-						json += "\""+s1+"\":\""+rd1.getValueFromAttributeName(s)+"\",";
-					}
+					data += getGson().toJson(mod);
 					String selected = "";
 
 					if(isEdit && rdr.isFK(rdr.getGetMethodByColumname(attributeName)) && DAORelation.isSameID(rdr, attributeName, rd1.getPK()))
 						selected = "selected";
 					
-					json +="\"selected\":\""+ selected +"\"},\n";
+					form += this.getGson().toJson(rd1.getObject());
 				}
 				
-				json = json.substring(0, json.length()-2);
-				json += "],\n";
+				data = data.substring(0, data.length()-2);
+				data += "],\n";
 				
 			}catch(Exception e){
 				e.printStackTrace();
 			}
 		}else{
 			
-			json = this.getAttribute(rdr, attributeName, isEdit, false);
+			data = this.getAttribute(rdr, attributeName, isEdit, false);
 		}
 		
 
-		
-		return json;
+		rdata[0]= data.substring(0, data.length()-2)+"}";
+		rdata[1]= form.substring(0, form.length()-2)+"}";
+		return rdata;
 	}
 	
 	
@@ -145,3 +143,4 @@ public class JSON {
 	
 	
 }
+*/

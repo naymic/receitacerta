@@ -4,7 +4,7 @@ import java.sql.Date;
 
 import Interfaces.ISimpleConverter;
 
-public class StringToData implements ISimpleConverter {
+public class StringToDate implements ISimpleConverter {
 
 	@Override
 	public Object convert(Object entry) {

@@ -5,11 +5,12 @@ import java.util.List;
 
 import GenericDao.DAO;
 import Interfaces.IApplicationSession;
+import Interfaces.IUser;
 import JsonClasses.JRedirect;
 import JsonClasses.JReturn;
 import Model.Model;
 import Model.Usuario;
-import Utils.JSON;
+import Utils.Transform;
 
 public class LoginController extends GenericController{
 	
@@ -42,7 +43,7 @@ public class LoginController extends GenericController{
 	public void execute(JReturn r, String action) {
 		super.execute(r, action);
 		r = this.validateAction(action);
-		JSON j = new JSON();
+		
 		
 		//Iniciate user from view
 		Usuario loginUser = (Usuario)super.initObj(r);
@@ -56,7 +57,7 @@ public class LoginController extends GenericController{
 			}
 		}
 		
-		this.setJson(j.returnConstruct(r));
+		this.setJson(Transform.objectToJson(r));
 		
 	}
 	
@@ -79,29 +80,38 @@ public class LoginController extends GenericController{
 		}
 		
 		if(test){		
-			this.setUserSessionLoggedin(true);
+			u.setLoggedin(true);
 			this.setUserSession(u);
-			r.getUser().setLoggedin(true);
+			r.setUser(u);
 			r.addMsg("User sucessfully indentified!");
+			r.setRedirect((JRedirect)this.getAppSession().getMapAttribute("redirect"));
 			
-			JRedirect redirect = new JRedirect();
-			redirect.setRedirection((String)this.getAppSession().getMapAttribute("redirectUseCase"), (String)this.getAppSession().getMapAttribute("redirectAction") ,(String)this.getAppSession().getMapAttribute("redirectClassname")); //Sets the redirection previos saved
-			r.setRedirect(redirect);
 		}else{
-			this.setUserSessionLoggedin(false);
-			this.setUserSession(null);
+			r.setUser(this.resetUser());
 			r.addSimpleError("Email and password combination could not be found. Login failed!");
 		}
 	}
 	
+	/**
+	 * Log out a logged user and send a redirect to the login page
+	 * @param r
+	 */
 	public void logout(JReturn r){
-		this.setUserSessionLoggedin(false);
-		this.setUserSession(null);
-		JRedirect redirect = new JRedirect();
-		redirect.setRedirection("Login", "login", "login");
-		r.setRedirect(redirect);
+		
+		r.setUser(this.resetUser());
+		r.getRedirect().setRedirection("Login", "login", "login");
 	}
 	
+	/**
+	 * Return an empty user and reset the Session
+	 * @return IUser
+	 */
+	private IUser resetUser(){
+		Usuario user = new Usuario();
+		user.setLoggedin(false);
+		this.setUserSession(user);
+		return user;
+	}
 	
 	
 	
@@ -128,4 +138,7 @@ public class LoginController extends GenericController{
 		
 		return (Usuario) this.getAppSession().getMapAttribute("user");
 	}
+	
+	
+	
 }

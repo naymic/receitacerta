@@ -94,13 +94,19 @@ public interface IController {
 	 * Get the User Session logged in status
 	 * @return
 	 */
-	public boolean getUserSessionLoggedin();
+	public boolean isUserSessionLoggedin();
 	
 	/**
 	 * Set the User Session logged in status
 	 * @param loggedin
 	 */
-	public  void setUserSessionLoggedin(boolean loggedin);
+	public  void setUserSession(IUser user);
+	
+	/**
+	 * Get the User Session logged in status
+	 * @param loggedin
+	 */
+	public  IUser getUserSession();
 	
 	
 }

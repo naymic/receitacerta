@@ -1,4 +1,26 @@
 <form  method="post" id="formIngredientes">
+
+<div class="row">
+	<div class="col-md-3">
+		<label>Nome Receita</label>
+		<input type="text" name="nome" id="nome" class="form-control" />
+	</div>
+	<div class="col-md-3">
+		<label>Nome Receita</label>
+		<select name="nome" id="nome" class="form-control">
+			<option value="">Selecione um Valor</option>
+		</select>
+	</div>
+	<div class="col-md-3">
+		<label>Nome Receita</label>
+		<textarea  name="nome" id="nome" class="form-control"></textarea>
+	</div>
+	<div class="col-md-3">
+		<label>Nome Receita</label>
+		<input type="text" name="nome" id="nome" class="form-control" />
+	</div>
+</div>
+
     <div class="form-group">
         <label for="nome">Nome do ingrediente:</label>
         <input type="text" name="campo.nome" class="form-control" id="nome" value="" />
@@ -74,6 +96,11 @@
 
 </form>
 <script>
+var objReceita = {"dados":{"className":"","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true}};
+validaAction("Insert",objReceita);
+
+
+
 if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
   var objIngrediente = {"dados":{"className":"Ingredientes","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true}};
   validaAction('Insert',objIngrediente);

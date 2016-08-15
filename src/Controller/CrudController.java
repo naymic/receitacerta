@@ -13,8 +13,8 @@ import JsonClasses.JReturn;
 import Model.Model;
 import Reflection.ReflectionDAO;
 import Reflection.ReflectionDAORelation;
-import Utils.JSON;
 import Utils.StringUtils;
+import Utils.Transform;
 
 public class CrudController extends GenericController{
 
@@ -30,35 +30,34 @@ public class CrudController extends GenericController{
 			object = this.initObj(r);
 			
 			if(!r.isSuccess()){
-				JSON j = new JSON();
-				json = j.returnConstruct(r);
+				//Do anything and just jump any further step
 			}else  if(action.equalsIgnoreCase("buscaavancada")){
-				json = this.selectObjectSearch(r, object);
-
+				r = this.selectObjectSearch(r, object);
+				r.setReturnType(ReturnType.SEARCH);
 			}if(action.equalsIgnoreCase("busca")){
-				json = this.selectObject(r, object);
-
+				r = this.selectObject(r, object);
+				r.setReturnType(ReturnType.SELECT);
 			}else if(action.equalsIgnoreCase("novo")){
-				json = this.newObject(object);
-
+				r = this.newObject(r, object);
+				r.setReturnType(ReturnType.FORM);
 			}else if(action.equalsIgnoreCase("edit")){
-				json = this.editObject(r, object);
-
+				r = this.editObject(r, object);
+				r.setReturnType(ReturnType.FORM);
 			}else if(action.equalsIgnoreCase("salvar")){
 				object.verify(r);
+				//Default ReturnTyp is allready INFO
 				if(!r.isSuccess()){
-					JSON j = new JSON();
-					json = j.returnConstruct(r);
+					//Do anything and just jump any further step
 				}else{
-					json = this.saveObject(r, object);
+					r = this.saveObject(r, object);
 				}
 			}else if(action.equalsIgnoreCase("remover")){
-				json = this.removeObject(r, object);
-
+				r = this.removeObject(r, object);
+				//Default ReturnTyp is allready INFO
 			}
 
-
-			this.setJson(json);		
+			
+			this.setJson(Transform.objectToJson(r));		
 	}
 	
 
@@ -100,12 +99,14 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public String newObject(Model object){
+	public JReturn newObject(JReturn r, Model object){
 
 		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		
-		JSON j = new JSON();
-		return j.objectJson(rdr, false);		
+		
+		
+
+		return r;		
 	}
 	
 	/**
@@ -114,26 +115,25 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public String editObject( JReturn r, Model object){
-		JSON j = new JSON();
+	public JReturn editObject( JReturn r, Model object){
 		
 		//Check if PK is set or not
 		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		if(rdr.getPK() == null){
 			r.addSimpleError("Primary key is not set. Object "+ object.getClass().getSimpleName() +" not found!");
-			return j.returnConstruct(r);
+			return r;
 		}
 		
-		List<Model> list = DAORelation.getTestInstance().select(object);
+		List<Model> list = DAORelation.getInstance().select(object);
 		if(!list.isEmpty()){
 			object = list.get(0);
 		}else{
 			r.addSimpleError("Data for "+ object.getClass().getSimpleName() +" not found!");
-			return j.returnConstruct(r);
+			return r;
 		}
 		ReflectionDAORelation rdr1 = new ReflectionDAORelation(object);
 		
-		return j.objectJson(rdr1, true);
+		return r;
 	}
 	
 	/**
@@ -142,7 +142,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public String saveObject(JReturn r, Model object){
+	public JReturn saveObject(JReturn r, Model object){
 		
 		r = DAO.getInstance().save(object, r);
 		if(r.isSuccess()){
@@ -151,8 +151,8 @@ public class CrudController extends GenericController{
 			r.addSimpleError("Data "+ object.getClass().getSimpleName() +" could not be saved in database");
 		}
 		
-		JSON j = new JSON();
-		return j.returnConstruct(r);
+
+		return r;
 	}
 	
 	/**
@@ -161,7 +161,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public String removeObject(JReturn r, Model object){
+	public JReturn removeObject(JReturn r, Model object){
 		r = DAO.getInstance().delete(object, r);
 		if(r.isSuccess()){
 			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully removed");
@@ -169,8 +169,7 @@ public class CrudController extends GenericController{
 			r.addSimpleError("Data "+ object.getClass().getSimpleName() +" could not be removed");
 		}
 		
-		JSON j = new JSON();
-		return j.returnConstruct(r);
+		return r;
 	}
 	
 	/**
@@ -179,18 +178,15 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public String selectObject(JReturn r, Model object){
+	public JReturn selectObject(JReturn r, Model object){
 		List<Model> list =null;
 		
 		list = DAORelation.getInstance().select(object);
 		
-		JSON j = new JSON();
 		this.selectObjectCheck(r, list, object);
-		r.setReturnType(ReturnType.SEARCH);
-		JData jd = new JData(this.getClassName());
-		jd.setData(list);
-		r.addData(jd);
-		return j.returnConstruct(r);
+		r.setReturnType(ReturnType.SELECT);		
+		r.getData().setDataList(list);
+		return r;
 	}
 	
 	
@@ -201,19 +197,17 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public String selectObjectSearch(JReturn r, Model object){
+	public JReturn selectObjectSearch(JReturn r, Model object){
 		List<Model> list =null;
 		
 		list = DAORelation.getInstance().search(object);
 		
-		
-		JSON j = new JSON();
 		this.selectObjectCheck(r, list, object);
 		
 		JData jd =  new JData(this.getClassName());
-		jd.setData(list);
-		r.addData(jd);
-		return j.returnConstruct(r);
+		r.getData().setDataList(list);
+		r.setReturnType(ReturnType.SEARCH);	
+		return r;
 	}
 	
 	

@@ -13,20 +13,13 @@ public class DAORelation extends DAO{
 	
 	public static DAORelation getInstance(){
 		if(dr == null){
-			dr = new DAORelation(false);
+			dr = new DAORelation();
 		}
 		return dr;
 	}
 	
-	public static DAORelation getTestInstance(){
-		if(dr == null){
-			dr = new DAORelation(true);
-		}
-		return dr;
-	}
-	
-	protected DAORelation(boolean istestDB){
-		super(istestDB);	
+	protected DAORelation(){
+		super();	
 	};
 	
 	

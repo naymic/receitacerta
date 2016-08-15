@@ -1,10 +1,10 @@
 package Converter;
 
-import Interfaces.IModelConverter;
+import Interfaces.IExtendedConverter;
 import Model.Model;
 import Reflection.ReflectionDAORelation;
 
-public class StringToModel implements IModelConverter{
+public class StringToModel implements IExtendedConverter{
 
 
 	public Object convert(Object value, Class<?> c) {

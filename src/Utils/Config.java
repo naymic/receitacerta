@@ -27,10 +27,7 @@ public class Config {
 		
 		//Set Static values for JUnit Tests
 		this.testDB=b;
-		dbhost="naymic.dlinkddns.com";
-		dbport="3306";
-		dbdriver="mysql";
-		db="testDB";
+		this.setFilepath("/home/micha/workspace/receitacertabackend/WebContent");
 	}
 
 	public static Config getInstance(){
@@ -76,7 +73,6 @@ public class Config {
 		String result = "";
 		
 		
-		if(!this.testDB){
 			try{				
 				BufferedReader br = new BufferedReader(new FileReader(filepath+"/config.txt"));
 				String[] config;
@@ -101,25 +97,19 @@ public class Config {
 				}
 
 			} catch(Exception e){
-				System.out.println("Please create a config.txt file in the WebContent folder.\nAdd following lines:\ndbhost=naymic.dlinkddns.com\ndbport=3306\ndbdriver=mysql");
+				System.out.println("Please create a config.txt file in the WebContent folder.\nAdd following lines:\ndbhost=naymic.dlinkddns.com\ndbport=3306\ndbdriver=mysql\n"+filepath+"/config.txt");
 				//e.printStackTrace();
 				fileFound=false;
 			}
 
 
-			if(result.length() == 0 || result == null){
-				result =  getStandartConfig(configName);
-			}
-		}else{
-			result = getStandartConfig(configName);
-		}
+		
 		System.out.println(result);
 		return result;
 	}
+
 	
 	
-	private String getStandartConfig(String configName){
-		GenericReflection gr = new GenericReflection(this);
-		return (String) gr.getFieldValue(configName);
-	}
+	
+
 }

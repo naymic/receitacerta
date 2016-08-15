@@ -23,7 +23,7 @@ import JsonClasses.JReturn;
 import Model.Usuario;
 import Reflection.GenericReflection;
 import Utils.Config;
-import Utils.JSON;
+import Utils.Transform;
 
 /**
  * Servlet implementation class ViewController
@@ -108,7 +108,6 @@ public class ViewController extends HttpServlet {
 	}
 	
 	public String process(JRequest requ, HttpServletResponse resp, HttpSession session, String content, JReturn r){
-		JSON j = new JSON();
 		String usecase = new String("");
 		String action = new String("");
 		String classname = new String("");
@@ -150,7 +149,7 @@ public class ViewController extends HttpServlet {
 			
 			//Execution when no controller is found
 		}else{
-			jString = j.returnConstruct(r);
+			jString = Transform.objectToJson(r);
 		}
 		
 		
@@ -207,23 +206,21 @@ public class ViewController extends HttpServlet {
 	public void checkUserLogin(IController ic, JReturn r, ViewSessionController ics, String usecase, String action, String classname){
 		
 		//Add User status to Return				
-		r.getUser().setLoggedin(ic.getUserSessionLoggedin());
+		r.getUser().setLoggedin(ic.isUserSessionLoggedin());
 		
 		//Check if use case needs authentication
 		if(r.isSuccess() && ic.needAuthentication()){
 			LoginController lc = (LoginController) getController(r, "Login", ics);
 
 			//Check if user is already logged in
-			if(!lc.getUserSessionLoggedin()){
-				JRedirect redrct = new JRedirect();
-				redrct.setRedirection("Login", "login", "login");
-				
+			if(!lc.isUserSessionLoggedin()){
+				r.getRedirect().setRedirection("Login", "login", "login");
 				r.setSuccess(false);
-				lc.getAppSession().setMapAttribute("redirectUseCase", usecase);
-				lc.getAppSession().setMapAttribute("redirectAction", action);
-				lc.getAppSession().setMapAttribute("redirectClassname", classname);
+				
+				//Set Redirection to 
+				lc.getAppSession().setMapAttribute("redirect", r.getRedirect());
 			}else{
-				r.getUser().setLoggedin(true);
+				r.setUser(ic.getUserSession());
 				r.setSuccess(true);
 			}
 		}		

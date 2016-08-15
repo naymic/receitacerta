@@ -8,14 +8,14 @@ import Enums.ReturnType;
 import Interfaces.IUser;
 import Model.Model;
 
-public class JReturn {
+public class JReturn{
 	boolean success;
 	private JUser user;
 	private JRedirect redirect;
 	private ArrayList<JAttributeError> atberrors;
 	private ArrayList<String> messages;
 	private ArrayList<String> errors;
-	private ArrayList<JData> data;
+	private JData data;
 	private ReturnType returnType;
 	
 	public JReturn(){
@@ -25,8 +25,7 @@ public class JReturn {
 		atberrors = new ArrayList<>();
 		messages = new ArrayList<>();
 		errors = new ArrayList<>();	
-		data = new ArrayList<>();
-		returnType = ReturnType.SEARCH;
+		returnType = ReturnType.INFO;
 	}
 	
 	public void setUser(IUser iu){
@@ -70,22 +69,23 @@ public class JReturn {
 	public void setRedirect(JRedirect redirect){
 		this.redirect=redirect;
 	}
-
-	public void addData(JData d){
-		this.getData().add(d);
-	}
 	
 	
-	public ArrayList<JData> getData() {
+	public JData getData() {
 		return data;
 	}
+	
+	public JRedirect getRedirect() {
+		return redirect;
+	}
 
-	public void setData(ArrayList<JData> data) {
+	/*Deactivation for do not allow set data directly
+	 * public void setData(JData data) {
 		this.data = data;
 	}
-	public void setData(List<JData> data) {
-		this.data = (ArrayList<JData>) data;
-	}
+	public void setData(JData data) {
+		this.data = data;
+	}*/
 
 	public ReturnType getReturnType() {
 		return returnType;

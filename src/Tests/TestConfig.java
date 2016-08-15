@@ -6,7 +6,7 @@ import Utils.Config;
 import org.junit.Test;
 
 
-public class TestConfig {
+public class TestConfig extends TestCases {
 
 	@Test
 	public void testCOnfigDB() {

@@ -1,11 +1,11 @@
 package Converter;
 
 import GenericDao.DAO;
-import Interfaces.IModelConverter;
+import Interfaces.IExtendedConverter;
 import Model.Model;
 import Reflection.ReflectionDAORelation;
 
-public class IntegerToModel implements IModelConverter{
+public class IntegerToModel implements IExtendedConverter{
 	
 	public Object convert(Object value, Class<?> c) throws Exception{
 		Model model = (Model) ReflectionDAORelation.instanciateObjectByName(c);

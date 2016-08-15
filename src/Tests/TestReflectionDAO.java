@@ -16,8 +16,10 @@ import Model.Model;
 import Reflection.ReflectionDAO;
 
 
-public class TestReflectionDAO {
+public class TestReflectionDAO extends TestCases {
 
+
+	
 	public TestCity getCity(){
 		TestCity c = new TestCity();
 		
@@ -117,12 +119,12 @@ public class TestReflectionDAO {
 	public void testExistModel(){
 		TestCity c = this.getCity();
 		JReturn r = new JReturn();
-		assertFalse(DAO.getTestInstance().existModel(c, r));
-		DAO.getTestInstance().save(c, r);
+		assertFalse(DAO.getInstance().existModel(c, r));
+		DAO.getInstance().save(c, r);
 		
 		
-		assertTrue(DAO.getTestInstance().existModel(c, r));
-		DAO.getTestInstance().delete(c, r);
+		assertTrue(DAO.getInstance().existModel(c, r));
+		DAO.getInstance().delete(c, r);
 	}
 	
 	@Test
@@ -131,13 +133,13 @@ public class TestReflectionDAO {
 		TestCity c1 = this.getCity4();
 		
 		JReturn r = new JReturn();
-		assertTrue(DAO.getTestInstance().save(c, r).isSuccess());
+		assertTrue(DAO.getInstance().save(c, r).isSuccess());
 		r = new JReturn();
-		DAO.getTestInstance().delete(c , r).isSuccess();
+		DAO.getInstance().delete(c , r).isSuccess();
 		r = new JReturn();
-		assertTrue(DAO.getTestInstance().save(c1, r).isSuccess());
+		assertTrue(DAO.getInstance().save(c1, r).isSuccess());
 		r = new JReturn();
-		DAO.getTestInstance().delete(c1, r);
+		DAO.getInstance().delete(c1, r);
 	}
 	
 	@Test 
@@ -145,9 +147,9 @@ public class TestReflectionDAO {
 		TestCity c = getCity();
 		
 		JReturn r = new JReturn();
-		DAO.getTestInstance().save(c, r);
+		DAO.getInstance().save(c, r);
 		r = new JReturn();
-		assertTrue(DAO.getTestInstance().delete(c, r).isSuccess());
+		assertTrue(DAO.getInstance().delete(c, r).isSuccess());
 		
 	}
 	
@@ -156,7 +158,7 @@ public class TestReflectionDAO {
 		TestCity c = getCity();
 		
 		JReturn r = new JReturn();
-		DAO.getTestInstance().save(c,r);
+		DAO.getInstance().save(c,r);
 		
 		c.dsetName("Nome update");
 		c.dsetCountry("Country update");
@@ -164,15 +166,15 @@ public class TestReflectionDAO {
 		c.dsetType("tipo de cidade update");
 		
 		r = new JReturn();
-		assertTrue(DAO.getTestInstance().save(c,r).isSuccess());
+		assertTrue(DAO.getInstance().save(c,r).isSuccess());
 		r = new JReturn();
-		DAO.getTestInstance().delete(c, r);
+		DAO.getInstance().delete(c, r);
 	}
 	
 	@Test
 	public void testSelect(){
 		ArrayList<Model> lista = new ArrayList<>();
-		DAO d = DAO.getTestInstance();
+		DAO d = DAO.getInstance();
 		JReturn r = new JReturn();
 		d.save(this.getCity(), r);
 		r = new JReturn();
@@ -185,7 +187,7 @@ public class TestReflectionDAO {
 		TestCity c = new TestCity();
 		
 		c.dsetId(this.getCity().dgetId());
-		lista = DAO.getTestInstance().select(c);
+		lista = DAO.getInstance().select(c);
 		c = (TestCity)lista.get(0);
 		assertEquals(this.getCity().dgetId(), c.dgetId());
 		assertEquals(this.getCity().dgetName(), c.dgetName());
@@ -223,9 +225,9 @@ public class TestReflectionDAO {
 		c.dsetNotice(null);
 		assertTrue(r.isSuccess());
 		r = new JReturn();
-		DAO.getTestInstance().save(c, r);
+		DAO.getInstance().save(c, r);
 		r = new JReturn();
-		DAO.getTestInstance().delete(c, r);
+		DAO.getInstance().delete(c, r);
 		
 		
 		

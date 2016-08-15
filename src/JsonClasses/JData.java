@@ -11,7 +11,12 @@ public class JData {
 	String classname;
 
 	ArrayList<Model> data; 
-	HashMap<String, Object> form;
+	HashMap<String, ArrayList<Model>> form;
+	
+	JData(){
+		this.setDataList(new ArrayList<Model>());
+		this.setForm(new HashMap<String, ArrayList<Model>>());
+	}
 	
 	
 	public JData(String classname){
@@ -30,19 +35,28 @@ public class JData {
 		return data;
 	}	
 	
-	public void setData(ArrayList<Model> data) {
-		this.data = data;
-	}
-	public void setData(List<Model> data) {
+	public void setDataList(List<Model> data) {
 		this.data = (ArrayList<Model>)data;
 	}
 	
+	public void setDataList(ArrayList<Model> list){
+		this.data = list;
+	}
 	
-	public HashMap<String, Object> getForm() {
+	public void setDataObject(Model object){
+		data.add(object);
+	}
+	
+	
+	public HashMap<String, ArrayList<Model>> getForm() {
 		return form;
 	}
-	public void setForm(HashMap<String, Object> form) {
+	private void setForm(HashMap<String, ArrayList<Model>> form) {
 		this.form = form;
 	} 
+	
+	public void addFormItem(String objectName, ArrayList<Model> list){
+		this.getForm().put(objectName, list);
+	}
 
 }

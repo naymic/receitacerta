@@ -10,6 +10,7 @@ import java.util.List;
 import Converter.GenericConverter;
 import Model.Model;
 import Reflection.ReflectionDAO;
+import Tests.Debug;
 import Utils.StringUtils;
 import DB.DB;
 import Interfaces.IDAO;
@@ -35,32 +36,18 @@ public class DAO implements IDAO{
 	 */
 	public static DAO getInstance(){
 		if(dao == null){
-			dao = new DAO(false);
+			dao = new DAO();
 		}
 		return dao;
 	}
 	
-	/**
-	 * Get a singleton instance of DAO for access to the TestDatabase
-	 * @return
-	 */
-	public static DAO getTestInstance(){
-		if(dao == null){
-			dao = new DAO(true);
-		}		
-		return dao;
-	}
 	
 	/**
 	 * DAO constructor 
 	 * @param b 	boolen	[true = set the test database | false = set the normal database connection] 
 	 */
-	protected DAO(boolean b){
-		if(!b)
-			setDb(DB.getInstance());
-		else
-			setDb(DB.getTestInstance());
-	
+	protected DAO(){
+		setDb(DB.getInstance());	
 	}
 	
 	/**

@@ -1,6 +1,6 @@
 package Converter;
 
-import Interfaces.IModelConverter;
+import Interfaces.IExtendedConverter;
 import Interfaces.ISimpleConverter;
 import Model.Model;
 import Reflection.GenericReflection;
@@ -17,9 +17,16 @@ public class GenericConverter {
 	public static Object convert(Class<?> outputClass, Object value) throws Exception{
 		String simpleClassNameInput;
 		
+		
 		//Objec value is null?
 		if(value == null){
-			return null;
+			IExtendedConverter ic;
+			if(outputClass.getSuperclass() == Model.class){
+				ic = (IExtendedConverter)GenericReflection.instanciateObjectByName("Converter.NullToModel");
+			}else{
+				ic = (IExtendedConverter)GenericReflection.instanciateObjectByName("Converter.NullTo"+outputClass.getSimpleName());
+			}
+			return ic.convert(value, outputClass);
 		}else{
 			simpleClassNameInput = value.getClass().getSimpleName();
 		}
@@ -33,7 +40,7 @@ public class GenericConverter {
 
 		//Check if its a Model Class Output
 		if(outputClass.getSuperclass() == Model.class){
-			IModelConverter ic = (IModelConverter)GenericReflection.instanciateObjectByName("Converter."+simpleClassNameInput+"ToModel");
+			IExtendedConverter ic = (IExtendedConverter)GenericReflection.instanciateObjectByName("Converter."+simpleClassNameInput+"ToModel");
 			return ic.convert(value, outputClass);
 		}
 

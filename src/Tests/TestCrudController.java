@@ -8,8 +8,9 @@ import Controller.CrudController;
 import JsonClasses.JReturn;
 import Model.Model;
 import Model.TestIngredientes;
+import Utils.Transform;
 
-public class TestCrudController {
+public class TestCrudController extends TestCases{
 
 	
 	public CrudController getCRUDController(){
@@ -54,13 +55,13 @@ public class TestCrudController {
 		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 		obj.dsetCalorias(300.0);
 		
-		String json = cc.saveObject(r, obj);
+		r = cc.saveObject(r, obj);
 		
 		assertTrue(r.isSuccess());
 		//assertTrue(json.contains("Data Ingredientes successfully saved in database"));
 		
 		obj.dsetNome(null);
-		json = cc.saveObject(r, obj);
+		r =  cc.saveObject(r, obj);
 		obj.verify(r);
 		assertFalse(r.isSuccess());
 
@@ -73,8 +74,8 @@ public class TestCrudController {
 		JReturn r = new JReturn();
 		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 
-		String json = cc.removeObject(r, obj);
-		System.out.println(json);
+		r = cc.removeObject(r, obj);
+		System.out.println(Transform.objectToJson(r));
 		assertTrue(r.isSuccess());
 		//assertTrue(json.contains("Data Ingredientes successfully removed"));
 	}
@@ -85,8 +86,8 @@ public class TestCrudController {
 		JReturn r = new JReturn();
 		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 		
-		String json = cc.newObject(obj);
-		System.out.println(json);
+		r = cc.newObject(r, obj);
+		System.out.println(Transform.objectToJson(r));
 		//assertEquals(1122, json.length());
 	}
 	
@@ -97,19 +98,19 @@ public class TestCrudController {
 		JReturn r = new JReturn();
 		Model obj = cc.initObj(r);
 		
-		String json = cc.editObject(r, obj);
+		r = cc.editObject(r, obj);
 		assertTrue(r.isSuccess());
 		//assertEquals(549, json.length());
 		
-		System.out.println(json);
+		System.out.println(Transform.objectToJson(r));
 		
 		TestIngredientes i = (TestIngredientes)obj;
 		i.dsetId(null);
 		
 		JReturn r1 = new JReturn();
-		String json1 = cc.editObject(r1, i);
+		r = cc.editObject(r1, i);
 		assertTrue(!r1.isSuccess());
-		assertTrue(json1.contains("Primary key is not set."));
+		assertTrue(Transform.objectToJson(r).contains("Primary key is not set."));
 	}
 	
 	

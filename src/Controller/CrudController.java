@@ -103,7 +103,12 @@ public class CrudController extends GenericController{
 
 		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		
+		//Add Object to the Return Data
+		r.getData().setDataObject(object);
 		
+		//Add all FK Lists of the object for select options
+		ArrayList<ArrayList<Model>> jdataList = DAO.getInstance().selectForForm(object);
+		r.getData().addFormItem(this.prepareFormData(jdataList));
 		
 
 		return r;		
@@ -127,11 +132,20 @@ public class CrudController extends GenericController{
 		List<Model> list = DAORelation.getInstance().select(object);
 		if(!list.isEmpty()){
 			object = list.get(0);
+			
+			//Add Object to the Return Data
+			r.getData().setDataObject(object);
+			
+			//Add all FK Lists of the object for select options
+			ArrayList<ArrayList<Model>> jdataList = DAO.getInstance().selectForForm(object);
+			r.getData().addFormItem(this.prepareFormData(jdataList));
+			
+			//Set JSon response return type
+			r.setReturnType(ReturnType.FORM);
 		}else{
 			r.addSimpleError("Data for "+ object.getClass().getSimpleName() +" not found!");
 			return r;
 		}
-		ReflectionDAORelation rdr1 = new ReflectionDAORelation(object);
 		
 		return r;
 	}
@@ -204,20 +218,41 @@ public class CrudController extends GenericController{
 		
 		this.selectObjectCheck(r, list, object);
 		
-		JData jd =  new JData(this.getClassName());
+		JData jd =  new JData(this.getObject().getClassName());
 		r.getData().setDataList(list);
 		r.setReturnType(ReturnType.SEARCH);	
 		return r;
 	}
 	
 	
-	
-	public void selectObjectCheck(JReturn r, List<Model> list, Model object){
+	/**
+	 * Checks if data was found  for in a select/search reqeust
+	 * @param r
+	 * @param list
+	 * @param object
+	 */
+	private void selectObjectCheck(JReturn r, List<Model> list, Model object){
 		if(list.size() > 0){
 			object = (Model) list.get(0); 
 		}else{
 			r.addMsg("No data found with params: "+ StringUtils.searchString(object));	
 		}
+	}
+	
+	
+	private ArrayList<JData> prepareFormData(ArrayList<ArrayList<Model>> list){
+		ArrayList<JData> jdataList = new ArrayList<>();
+		Iterator<ArrayList<Model>> itList = list.iterator();
+		
+		while(itList.hasNext()){
+			ArrayList<Model> modelList = itList.next();
+			JData jd= new JData();
+			jd.setDataList(modelList);
+			jdataList.add(jd);
+		}
+		
+		
+		return jdataList;
 	}
 
 	

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import JsonClasses.JObject;
 import JsonClasses.JReturn;
 
 public interface IController {
@@ -108,5 +109,8 @@ public interface IController {
 	 */
 	public  IUser getUserSession();
 	
-	
+	/**
+	 * Get the object received from the view
+	 */
+	public JObject getObject();
 }

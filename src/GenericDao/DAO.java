@@ -9,6 +9,7 @@ import java.util.List;
 
 import Converter.GenericConverter;
 import Model.Model;
+import Reflection.GenericReflection;
 import Reflection.ReflectionDAO;
 import Tests.Debug;
 import Utils.StringUtils;
@@ -268,7 +269,6 @@ public class DAO implements IDAO{
 	 */
 	public ArrayList<Model> select(Model object){
 		ReflectionDAO rd = new ReflectionDAO(object);
-		
 
 		ArrayList<Method> mget = new ArrayList<>();
 		ArrayList<Method> mset = rd.getSetMethods();
@@ -290,6 +290,30 @@ public class DAO implements IDAO{
 		
 		//Return all objects of the executed sql query
 		return this.getObjectsFromRS(rd, rd.prepareSelectSqlString(mget, where), mget, mset, where, false);
+	}
+	
+	/**
+	 * Get arrays of all object FK values to create select options etc.
+	 * @param object
+	 * @return
+	 */
+	public ArrayList<ArrayList<Model>> selectForForm(Model object){
+		ReflectionDAO rd = new ReflectionDAO(object);
+		ArrayList<Model> list = null;
+		ArrayList<ArrayList<Model>> modelArray = new ArrayList<>();
+		
+		
+		List<Method> ms = rd.getGetFKs();
+		for(Method m : ms){
+			Class<?> cs = rd.getMethodValueClass(m);
+			Model obj = (Model)GenericReflection.instanciateObjectByName(cs);
+			
+			list = this.select(obj);
+			modelArray.add(list);
+			
+		}
+		
+		return modelArray;
 	}
 
 

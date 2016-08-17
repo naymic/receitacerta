@@ -20,6 +20,7 @@ public class JReturn{
 	
 	public JReturn(){
 		setSuccess(true);
+		data = new JData();
 		redirect = new JRedirect();
 		user = new JUser();
 		atberrors = new ArrayList<>();

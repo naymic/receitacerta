@@ -167,6 +167,7 @@ public class ViewController extends HttpServlet {
 	protected void initVariables(JRequest requ, IController ic){
 		String key = null;
 		Iterator<String> i = requ.getData().keySet().iterator();
+		ic.getObject().setClassName(requ.getClassname());
 		while(i.hasNext()){
 			key = i.next();
 			ic.addVariable(key, requ.getData().get(key));
@@ -182,16 +183,16 @@ public class ViewController extends HttpServlet {
 	 * @return 			IController child of a IController
 	 */
 	public IController getController(JReturn r, String usecase, IApplicationSession ics){
-		String className = "Controller."+usecase+"Controller";
+		String controllerName = "Controller."+usecase+"Controller";
 
 		try{
-			Class.forName(className);
+			Class.forName(controllerName);
 		}catch(ClassNotFoundException e){
 			r.addSimpleError("Don't exist a controller for the use case "+ usecase +"!");
 			return null;
 		}
 		
-		IController ic = (IController) GenericReflection.instanciateObjectByName(className);
+		IController ic = (IController) GenericReflection.instanciateObjectByName(controllerName);
 		ic.setAppSession(ics);
 		return ic;
 	}

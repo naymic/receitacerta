@@ -10,6 +10,7 @@ import GenericDao.DAO;
 import Interfaces.IApplicationSession;
 import Interfaces.IController;
 import Interfaces.IUser;
+import JsonClasses.JObject;
 import JsonClasses.JReturn;
 import Model.Model;
 import Model.Usuario;
@@ -18,11 +19,11 @@ import Reflection.ReflectionDAORelation;
 
 
 public class GenericController implements IController{
-
+	
 	String usecase;
 	String action;
 	ArrayList<String> validActions;
-	HashMap<String, Object> variables;
+	JObject jobject;
 	String jsonString; 
 	IApplicationSession appSession;
 
@@ -41,7 +42,7 @@ public class GenericController implements IController{
 	 */
 	private void initVariables(){
 		validActions = new ArrayList<>();
-		variables = new HashMap<>();
+		jobject = new JObject();
 	}
 	
 	/**
@@ -49,8 +50,8 @@ public class GenericController implements IController{
 	 * THIS METHOD IS NOT USER AT THE MOMENT
 	 * @return
 	 */
-	public HashMap<String, Object> getVariableMapper() {
-		return variables;
+	public JObject getObject() {
+		return jobject;
 	}
 	
 	public void setJson(String json){
@@ -106,13 +107,13 @@ public class GenericController implements IController{
 	
 	
 	public void addVariable(String key, Object value){
-		this.variables.put(key, value);
+		this.getObject().addAttribute(key, value);
 	}
 	
 	public Object getVariableValue(String key){
 		try{
-			if(this.variables.containsKey(key))
-				return this.variables.get(key);
+			if(this.getObject().existAttribute(key))
+				return this.getObject().getAttribute(key);
 			else
 				throw new Exception("Key: "+key+" dont exit in the variable map");
 		}catch(Exception e){
@@ -122,11 +123,11 @@ public class GenericController implements IController{
 	}
 	
 	public Iterator<String> getVariableKeys(){
-		return this.variables.keySet().iterator();
+		return this.getObject().getAttributeKeys();
 	}
 	
 	public Iterator<Object> getVariableValues(){
-		return this.variables.values().iterator();
+		return this.getObject().getAttributeValues();
 	}
 	
 	/**
@@ -140,20 +141,20 @@ public class GenericController implements IController{
 
 		
 		//Check if className is set
-		if(!this.getVariableMapper().containsKey("className") && this.getClassName().length() > 0){
+		if(this.getObject().getClassName() == null || this.getObject().getClassName().length() == 0){
 			r.addSimpleError("No given className, the controller have to reveice a className from the view");
 			return null;
 		}
 		
 		//Add Model. before the classname if not exist
-		if(!this.getVariableMapper().get("className").toString().contains("Model.")){
-			this.getVariableMapper().put("className", "Model."+this.getVariableMapper().get("className"));
+		if(!this.getObject().getClassName().toString().contains("Model.")){
+			this.getObject().setClassName("Model."+this.getObject().getClassName());
 		}
 		
 	
 		Iterator<String> it = this.getVariableKeys();
 		String paramName;
-		String className = (String) this.getVariableValue("className");
+		String className = (String) this.getObject().getClassName();
 		Model obj = ReflectionDAO.instanciateObjectByName(className);	
 		ReflectionDAORelation rdr = new ReflectionDAORelation(obj);
 
@@ -184,14 +185,6 @@ public class GenericController implements IController{
 		}
 		
 		return obj;
-	}
-	
-	/**
-	 * Gets the className of the mapper
-	 * @return
-	 */
-	public String getClassName() {
-		return (String) this.getVariableValue("className");
 	}
 	
 	/**
@@ -240,7 +233,6 @@ public class GenericController implements IController{
 		IUser iu= (IUser)this.getAppSession().getMapAttribute("user");
 		return iu.isLoggedin();
 	}
-	
 
 
 }

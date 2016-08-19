@@ -66,14 +66,19 @@ public class GenericController implements IController{
 	
 	@Override
 	public void validateAction(String action)throws NoActionException {
-		
+		boolean test = false;
 		for(String s : getValidActionsList()){
 			if(s.equalsIgnoreCase(action)){
-				throw new NoActionException(this.getClass().getSimpleName(), action);
+				test = true;
+				break;
 			}
+			
 			
 		}
 		
+		if(!test){
+			throw new NoActionException(this.getClass().getSimpleName(), action);
+		}
 
 
 	}

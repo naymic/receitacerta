@@ -42,7 +42,7 @@ public class TestGson extends TestCases {
 		u= (Ingredientes) l.get(0);
 		
 		Gson g = new Gson();
-		System.out.println("TestRelationSelectToGson: "+g.toJson(l));
+		System.out.println("TestRelationSelectToGson:  "+g.toJson(l));
 		
 	}
 	

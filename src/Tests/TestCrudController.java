@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import Controller.CrudController;
+import Exceptions.NoActionException;
 import JsonClasses.JReturn;
 import Model.Ingredientes;
 import Model.Model;
@@ -13,7 +14,9 @@ import Utils.Transform;
 
 public class TestCrudController extends TestCases{
 
-	
+	/*
+	 * Auxiliary methods
+	 */
 	public CrudController getCRUDController(){
 		CrudController cc = new CrudController();
 		cc.addVariable("id", 1);
@@ -33,6 +36,38 @@ public class TestCrudController extends TestCases{
 		return cc;
 	}
 	
+	
+	/*
+	 * Testcase methods
+	 */
+	
+	@Test
+	public void testAction(){
+		
+		//Usecase update don't exist
+		CrudController cc = new CrudController();
+		JReturn r = new JReturn();
+		JReturn r1 = new JReturn();
+		JReturn r2 = new JReturn();
+		try {
+			cc.validateAction("update");
+			
+			
+			cc.validateAction("edit");
+			
+			
+			cc.validateAction("update");
+			
+		} catch (NoActionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+	
+	
 	@Test
 	public void testInitObject() {
 		CrudController cc = this.getCRUDController();
@@ -46,7 +81,6 @@ public class TestCrudController extends TestCases{
 		assertEquals("carne de sol1", obj.dgetNome());
 		assertEquals(new Integer(1), obj.dgetIngredientesUnidade().dgetId());
 		assertEquals(new Integer(1), obj.dgetIngredientesTipo().dgetId());
-		
 	}
 	
 	@Test

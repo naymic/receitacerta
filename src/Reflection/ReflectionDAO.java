@@ -345,7 +345,7 @@ public class ReflectionDAO extends GenericReflection{
 	}
 	
 	
-	public static Model instanciateObjectByName(String className){
+	public static Model instanciateObjectByName(String className) throws RuntimeException{
 		return (Model)GenericReflection.instanciateObjectByName(className);
 	}
 	

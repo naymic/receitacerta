@@ -34,7 +34,7 @@ public class CrudController extends GenericController{
 			}else  if(action.equalsIgnoreCase("buscaavancada")){
 				r = this.selectObjectSearch(r, object);
 				r.setReturnType(ReturnType.SEARCH);
-			}if(action.equalsIgnoreCase("busca")){
+			}else if(action.equalsIgnoreCase("busca")){
 				r = this.selectObject(r, object);
 				r.setReturnType(ReturnType.SELECT);
 			}else if(action.equalsIgnoreCase("novo")){

@@ -13,5 +13,13 @@ public class TestConfig extends TestCases {
 		
 		
 	}
+	
+	
+	@Test
+	public void testConfiTestgDB() {
+		Config.getInstance().setTestDB(true);
+		
+	}
+	
 
 }

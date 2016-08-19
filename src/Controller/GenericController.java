@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import Converter.GenericConverter;
+import Exceptions.NoActionException;
 import GenericDao.DAO;
 import Interfaces.IApplicationSession;
 import Interfaces.IController;
@@ -64,17 +65,16 @@ public class GenericController implements IController{
 
 	
 	@Override
-	public JReturn validateAction(String action) {
-		JReturn r = new JReturn();
+	public void validateAction(String action)throws NoActionException {
+		
 		for(String s : getValidActionsList()){
 			if(s.equalsIgnoreCase(action)){
-				return r;
+				throw new NoActionException(this.getClass().getSimpleName(), action);
 			}
 			
 		}
 		
-		r.addSimpleError("Action "+ action +" don't exist in the controller: "+ this.getClass().getName());
-		return r;
+
 
 	}
 
@@ -82,7 +82,11 @@ public class GenericController implements IController{
 	@Override
 	public void execute(JReturn r, String action) {
 		//Checks if the given action is a valid action
-		r = this.validateAction(action);
+		try {
+			this.validateAction(action);
+		} catch (NoActionException e) {
+			r.addSimpleError(e.getMessage());
+		}
 		
 	}
 
@@ -155,7 +159,14 @@ public class GenericController implements IController{
 		Iterator<String> it = this.getVariableKeys();
 		String paramName;
 		String className = (String) this.getObject().getClassName();
-		Model obj = ReflectionDAO.instanciateObjectByName(className);	
+		Model obj = null;
+		try{
+			obj = ReflectionDAO.instanciateObjectByName(className);	
+		}catch(RuntimeException re){
+			r.addSimpleError(re.getMessage());
+			return null;
+		}
+		
 		ReflectionDAORelation rdr = new ReflectionDAORelation(obj);
 
 

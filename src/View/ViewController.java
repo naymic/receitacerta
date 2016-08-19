@@ -23,6 +23,7 @@ import JsonClasses.JReturn;
 import Model.Usuario;
 import Reflection.GenericReflection;
 import Utils.Config;
+import Utils.StringUtils;
 import Utils.Transform;
 
 /**
@@ -48,19 +49,24 @@ public class ViewController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-	
-		
-		//response.getWriter().println("");
+		doHttp(request, response);
 	}
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		doHttp(request, response);
+	}
+	
+	/**
+	 * Do the https request flow the response
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	private void doHttp(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String content = "";
 		HttpSession session = request.getSession(true);
 		
@@ -80,6 +86,8 @@ public class ViewController extends HttpServlet {
 		for(int i=0; i<jrequ.length; i++){
 			content = process(jrequ[i], response, session, content, r);
 		}
+		
+		response.setContentType("application/json");
 		response.getWriter().println(content);
 	}
 	
@@ -140,7 +148,6 @@ public class ViewController extends HttpServlet {
 		if(r.isSuccess()){
 			//Get all variables from the view and save it to the controller
 			this.initVariables(requ, ic);
-			System.out.println(ic.getJson().length());
 			
 			//Execute the required action, the Return object is already transfered to the jsonMapper in the controller and is not user anymore
 			ic.execute(r ,action);
@@ -183,6 +190,8 @@ public class ViewController extends HttpServlet {
 	 * @return 			IController child of a IController
 	 */
 	public IController getController(JReturn r, String usecase, IApplicationSession ics){
+		
+		usecase = StringUtils.setFirstLetterUppercase(usecase);
 		String controllerName = "Controller."+usecase+"Controller";
 
 		try{

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import Exceptions.NoActionException;
 import JsonClasses.JObject;
 import JsonClasses.JReturn;
 
@@ -35,9 +36,10 @@ public interface IController {
 	
 	/** executa as valida��es para uma a��o
 	 * @param action
+	 * @return 
 	 * @return retorn um Objeto Return informado a situa��o da valida��o.
 	 */
-	public JReturn validateAction(String action);
+	public void validateAction(String action) throws NoActionException;
 	
 	/**
 	 * @return true se o caso de uso necessita de autentica��o.

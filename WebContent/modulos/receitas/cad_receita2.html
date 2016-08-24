@@ -1,46 +1,116 @@
-<!-- Nav tabs -->
-<h3 id="nomeReceitaTitulo">Sem</h3>
-  <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#ingredientesTab" aria-controls="ingredientesTab" role="tab" data-toggle="tab">Ingredientes</a></li>
-    <li role="presentation"><a href="#passosTab" aria-controls="passosTab" role="tab" data-toggle="tab">Passos</a></li>
-  </ul>
+<form method="post" id="formReceitas1">
 
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="ingredientesTab">
-    <br />
-    	<form method="post" id="formCadReceita2">
 	<div class="row">
-		<div class="col-md-5">
-			<select class="form-control" name="ingrediente_id">
+		<div class="col-md-6">
+			<label>Nome da receita</label> <input type="text" id="nome"
+				name="nome" class="form-control" />
+		</div>
+
+		<div class="col-md-6">
+			<label>Tempo de preparo</label> <input type="time" id="tempo"
+				name="tempo" class="form-control" />
+		</div>
+	</div>
+	<div class="row">
+
+		<div class="col-md-6">
+			<label>Nível de Dificuldade</label> <select name="dificuldade"
+				id="dificuldade" name="dificuldade" class="form-control">
+				<option value="">Selecione um Nível de Dificuldade</option>
 			</select>
 		</div>
-		<div class="col-md-5">
-			<input type="number" class="form-control" id="quantidade" name="quantidade">
-		</div>	
-		<div class="col-md-2">
-			<button type="submit" class="btn btn-primary">Adicionar</button>
+
+
+		<div class="col-md-6">
+			<label>Tipo de Receita</label> <select name="tipoReceita"
+				id="tipoReceita" class="form-control">
+				<option value="">Selecione um Tipo de Receita</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="row">
+
+		<div class="col-md-6">
+			<button name="proximo" id="proximo" type="button"
+				onclick="$('#conteudoExtra').fadeIn('fast')" class="btn btn-primary"
+				style="margin-top: 23px;">Próximo</button>
 		</div>
 	</div>
 </form>
-<hr />
-<table class="table">
-	<thead>
-		<tr>
-			<th>Ingrediente</th>
-			<th>Quantidade</th>
-			<th>#</th>
-		</tr>
-	</thead>
-	<tbody>
-	</tbody>
-</table>
-    
-    
-    </div>
-    <div role="tabpanel" class="tab-pane" id="passosTab"><br />Douglas constroi os passos aqui!</div>
-  </div>
 
+<hr />
+<div id="conteudoExtra" style="display: none">
+
+	<!-- Nav tabs -->
+	<h3 id="nomeReceitaTitulo"></h3>
+	<ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href="#ingredientesTab"
+			aria-controls="ingredientesTab" role="tab" data-toggle="tab">Ingredientes</a></li>
+		<li role="presentation"><a href="#passosTab"
+			aria-controls="passosTab" role="tab" data-toggle="tab">Passos</a></li>
+	</ul>
+
+	<!-- Tab panes -->
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="ingredientesTab">
+			<br />
+			<form method="post" id="formCadReceita2">
+				<div class="row">
+					<div class="col-md-5">
+						<select class="form-control" name="ingrediente_id">
+						</select>
+					</div>
+					<div class="col-md-5">
+						<input type="number" class="form-control" id="quantidade"
+							name="quantidade">
+					</div>
+					<div class="col-md-2">
+						<button type="submit" class="btn btn-primary">Adicionar</button>
+					</div>
+				</div>
+			</form>
+			<hr />
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Ingrediente</th>
+						<th>Quantidade</th>
+						<th>#</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<!--Passo panel-->
+		<div role="tabpanel" class="tab-pane" id="passosTab">
+			<br />
+			<form method="post" id="formCadPassos">
+				<div class="row">
+					<div class="col-md-10">
+						<textarea rows="3" cols="" class="form-control">Digite aqui o texto do passo</textarea>
+					</div>
+					<div class="col-mt-2">
+						<button type="submit" class="btn btn-primary">Adicionar</button>
+					</div>
+				</div>
+			</form>
+			<hr />
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Passo</th>
+						<th>Descrição</th>
+						<th>#</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
 
 
 

@@ -1,5 +1,4 @@
-$(function(){
-var tex                                                                                                                                                                            tfield = $("input[name=user]");
+$(function(){                                                                                                                                                                            tfield = $("input[name=user]");
             $('#formUser').click(function(e) {
                 e.preventDefault();
                 //little validation just to check username

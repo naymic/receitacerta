@@ -29,6 +29,26 @@ String.prototype.capitalizeFirstLetter = function() {
 }
 
 
+function serializaVetor(obj,qtdCampos){
+	//console.log(obj);
+	var novoArray = new Array();
+	var j = 0;
+	var cont = 0;
+	novoArray[0] = new Object();
+	$.each(obj,function(i, valor){
+		if(j == qtdCampos && qtdCampos != ''){
+			j = 0;
+			cont++;
+			novoArray[cont] = new Object();
+		}
+		novoArray[cont][valor.name] = valor.value;
+		j++;
+	});
+	console.log(novoArray);
+	
+	return novoArray;
+}
+
 
 function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um formulario qualquer
   console.log(dados);
@@ -95,7 +115,7 @@ function validaLogin(objAction){
 function validaInsert(objAction){
 	$("#action").val(SALVARACTION);
 	$("#btnSubmit").val('Cadastrar');
-	data = getResponse(objAction[KEYDADOS]);
+	data = getResponse(JSON.stringfy(objAction[KEYDADOS]));
  // $("#loadContent").load(PATH_API,objAction,function(data){
         //console.log(data);
         construirForm(data,objAction[KEYDADOS].className,objAction[KEYCONFIG].formReset);
@@ -141,13 +161,13 @@ function validaUpdate(objAction){
 	$("#action").val(SALVARACTION);
 	$("#btnSubmit").val('Salvar');
   $("#divSubmit").prepend('<input onClick=navCentral("'+objAction[KEYCONFIG].returnPage+'") class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
-	data = getResponse(objAction[KEYDADOS]);
+	data = getResponse(JSON.stringify(objAction[KEYDADOS]));
 	construirForm(data,objAction[KEYDADOS].className,objAction[KEYCONFIG].formReset);
 }
 
 function validaLogout(){
 	var objAction = {"action":"logout","usecase":"Login","className":"Usuario"};
-	var data = getResponse(objAction);
+	var data = getResponse(JSON.stringify(objAction));
 	validaRetorno(data);
 }
 
@@ -156,7 +176,7 @@ function validaGetSerialForm(idForm){
   $(document).off("submit","#"+idForm);
 	$(document).on("submit","#"+idForm,function(e) {
       e.preventDefault();
-      dadosSeriais = $(this).serialize();
+      dadosSeriais = serializaVetor($(this).serialize(),2);
   });
   return dadosSeriais;
 }
@@ -236,6 +256,7 @@ function getResponse(objAction){
 	$.ajax({
 		async:false,
 		data:objAction,
+		dataType:"JSON",
 		url:PATH_API,
 		type:"POST",
 		success: function(objResposta){
@@ -299,7 +320,7 @@ function submitConsulta(idForm,config){
 	$(document).off("submit","#"+idForm);
 	$(document).on("submit","#"+idForm,function(e) {
      e.preventDefault();
-	 var data = getResponse($(this).serialize());
+	 var data = getResponse(serializaVetor($(this).serialize(),2));
 	 
      construirTabela(data[KEYBUSCA],$(this).find("#className").val(),CONFIGTABLE);
 
@@ -310,7 +331,7 @@ function submitGeral(idForm,cleanForm){
 	$(document).off("submit","#"+idForm);
 	$(document).on("submit","#"+idForm,function(e) {
       e.preventDefault();
-			var data = getResponse($(this).serialize());
+			var data = getResponse(serializaVetor($(this).serialize(),2));
 			console.log("Retorno------------");
 			
 			//data = JSON.parse(data);

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+
+
+<form  method="post" id="formIngredientes">
+
+<div class="row">
+	<div class="col-md-3">
+		<label>Nome do Ingrediente</label>
+		<input type="text" name="nome" id="nome" class="form-control" />
+	</div>
+	<div class="col-md-3">
+		<label>Tipo do Ingrediente</label>
+		<select name="nome" id="nome" class="form-control">
+			<option value="">Selecione um Valor</option>
+		</select>
+	</div>
+	<div class="col-md-3">
+		<label>Unidade</label>
+		<select name="nome" id="nome" class="form-control">
+			<option value="">Selecione um Valor</option>
+		</select>
+	</div>
+	
+	<div class="col-md-3">
+		<label>Calorias por Unidade(Cal/Unid)</label>
+		<input type="text" name="nome" id="nome" class="form-control" />
+	</div>
+	
+	<div class="col-md-3">
+		<label>Tipo Armazenamento</label>
+		<select name="nome" id="nome" class="form-control">
+			<option value="">Selecione um Valor</option>
+		</select>
+	</div>
+	
+	<div class="col-md-3">
+		<label>Data de Validade</label>
+		<input type="text" name="nome" id="nome" class="form-control" />
+	</div>
+	
+	
+	
+	
+	
+</div>
+
+   
+  
+   
+
+   <div id="divSubmit">
+    <input class="btn btn-primary" type="submit" id="btnSubmit"  value="Salvar" />
+    </div>
+
+</form>
+<script>
+var objReceita = {"dados":{"className":"","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true}};
+validaAction("Insert",objReceita);
+
+
+
+</script>
+
+</body>
+</html>

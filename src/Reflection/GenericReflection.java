@@ -199,7 +199,7 @@ public class GenericReflection {
 	 * @param className
 	 * @return
 	 */
-	public static Object instanciateObjectByName(String className){
+	public static Object instanciateObjectByName(String className) throws RuntimeException{
 		
 		Class<?> ref = null;
 		Object obj = null;
@@ -207,7 +207,12 @@ public class GenericReflection {
 		try {
 			ref = Class.forName(className);
 			obj = ref.newInstance();
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+		} catch (ClassNotFoundException e) {
+			System.out.println("Given classname don't exist! Classname: "+ className);	
+			throw new RuntimeException("Given classname don't exist! Classname: "+ className);
+					
+			//e.printStackTrace();
+		} catch ( InstantiationException | IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -220,7 +225,7 @@ public class GenericReflection {
 	 * @param className
 	 * @return
 	 */
-	public static Object instanciateObjectByName(Class<?> _class){
+	public static Object instanciateObjectByName(Class<?> _class) throws RuntimeException{
 		return instanciateObjectByName(_class.getName());
 	}
 	

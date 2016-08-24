@@ -5,32 +5,68 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import Controller.CrudController;
+import Exceptions.NoActionException;
 import JsonClasses.JReturn;
+import Model.Ingredientes;
 import Model.Model;
 import Model.TestIngredientes;
 import Utils.Transform;
 
 public class TestCrudController extends TestCases{
 
-	
+	/*
+	 * Auxiliary methods
+	 */
 	public CrudController getCRUDController(){
 		CrudController cc = new CrudController();
-		cc.addVariable("campo.id", 1);
-		cc.addVariable("campo.ingrediente_armazenamentos_id", 2);
-		cc.addVariable("campo.calorias", 250.0);
-		cc.addVariable("campo.nome", "carne de sol1");
-		cc.addVariable("campo.ingredientes_unidades_id", 1);
-		cc.addVariable("campo.ingredientes_tipo_id", 1);
-		cc.addVariable("className", "TestIngredientes");
+		cc.addVariable("id", 1);
+		cc.addVariable("ingrediente_armazenamentos_id", 2);
+		cc.addVariable("calorias", 250.0);
+		cc.addVariable("nome", "carne de sol1");
+		cc.addVariable("ingredientes_unidades_id", 1);
+		cc.addVariable("ingredientes_tipo_id", 1);
+		cc.getObject().setClassName("TestIngredientes");
 		return cc;
 	}
 	
 	public CrudController getCRUDControllerEdit(){
 		CrudController cc = new CrudController();
-		cc.addVariable("className", "TestIngredientes");
-		cc.addVariable("campo.id", 2);
+		cc.getObject().setClassName("TestIngredientes");
+		cc.addVariable("id", 2);
 		return cc;
 	}
+	
+	
+	/*
+	 * Testcase methods
+	 */
+	
+	@Test
+	public void testAction(){
+		
+		//Usecase update don't exist
+		CrudController cc = new CrudController();
+		JReturn r = new JReturn();
+		JReturn r1 = new JReturn();
+		JReturn r2 = new JReturn();
+		try {
+			cc.validateAction("update");
+			
+			
+			cc.validateAction("edit");
+			
+			
+			cc.validateAction("update");
+			
+		} catch (NoActionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+	
 	
 	@Test
 	public void testInitObject() {
@@ -45,7 +81,6 @@ public class TestCrudController extends TestCases{
 		assertEquals("carne de sol1", obj.dgetNome());
 		assertEquals(new Integer(1), obj.dgetIngredientesUnidade().dgetId());
 		assertEquals(new Integer(1), obj.dgetIngredientesTipo().dgetId());
-		
 	}
 	
 	@Test
@@ -100,16 +135,17 @@ public class TestCrudController extends TestCases{
 		
 		r = cc.editObject(r, obj);
 		assertTrue(r.isSuccess());
-		//assertEquals(549, json.length());
+		assertEquals(1, r.getData().getData().size());
+		TestIngredientes ing = (TestIngredientes) r.getData().getData().get(0);
+		assertEquals(new Integer(2), ing.dgetId());
 		
 		System.out.println(Transform.objectToJson(r));
 		
+		
 		TestIngredientes i = (TestIngredientes)obj;
 		i.dsetId(null);
-		
-		JReturn r1 = new JReturn();
-		r = cc.editObject(r1, i);
-		assertTrue(!r1.isSuccess());
+		r = cc.editObject(r, i);
+		assertTrue(!r.isSuccess());
 		assertTrue(Transform.objectToJson(r).contains("Primary key is not set."));
 	}
 	

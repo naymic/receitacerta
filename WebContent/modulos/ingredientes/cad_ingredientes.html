@@ -1,21 +1,21 @@
 <form  method="post" id="formIngredientes">
 
 <div class="row">
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<label>Nome Receita</label>
 		<input type="text" name="nome" id="nome" class="form-control" />
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<label>Nome Receita</label>
 		<select name="nome" id="nome" class="form-control">
 			<option value="">Selecione um Valor</option>
 		</select>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<label>Nome Receita</label>
 		<textarea  name="nome" id="nome" class="form-control"></textarea>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-2">
 		<label>Nome Receita</label>
 		<input type="text" name="nome" id="nome" class="form-control" />
 	</div>
@@ -96,7 +96,7 @@
 
 </form>
 <script>
-var objReceita = {"dados":{"className":"","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true}};
+var objReceita = {"dados":{"className":"Ingredientes","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true}};
 validaAction("Insert",objReceita);
 
 

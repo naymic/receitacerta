@@ -1,0 +1,54 @@
+
+<form method="post" id="formReceitas1">
+
+	
+		<div class="row">
+			<div class="col-md-6">
+				<label>Nome da receita</label>
+				<input type="text" id="nome" class="form-control"/> 
+			</div>
+			
+			<div class="col-md-6">
+				<label>Tempo de preparo</label>
+				<input type="time" id="tempo" class="form-control"/>
+			</div>
+		</div>
+		<div class="row">	
+			
+			<div class="col-md-6">
+				<label>Nível de Dificuldade</label> 
+				<select name="dificuldade" id="dificuldade" class="form-control">
+					<option value="">Selecione um Nível de Dificuldade</option>
+				</select>
+			</div>
+			
+			
+			<div class="col-md-6">
+				<label>Tipo de Receita</label>
+				<select name="dificuldade" id="dificuldade" class="form-control">
+					<option value="">Selecione um Nível de Dificuldade</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="row">
+	
+			<div class="col-md-6">
+				<button name="proximo" id="proximo" type="button" onclick="proximoPasso()" class="btn btn-primary" style="margin-top:23px;">Próximo</button>
+			</div>
+		</div>
+</form>
+
+<script>
+	//var objReceita = {"dados":{"className":"","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true}};
+	//validaAction("Insert",objReceita);
+	function proximoPasso(){
+		var nomeReceita = $('#nome').val();
+		$('#conteudoCentral').load('modulos/receitas/cad_receita2.html',
+				function(){
+					$('#nomeReceitaTitulo').text(nomeReceita);
+					
+		});
+	}
+</script>
+	

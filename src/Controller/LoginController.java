@@ -3,6 +3,7 @@ package Controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import Exceptions.NoActionException;
 import GenericDao.DAO;
 import Interfaces.IApplicationSession;
 import Interfaces.IUser;
@@ -42,7 +43,12 @@ public class LoginController extends GenericController{
 	@Override
 	public void execute(JReturn r, String action) {
 		super.execute(r, action);
-		r = this.validateAction(action);
+		
+		try {
+			this.validateAction(action);
+		} catch (NoActionException e) {
+			r.addSimpleError(e.getMessage());
+		}
 		
 		
 		//Iniciate user from view
@@ -66,7 +72,8 @@ public class LoginController extends GenericController{
 		boolean test = false;
 		Usuario u = null;
 		//Get a list of all users
-		ArrayList<Model> usuarios = DAO.getInstance().select(new Usuario());
+		
+		ArrayList<Model> usuarios = DAO.getInstance().select(loginUser);
 		
 		//Check if exist user
 		for(Model bdUser : usuarios){

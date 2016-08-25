@@ -155,9 +155,9 @@ public class GenericController implements IController{
 			return null;
 		}
 		
-		//Add Model. before the classname if not exist
-		if(!this.getObject().getClassName().toString().contains("Model.")){
-			this.getObject().setClassName("Model."+this.getObject().getClassName());
+		//Add model. before the classname if not exist
+		if(!this.getObject().getClassName().toString().contains("model.")){
+			this.getObject().setClassName("model."+this.getObject().getClassName());
 		}
 		
 	

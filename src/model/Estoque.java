@@ -16,6 +16,7 @@ public class Estoque extends Model {
 	
 	
 	Integer id;
+	Ingredientes ingredientesId;
 	Usuario userId;
 	Integer quantidade;
 	Date dataInsercao;
@@ -31,9 +32,18 @@ public class Estoque extends Model {
 	public Integer dgetId() {
 		return id;
 	}
-
+	
 	public void dsetId(Integer id) {
 		this.id = id;
+	}
+	
+	@Entity(attributeName="ingredientes_id", fk=true)
+	public Ingredientes getIngredientesId() {
+		return ingredientesId;
+	}
+
+	public void setIngredientesId(Ingredientes ingredientesId) {
+		this.ingredientesId = ingredientesId;
 	}
 
 	@Entity(attributeName= "usuario_id", fk=true, isMapped=true)

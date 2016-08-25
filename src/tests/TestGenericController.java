@@ -75,7 +75,7 @@ public class TestGenericController {
 		Object obj = (TestIngredientes)cc.initObj(r);
 		assertFalse(r.isSuccess());
 		assertEquals(1, r.getSimpleErrors().size());
-		assertEquals("Given classname don't exist! Classname: Model.TestIngredi", r.getSimpleErrors().get(0));
+		assertEquals("Given classname don't exist! Classname: model.TestIngredi", r.getSimpleErrors().get(0));
 		
 		
 		//Check with correct Model Class name

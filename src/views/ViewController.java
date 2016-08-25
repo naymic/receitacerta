@@ -142,10 +142,15 @@ public class ViewController extends HttpServlet {
 		
 		//Check if usecase needs authentication 
 		//check if user is loggedin
-		this.checkUserLogin(ic, r, ics, usecase, action, classname);
+		if(r.isSuccess())
+			this.checkUserLogin(ic, r, ics, usecase, action, classname);
 		
 		//Generic use case execution
 		if(r.isSuccess()){
+			
+			
+			
+			
 			//Get all variables from the view and save it to the controller
 			this.initVariables(requ, ic);
 			
@@ -192,7 +197,7 @@ public class ViewController extends HttpServlet {
 	public IController getController(JReturn r, String usecase, IApplicationSession ics){
 		
 		usecase = StringUtils.setFirstLetterUppercase(usecase);
-		String controllerName = "Controller."+usecase+"Controller";
+		String controllerName = "controllers."+usecase+"Controller";
 
 		try{
 			Class.forName(controllerName);
@@ -215,8 +220,9 @@ public class ViewController extends HttpServlet {
 	 */
 	public void checkUserLogin(IController ic, JReturn r, ViewSessionController ics, String usecase, String action, String classname){
 		
-		//Add User status to Return				
-		r.getUser().setLoggedin(ic.isUserSessionLoggedin());
+		//Add User status to Return			
+		if(r.getUser() != null)
+			r.getUser().setLoggedin(ic.isUserSessionLoggedin());
 		
 		//Check if use case needs authentication
 		if(r.isSuccess() && ic.needAuthentication()){

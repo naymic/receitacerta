@@ -14,7 +14,7 @@
     <description></description>
     <display-name>ViewController</display-name>
     <servlet-name>ViewController</servlet-name>
-    <servlet-class>View.ViewController</servlet-class>
+    <servlet-class>views.ViewController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ViewController</servlet-name>

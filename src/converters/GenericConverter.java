@@ -22,9 +22,9 @@ public class GenericConverter {
 		if(value == null){
 			IExtendedConverter ic;
 			if(outputClass.getSuperclass() == Model.class){
-				ic = (IExtendedConverter)GenericReflection.instanciateObjectByName("Converter.NullToModel");
+				ic = (IExtendedConverter)GenericReflection.instanciateObjectByName("converters.NullToModel");
 			}else{
-				ic = (IExtendedConverter)GenericReflection.instanciateObjectByName("Converter.NullTo"+outputClass.getSimpleName());
+				ic = (IExtendedConverter)GenericReflection.instanciateObjectByName("converters.NullTo"+outputClass.getSimpleName());
 			}
 			return ic.convert(value, outputClass);
 		}else{
@@ -40,7 +40,7 @@ public class GenericConverter {
 
 		//Check if its a Model Class Output
 		if(outputClass.getSuperclass() == Model.class){
-			IExtendedConverter ic = (IExtendedConverter)GenericReflection.instanciateObjectByName("Converter."+simpleClassNameInput+"ToModel");
+			IExtendedConverter ic = (IExtendedConverter)GenericReflection.instanciateObjectByName("converters."+simpleClassNameInput+"ToModel");
 			return ic.convert(value, outputClass);
 		}
 
@@ -52,7 +52,7 @@ public class GenericConverter {
 		
 		//Instantiate the converter and converts the value with the interface
 		Object obj = null;
-		ISimpleConverter ic = (ISimpleConverter)GenericReflection.instanciateObjectByName("Converter."+simpleClassNameInput+"To"+simpleClassNameOnput);
+		ISimpleConverter ic = (ISimpleConverter)GenericReflection.instanciateObjectByName("converters."+simpleClassNameInput+"To"+simpleClassNameOnput);
 		
 		obj = ic.convert(value);
 		return obj;

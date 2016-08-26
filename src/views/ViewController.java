@@ -78,12 +78,19 @@ public class ViewController extends HttpServlet {
 		
 		//Transform Json to JRequest
 		Gson g = new Gson();
-		JRequest[] jrequ;
-		String json = request.getParameter("request");
-		jrequ = g.fromJson(json,  JRequest[].class);
+		JRequest[] jrequ = null;
+		try{
+			String json = request.getParameter("request");
+			jrequ = g.fromJson(json,  JRequest[].class);
+		}catch(com.google.gson.JsonSyntaxException e){
+			r.addSimpleError("JSON String is malformed, please check it!");	
+			content = g.toJson(r);
+			e.printStackTrace();
+		}
+		
 		
 		//Iterate throught all requests
-		for(int i=0; i<jrequ.length; i++){
+		for(int i=0; r.isSuccess() && i<jrequ.length ; i++){
 			content = process(jrequ[i], response, session, content, r);
 		}
 		

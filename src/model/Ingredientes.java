@@ -74,21 +74,21 @@ public class Ingredientes extends Model{
 	}
 
 	@Entity(attributeName = "ingredientes_tipo_id", fk=true)
-	public IngredienteTipo dgetIngredientesTipo() {
+	public IngredienteTipo dgetIngredientesTipoId() {
 		return ingredientesTipoId;
 	}
 
-	public void dsetIngredientesTipo(IngredienteTipo ingredientesTipoId) {
+	public void dsetIngredientesTipoId(IngredienteTipo ingredientesTipoId) {
 		this.ingredientesTipoId = ingredientesTipoId;
 	}
 
 	@Entity(attributeName = "ingrediente_armazenamentos_id", fk=true)
-	public IngredienteArmazenamentos dgetIngredienteArmazenamentos() {
+	public IngredienteArmazenamentos dgetIngredienteArmazenamentosId() {
 		return ingredienteArmazenamentosId;
 	}
 
 
-	public void dsetIngredienteArmazenamentos(IngredienteArmazenamentos ingredienteArmazenamentosId) {
+	public void dsetIngredienteArmazenamentosId(IngredienteArmazenamentos ingredienteArmazenamentosId) {
 		this.ingredienteArmazenamentosId = ingredienteArmazenamentosId;
 	}
 

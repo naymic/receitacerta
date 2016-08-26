@@ -140,7 +140,7 @@ public class GenericController implements IController{
 	}
 	
 	/**
-	 * Initializes a object
+	 * Initializes a object and attributes by DB columnames
 	 * 
 	 * @param Return	r
 	 * @param boolean 	search 	Used to know if needs to check empty  
@@ -161,7 +161,7 @@ public class GenericController implements IController{
 		}
 		
 	
-		Iterator<String> it = this.getVariableKeys();
+		
 		String paramName;
 		String className = (String) this.getObject().getClassName();
 		Model obj = null;
@@ -173,7 +173,7 @@ public class GenericController implements IController{
 		}
 		
 		ReflectionDAORelation rdr = new ReflectionDAORelation(obj);
-
+		Iterator<String> it = this.getVariableKeys();
 
 		while(it.hasNext()){
 			paramName = it.next();
@@ -202,6 +202,73 @@ public class GenericController implements IController{
 		
 		return obj;
 	}
+	
+	
+	/**
+	 * Initializes a object
+	 * With Fieldnames
+	 * 
+	 * @param Return	r
+	 * @param boolean 	search 	Used to know if needs to check empty  
+	 * @return
+	 */
+	/*public Model initObj(JReturn r){
+
+		
+		//Check if className is set
+		if(this.getObject().getClassName() == null || this.getObject().getClassName().length() == 0){
+			r.addSimpleError("No given className, the controller have to reveice a className from the view");
+			return null;
+		}
+		
+		//Add model. before the classname if not exist
+		if(!this.getObject().getClassName().toString().contains("model.")){
+			this.getObject().setClassName("model."+this.getObject().getClassName());
+		}
+		
+	
+		
+		String paramName;
+		String className = (String) this.getObject().getClassName();
+		Model obj = null;
+		try{
+			obj = ReflectionDAO.instanciateObjectByName(className);	
+		}catch(RuntimeException re){
+			r.addSimpleError(re.getMessage());
+			return null;
+		}
+		
+		ReflectionDAORelation rdr = new ReflectionDAORelation(obj);
+		Iterator<String> it = this.getVariableKeys();
+
+		while(it.hasNext()){
+			paramName = it.next();
+			
+			//Get just variable for the object
+			String fieldName = paramName;
+			Object value = null;
+			try{
+				//Convert the String value from the view to the Model class
+				Method m= rdr.getMethodByFieldname(fieldName, MType.get);
+				value = GenericConverter.convert(rdr.getMethodValueClass(m), this.getVariableValue(paramName));
+				
+				if(rdr.isRequired(rdr.getMethodByFieldname(fieldName, MType.get)) && value.toString().length() == 0)
+					r.addAttributeError(obj.getClass().getName(), fieldName, "Field  is empty but required: "+ fieldName +" for "+ rdr.getObject().getClass().getSimpleName());
+				
+			}catch(Exception e){
+				System.out.println(e.getMessage());
+				r.addAttributeError(obj.getClass().getName(), fieldName, "Field has wrong caracters or is empty: "+ fieldName +" for "+ rdr.getObject().getClass().getSimpleName());
+			}
+			//Set just if value is set
+			if(this.getVariableValue(paramName).toString().length() > 0){
+				rdr.setFieldValue(fieldName, value);
+			}
+			
+
+		}
+		
+		return obj;
+	}*/
 	
 	/**
 	 * Get the application session

@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import annotations.Entity;
+import enums.MType;
 import model.Model;
 import utils.StringUtils;
 
@@ -297,6 +298,26 @@ public class ReflectionDAO extends GenericReflection{
 		
 		try{
 			throw new Exception("Exist no method for the columname "+ columname + " in the "+ this.getObject().getClass());
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	public Method getMethodByFieldname(String fieldname, MType mt){		
+		Field[] fs = this.getObjectClass().getDeclaredFields();
+		
+		for(Field f : fs){
+			String key = f.getName();
+			System.out.println(key +" | " + fieldname);
+			if(key.equals(fieldname))
+				return this.getMethod("d"+mt.name()+StringUtils.setFirstLetterUppercase(key));
+		}
+		
+		
+		try{
+			throw new Exception("Exist no method for the columname "+ fieldname + " in the "+ this.getObject().getClass());
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;

@@ -1,7 +1,9 @@
 package tests;
 
+
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -12,7 +14,9 @@ import com.google.gson.Gson;
 
 import dao.DAO;
 import db.Config;
+import enums.MType;
 import jsonclasses.JReturn;
+import model.Ingredientes;
 import model.Model;
 import model.TestCity;
 import reflection.ReflectionDAO;
@@ -250,4 +254,19 @@ public class TestReflectionDAO extends TestCases {
 		System.out.println(g.toJson(r));
 	}
 	
+	
+	@Test
+	public void testGetGetMethodByFieldname(){
+		
+		Ingredientes i = new Ingredientes();
+		ReflectionDAO rd = new ReflectionDAO(i);
+		
+		Method m =  rd.getMethodByFieldname("ingredientesUnidade", MType.get);
+		assertEquals(m.getName(), "dgetIngredientesUnidade");
+		m =  rd.getMethodByFieldname("ingredientesTipoId", MType.get);
+		assertEquals(m.getName(), "dgetIngredientesTipoId");
+		m =  rd.getMethodByFieldname("ingredienteArmazenamentosId", MType.get);
+		assertEquals(m.getName(), "dgetIngredienteArmazenamentosId");
+		
+	}
 }

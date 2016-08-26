@@ -77,7 +77,7 @@ public class TestReflectionDAORelation extends TestCases {
 		ReflectionDAORelation rdr = new ReflectionDAORelation(i);
 		
 		
-		assertEquals(i.dgetIngredientesUnidade().dgetNomeUnidade(), rdr.getMethodRelationValue("ingredientes_unidades_id"));
+		assertEquals(i.dgetIngredientesUnidade().dgetNomeUnidade(), ((IngredienteUnidades)rdr.getMethodRelationValue("ingredientes_unidades_id")).dgetNomeUnidade() );
 		
 	}
 

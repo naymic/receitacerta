@@ -35,8 +35,8 @@ public class TestReflectionDAORelation extends TestCases {
 		TestIngredientes i = new TestIngredientes();
 		ReflectionDAORelation rdr = new ReflectionDAORelation(i);
 		
-		rdr.setMethodRelationValue("dsetIngredienteArmazenamentos", id);
-		assertEquals(id, i.dgetIngredienteArmazenamentos().dgetId());
+		rdr.setMethodRelationValue("dsetIngredienteArmazenamentosId", id);
+		assertEquals(id, i.dgetIngredienteArmazenamentosId().dgetId());
 	}
 	
 	@Test
@@ -99,11 +99,11 @@ public class TestReflectionDAORelation extends TestCases {
 		assertEquals(new Integer(1),i.dgetIngredientesUnidade().dgetId());
 		assertEquals("l",i.dgetIngredientesUnidade().dgetNomeUnidade());
 		
-		assertEquals(new Integer(2),i.dgetIngredienteArmazenamentos().dgetId());
-		assertEquals("test1",i.dgetIngredienteArmazenamentos().dgetNomeArmazenamento());
+		assertEquals(new Integer(2),i.dgetIngredienteArmazenamentosId().dgetId());
+		assertEquals("test1",i.dgetIngredienteArmazenamentosId().dgetNomeArmazenamento());
 		
-		assertEquals(new Integer(1),i.dgetIngredientesTipo().dgetId());
-		assertEquals("fruta",i.dgetIngredientesTipo().dgetNomeTipo());
+		assertEquals(new Integer(1),i.dgetIngredientesTipoId().dgetId());
+		assertEquals("fruta",i.dgetIngredientesTipoId().dgetNomeTipo());
 		
 	}
 	
@@ -116,7 +116,7 @@ public class TestReflectionDAORelation extends TestCases {
 		
 		IngredienteTipo it = new IngredienteTipo();
 		it.dsetId(new Integer(2));
-		i.dsetIngredientesTipo(it);
+		i.dsetIngredientesTipoId(it);
 		
 		IngredienteUnidades iu = new IngredienteUnidades();
 		iu.dsetId(new Integer(1));
@@ -124,7 +124,7 @@ public class TestReflectionDAORelation extends TestCases {
 		
 		IngredienteArmazenamentos ia = new IngredienteArmazenamentos();
 		ia.dsetId(new Integer(1));
-		i.dsetIngredienteArmazenamentos(ia);
+		i.dsetIngredienteArmazenamentosId(ia);
 		
 		JReturn r = new JReturn();
 		assertTrue(DAORelation.getInstance().save(i, r).isSuccess());
@@ -148,7 +148,7 @@ public class TestReflectionDAORelation extends TestCases {
 		
 		IngredienteTipo it = new IngredienteTipo();
 		it.dsetId(new Integer(2));
-		i.dsetIngredientesTipo(it);
+		i.dsetIngredientesTipoId(it);
 		
 		IngredienteUnidades iu = new IngredienteUnidades();
 		iu.dsetId(new Integer(1));
@@ -156,7 +156,7 @@ public class TestReflectionDAORelation extends TestCases {
 		
 		IngredienteArmazenamentos ia = new IngredienteArmazenamentos();
 		ia.dsetId(new Integer(1));
-		i.dsetIngredienteArmazenamentos(ia);
+		i.dsetIngredienteArmazenamentosId(ia);
 		
 		JReturn r = new JReturn();
 		DAORelation.getInstance().save(i, r);

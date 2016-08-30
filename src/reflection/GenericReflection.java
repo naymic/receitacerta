@@ -50,7 +50,7 @@ public class GenericReflection {
 	 * @param cl			Class	Class of set method parameter value, null if is a get method
 	 * @return				Method	Returns found method
 	 */
-	public Method getMethod(String methodName, Class<?> cl){
+	public Method getMethod(String methodName, Class<?>... cl){
 		Method m = null;
 		
 		try {

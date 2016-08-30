@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import controllers.CrudController;
 import dao.DAO;
+import dao.DAORelation;
 import db.Config;
 import exceptions.NoActionException;
 import jsonclasses.JReturn;
@@ -55,19 +56,18 @@ public class TestCrudController extends TestCases{
 	public void testSaveObject() {
 		CrudController cc = this.getCRUDController();
 		JReturn r = new JReturn();
-		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
-		obj.dsetCalorias(300.0);
-		
-		
+		//TestIngredientes obj = (TestIngredientes)cc.initObj(r);
+				
 		 cc.execute(r, "salvar");
 		
 		assertTrue(r.isSuccess());
 
 		assertTrue(r.getMessages().get(0).contains("Data TestIngredientes successfully saved in database"));
 		
-		obj.dsetNome(null);
-		r =  cc.saveObject(r, obj);
-		obj.verify(r);
+		
+		cc.getObject().addAttribute("nome", null);
+		cc.execute(r, "salvar");
+		
 		
 		assertFalse(r.isSuccess());
 
@@ -80,6 +80,8 @@ public class TestCrudController extends TestCases{
 		JReturn r = new JReturn();
 		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 
+		DAORelation.getInstance().save(obj, new JReturn());
+		
 		cc.execute(r, "remover");
 		System.out.println(cc.getJson());
 		assertTrue(r.isSuccess());

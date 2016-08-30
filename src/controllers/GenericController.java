@@ -141,70 +141,6 @@ public class GenericController implements IController{
 		return this.getObject().getAttributeValues();
 	}
 	
-	/**
-	 * Initializes a object and attributes by DB columnames
-	 * 
-	 * @param Return	r
-	 * @param boolean 	search 	Used to know if needs to check empty  
-	 * @return
-	 */
-	/*public Model initObj(JReturn r){
-
-		
-		//Check if className is set
-		if(this.getObject().getClassName() == null || this.getObject().getClassName().length() == 0){
-			r.addSimpleError("No given className, the controller have to reveice a className from the view");
-			return null;
-		}
-		
-		//Add model. before the classname if not exist
-		if(!this.getObject().getClassName().toString().contains("model.")){
-			this.getObject().setClassName("model."+this.getObject().getClassName());
-		}
-		
-	
-		
-		String paramName;
-		String className = (String) this.getObject().getClassName();
-		Model obj = null;
-		try{
-			obj = ReflectionDAO.instanciateObjectByName(className);	
-		}catch(RuntimeException re){
-			r.addSimpleError(re.getMessage());
-			return null;
-		}
-		
-		ReflectionDAORelation rdr = new ReflectionDAORelation(obj);
-		Iterator<String> it = this.getVariableKeys();
-
-		while(it.hasNext()){
-			paramName = it.next();
-			
-			//Get just variable for the object
-			String attributeName = paramName;
-			Object value = null;
-			try{
-				//Convert the String value from the view to the Model class
-				value = GenericConverter.convert(rdr.getMethodValueClass(rdr.getGetMethodByColumname(attributeName)), this.getVariableValue(paramName));
-				
-				if(rdr.isRequired(rdr.getGetMethodByColumname(attributeName)) && value.toString().length() == 0)
-					r.addAttributeError(obj.getClass().getName(), attributeName, "Field  is empty but required: "+ attributeName +" for "+ rdr.getObject().getClass().getSimpleName());
-				
-			}catch(Exception e){
-				System.out.println(e.getMessage());
-				r.addAttributeError(obj.getClass().getName(), attributeName, "Field has wrong caracters or is empty: "+ attributeName +" for "+ rdr.getObject().getClass().getSimpleName());
-			}
-			//Set just if value is set
-			if(this.getVariableValue(paramName).toString().length() > 0){
-				rdr.setValueFromAttributename(attributeName, value);
-			}
-			
-
-		}
-		
-		return obj;
-	}*/
-	
 	
 	/**
 	 * Initializes a object
@@ -262,8 +198,10 @@ public class GenericController implements IController{
 				r.addAttributeError(obj.getClass().getName(), fieldName, "Field has wrong caracters or is empty: "+ fieldName +" for "+ rdr.getObject().getClass().getSimpleName());
 			}
 			//Set just if value is set
-			if(this.getVariableValue(paramName).toString().length() > 0){
-				rdr.setFieldValue(fieldName, value);
+			if(this.getVariableValue(paramName) != null && this.getVariableValue(paramName).toString().length() > 0){
+				Method m = rdr.getMethodByFieldname(fieldName, MType.set, value.getClass());
+				rdr.setMethodValue(m, value);
+				//rdr.setFieldValue(fieldName, value);
 			}
 			
 

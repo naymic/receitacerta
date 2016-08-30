@@ -82,11 +82,11 @@ public class TestGenericController {
 		GenericController gc = getGenericController();
 		TestIngredientes obj1 = (TestIngredientes)gc.initObj(r);
 		assertEquals(new Integer(1), obj1.dgetId());
-		assertEquals(new Integer(2), obj1.dgetIngredienteArmazenamentos().dgetId());
+		assertEquals(new Integer(2), obj1.dgetIngredienteArmazenamentosId().dgetId());
 		assertEquals(new Double(250.0), obj1.dgetCalorias());
 		assertEquals("carne de sol1", obj1.dgetNome());
 		assertEquals(new Integer(1), obj1.dgetIngredientesUnidade().dgetId());
-		assertEquals(new Integer(1), obj1.dgetIngredientesTipo().dgetId());
+		assertEquals(new Integer(1), obj1.dgetIngredientesTipoId().dgetId());
 		
 		
 	}

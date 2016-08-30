@@ -78,8 +78,8 @@ public class LoginController extends GenericController{
 		//Check if exist user
 		for(Model bdUser : usuarios){
 			u = (Usuario) bdUser;
-			System.out.println(u.dgetEmail()+" "+ u.dgetSenha());
-			System.out.println(loginUser.dgetEmail()+" "+ loginUser.dgetSenha());
+			//System.out.println(u.dgetEmail()+" "+ u.dgetSenha());
+			//System.out.println(loginUser.dgetEmail()+" "+ loginUser.dgetSenha());
 			if(u.dgetEmail().equalsIgnoreCase(loginUser.dgetEmail()) && u.dgetSenha().equalsIgnoreCase(loginUser.dgetSenha())){
 				test = true;
 				break;

@@ -15,7 +15,7 @@ public class Pertence extends Model{
 		return "pertence";
 	}
 	
-	@Entity(attributeName = "ingrediente", fk=true)
+	@Entity(attributeName = "ingredientes_id", fk=true)
 	public Ingredientes dgetIngrediente() {
 		return ingrediente;
 	}
@@ -23,7 +23,7 @@ public class Pertence extends Model{
 		this.ingrediente = ingrediente;
 	}
 	
-	@Entity(attributeName="receita_id", fk=true, isMapped=true)
+	@Entity(attributeName="receitas_id", fk=true, isMapped=true)
 	public Receita dgetReceita() {
 		return receita;
 	}

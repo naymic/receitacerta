@@ -1,5 +1,6 @@
 package controllers;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7,6 +8,7 @@ import java.util.List;
 
 import converters.GenericConverter;
 import dao.DAO;
+import enums.MType;
 import exceptions.NoActionException;
 import interfaces.IApplicationSession;
 import interfaces.IController;
@@ -146,7 +148,7 @@ public class GenericController implements IController{
 	 * @param boolean 	search 	Used to know if needs to check empty  
 	 * @return
 	 */
-	public Model initObj(JReturn r){
+	/*public Model initObj(JReturn r){
 
 		
 		//Check if className is set
@@ -201,7 +203,7 @@ public class GenericController implements IController{
 		}
 		
 		return obj;
-	}
+	}*/
 	
 	
 	/**
@@ -212,7 +214,7 @@ public class GenericController implements IController{
 	 * @param boolean 	search 	Used to know if needs to check empty  
 	 * @return
 	 */
-	/*public Model initObj(JReturn r){
+	public Model initObj(JReturn r){
 
 		
 		//Check if className is set
@@ -268,7 +270,7 @@ public class GenericController implements IController{
 		}
 		
 		return obj;
-	}*/
+	}
 	
 	/**
 	 * Get the application session

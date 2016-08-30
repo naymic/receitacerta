@@ -2,34 +2,40 @@ package model;
 
 import annotations.Entity;
 
-public class Pertence {
+public class Pertence extends Model{
 	
 	private Ingredientes ingrediente;
 	private Receita receita;
 	private Integer quantidade;
 	private Integer id;
 	
+	@Override
+	public String getTableName() {
+		// TODO Auto-generated method stub
+		return "pertence";
+	}
+	
 	@Entity(attributeName = "ingrediente", fk=true)
-	public Ingredientes getIngrediente() {
+	public Ingredientes dgetIngrediente() {
 		return ingrediente;
 	}
-	public void setIngrediente(Ingredientes ingrediente) {
+	public void dsetIngrediente(Ingredientes ingrediente) {
 		this.ingrediente = ingrediente;
 	}
 	
 	@Entity(attributeName="receita_id", fk=true, isMapped=true)
-	public Receita getReceita() {
+	public Receita dgetReceita() {
 		return receita;
 	}
-	public void setReceita(Receita receita) {
+	public void dsetReceita(Receita receita) {
 		this.receita = receita;
 	}
 	
 	@Entity(attributeName="quantidade")
-	public Integer getQuantidade() {
+	public Integer dgetQuantidade() {
 		return quantidade;
 	}
-	public void setQuantidade(Integer quantidade) {
+	public void dsetQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
 	}
 	
@@ -40,5 +46,8 @@ public class Pertence {
 	public void dsetId(Integer id) {
 		this.id = id;
 	}
+	
+	
+	
 }
 

@@ -13,8 +13,8 @@ public class ReflectionDAORelationList extends ReflectionDAORelation{
 	public ReflectionDAORelationList(Model object){
 		super(object);
 		
-		this.getMethodArray = this.getObjectMethods("aGet", false , true);
-		this.setMethodArray = this.getObjectMethods("aSet", false, true);
+		this.getMethodArray = this.getObjectMethods("aget", false, true);
+		this.setMethodArray = this.getObjectMethods("aset", false, true);
 		
 	}
 	
@@ -38,15 +38,16 @@ public class ReflectionDAORelationList extends ReflectionDAORelation{
 	/**
 	 * Set the mapped object in a sub object
 	 * mappedObject 1..N subObject (the mappedObject exist N times in the list of subObjects)
-	 * @param mappedObject
-	 * @param object
+	 * @param mainObject
+	 * @param objectOfArray
 	 */
-	public static void setMappedObject(Model mappedObject, Model object){
-		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
+	public static void setMappedObject(Model mainObject, Model objectOfArray){
+		ReflectionDAORelation rdr = new ReflectionDAORelation(objectOfArray);
 		ArrayList<Method> methodList = rdr.getMethods();
 		for(Method m : methodList){
-			if(rdr.getMethodValueClass(m) == mappedObject.getClass()){
-				rdr.setMethodValue(m, mappedObject);
+			if(rdr.getMethodValueClass(m) == mainObject.getClass()){
+				m = rdr.getSetMethod(m);
+				rdr.setMethodValue(m, mainObject);
 			}
 		}
 		

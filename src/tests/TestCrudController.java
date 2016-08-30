@@ -10,24 +10,27 @@ import dao.DAO;
 import db.Config;
 import exceptions.NoActionException;
 import jsonclasses.JReturn;
+import model.IngredienteArmazenamentos;
+import model.IngredienteTipo;
+import model.IngredienteUnidades;
 import model.Ingredientes;
 import model.Model;
 import model.TestIngredientes;
 import utils.Transform;
 
 public class TestCrudController extends TestCases{
-
+	
 	/*
 	 * Auxiliary methods
 	 */
 	public CrudController getCRUDController(){
 		CrudController cc = new CrudController();
 		cc.addVariable("id", 1);
-		cc.addVariable("ingrediente_armazenamentos_id", 2);
+		cc.addVariable("ingredienteArmazenamentosId", 2);
 		cc.addVariable("calorias", 250.0);
 		cc.addVariable("nome", "carne de sol1");
-		cc.addVariable("ingredientes_unidades_id", 1);
-		cc.addVariable("ingredientes_tipo_id", 1);
+		cc.addVariable("ingredientesUnidade", 1);
+		cc.addVariable("ingredientesTipoId", 1);
 		cc.getObject().setClassName("TestIngredientes");
 		return cc;
 	}

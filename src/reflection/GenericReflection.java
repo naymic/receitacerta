@@ -123,6 +123,7 @@ public class GenericReflection {
 	 * @return 			boolean	[true = value is set | false = exception thrown during execution]
 	 */
 	public boolean setMethodValue(Method m, Object value){
+
 		try {
 			m.invoke(this.getObject(), value);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

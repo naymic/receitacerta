@@ -11,10 +11,23 @@ public class Receita extends Model{
 	private String rendimento;
 	private ReceitaTipos receitaTipos;
 	private ReceitaRendimentoTipos receitaRendimentoTipos;
+	private Integer receitaRendimentosTipoValor;
 	private Usuario usuario;
 	private String caminhoFoto;
 	private ArrayList<Pertence> listaPertence;
 	private ArrayList<Passo> listaPassos;
+	
+	
+	public Receita(){
+		
+		ArrayList<Passo> passoList = new ArrayList<>();
+		passoList.add(new Passo());
+		this.asetListaPassos(passoList);
+		
+		ArrayList<Pertence> pertenceList = new ArrayList<>();
+		pertenceList.add(new Pertence());
+		this.asetListaPertence(pertenceList);
+	}
 
 	@Entity(attributeName = "id", pk=true)
 	public Integer dgetId() {
@@ -69,6 +82,16 @@ public class Receita extends Model{
 	public void dsetReceitaRendimentoTipos(ReceitaRendimentoTipos receitaRendimentoTipos) {
 		this.receitaRendimentoTipos = receitaRendimentoTipos;
 	}
+	
+	
+	@Entity(attributeName = "receita_rendimento_tipos_valor")
+	public Integer dgetReceitaRendimentosTipoValor() {
+		return receitaRendimentosTipoValor;
+	}
+
+	public void dsetReceitaRendimentosTipoValor(Integer receitaRendimentoValor) {
+		this.receitaRendimentosTipoValor = receitaRendimentoValor;
+	}
 
 	@Entity(attributeName = "usuario_id", fk=true)
 	public Usuario dgetUsuario() {
@@ -93,8 +116,8 @@ public class Receita extends Model{
 		return "receitas";
 	}
 	
-	@Entity(attributeName="", fk=true)
-	public ArrayList<Pertence> aqgetListaPertence() {
+	@Entity(attributeName="Pertence", fk=true)
+	public ArrayList<Pertence> agetListaPertence() {
 		return listaPertence;
 	}
 
@@ -102,7 +125,7 @@ public class Receita extends Model{
 		this.listaPertence = listaPertence;
 	}
 
-	@Entity(attributeName="", fk=true)
+	@Entity(attributeName="Passo", fk=true)
 	public ArrayList<Passo> agetListaPassos() {
 		return listaPassos;
 	}

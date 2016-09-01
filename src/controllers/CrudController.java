@@ -7,6 +7,7 @@ import java.util.List;
 import converters.GenericConverter;
 import dao.DAO;
 import dao.DAORelation;
+import dao.DAORelationList;
 import enums.ReturnType;
 import jsonclasses.JData;
 import jsonclasses.JReturn;
@@ -195,7 +196,7 @@ public class CrudController extends GenericController{
 	public JReturn selectObject(JReturn r, Model object){
 		List<Model> list =null;
 		
-		list = DAORelation.getInstance().select(object);
+		list = DAORelationList.getInstance().select(object);
 		
 		this.selectObjectCheck(r, list, object);
 		r.setReturnType(ReturnType.SELECT);		
@@ -214,7 +215,7 @@ public class CrudController extends GenericController{
 	public JReturn selectObjectSearch(JReturn r, Model object){
 		List<Model> list =null;
 		
-		list = DAORelation.getInstance().search(object);
+		list = DAORelationList.getInstance().search(object);
 		
 		this.selectObjectCheck(r, list, object);
 		

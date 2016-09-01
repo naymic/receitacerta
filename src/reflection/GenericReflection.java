@@ -50,7 +50,7 @@ public class GenericReflection {
 	 * @param cl			Class	Class of set method parameter value, null if is a get method
 	 * @return				Method	Returns found method
 	 */
-	public Method getMethod(String methodName, Class<?> cl){
+	public Method getMethod(String methodName, Class<?>... cl){
 		Method m = null;
 		
 		try {
@@ -123,6 +123,7 @@ public class GenericReflection {
 	 * @return 			boolean	[true = value is set | false = exception thrown during execution]
 	 */
 	public boolean setMethodValue(Method m, Object value){
+		
 		try {
 			m.invoke(this.getObject(), value);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

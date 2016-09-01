@@ -7,27 +7,31 @@ import org.junit.Test;
 
 import controllers.CrudController;
 import dao.DAO;
+import dao.DAORelation;
 import db.Config;
 import exceptions.NoActionException;
 import jsonclasses.JReturn;
+import model.IngredienteArmazenamentos;
+import model.IngredienteTipo;
+import model.IngredienteUnidades;
 import model.Ingredientes;
 import model.Model;
 import model.TestIngredientes;
 import utils.Transform;
 
 public class TestCrudController extends TestCases{
-
+	
 	/*
 	 * Auxiliary methods
 	 */
 	public CrudController getCRUDController(){
 		CrudController cc = new CrudController();
 		cc.addVariable("id", 1);
-		cc.addVariable("ingrediente_armazenamentos_id", 2);
+		cc.addVariable("ingredienteArmazenamentosId", 2);
 		cc.addVariable("calorias", 250.0);
 		cc.addVariable("nome", "carne de sol1");
-		cc.addVariable("ingredientes_unidades_id", 1);
-		cc.addVariable("ingredientes_tipo_id", 1);
+		cc.addVariable("ingredientesUnidade", 1);
+		cc.addVariable("ingredientesTipoId", 1);
 		cc.getObject().setClassName("TestIngredientes");
 		return cc;
 	}
@@ -52,19 +56,18 @@ public class TestCrudController extends TestCases{
 	public void testSaveObject() {
 		CrudController cc = this.getCRUDController();
 		JReturn r = new JReturn();
-		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
-		obj.dsetCalorias(300.0);
-		
-		
+		//TestIngredientes obj = (TestIngredientes)cc.initObj(r);
+				
 		 cc.execute(r, "salvar");
 		
 		assertTrue(r.isSuccess());
 
 		assertTrue(r.getMessages().get(0).contains("Data TestIngredientes successfully saved in database"));
 		
-		obj.dsetNome(null);
-		r =  cc.saveObject(r, obj);
-		obj.verify(r);
+		
+		cc.getObject().addAttribute("nome", null);
+		cc.execute(r, "salvar");
+		
 		
 		assertFalse(r.isSuccess());
 
@@ -77,6 +80,8 @@ public class TestCrudController extends TestCases{
 		JReturn r = new JReturn();
 		TestIngredientes obj = (TestIngredientes)cc.initObj(r);
 
+		DAORelation.getInstance().save(obj, new JReturn());
+		
 		cc.execute(r, "remover");
 		System.out.println(cc.getJson());
 		assertTrue(r.isSuccess());

@@ -2,11 +2,17 @@ package model;
 
 import annotations.Entity;
 
-public class Passo {
+public class Passo extends Model{
 	private Integer id;
 	private Receita receita;
 	private Integer numeroPasso;
 	private String texto;
+	
+	@Override
+	public String getTableName() {
+		// TODO Auto-generated method stub
+		return "receita_passos";
+	}
 	
 	@Entity(attributeName="id", pk=true)
 	public Integer dgetId() {
@@ -17,27 +23,28 @@ public class Passo {
 	}
 	
 	@Entity(attributeName="receitas_id", fk=true, isMapped=true )
-	public Receita getReceita() {
+	public Receita dgetReceita() {
 		return receita;
 	}
-	public void setReceita(Receita receita) {
+	public void dsetReceita(Receita receita) {
 		this.receita = receita;
 	}
 	
 	@Entity(attributeName="nr_passo")
-	public Integer getNumeroPasso() {
+	public Integer dgetNumeroPasso() {
 		return numeroPasso;
 	}
-	public void setNumeroPasso(Integer numeroPasso) {
+	public void dsetNumeroPasso(Integer numeroPasso) {
 		this.numeroPasso = numeroPasso;
 	}
 	
 	@Entity(attributeName="texto")
-	public String getTexto() {
+	public String dgetTexto() {
 		return texto;
 	}
-	public void setTexto(String texto) {
+	public void dsetTexto(String texto) {
 		this.texto = texto;
 	}
+	
 	
 }

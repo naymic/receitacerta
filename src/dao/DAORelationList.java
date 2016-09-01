@@ -33,8 +33,8 @@ public class DAORelationList extends DAORelation {
 		ArrayList<Model> modelList = DAORelation.getInstance().select(object);
 		
 		for(int i = 0; i < modelList.size(); i++){
-			Model m = modelList.get(i);
-			modelList.set(i, this.selectMappedLists(m, deepness));
+			Model model = modelList.get(i);
+			modelList.set(i, this.selectMappedLists(model, deepness));
 		}
 		
 		
@@ -44,34 +44,36 @@ public class DAORelationList extends DAORelation {
 	
 	/**
 	 * Find array attributes of a model and select its content
-	 * @param mappdedObject
+	 * @param mainObject
 	 * @return Model Object that has now its 1..N relation lists set
 	 */
-	private Model selectMappedLists(Model mappdedObject, int deepness){
-		ReflectionDAORelationList rdrl = new ReflectionDAORelationList(mappdedObject);
-		ArrayList<Method> mappedList = rdrl.getGetArray();
-		Model object = null;
+	private Model selectMappedLists(Model mainObject, int deepness){
+		ReflectionDAORelationList rdrl = new ReflectionDAORelationList(mainObject);
+		ArrayList<Method> arrayObjectMethods = rdrl.getGetArray();
+		Model objectOfArray = null;
 		
-		for(Method m : mappedList){
-		Object obj = rdrl.getMethodValue(m); 
-			if(obj.getClass().isArray()){
+		for(Method method : arrayObjectMethods){
+		Class<?> classOfObject = rdrl.getMethodValueClass(method); 
+		ArrayList<Model> list = (ArrayList<Model>)rdrl.getMethodValue(method);
+			if(classOfObject == ArrayList.class){
 				//Instance a object and set the mapped Object in 
-				object = (Model) GenericReflection.instanciateObjectByName(obj.getClass().getComponentType());
-				ReflectionDAORelationList.setMappedObject(mappdedObject, object);
+				Class<?> arrayListObjectClass = list.get(0).getClass();
+				objectOfArray = (Model) GenericReflection.instanciateObjectByName(arrayListObjectClass);
+				ReflectionDAORelationList.setMappedObject(mainObject, objectOfArray);
 				
 				//Select all objects that combine with the one object set of the array
-				ArrayList<Model> attributeList = new ArrayList<>();
+				ArrayList<Model> objectsArray = new ArrayList<>();
 				if(deepness > 1){
-					attributeList = DAORelationList.getInstance().select(object,deepness-1);
+					objectsArray = DAORelationList.getInstance().select(objectOfArray,deepness-1);
 				}else{
-					attributeList = DAORelation.getInstance().select(object);
+					objectsArray = DAORelation.getInstance().select(objectOfArray);
 				}
 				
-				rdrl.setMethodValue(m, attributeList);
+				rdrl.setMethodValue(method, objectsArray);
 			}
 		}
 		
-		return mappdedObject;
+		return rdrl.getObject();
 	}
 	
 }

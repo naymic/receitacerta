@@ -305,14 +305,14 @@ public class ReflectionDAO extends GenericReflection{
 		
 	}
 	
-	public Method getMethodByFieldname(String fieldname, MType mt){		
+	public Method getMethodByFieldname(String fieldname, MType mt, Class<?>... args){		
 		Field[] fs = this.getObjectClass().getDeclaredFields();
 		
 		for(Field f : fs){
 			String key = f.getName();
 			System.out.println(key +" | " + fieldname);
 			if(key.equals(fieldname))
-				return this.getMethod("d"+mt.name()+StringUtils.setFirstLetterUppercase(key));
+				return this.getMethod("d"+mt.name()+StringUtils.setFirstLetterUppercase(key), args);
 		}
 		
 		
@@ -435,6 +435,16 @@ public class ReflectionDAO extends GenericReflection{
 		
 	}
 
+	public boolean setMethodValue(Method m, Object value){
+		m = this.getSetMethod(m);
+		return super.setMethodValue(m, value);
+	}
+	
+	public Object getMethodValue(Method m){
+		m = this.getGetMethod(m);
+		return super.getMethodValue(m);
+	}
+	
 	
 	/*	Common Setters & Getters	 */
 	

@@ -109,8 +109,8 @@ public class CrudController extends GenericController{
 		
 		//Add all FK Lists of the object for select options
 		ArrayList<ArrayList<Model>> jdataList = DAO.getInstance().selectForForm(object);
-		r.getData().addFormItem(this.prepareFormData(jdataList));
-		
+		//Add all Form dataTypes
+		r.getData().setDataTypes(rdr.getArrayFields());
 
 		return r;		
 	}
@@ -139,7 +139,8 @@ public class CrudController extends GenericController{
 			
 			//Add all FK Lists of the object for select options
 			ArrayList<ArrayList<Model>> jdataList = DAO.getInstance().selectForForm(object);
-			r.getData().addFormItem(this.prepareFormData(jdataList));
+			//Add all Form dataTypes
+			r.getData().setDataTypes(rdr.getArrayFields());
 			
 			//Set JSon response return type
 			r.setReturnType(ReturnType.FORM);

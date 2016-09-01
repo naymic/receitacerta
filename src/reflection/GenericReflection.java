@@ -270,6 +270,23 @@ public class GenericReflection {
 		}
 		
 	}
+	
+	/**
+	 * Returs the Class<?> of a field
+	 * @param fieldName
+	 * @return
+	 */
+	public Class<?> getFieldValueClass(String fieldName){
+		return this.getFieldValue(fieldName).getClass();
+	}
+		
+	/**
+	 * Get a array of all field of the object
+	 * @return ArrayList<Field>
+	 */
+	public ArrayList<Field> getArrayFields(){
+		return Transform.vectorToArray(this.getObjectClass().getDeclaredFields());
+	}
 		
 		
 	

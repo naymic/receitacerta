@@ -424,7 +424,11 @@ public class ReflectionDAO extends GenericReflection{
 	
 	
 	
-	
+	/**
+	 * Get a array with all Class<?> that the given methods return
+	 * @param methods
+	 * @return
+	 */
 	public ArrayList<Class<?>> getValueClassesFromMethods(ArrayList<Method> methods){
 		ArrayList<Class<?>> classes = new ArrayList<>();
 		
@@ -435,6 +439,9 @@ public class ReflectionDAO extends GenericReflection{
 		
 	}
 
+	/**
+	 * Sets a value with a method object
+	 */
 	public boolean setMethodValue(Method m, Object value){
 		m = this.getSetMethod(m);
 		return super.setMethodValue(m, value);
@@ -444,6 +451,9 @@ public class ReflectionDAO extends GenericReflection{
 		m = this.getGetMethod(m);
 		return super.getMethodValue(m);
 	}
+	
+	
+	
 	
 	
 	/*	Common Setters & Getters	 */

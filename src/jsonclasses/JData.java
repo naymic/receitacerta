@@ -1,5 +1,6 @@
 package jsonclasses;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +12,7 @@ public class JData {
 	String classname;
 
 	ArrayList<Model> data; 
-	ArrayList<JData> form;
+	HashMap<String, JDataType> dataType;
 	
 	public JData(){
 		this.setDataList(new ArrayList<Model>());
@@ -49,16 +50,13 @@ public class JData {
 	}
 	
 	
-	public ArrayList<JData> getForm() {
-		return form;
+	public void setDataTypes(ArrayList<Field> fieldList){
+		this.dataType = new HashMap<>();
+		
+		for(Field f: fieldList){
+			JDataType djt = new JDataType(f);
+			dataType.put(f.getName(), djt);
+		}
 	}
-	private void setForm(ArrayList<JData> form) {
-		this.form = form;
-	} 
 	
-	public void addFormItem(ArrayList<JData> list){
-		this.setForm(new ArrayList<JData>());
-		this.setForm(list);
-	}
-
 }

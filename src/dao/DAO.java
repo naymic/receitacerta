@@ -102,8 +102,11 @@ public class DAO implements IDAO{
 		
 		for(int i = 0 ; i<objects.length; i++){
 				obj = objects[i];
-			
-				stmt = this.setStmt(stmt, i+index+1, obj, "%");
+				
+				if(obj instanceof String)
+					stmt = this.setStmt(stmt, i+index+1, obj, "%");
+				else
+					stmt = this.setStmt(stmt, index, obj, "");
 		}
 		return stmt;
 	}
@@ -370,7 +373,7 @@ public class DAO implements IDAO{
 		return returnList;	
 	}
 	
-	/**
+	/**busca
 	 * Receives a column index and replaces the ? in the prepared sql
 	 *  statement through the given object
 	 * @param stmt		Prepared statement object

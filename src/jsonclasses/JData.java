@@ -36,8 +36,11 @@ public class JData {
 	}	
 	
 	public void setDataList(List<Model> data) {
-		this.setClassname(data.get(0).getClass().getSimpleName());
-		this.data = (ArrayList<Model>)data;
+		if(data.size() > 0){this.setClassname(data.get(0).getClass().getSimpleName());
+			this.data = (ArrayList<Model>)data;
+		}else{
+			this.data = new ArrayList<>();
+		}
 	}
 	
 	private void setDataList(ArrayList<Model> list){

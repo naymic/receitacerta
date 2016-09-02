@@ -68,7 +68,7 @@ ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		
 		//Return all objects of the executed sql query
 
-		return this.getObjectsFromRS(rdr, rdr.prepareSelectSqlString(mget, where), mget, mset, where, true);
+		return this.getObjectsFromRS(rdr, rdr.prepareSarchSqlString(mget, where), mget, mset, where, true);
 	}
 	
 	

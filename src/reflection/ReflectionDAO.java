@@ -310,7 +310,6 @@ public class ReflectionDAO extends GenericReflection{
 		
 		for(Field f : fs){
 			String key = f.getName();
-			System.out.println(key +" | " + fieldname);
 			if(key.equals(fieldname))
 				return this.getMethod("d"+mt.name()+StringUtils.setFirstLetterUppercase(key), args);
 		}

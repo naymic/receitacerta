@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-
-</head>
-<body>
-
-
 <form  method="post" id="formIngredientes">
 
 <div class="row">
@@ -60,6 +52,44 @@
     </div>
 
 <hr />
+</form>
+
+<legend>Lista de Ingredientes no Estoque</legend>
+
+<form method ="post" id ="formEstoque">
+<div class="row">
+	<div class="col-md-3">
+		<label>Nome do Ingrediente</label>
+		<input type="text" name="nome" id="nome" class="form-control" />
+	</div>
+	<div class="col-md-3">
+		<label>Tipo do Ingrediente</label>
+		<select name="tipo" id="tipo" class="form-control">
+			<option value="">Selecione um Valor</option>
+		</select>
+	</div>
+	<div class="col-md-3">
+		<label>Unidade</label>
+		<select name="unidade" id="unidade" class="form-control">
+			<option value="">Selecione um Valor</option>
+		</select>
+	</div>
+	
+	<div class="col-md-1">
+		<label>Qtd.</label>
+		<input type="text" name="quantidade" id="quantidade" class="form-control" />
+	</div>
+	
+	<div class="col-md-2">
+	
+	 <button class="btn btn-primary" type="submit" id="btnSubmit" style="margin-top:25px">Buscar</button>
+	</div>
+    
+</div>
+
+</form>
+
+<br />
    <table class="table table-striped table-bordered table-hover" id="Ingredientes">
     <thead>
 		<tr>
@@ -85,14 +115,14 @@
     { "data": "ingredientesId","label":"id" },
     { "data": "ingredientesId","label":"calorias" },
     { "data": "ingredientesId":{"ingredientesUnidades":{"label":"nomeUnidade" }}},
-    { "data": "ingredientesUnidade","label":"nomeUnidade" },
     { "data": "quantidade" },
+    { "data": "ingredientesId":{"ingredientesArmazenamento":{"label":"nomeArmazenamento" }}},
     { "data": "validade" }
     
 ];
-	var objIngrediente = {"dados":{"className":"Estoque","action":"busca", "usecase":"Crud"},"config": tableHead};
+	var objIngredienteConsulta = {"dados":{"className":"Estoque","action":"busca", "usecase":"Crud"},"config": tableHead};
 	console.log(objIngrediente);
-	validaAction('Consulta',objIngrediente);
+	validaAction('Consulta',objIngredienteConsulta);
 </script>
    
   
@@ -100,10 +130,10 @@
 
   
 
-</form>
+
 <script>
-var objReceita = {"dados":{"className":"Estoque","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true}};
-validaAction("Insert",objReceita);
+var objIngredienteInsert = {"dados":{"className":"Estoque","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true}};
+validaAction("Insert",objIngredienteInsert);
 
 
 

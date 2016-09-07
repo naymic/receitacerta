@@ -26,6 +26,38 @@ public class StringUtils {
 	}
 	
 	/**
+	 * Returns a substituted vector as a comma separated string
+	 * @param stringVect
+	 * @return
+	 */
+	public static String getSubstitueCommaString(String[] stringVect, String substitute){
+		String commaString = "";
+		
+		for(int i=0 ; i<stringVect.length; i++){
+			commaString += "," + substitute;
+		}
+		
+		
+		return commaString.substring(1);
+	}
+	
+	/**
+	 * Returns a substituted vector as a comma separated string
+	 * @param stringVect
+	 * @return
+	 */
+	public static String getSubstitueCommaString(ArrayList<String> stringVect, String substitute){
+		String commaString = "";
+		
+		for(String s : stringVect){
+			commaString += "," + substitute;
+		}
+		
+		
+		return commaString.substring(1);
+	}
+	
+	/**
 	 * Returns a comma separated string as a string vector
 	 * @param commaSepString
 	 * @return

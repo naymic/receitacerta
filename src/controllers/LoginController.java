@@ -15,60 +15,8 @@ import utils.Transform;
 
 public class LoginController extends GenericController{
 	
-	IApplicationSession appSession;
 	
-
-	public LoginController(){
-		super();
-		
-	}
-	
-	@Override
-	/**
-	 * Gets the list of valid actions for this controller
-	 */
-	public List<String> getValidActionsList() {
-		validActions = new ArrayList<String>();
-				
-		//Tries to login a user by its email an password
-		validActions.add("login");
-	
-		//Logout the user from the session
-		validActions.add("logout");
-		
-		return validActions;
-	}
-	
-	
-	@Override
-	public void execute(JReturn r, String action) {
-		super.execute(r, action);
-		
-		try {
-			this.validateAction(action);
-		} catch (NoActionException e) {
-			r.addSimpleError(e.getMessage());
-		}
-		
-		
-		//Iniciate user from view
-		Usuario loginUser = (Usuario)super.initObj(r);
-				
-		if(r.isSuccess()){
-			
-			if(action.equalsIgnoreCase("login")){
-				this.login(loginUser, r);
-			}else if(action.equalsIgnoreCase("logout")){
-				this.logout(r);
-			}
-		}
-		
-		this.setJson(Transform.objectToJson(r));
-		
-	}
-	
-	
-	public void login(Usuario loginUser, JReturn r){
+	public void loginAction(Usuario loginUser, JReturn r){
 		boolean test = false;
 		Usuario u = null;
 		//Get a list of all users
@@ -103,7 +51,7 @@ public class LoginController extends GenericController{
 	 * Log out a logged user and send a redirect to the login page
 	 * @param r
 	 */
-	public void logout(JReturn r){
+	public void logoutAction(JReturn r){
 		
 		r.setUser(this.resetUser());
 		r.getRedirect().setRedirection("Login", "login", "login");

@@ -95,7 +95,7 @@ public class TestJSON extends TestCases{
 		JReturn r = new JReturn();
 		i.verify(r);
 		if(r.isSuccess())
-			cc.saveObject(r, i);
+			cc.salvarAction(r, i);
 		
 		
 		JRedirect jr = new JRedirect();

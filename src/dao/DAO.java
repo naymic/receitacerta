@@ -86,7 +86,7 @@ public class DAO implements IDAO{
 	 * @return
 	 * @throws SQLException
 	 */
-	private PreparedStatement executeStatement(PreparedStatement stmt, Object[] objects) throws SQLException{
+	protected PreparedStatement executeStatement(PreparedStatement stmt, Object[] objects) throws SQLException{
 		return this.executeStatement(stmt, objects, new Integer(0));
 	}
 	
@@ -97,7 +97,7 @@ public class DAO implements IDAO{
 	 * @param fields
 	 * @throws SQLException
 	 */
-	private PreparedStatement executeSearchStatement(PreparedStatement stmt, Object[] objects, Integer index) throws SQLException{
+	protected PreparedStatement executeSearchStatement(PreparedStatement stmt, Object[] objects, Integer index) throws SQLException{
 		Object obj;
 		
 		for(int i = 0 ; i<objects.length; i++){

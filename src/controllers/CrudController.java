@@ -9,6 +9,7 @@ import dao.DAO;
 import dao.DAORelation;
 import dao.DAORelationList;
 import enums.ReturnType;
+import exceptions.NoActionException;
 import jsonclasses.JData;
 import jsonclasses.JReturn;
 import model.Model;
@@ -18,78 +19,6 @@ import utils.StringUtils;
 import utils.Transform;
 
 public class CrudController extends GenericController{
-
-
-	@Override
-	public void execute(JReturn r, String action){
-		super.execute(r, action);
-		
-		String json = "";
-		Model object;
-		
-	
-			object = this.initObj(r);
-			
-			if(!r.isSuccess()){
-				//Do anything and just jump any further step
-			}else  if(action.equalsIgnoreCase("buscaavancada")){
-				r = this.selectObjectSearch(r, object);
-				r.setReturnType(ReturnType.SEARCH);
-			}else if(action.equalsIgnoreCase("busca")){
-				r = this.selectObject(r, object);
-				r.setReturnType(ReturnType.SELECT);
-			}else if(action.equalsIgnoreCase("novo")){
-				r = this.newObject(r, object);
-				r.setReturnType(ReturnType.FORM);
-			}else if(action.equalsIgnoreCase("edit")){
-				r = this.editObject(r, object);
-				r.setReturnType(ReturnType.FORM);
-			}else if(action.equalsIgnoreCase("salvar")){
-				object.verify(r);
-				//Default ReturnTyp is allready INFO
-				if(!r.isSuccess()){
-					//Do anything and just jump any further step
-				}else{
-					r = this.saveObject(r, object);
-				}
-			}else if(action.equalsIgnoreCase("remover")){
-				r = this.removeObject(r, object);
-				//Default ReturnTyp is allready INFO
-			}
-
-			
-			this.setJson(Transform.objectToJson(r));		
-	}
-	
-
-	@Override
-	/**
-	 * Gets the list of valid actions for this controller
-	 */
-	public List<String> getValidActionsList() {
-		validActions = new ArrayList<String>();
-		
-		
-		//Busca normal
-		validActions.add("busca");
-		
-		//Busca avançada
-		validActions.add("buscaavancada");
-		
-		//Nova inserção (trazer as relações para select options)
-		validActions.add("novo");
-		
-		//Nova inserção (trazer as relações para select options e os outros informações)
-		validActions.add("edit");
-		
-		// Salvar um objeto no banco de dados seja para atualizr ou inserir 
-		validActions.add("salvar");
-		
-		//Remover um objeto do banco de dado
-		validActions.add("remover");
-		
-		return validActions;
-	}
 	
 	
 	
@@ -100,7 +29,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public JReturn newObject(JReturn r, Model object){
+	public JReturn novoAction(JReturn r, Model object){
 
 		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		
@@ -111,7 +40,7 @@ public class CrudController extends GenericController{
 		ArrayList<ArrayList<Model>> jdataList = DAO.getInstance().selectForForm(object);
 		//Add all Form dataTypes
 		r.getData().setDataTypes(rdr.getArrayFields());
-
+		r.setReturnType(ReturnType.FORM);
 		return r;		
 	}
 	
@@ -121,7 +50,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public JReturn editObject( JReturn r, Model object){
+	public JReturn editAction( JReturn r, Model object){
 		
 		//Check if PK is set or not
 		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
@@ -158,16 +87,21 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public JReturn saveObject(JReturn r, Model object){
+	public JReturn salvarAction(JReturn r, Model object){
 		
-		r = DAO.getInstance().save(object, r);
+		
+		object.verify(r);
+		
+		if(r.isSuccess())
+			r = DAO.getInstance().save(object, r);
+		
 		if(r.isSuccess()){
 			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully saved in database");
 		}else{
 			r.addSimpleError("Data "+ object.getClass().getSimpleName() +" could not be saved in database");
 		}
 		
-
+		
 		return r;
 	}
 	
@@ -177,7 +111,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public JReturn removeObject(JReturn r, Model object){
+	public JReturn removerAction(JReturn r, Model object){
 		r = DAO.getInstance().delete(object, r);
 		if(r.isSuccess()){
 			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully removed");
@@ -194,14 +128,15 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public JReturn selectObject(JReturn r, Model object){
+	public JReturn buscaAction(JReturn r, Model object){
 		List<Model> list =null;
 		
 		list = DAORelationList.getInstance().select(object);
 		
 		this.selectObjectCheck(r, list, object);
-		r.setReturnType(ReturnType.SELECT);		
+		
 		r.getData().setDataList(list);
+		r.setReturnType(ReturnType.SELECT);
 		return r;
 	}
 	
@@ -213,7 +148,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	public JReturn selectObjectSearch(JReturn r, Model object){
+	public JReturn buscaavancadaAction(JReturn r, Model object){
 		List<Model> list =null;
 		
 		list = DAORelationList.getInstance().search(object);
@@ -223,6 +158,7 @@ public class CrudController extends GenericController{
 		JData jd =  new JData(this.getObject().getClassName());
 		r.getData().setDataList(list);
 		r.setReturnType(ReturnType.SEARCH);	
+
 		return r;
 	}
 	
@@ -262,6 +198,5 @@ public class CrudController extends GenericController{
 	public boolean needAuthentication(){
 		return false;
 	}
-
 
 }

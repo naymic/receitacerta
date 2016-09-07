@@ -1,5 +1,6 @@
 package controllers;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,8 +18,10 @@ import jsonclasses.JObject;
 import jsonclasses.JReturn;
 import model.Model;
 import model.Usuario;
+import reflection.ReflectionController;
 import reflection.ReflectionDAO;
 import reflection.ReflectionDAORelation;
+import utils.Transform;
 
 
 public class GenericController implements IController{
@@ -29,6 +32,7 @@ public class GenericController implements IController{
 	JObject jobject;
 	String jsonString; 
 	IApplicationSession appSession;
+	Model modelObject;
 
 	public GenericController(IApplicationSession appSession){
 		this.initVariables();
@@ -67,43 +71,54 @@ public class GenericController implements IController{
 
 	
 	@Override
-	public void validateAction(String action)throws NoActionException {
+	public Method validateAction(ReflectionController rController, String action)throws NoActionException {
 		boolean test = false;
-		for(String s : getValidActionsList()){
-			if(s.equalsIgnoreCase(action)){
-				test = true;
-				break;
-			}
-			
-			
-		}
+		Method method = null;
 		
-		if(!test){
-			throw new NoActionException(this.getClass().getSimpleName(), action);
-		}
-
-
+		return rController.getAction(this.getUsecaseName(), action);
 	}
 
 
 	@Override
 	public void execute(JReturn r, String action) {
+		ReflectionController rController = new ReflectionController(this);
+		Method methodAction = null;
+		
 		//Checks if the given action is a valid action
 		try {
-			this.validateAction(action);
+			methodAction = this.validateAction(rController, action);
 		} catch (NoActionException e) {
 			r.addSimpleError(e.getMessage());
 		}
 		
-	}
-
-	@Override
-	public List<String> getValidActionsList() {
-		validActions = new ArrayList<String>();
-		validActions.add("index");
+		//if action exist in child class execute the action
+		if(r.isSuccess())
+			this.setModelObject(this.initObj(r));
+			
 		
-		return validActions;
-	}
+			//Execute action
+		if(r.isSuccess()){
+			try {
+				rController.executeAction(this, methodAction, r, this.getModelObject());
+			} catch (IllegalAccessException e) {
+				r.addSimpleError("Access to action is not allowed! Action: "+ action);
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				r.addSimpleError("Passed parameters for action are wrong! Action: "+ action);
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				r.addSimpleError("Action could not be executed (invoked)! Action: "+ action);
+				e.printStackTrace();
+			}
+		}
+			
+			
+		
+		//Transform the return to json
+		this.setJson(Transform.objectToJson(r));
+		
+	}	
+
 
 
 	@Override
@@ -255,6 +270,20 @@ public class GenericController implements IController{
 		
 		IUser iu= (IUser)this.getAppSession().getMapAttribute("user");
 		return iu.isLoggedin();
+	}
+	
+	public void setModelObject(Model modelObject){
+		this.modelObject = modelObject;
+	}
+	
+	public Model getModelObject(){
+		return modelObject;
+	}
+	
+	public String getUsecaseName(){
+		String usecase = this.getClass().getSimpleName();
+		int i = usecase.indexOf("Controller");
+		return usecase.substring(0, i);
 	}
 
 

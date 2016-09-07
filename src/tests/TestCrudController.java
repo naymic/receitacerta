@@ -86,6 +86,7 @@ public class TestCrudController extends TestCases{
 		System.out.println(cc.getJson());
 		assertTrue(r.isSuccess());
 		assertTrue(r.getMessages().get(0).contains("Data TestIngredientes successfully removed"));
+		DAORelation.getInstance().save(obj, r);
 	}
 	
 	@Test
@@ -127,7 +128,8 @@ public class TestCrudController extends TestCases{
 		
 		TestIngredientes i = (TestIngredientes)obj;
 		i.dsetId(null);
-		r = cc.editObject(r, i);
+		cc.addVariable("id", null);
+		cc.execute(r, "edit");
 		assertTrue(!r.isSuccess());
 		assertTrue(Transform.objectToJson(r).contains("Primary key is not set."));
 	}

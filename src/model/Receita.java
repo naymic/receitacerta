@@ -16,6 +16,7 @@ public class Receita extends Model{
 	private String caminhoFoto;
 	private ArrayList<Pertence> listaPertence;
 	private ArrayList<Passo> listaPassos;
+	private Double caloriasTotal;
 	
 	
 	public Receita(){
@@ -132,6 +133,15 @@ public class Receita extends Model{
 
 	public void asetListaPassos(ArrayList<Passo> listaPassos) {
 		this.listaPassos = listaPassos;
+	}
+
+	@Entity(attributeName="calorias_total")
+	public Double getCaloriasTotal() {
+		return caloriasTotal;
+	}
+
+	public void setCaloriasTotal(Double caloriasTotal) {
+		this.caloriasTotal = caloriasTotal;
 	}
 	
 }

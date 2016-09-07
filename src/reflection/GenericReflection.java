@@ -50,14 +50,14 @@ public class GenericReflection {
 	 * @param cl			Class	Class of set method parameter value, null if is a get method
 	 * @return				Method	Returns found method
 	 */
-	public Method getMethod(String methodName, Class<?>... cl){
+	public Method getMethod(String methodName, Class<?>... cl)throws RuntimeException{
 		Method m = null;
 		
 		try {
 				 m = this.getObjectClass().getMethod(methodName, cl);
 			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				throw new RuntimeException("No such method found! Class: " + this.getObjectClass().getName() + " | Method:" + methodName);
 			} catch (SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -56,7 +56,7 @@ public class DAORelation extends DAO{
 	 * @return  returnList	ArrayList<Model> 	List of Model objects 
 	 */
 	public ArrayList<Model> search(Model object){
-ReflectionDAORelation rdr = new ReflectionDAORelation(object);
+		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		
 
 		ArrayList<Method> mget = new ArrayList<>();
@@ -96,7 +96,12 @@ ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		}
 	}
 	
-	
+	/**
+	 * Return a list of all FK object of a given fk attributename
+	 * @param rdr
+	 * @param fk_attributeName
+	 * @return
+	 */
 	public List<Model> getFKRelationList(ReflectionDAORelation rdr, String fk_attributeName){
 		Method m = rdr.getGetMethodByColumname(fk_attributeName);
 		Model obj = (Model) ReflectionDAORelation.instanciateObjectByName(rdr.getMethodValueClass(m));
@@ -104,6 +109,14 @@ ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 	}
 	
 	
+	/**
+	 * Find out if in a subobject exist the same id of the object
+	 * @param rdr
+	 * @param columnName
+	 * @param inheritID
+	 * @return
+	 * @throws Exception
+	 */
 	public static boolean isSameID(ReflectionDAORelation rdr, String columnName ,Object inheritID)throws Exception{
 		
 		if(rdr.getValueFromAttributeName(columnName) == null){
@@ -116,6 +129,25 @@ ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		Model relObject = (Model)rdr.getValueFromAttributeName(columnName);
 		ReflectionDAORelation rdr1 = new ReflectionDAORelation(relObject);
 		return rdr1.getPK().equals(inheritID);
+	}
+	
+	
+	/**
+	 * Get a list of the IDs of the given Model list
+	 * @param modelList
+	 * @return Array<Object> PK values 
+	 */
+	protected ArrayList<String> getPKListFromModelList(ArrayList<Model> modelList){
+		ArrayList<String> idRecipeList = new ArrayList<>();
+		
+		for(Model model : modelList){
+			ReflectionDAORelation rdr = new ReflectionDAORelation(model);
+			idRecipeList.add(rdr.getPK().toString());			
+		}
+		
+		return idRecipeList;
+		
+		
 	}
 	
 

@@ -15,6 +15,7 @@ import db.DB;
 import exceptions.NoActionException;
 import jsonclasses.JReturn;
 import model.TestIngredientes;
+import reflection.ReflectionController;
 
 public class TestGenericController {
 	
@@ -46,17 +47,18 @@ public class TestGenericController {
 		
 		//Usecase update don't exist
 		GenericController cc = new GenericController();
+		ReflectionController rController = new ReflectionController(cc);
 		JReturn r = new JReturn();
 		JReturn r1 = new JReturn();
 		
 		try {
-			cc.validateAction("index");
+			cc.validateAction(rController, "index");
 		} catch (NoActionException e1) {
 			r.addSimpleError(e1.getMessage());
 		}
 		
 		try {
-			cc.validateAction("edit");
+			cc.validateAction(rController,"edit");
 			
 		} catch (NoActionException e) {
 			r1.addSimpleError(e.getMessage());

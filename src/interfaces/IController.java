@@ -1,5 +1,6 @@
 package interfaces;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import exceptions.NoActionException;
 import jsonclasses.JObject;
 import jsonclasses.JReturn;
+import reflection.ReflectionController;
 
 public interface IController {
 	/**
@@ -27,19 +29,16 @@ public interface IController {
 	 * @param action string que indica uma a��o conhecida pelo controlador.
 	 * @return Object Return que indica o status da execu��o. contem uma mensagem
 	 */
-	void execute(JReturn r, String action);
+	public void execute(JReturn r, String action);
 	
-	/** retorna a lista de a��es reconhecidas pelo controlador
-	 * @return
-	 */
-	public List<String> getValidActionsList();
+
 	
 	/** executa as valida��es para uma a��o
 	 * @param action
 	 * @return 
 	 * @return retorn um Objeto Return informado a situa��o da valida��o.
 	 */
-	public void validateAction(String action) throws NoActionException;
+	Method validateAction(ReflectionController rController, String action) throws NoActionException;
 	
 	/**
 	 * @return true se o caso de uso necessita de autentica��o.
@@ -115,4 +114,6 @@ public interface IController {
 	 * Get the object received from the view
 	 */
 	public JObject getObject();
+
+	
 }

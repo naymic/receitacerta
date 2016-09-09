@@ -3,20 +3,24 @@
 	<!-- Filtros para Receitas -->
 	<div class="row">
 		<div class="col-sm-5">
-			<label for="campo.nome">Nome da receita:</label>
-			<input class="form-control col-sm-3" type="text" name="campo.nome" />
+			<label>Nome da receita:
+				<input class="form-control col-sm-3" type="text" name="campo.nome" />
+			</label>
 
-			<label for="campo.ingrediente">Igrediente</label>
-			<input class="form-control col-sm-3" name="campo.ingrediente" />
+			<label>Ingrediente:
+				<input class="form-control col-sm-3" name="campo.ingrediente" />
+			</label>
 
-			<label for="campo.tipo">Tipo da Refeição:</label>
-			<input class="form-control col-sm-3" type="text" name="campo.tipo"  />
+			<label>Tipo da Refei&ccedil;&atilde;o:
+				<input class="form-control col-sm-3" type="text" name="campo.tipo"  />
+			</label>
 
-			<label for="campo.kcal">Kcal. Máxima/un.</label>
-			<input class="form-control col-sm-3" type="text" name="campo.kcal" />
+			<label>Kcal. M&aacute;xima/un.
+				<input class="form-control col-sm-3" type="text" name="campo.kcal" />
+			</label>
 
 		</div>
-		<div class="col-sm-5">
+		<div class="col-sm-3">
 			<input type="hidden" name="action" id="action" value="buscaavancada"  />
 			<input type="hidden" name="className" id="className" value="Receitas" />
 			<input type="hidden" name="usecase" id="usecase" value="GerarReceitas" />
@@ -33,7 +37,46 @@
 			<th>Ingredientes</th>
 		</tr>
 	</thead>
+		
 	<tbody>
+
+		<!-- Início da lista de receitas -->
+		<tr>
+			<td>
+				<!-- Nome e detalhes da receita -->
+				<h2>{{Nome da receita}}</h2>
+				<table class="table">
+					<tr>
+						<td>Tempo de preparo:</td>
+						<td>{{tempo}}</td>
+					</tr>
+					<tr>
+						<td>Tipo de Receita:</td>
+						<td>{{tipo da receita}}</td>
+					</tr>
+					<tr>
+						<td>Valor nutricional:</td>
+						<td>{{kcalorias}}</td>
+					</tr>
+					<tr>
+						<td>Rendimento:</td>
+						<td>{{quantidade}}</td>
+					</tr>
+				</table>
+				<a href="#" class="btn">Detalhes</a>
+				<a href="#" class="btn">Imprimir</a>
+				<!-- Fim do Nome e detalhes -->
+			</td>
+			<td>
+				<!-- Lista de ingredientes da receita -->
+				<h3>Ingredientes:</h3>
+				<ul>
+					<li>{{Descri&ccedil;&atilde;o do ingrediente}}</li>
+				</ul>
+				<!-- Fim da Lista de ingredientes da receita -->
+			</td>
+		</tr>
+		<!-- Fim da lista de receitas -->
 
 	</tbody>
 </table>

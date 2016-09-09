@@ -1,32 +1,33 @@
 <form id="consultaReceitas">
 
 	<!-- Filtros para Receitas -->
-	<div class="row">
-		<div class="col-sm-5">
-			<label>Nome da receita:
-				<input class="form-control col-sm-3" type="text" name="campo.nome" />
+	<div class="row bg-primary">
+		<div class="col-md-10">
+			<label class="col-md-2">Nome da receita:
+				<input class="form-control" type="text" name="campo.nome" />
 			</label>
 
-			<label>Ingrediente:
-				<input class="form-control col-sm-3" name="campo.ingrediente" />
+			<label class="col-md-2">Ingrediente:
+				<input class="form-control" name="campo.ingrediente" />
 			</label>
 
-			<label>Tipo da Refei&ccedil;&atilde;o:
-				<input class="form-control col-sm-3" type="text" name="campo.tipo"  />
+			<label class="col-md-2">Tipo da Refei&ccedil;&atilde;o:
+				<input class="form-control" type="text" name="campo.tipo"  />
 			</label>
 
-			<label>Kcal. M&aacute;xima/un.
-				<input class="form-control col-sm-3" type="text" name="campo.kcal" />
+			<label class="col-md-2">Kcal. M&aacute;xima/un.
+				<input class="form-control" type="text" name="campo.kcal" />
 			</label>
 
 		</div>
-		<div class="col-sm-3">
+		<div class="col-md-2">
 			<input type="hidden" name="action" id="action" value="buscaavancada"  />
 			<input type="hidden" name="className" id="className" value="Receitas" />
 			<input type="hidden" name="usecase" id="usecase" value="GerarReceitas" />
 			<button  class="btn btn-success" style="margin-top:23px;" type="submit">Filtrar</button>
 		</div>
 	</div>
+	<!-- Fim dos Filtros par Receitas -->
 </form>
 
 <hr />

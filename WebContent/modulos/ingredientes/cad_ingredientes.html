@@ -1,34 +1,14 @@
 <form  method="post" id="formIngredientes">
 
-<div class="row">
-	<div class="col-md-2">
-		<label>Nome Receita</label>
-		<input type="text" name="nome" id="nome" class="form-control" />
-	</div>
-	<div class="col-md-2">
-		<label>Nome Receita</label>
-		<select name="nome" id="nome" class="form-control">
-			<option value="">Selecione um Valor</option>
-		</select>
-	</div>
-	<div class="col-md-2">
-		<label>Nome Receita</label>
-		<textarea  name="nome" id="nome" class="form-control"></textarea>
-	</div>
-	<div class="col-md-2">
-		<label>Nome Receita</label>
-		<input type="text" name="nome" id="nome" class="form-control" />
-	</div>
-</div>
 
     <div class="form-group">
         <label for="nome">Nome do ingrediente:</label>
-        <input type="text" name="campo.nome" class="form-control" id="nome" value="" />
+        <input type="text" name="nome" class="form-control" id="nome" value="" />
     </div>
 
     <div class="form-group">
         <label for="ingredientes_tipo_id">Tipo do ingrediente:</label>
-        <select name="campo.ingredientes_tipo_id" data-tipo="select" class="form-control" id="ingredientes_tipo_id">
+        <select name="ingredientesTipoId" data-tipo="select" class="form-control" data-label="nomeTipo" data-value="id" id="ingredientesTipoId">
             <!-- $beginBlock relation.tipo -->
             <option value="">Selecione</option>
             <!-- $endBlock relation.tipo -->
@@ -37,7 +17,7 @@
 
     <div class="form-group">
         <label for="ingredientes_unidades_id">Unidade:</label>
-        <select class="form-control" data-tipo="select" name="campo.ingredientes_unidades_id" id="ingredientes_unidades_id">
+        <select class="form-control" data-tipo="select" data-label="nomeUnidade" data-value="id"  name="ingredientesUnidade" id="ingredientesUnidade">
             <!-- $beginBlock unidades -->
             <option value="">Selecione</option>
             <!-- $endBlock unidades -->
@@ -46,66 +26,46 @@
 
     <div class="form-group">
         <label for="calorias">Calorias por Unidade (Cal/Unid)</label>
-        <input class="form-control" type="text" name="campo.calorias" id="calorias" value="" />
+        <input class="form-control" type="text" name="calorias" id="calorias" value="" />
     </div>
 
     <div class="form-group">
         <label for="ingrediente_armazenamentos_id">Tipo de armazenamento:</label>
-        <select class="form-control" data-tipo="select" name="campo.ingrediente_armazenamentos_id" id="ingrediente_armazenamentos_id">
+        <select class="form-control" data-tipo="select" data-label="nomeArmazenamento" data-value="id"  name="ingredienteArmazenamentosId" id="ingredienteArmazenamentosId">
             <!-- $beginBlock armazenamentos -->
              <option value="">Selecione</option>
             <!-- $endBlock armazenamentos -->
         </select>
     </div>
-    
-    <div class="row">
-    <div class="col-md-3" data-tipo="radio" id="importancia">
-        <label for="importancia">Importancia</label>
-        1:
-        <input  type="radio" name="campo.importancia" value="1" />
-        2:
-        <input  type="radio" name="campo.importancia" value="2" />
-        3:
-        <input  type="radio" name="campo.importancia" value="3" />
-        4:
-        <input  type="radio" name="campo.importancia" value="4" />
-        5:
-        <input  type="radio" name="campo.importancia" value="5" />
-</div>
-<div class="col-md-3" data-tipo="checkbox" id="gluten">
-        <label for="gluten">Gluten</label>
-        <input  type="checkbox" name="campo.gluten"  value='1' >
-        <input type="hidden" name="campo.gluten" value="0" />
-    </div>
-    </div>
+   
 	
 	<div class="form-group">
         <label for="calorias">Anotações</label>
-        <textarea class="form-control" name="campo.anotacoes" id="anotacoes"  ></textarea>
+        <textarea class="form-control" name="anotacoes" id="anotacoes"  ></textarea>
     </div>
   
-    <div id="camposHidden">
-    <input type="hidden" name="action" id="action" value="save"  />
-    <input type="hidden" name="className" id="className" value="Ingredientes" />
-    <input type="hidden" name="usecase" id="usecase" value="Crud" />
-   </div>
+   
 
    <div id="divSubmit">
     <input class="btn btn-primary" type="submit" id="btnSubmit"  value="Salvar" />
     </div>
 
 </form>
-<script>
-var objReceita = {"dados":{"className":"Ingredientes","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true}};
-validaAction("Insert",objReceita);
 
+ <div id="camposHidden">
+    <input type="hidden" name="action" id="action" value="save"  />
+    <input type="hidden" name="className" id="className" value="Ingredientes" />
+    <input type="hidden" name="usecase" id="usecase" value="Crud" />
+   </div>
+
+<script>
 
 
 if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
-  var objIngrediente = {"dados":{"className":"Ingredientes","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true}};
+  var objIngrediente = {"dados":{"classname":"Ingredientes","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formIngredientes"}};
   validaAction('Insert',objIngrediente);
 }else{
-  var objIngrediente = {"dados":{"className":"Ingredientes","action":EDITACTION,"campo.id":sessionStorage.id,"usecase":"Crud"},"config":{"formRest":false,"returnPage":"modulos/ingredientes/list_ingredientes.html"}};
+  var objIngrediente = {"dados":{"classname":"Ingredientes","action":EDITACTION,"id":sessionStorage.id,"usecase":"Crud"},"config":{"formRest":false,"returnPage":"modulos/ingredientes/list_ingredientes.html"}};
   validaAction('Update',objIngrediente);
 }
 

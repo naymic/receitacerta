@@ -18,7 +18,11 @@ var CONFIGTABLE = "";
 var MODALCONFIRM = "confirmModal";
 var CORPOMODALCONFIRM = "corpoConfirmModal";
 var OBJGERAL = "";
-
+var KEYFORM = "dataType";
+var MODEL = "MODEL";
+var TIPOCAMPO = "fieldClassification";
+var CLASSNAMECAMPO = "objectClass";
+var DATAGERAL = "data";
 //	objAction = {'action':EDITACTION,'className':classe,'id':sessionStorage.id}; <- action, className, useCase, id
 
 // Uso de prototypes
@@ -30,7 +34,7 @@ String.prototype.capitalizeFirstLetter = function() {
 
 
 function serializaVetor(obj,qtdCampos){
-	//console.log(obj);
+	console.log(obj);
 	var novoArray = new Array();
 	var j = 0;
 	var cont = 0;
@@ -52,51 +56,45 @@ function serializaVetor(obj,qtdCampos){
 
 function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um formulario qualquer
   console.log(dados);
-  var data = dados;
+  var data = dados.data;
 	console.log(data);
 		var html = '';
 		var selectedOption = '';
 		var metodoGeral = '';
-		$.each(data[KEYDADOS],function(campo,values){
-			if($.isArray(values)){
-        console.log(campo);
+		$.each(data[KEYFORM],function(campo,values){
+			console.log(campo);
+			console.log(values[TIPOCAMPO]);
+			if(values[TIPOCAMPO] == MODEL){
+				var objBuscaDados = {"classname":values[CLASSNAMECAMPO],"action":KEYBUSCA,"usecase":"crud",data:{}}
+				var objResposta = getResponse(objBuscaDados);
+				console.log(objResposta);
 				metodoGeral = $("#"+campo).data('tipo')+"Constroi";
-        console.log(metodoGeral);
-				$("#"+campo).append(window[metodoGeral](values));
+				console.log(metodoGeral);
+				var objConfig = {"label":$("#"+campo).data('label'),"value":$("#"+campo).data('value')}
+				$("#"+campo).append(window[metodoGeral](objResposta[DATAGERAL][DATAGERAL],objConfig));
 			}else{
-				// Caso haja checkbox ou radios estaticas na pagina ela é tratada atraves desse if, 
-				//Modo de uso: Coloque o id de um objeto referente aos inputs:checkbox||radio igual ao name deles ex: name="campo.teste" id do objeto -> teste
-				//			   Coloque um atributo html5 data-tipo no objeto ex: <div id="teste" data-tipo="checkbox"> ou <div id="teste" data-tipo="radio">
-				if($("#"+campo).data('tipo') == 'radio' || $("#"+campo).data('tipo') == 'checkbox'){
-					$("input[name='campo."+campo+"']").each(function(i,value){
-						if($(this).val() == values){
-							$(this).prop('checked',true);
-						}
-					});
-				}else{
-					$("#"+campo).val(values);
-				}
+				
 				
 			}
 		});
-		console.log("form"+nomeForm);
-    submitGeral("form"+nomeForm,resetForm);
+		console.log(nomeForm);
+    submitGeral(nomeForm,resetForm);
 }
 
 function checkboxConstroi(dados){
   var html = '';
   $.each(dados,function(cont,obj){
 		selectedOption = obj.selected;
-		html += '<label>'+obj.label+'</label><input value="'+obj.id+'" type="'+$("#"+campo).data('tipo')+'" name="'+campo+'" class="'+campo+'" '+selectedOption+' />';
+		html += '<label>'+obj.label+'</label><input value="'+obj[objConfig.value]+'" type="'+$("#"+campo).data('tipo')+'" name="'+campo+'" class="'+campo+'"  />';
 	});
   return html;
 }
 
-function selectConstroi(dados){
+function selectConstroi(dados,objConfig){
   var html = '';
 	$.each(dados,function(cont,obj){
 		selectedOption = obj.selected;
-		html += '<option value="'+obj.id+'"  '+selectedOption+' >'+obj.label+'</option>';
+		html += '<option value="'+obj[objConfig.value]+'" >'+obj[objConfig.label]+'</option>';
 	});
   return html;
 }
@@ -113,13 +111,9 @@ function validaLogin(objAction){
 }
 
 function validaInsert(objAction){
-	$("#action").val(SALVARACTION);
 	$("#btnSubmit").val('Cadastrar');
-	data = getResponse(JSON.stringfy(objAction[KEYDADOS]));
- // $("#loadContent").load(PATH_API,objAction,function(data){
-        //console.log(data);
-        construirForm(data,objAction[KEYDADOS].className,objAction[KEYCONFIG].formReset);
-  //});
+	data = getResponse(objAction[KEYDADOS]);
+    construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
 
 }
 
@@ -161,13 +155,13 @@ function validaUpdate(objAction){
 	$("#action").val(SALVARACTION);
 	$("#btnSubmit").val('Salvar');
   $("#divSubmit").prepend('<input onClick=navCentral("'+objAction[KEYCONFIG].returnPage+'") class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
-	data = getResponse(JSON.stringify(objAction[KEYDADOS]));
+	data = getResponse(objAction[KEYDADOS]);
 	construirForm(data,objAction[KEYDADOS].className,objAction[KEYCONFIG].formReset);
 }
 
 function validaLogout(){
 	var objAction = {"action":"logout","usecase":"Login","className":"Usuario"};
-	var data = getResponse(JSON.stringify(objAction));
+	var data = getResponse(objAction);
 	validaRetorno(data);
 }
 
@@ -250,31 +244,24 @@ function validaEditList(objAction){
 }
 
 
+
 function getResponse(objAction){
 	var resposta;
-	console.log(objAction);
+	var jsonSend = [objAction];
+	console.log(jsonSend);
+	var stringJson = JSON.stringify(jsonSend);
+	console.log(stringJson);
 	$.ajax({
 		async:false,
-		data:objAction,
-		dataType:"JSON",
+		data:{"request":stringJson},
 		url:PATH_API,
 		type:"POST",
 		success: function(objResposta){
-			objResposta = JSON.parse(objResposta);
-			console.log('Sucesso');
-			console.log(objResposta);
-			if($.isEmptyObject(objResposta.redirect)){
-				console.log("Vazio");
 				resposta = objResposta;
-			}else{
-				validaRetorno(objResposta);
-				console.log("Não vazio");
-				return false;
-			}
-			
 
 		},
 		error: function(data){
+			alert("Houve algum problema!")
 			console.log('Erro');
 			console.log(data);
 		}
@@ -331,7 +318,12 @@ function submitGeral(idForm,cleanForm){
 	$(document).off("submit","#"+idForm);
 	$(document).on("submit","#"+idForm,function(e) {
       e.preventDefault();
-			var data = getResponse(serializaVetor($(this).serialize(),2));
+      
+      
+      console.log(serializaVetor($(this).serializeArray(),""))
+      var vetDadosSerializados = serializaVetor($(this).serializeArray(),"");
+      var objEnvio = {"classname":$("#className").val(),"usecase":$("#usecase").val(),"action":$("#action").val(),"data":vetDadosSerializados[0]};
+	var data = getResponse(objEnvio);
 			console.log("Retorno------------");
 			
 			//data = JSON.parse(data);
@@ -372,6 +364,7 @@ function validaRetorno(data){
 						if(!$.isEmptyObject(data[key])){
 							objOp.dados = data[key];
 							objOp.redirect = data["redirect"];
+							console.log(key.capitalizeFirstLetter());
 							 validaAction(key.capitalizeFirstLetter(),objOp);
 						}
 				}
@@ -392,6 +385,19 @@ function validaMsg(objAction){
 		ativaBtnModalMsg(config);
 }
 
+function validaUser(objAction){
+	console.log(objAction);
+}
+
+function validaData(objAction){
+	var objData = objAction.dados;
+	console.log(objData);
+	asdfasdfas;
+	console.log(objAction.dataType);
+}
+
+
+
 function validaErroMsg(objAction){
 	var htmlMsg = "";
 	$.each(objAction,function(i,msg){
@@ -404,7 +410,9 @@ function validaErroMsg(objAction){
 
 function validaRedirect(objAction){
 	console.log(objAction);
-	document.location.replace(MAPNAV[objAction.redirect.redirectUseCase].url);
+	if(!objAction.redirect){
+		document.location.replace(MAPNAV[objAction.redirect.redirectUseCase].url);
+	}
 }
 
 function validaErro(objAction){

@@ -128,3 +128,14 @@
 		</div>
 	</div>
 </div>
+
+<script>
+if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
+	  var objIngrediente = {"dados":{"classname":"Receitas","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formReceitas1"}};
+	  validaAction('Insert',objIngrediente);
+	}else{
+	  var objIngrediente = {"dados":{"classname":"Ingredientes","action":EDITACTION,"id":sessionStorage.id,"usecase":"Crud"},"config":{"formRest":false,"returnPage":"modulos/ingredientes/list_ingredientes.html"}};
+	  validaAction('Update',objIngrediente);
+	}
+
+</script>

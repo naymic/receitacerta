@@ -25,6 +25,8 @@ public class DAOGerarReceita extends DAORelation {
 	
 	
 	
+	
+	
 	public ArrayList<Model> filterByMaxCalories(Double maxCalories, ArrayList<Model> recipeList){
 		java.sql.PreparedStatement stmt;
 		ArrayList<Model> recipeReturnList = new ArrayList<>();

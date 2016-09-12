@@ -77,7 +77,7 @@ function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um
 				
 			}
 		});
-		console.log(nomeForm);
+	console.log(nomeForm);
     submitGeral(nomeForm,resetForm);
 }
 
@@ -141,7 +141,7 @@ function validaExcluiList(objAction){
 
 function validaRemover(){
 	$("#"+MODALCONFIRM).modal('hide');
-	OBJGERAL["campo.id"] = sessionStorage.id;
+	OBJGERAL["data"] = {"id":sessionStorage.id}
 	var data = getResponse(OBJGERAL);
 	validaRetorno(data);
 }
@@ -150,13 +150,25 @@ function navCentral(url){
   $("#conteudoCentral").load(url);
 }
 
+function setDadosForm(objDados){
+	console.log(objDados);
+	$.each(objDados[0],function(campo,values){
+		if($.isPlainObject(values)){
+			$("#"+campo).val(values[$("#"+campo).data('value')]);
+		}else{
+			$("#"+campo).val(values);
+		}
+	});
+}
+
 function validaUpdate(objAction){
 	$("#"+DIVHIDDENS).append('<input type="hidden" name="campo.id" id="id" value="'+sessionStorage.id+'" />');
 	$("#action").val(SALVARACTION);
 	$("#btnSubmit").val('Salvar');
   $("#divSubmit").prepend('<input onClick=navCentral("'+objAction[KEYCONFIG].returnPage+'") class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
 	data = getResponse(objAction[KEYDADOS]);
-	construirForm(data,objAction[KEYDADOS].className,objAction[KEYCONFIG].formReset);
+	construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
+	setDadosForm(data[DATAGERAL][DATAGERAL])
 }
 
 function validaLogout(){
@@ -184,9 +196,9 @@ function validaConsulta(objAction){
         console.log(data);
         //data = JSON.parse(data);
         //console.log(data[KEYBUSCA][KEYDADOS]);
-        construirTabela(data[KEYBUSCA],objAction[KEYDADOS].className,objAction[KEYCONFIG]);
+        construirTabela(data[DATAGERAL][DATAGERAL],objAction[KEYDADOS].className,objAction[KEYCONFIG]);
         ativaBtnList();
-        submitConsulta("consulta"+objAction[KEYDADOS].className,objAction[KEYCONFIG]);
+        submitConsulta(objAction.nomeForm,objAction[KEYCONFIG]);
   //});
 
 }
@@ -195,7 +207,7 @@ function ativaBtnList(){
 	$(document).off('click','.btnActionList');
 	$(document).on('click','.btnActionList',function(e){
 		var nameAction = $(this).data('tipoaction');
-		var objAction = {"url":$(this).data('url'),"btnClick":$(this),"parametros":{"className":$(this).data('classname'),"action":$(this).data('action'),"usecase":$(this).data('usecase')}};		
+		var objAction = {"url":$(this).data('url'),"btnClick":$(this),"parametros":{"classname":$(this).data('classname'),"action":$(this).data('action'),"usecase":$(this).data('usecase')}};		
 		sessionStorage.id = $(this).val();
 		validaAction(nameAction,objAction);
 	});
@@ -208,15 +220,17 @@ function construirTabela(dados,nomeTabela,config){
   var htmlTr = "";
   var idItem = "";
   var dataRows;
-  if(!$.isEmptyObject(dados[KEYDADOS])){
-	  $.each(dados[KEYDADOS],function(i, obj){
+  var dataHead = config.tableHead;
+  if(!$.isEmptyObject(dados)){
+	  
+	  $.each(dados,function(i, obj){
 		//  console.log(i);
 		 // console.log(obj);
 	      htmlTd = "";
-	      idItem = obj.id;
+	      idItem = obj[config.labelId];
 	      console.log("config "+config);
 	      //return false;
-	      $.each(config,function(key,value){
+	      $.each(dataHead,function(key,value){
 	    	  console.log("valor "+value.data);
 	    	  console.log("key "+key);
 	
@@ -228,14 +242,15 @@ function construirTabela(dados,nomeTabela,config){
 	    	  }
 	
 	      });
-	      htmlTd += '<td><button class="btn btn-sm btn-primary btnActionList" data-tipoaction="EditList" type="button" data-url="modulos/ingredientes/cad_ingredientes.html" value="'+idItem+'">Editar</button> <button value="'+idItem+'" data-usecase="Crud" data-action="remover" data-classname="Ingredientes" class="btn btn-sm btn-danger btnActionList" data-tipoaction="ExcluiList" type="button">Excluir</button></td>';
+	      htmlTd += '<td><button class="btn btn-sm btn-primary btnActionList" data-tipoaction="EditList" type="button" data-url="'+config.urlEdit+'" value="'+idItem+'">Editar</button> <button value="'+idItem+'" data-usecase="Crud" data-action="remover" data-classname="'+config.className+'" class="btn btn-sm btn-danger btnActionList" data-tipoaction="ExcluiList" type="button">Excluir</button></td>';
 	      htmlTr += '<tr>'+htmlTd+'</tr>'
 	  });
   }else{
-	  htmlTr = "<tr><td colspan='"+(config.length + 1)+"'>"+validaErroMsg(dados.msg)+"</td></tr>";
+	  console.log(config.campoBusca);
+	  htmlTr = "<tr><td colspan='"+(dataHead.length + 1)+"'>Não há resultados para '"+$("#"+config.campoBusca).val()+"' </td></tr>";
   }
   //console.log(htmlTr);
-  $("#"+nomeTabela).children('tbody').html(htmlTr);
+  $("#"+config.nomeTabela).children('tbody').html(htmlTr);
 
 }
 
@@ -302,14 +317,22 @@ function validaStatusLogin(objResposta){
 	}
 }
 
+function validaEnviaDados(objAction){
+	var vetDadosSerializados = serializaVetor(objAction,"");
+	var objEnvio = {"classname":$("#className").val(),"usecase":$("#usecase").val(),"action":$("#action").val(),"data":vetDadosSerializados[0]};
+	var data = getResponse(objEnvio);
+	return data;
+}
+
 function submitConsulta(idForm,config){
 	CONFIGTABLE = config;
 	$(document).off("submit","#"+idForm);
 	$(document).on("submit","#"+idForm,function(e) {
      e.preventDefault();
-	 var data = getResponse(serializaVetor($(this).serialize(),2));
-	 
-     construirTabela(data[KEYBUSCA],$(this).find("#className").val(),CONFIGTABLE);
+     var data = validaEnviaDados($(this).serializeArray());
+	 console.log(data);
+     //construirTabela(data[KEYBUSCA],CONFIGTABLE.nomeTabela,CONFIGTABLE);
+     construirTabela(data[DATAGERAL][DATAGERAL],CONFIGTABLE.nomeTabela,CONFIGTABLE);
 
   });
 }
@@ -322,7 +345,12 @@ function submitGeral(idForm,cleanForm){
       
       console.log(serializaVetor($(this).serializeArray(),""))
       var vetDadosSerializados = serializaVetor($(this).serializeArray(),"");
+      if(typeof sessionStorage.id != "undefined" && sessionStorage.id != ""){
+    	  vetDadosSerializados[0].id = sessionStorage.id;
+      }
+     
       var objEnvio = {"classname":$("#className").val(),"usecase":$("#usecase").val(),"action":$("#action").val(),"data":vetDadosSerializados[0]};
+      
 	var data = getResponse(objEnvio);
 			console.log("Retorno------------");
 			
@@ -371,7 +399,7 @@ function validaRetorno(data){
 		});
 }
 
-function validaMsg(objAction){
+function validaMessages(objAction){
 		var htmlMsg = "";
 		$.each(objAction[KEYDADOS],function(i,msg){
 			htmlMsg += "<h3 class='text-success'>"+msg+"</h3>";
@@ -392,7 +420,6 @@ function validaUser(objAction){
 function validaData(objAction){
 	var objData = objAction.dados;
 	console.log(objData);
-	asdfasdfas;
 	console.log(objAction.dataType);
 }
 
@@ -415,7 +442,7 @@ function validaRedirect(objAction){
 	}
 }
 
-function validaErro(objAction){
+function validaErrors(objAction){
 		var htmlMsg = "";
 		$.each(objAction,function(i,msg){
 			htmlMsg += "<h3 class='text-warning'>"+msg+"</h3>";
@@ -425,9 +452,12 @@ function validaErro(objAction){
     $("#"+MODALTITULO).text(KEYTITULOMODAL);
 }
 
-function validaAtb(objAction){
-	$.each(objAction,function(cont,obj){
-			$("#"+obj.nomeAttributo).parent().append('<div class="alert alert-warning infoErro">'+obj.msg+'</div>');
+function validaAtberrors(objAction){
+	console.log(objAction);
+	$.each(objAction[KEYDADOS],function(cont,obj){
+		console.log(obj);
+		
+			$("#"+obj.attributename).parent().append('<div class="alert alert-warning infoErro">'+obj.error+'</div>');
 	});
 }
 

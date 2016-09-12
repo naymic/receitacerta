@@ -1,23 +1,25 @@
 <form  method="post" id="formIngredienteTipo">
     <div class="form-group">
-        <label for="nome">Nome do Tipo </label>
-        <input type="text" name="campo.nomeTipo" class="form-control" id="nome" value="" />
+        <label for="nome">Nome do Tipo Teste</label>
+        <input type="text" name="nomeTipo" class="form-control" id="nome" value="" />
     </div>
       
-    <div id="camposHidden">
-    <input type="hidden" name="action" id="action" value="save"  />
-    <input type="hidden" name="className" id="className" value="IngredienteTipo" />
-    <input type="hidden" name="usecase" id="usecase" value="Crud" />
-   </div>
 
    <div id="divSubmit">
     <input class="btn btn-primary" type="submit" id="btnSubmit"  value="Salvar" />
     </div>
 
 </form>
+
+ <div id="camposHidden">
+    <input type="hidden" name="action" id="action" value="salvar"  />
+    <input type="hidden" name="classname" id="className" value="IngredienteTipo" />
+    <input type="hidden" name="usecase" id="usecase" value="Crud" />
+   </div>
+
 <script>
 
-  var objTipoIngrediente = {"dados":{"className":"IngredienteTipo","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true}};
+  var objTipoIngrediente = {"dados":{"classname":"IngredienteTipo","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formIngredienteTipo"}};
   validaAction('Insert',objTipoIngrediente);
 
 

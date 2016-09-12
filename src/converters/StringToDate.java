@@ -8,7 +8,10 @@ public class StringToDate implements ISimpleConverter {
 
 	@Override
 	public Object convert(Object entry) {
-		return Date.valueOf((String) entry);
+		String[] date= ((String)entry).split("-");
+		
+		Date d = new Date(Integer.valueOf(date[0]), Integer.valueOf(date[1]), Integer.valueOf(date[2]));
+		return d;
 	}
 
 }

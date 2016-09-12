@@ -91,15 +91,20 @@ public class GenericController implements IController{
 			r.addSimpleError(e.getMessage());
 		}
 		
-		//if action exist in child class execute the action
-		
+		//Find out if action need to check attributes first
 		AControllerMethod acm = methodAction.getAnnotation(AControllerMethod.class);
 		Boolean	check = true;
 		try{check = acm.checkAttributes();}catch(NullPointerException e){	check = true;	}
 		
+		
+		//Iniciate the object from the data given by the view
 		if(r.isSuccess())
 			this.setModelObject(this.initObj(r, check));
 			
+		//Verify if all 
+		if(r.isSuccess() && check)
+			this.getModelObject().verifyGeneric(r);
+		
 		
 			//Execute action
 		if(r.isSuccess()){
@@ -192,6 +197,8 @@ public class GenericController implements IController{
 
 		String paramName;
 		String className = (String) this.getObject().getClassName();
+		
+		//Invoke object
 		Model obj = null;
 		try{
 			obj = ReflectionDAO.instanciateObjectByName(className);	
@@ -213,18 +220,21 @@ public class GenericController implements IController{
 			//Convert the String value from the view to the Model class
 			Method m = null;
 			
+			//Get and check the given Method to set and get values from attributes
 			m = this.getAndCheckMethod(r, rdr, MType.get, fieldName);
 			
-
+			//Check and convert input values
+			boolean convertError = false;
 			try{
 				value = GenericConverter.convert(rdr.getMethodValueClass(m), this.getVariableValue(paramName));
 			}catch(Exception e){
 				System.out.println(e.getMessage());
 				r.addAttributeError(obj.getClass().getName(), fieldName, "Field has wrong caracters or is empty: "+ fieldName +" for "+ rdr.getObject().getClass().getSimpleName());
+				convertError = true;
 			}
 
-			
-			if(rdr.isRequired(m) && (value == null || value.toString().length() == 0) && checkAttributes)
+			//Check for empty fields but just if dont exist convert error allready
+			if(!convertError && rdr.isRequired(m) && (value == null || value.toString().length() == 0) && checkAttributes)
 				r.addAttributeError(obj.getClass().getName(), fieldName, "Field  is empty but required: "+ fieldName +" for "+ className);
 			
 

@@ -1,6 +1,7 @@
 package model;
 
 import annotations.Entity;
+import jsonclasses.JReturn;
 
 public class ReceitaRendimentoTipos extends Model {
 
@@ -29,6 +30,12 @@ public class ReceitaRendimentoTipos extends Model {
 
 	public void dsetTipo(String tipo) {
 		this.tipo = tipo;
+	}
+
+	@Override
+	public void verify(JReturn r) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

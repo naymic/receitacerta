@@ -1,6 +1,7 @@
 package model;
 
 import annotations.Entity;
+import jsonclasses.JReturn;
 
 public class Passo extends Model{
 	private Integer id;
@@ -44,6 +45,12 @@ public class Passo extends Model{
 	}
 	public void dsetTexto(String texto) {
 		this.texto = texto;
+	}
+
+	@Override
+	public void verify(JReturn r) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

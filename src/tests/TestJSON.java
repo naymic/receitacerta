@@ -93,7 +93,7 @@ public class TestJSON extends TestCases{
 		
 
 		JReturn r = new JReturn();
-		i.verify(r);
+		i.verifyGeneric(r);
 		if(r.isSuccess())
 			cc.salvarAction(r, i);
 		

@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 
 import annotations.Entity;
+import jsonclasses.JReturn;
 
 public class Receita extends Model{
 	private Integer id;
@@ -137,6 +138,12 @@ public class Receita extends Model{
 
 	public void asetListaPassos(ArrayList<Passo> listaPassos) {
 		this.listaPassos = listaPassos;
+	}
+
+	@Override
+	public void verify(JReturn r) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

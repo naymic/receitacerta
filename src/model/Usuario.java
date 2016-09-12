@@ -27,8 +27,7 @@ public class Usuario extends Model implements IUser{
 	}
 	
 	
-	public JReturn verify(JReturn r){
-		r = super.verify(r);
+	public void verify(JReturn r){
 		
 		this.celular = StringUtils.justNumbers(this.celular);
 		
@@ -40,7 +39,7 @@ public class Usuario extends Model implements IUser{
 			r.addAttributeError(this.getClass().getSimpleName(), "email", "This is not a valid email Adress. Please enter a valid address!");
 		}
 		
-		return r;
+		
 	}
 	
 	

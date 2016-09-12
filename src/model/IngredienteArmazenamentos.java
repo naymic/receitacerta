@@ -1,6 +1,7 @@
 package model;
 
 import annotations.Entity;
+import jsonclasses.JReturn;
 
 public class IngredienteArmazenamentos extends Model{
 
@@ -32,6 +33,13 @@ public class IngredienteArmazenamentos extends Model{
 	
 	public void dsetNomeArmazenamento(String nome_armazenamento) {
 		this.nomeArmazenamento = nome_armazenamento;
+	}
+
+
+	@Override
+	public void verify(JReturn r) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

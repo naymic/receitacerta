@@ -223,7 +223,7 @@ public class CrudController extends GenericController{
 	
 	@Override
 	public boolean needAuthentication(){
-		return false;
+		return true;
 	}
 
 }

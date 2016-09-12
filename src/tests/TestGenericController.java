@@ -14,6 +14,9 @@ import db.Config;
 import db.DB;
 import exceptions.NoActionException;
 import jsonclasses.JReturn;
+import model.IngredienteArmazenamentos;
+import model.IngredienteTipo;
+import model.IngredienteUnidades;
 import model.TestIngredientes;
 import reflection.ReflectionController;
 
@@ -28,14 +31,15 @@ public class TestGenericController {
 	public GenericController getGenericController(){
 		GenericController cc = new GenericController();
 		cc.addVariable("id", new Integer(1));
-		cc.addVariable("ingrediente_armazenamentos_id", new Integer(2));
+		cc.addVariable("ingredienteArmazenamentosId", new Integer(2));
 		cc.addVariable("calorias", new Double(250.0));
 		cc.addVariable("nome", "carne de sol1");
-		cc.addVariable("ingredientes_unidades_id", new Integer(1));
-		cc.addVariable("ingredientes_tipo_id", new Integer(1));
+		cc.addVariable("ingredientesUnidade", new Integer(1));
+		cc.addVariable("ingredientesTipoId", new Integer(1));
 		cc.getObject().setClassName("TestIngredientes");
 		return cc;
 	}
+	
 	
 	@Before
 	public void initTestDatabase(){
@@ -48,14 +52,8 @@ public class TestGenericController {
 		//Usecase update don't exist
 		GenericController cc = new GenericController();
 		ReflectionController rController = new ReflectionController(cc);
-		JReturn r = new JReturn();
 		JReturn r1 = new JReturn();
 		
-		try {
-			cc.validateAction(rController, "index");
-		} catch (NoActionException e1) {
-			r.addSimpleError(e1.getMessage());
-		}
 		
 		try {
 			cc.validateAction(rController,"edit");
@@ -63,8 +61,25 @@ public class TestGenericController {
 		} catch (NoActionException e) {
 			r1.addSimpleError(e.getMessage());
 		}
-		assertTrue(r.isSuccess());		
+				
 		assertFalse(r1.isSuccess());
+		
+		
+
+		//Usecase update don't exist
+		CrudController crud = new CrudController();
+		ReflectionController crudController = new ReflectionController(crud);
+		JReturn r = new JReturn();
+		
+		
+		try {
+			cc.validateAction(crudController,"salvar");
+			
+		} catch (NoActionException e) {
+			r.addSimpleError(e.getMessage());
+		}
+				
+		assertFalse(!r.isSuccess());
 	}
 	
 	

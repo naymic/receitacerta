@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import annotations.AControllerMethod;
 import converters.GenericConverter;
 import dao.DAO;
 import dao.DAORelation;
@@ -150,6 +151,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
+	@AControllerMethod(checkAttributes = false)
 	public JReturn buscaavancadaAction(JReturn r, Model object){
 		List<Model> list =null;
 		

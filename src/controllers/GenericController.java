@@ -22,7 +22,7 @@ import reflection.ReflectionController;
 import reflection.ReflectionDAO;
 import reflection.ReflectionDAORelation;
 import utils.Transform;
-
+import annotations.AControllerMethod;
 
 public class GenericController implements IController{
 	
@@ -92,8 +92,13 @@ public class GenericController implements IController{
 		}
 		
 		//if action exist in child class execute the action
+		
+		AControllerMethod acm = methodAction.getAnnotation(AControllerMethod.class);
+		Boolean	check = true;
+		try{check = acm.checkAttributes();}catch(NullPointerException e){	check = true;	}
+		
 		if(r.isSuccess())
-			this.setModelObject(this.initObj(r));
+			this.setModelObject(this.initObj(r, check));
 			
 		
 			//Execute action
@@ -157,6 +162,10 @@ public class GenericController implements IController{
 	}
 	
 	
+	public Model initObj(JReturn r){
+		return initObj(r, true);
+	}
+	
 	/**
 	 * Initializes a object
 	 * With Fieldnames
@@ -165,7 +174,7 @@ public class GenericController implements IController{
 	 * @param boolean 	search 	Used to know if needs to check empty  
 	 * @return
 	 */
-	public Model initObj(JReturn r){
+	public Model initObj(JReturn r, boolean checkAttributes){
 
 
 		//Check if className is set
@@ -214,10 +223,10 @@ public class GenericController implements IController{
 				r.addAttributeError(obj.getClass().getName(), fieldName, "Field has wrong caracters or is empty: "+ fieldName +" for "+ rdr.getObject().getClass().getSimpleName());
 			}
 
-
-			if(rdr.isRequired(m) && value.toString().length() == 0)
+			
+			if(rdr.isRequired(m) && (value == null || value.toString().length() == 0) && checkAttributes)
 				r.addAttributeError(obj.getClass().getName(), fieldName, "Field  is empty but required: "+ fieldName +" for "+ className);
-
+			
 
 
 

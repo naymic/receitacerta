@@ -103,10 +103,13 @@ public class DAO implements IDAO{
 		for(int i = 0 ; i<objects.length; i++){
 				obj = objects[i];
 				
-				if(obj instanceof String)
-					stmt = this.setStmt(stmt, i+index+1, obj, "%");
-				else
+				if(obj instanceof String){
+					if(obj == null || obj.equals(null))
+						obj = "%";
+						stmt = this.setStmt(stmt, i+index+1, obj, "%");
+				}else{
 					stmt = this.setStmt(stmt, index, obj, "");
+				}
 		}
 		return stmt;
 	}

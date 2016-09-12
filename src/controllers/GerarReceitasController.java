@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.ListModel;
 
+import annotations.AControllerMethod;
 import dao.DAOGerarReceita;
 import dao.DAORelation;
 import dao.DAORelationList;
@@ -24,7 +25,7 @@ public class GerarReceitasController extends GenericController{
 	
 	
 	
-	
+	@AControllerMethod(checkAttributes = false)
 	public JReturn buscaAction(JReturn r, Model object){
 		
 		

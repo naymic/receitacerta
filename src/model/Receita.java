@@ -16,8 +16,15 @@ public class Receita extends Model{
 	private String caminhoFoto;
 	private ArrayList<Pertence> listaPertence;
 	private ArrayList<Passo> listaPassos;
+	private Double maxCalories;
+	private String stringIngredientesId;
 	
-	
+
+
+	@Override
+	public String getTableName() {
+		return "receitas";
+	}
 	
 	public Receita(){
 		
@@ -112,10 +119,7 @@ public class Receita extends Model{
 		this.caminhoFoto = caminhoFoto;
 	}
 
-	@Override
-	public String getTableName() {
-		return "receitas";
-	}
+
 	
 	@Entity(attributeName="Pertence", fk=true)
 	public ArrayList<Pertence> agetListaPertence() {
@@ -133,5 +137,8 @@ public class Receita extends Model{
 
 	public void asetListaPassos(ArrayList<Passo> listaPassos) {
 		this.listaPassos = listaPassos;
-	}	
+	}
+
+	
+
 }

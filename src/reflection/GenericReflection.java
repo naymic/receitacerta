@@ -52,18 +52,18 @@ public class GenericReflection {
 	 */
 	public Method getMethod(String methodName, Class<?>... cl)throws RuntimeException{
 		Method m = null;
-		
+
 		try {
-				 m = this.getObjectClass().getMethod(methodName, cl);
-			} catch (NoSuchMethodException e) {
-				e.printStackTrace();
-				throw new RuntimeException("No such method found! Class: " + this.getObjectClass().getName() + " | Method:" + methodName);
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			return m;
+			m = this.getObjectClass().getMethod(methodName, cl);
+		} catch (NoSuchMethodException e) {
+			//e.printStackTrace();
+			throw new RuntimeException("No such method found! Class: " + this.getObjectClass().getName() + " | Method:" + methodName);
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return m;
 	}
 	
 	/**

@@ -101,6 +101,8 @@ public class CrudController extends GenericController{
 			r.addSimpleError("Data "+ object.getClass().getSimpleName() +" could not be saved in database");
 		}
 		
+		r.getData().setDataObject(object);
+		
 		
 		return r;
 	}

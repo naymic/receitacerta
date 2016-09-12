@@ -72,6 +72,12 @@ public class ReflectionDAO extends GenericReflection{
 		
 		Method[] ms = this.getObjectClass().getMethods();
 		
+		//Get also methods of inheritance
+		/*if(this.getObjectClass().getSuperclass() != Model.class){
+			ReflectionDAO superRd = new ReflectionDAO((Model)GenericReflection.instanciateObjectByName(this.getObjectClass().getSuperclass()));
+			list = superRd.getObjectMethods(partOfMethodName, isPK, isFK);
+		}*/
+		
 		for(Method m : ms){
 			if(m.getName().startsWith(partOfMethodName) && this.getEntity(m) != null){
 				
@@ -306,17 +312,22 @@ public class ReflectionDAO extends GenericReflection{
 	}
 	
 	public Method getMethodByFieldname(String fieldname, MType mt, Class<?>... args){		
+		return this.getMethodByFieldname(fieldname, mt,"d", args);
+		
+	}
+	
+	public Method getMethodByFieldname(String fieldname, MType mt, String preName, Class<?>... args){		
 		Field[] fs = this.getObjectClass().getDeclaredFields();
 		
 		for(Field f : fs){
 			String key = f.getName();
 			if(key.equals(fieldname))
-				return this.getMethod("d"+mt.name()+StringUtils.setFirstLetterUppercase(key), args);
+				return this.getMethod(preName+mt.name()+StringUtils.setFirstLetterUppercase(key), args);
 		}
 		
 		
 		try{
-			throw new Exception("Exist no method for the columname "+ fieldname + " in the "+ this.getObject().getClass());
+			throw new NoSuchMethodException("Exist no method for the columname "+ fieldname + " in the "+ this.getObject().getClass());
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
@@ -324,6 +335,30 @@ public class ReflectionDAO extends GenericReflection{
 		
 	}
 	
+	/**
+	 * Get a method with pre or without prename like "d" or "a"
+	 * @param fieldname
+	 * @param get
+	 * @return
+	 */
+	public Method getAllMethods(String fieldname,MType mtype, Class<?>... args){
+		Method m= null;
+		String[] preNames= new String[]{"d","","a"};
+		RuntimeException e = null;
+		
+		for(String preName : preNames){
+			try{
+				m = this.getMethodByFieldname(fieldname, mtype, preName, args);
+				return m;
+			}catch(RuntimeException re){
+				e = re;
+			}
+		}
+		
+		throw e;
+		
+	}
+
 	/**
 	 * Prepares a SQl String ready to execute in a SQL Statement
 	 * @param getMethods

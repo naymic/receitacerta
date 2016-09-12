@@ -167,20 +167,20 @@ public class GenericController implements IController{
 	 */
 	public Model initObj(JReturn r){
 
-		
+
 		//Check if className is set
 		if(this.getObject().getClassName() == null || this.getObject().getClassName().length() == 0){
 			r.addSimpleError("No given className, the controller have to reveice a className from the view");
 			return null;
 		}
-		
+
 		//Add model. before the classname if not exist
 		if(!this.getObject().getClassName().toString().contains("model.")){
 			this.getObject().setClassName("model."+this.getObject().getClassName());
 		}
-		
-	
-		
+
+
+
 		String paramName;
 		String className = (String) this.getObject().getClassName();
 		Model obj = null;
@@ -190,38 +190,47 @@ public class GenericController implements IController{
 			r.addSimpleError(re.getMessage());
 			return null;
 		}
-		
+
 		ReflectionDAORelation rdr = new ReflectionDAORelation(obj);
 		Iterator<String> it = this.getVariableKeys();
 
 		while(it.hasNext()){
 			paramName = it.next();
-			
+
 			//Get just variable for the object
 			String fieldName = paramName;
 			Object value = null;
+
+			//Convert the String value from the view to the Model class
+			Method m = null;
+			
+			m = this.getAndCheckMethod(r, rdr, MType.get, fieldName);
+			
+
 			try{
-				//Convert the String value from the view to the Model class
-				Method m= rdr.getMethodByFieldname(fieldName, MType.get);
 				value = GenericConverter.convert(rdr.getMethodValueClass(m), this.getVariableValue(paramName));
-				
-				if(rdr.isRequired(rdr.getMethodByFieldname(fieldName, MType.get)) && value.toString().length() == 0)
-					r.addAttributeError(obj.getClass().getName(), fieldName, "Field  is empty but required: "+ fieldName +" for "+ rdr.getObject().getClass().getSimpleName());
-				
 			}catch(Exception e){
 				System.out.println(e.getMessage());
 				r.addAttributeError(obj.getClass().getName(), fieldName, "Field has wrong caracters or is empty: "+ fieldName +" for "+ rdr.getObject().getClass().getSimpleName());
 			}
+
+
+			if(rdr.isRequired(m) && value.toString().length() == 0)
+				r.addAttributeError(obj.getClass().getName(), fieldName, "Field  is empty but required: "+ fieldName +" for "+ className);
+
+
+
+
 			//Set just if value is set
 			if(this.getVariableValue(paramName) != null && this.getVariableValue(paramName).toString().length() > 0){
-				Method m = rdr.getMethodByFieldname(fieldName, MType.set, value.getClass());
+				m = this.getAndCheckMethod(r, rdr, MType.set, fieldName, value.getClass());
 				rdr.setMethodValue(m, value);
 				//rdr.setFieldValue(fieldName, value);
 			}
-			
+
 
 		}
-		
+
 		return obj;
 	}
 	
@@ -285,6 +294,20 @@ public class GenericController implements IController{
 		int i = usecase.indexOf("Controller");
 		return usecase.substring(0, i);
 	}
+	
+	public Method getAndCheckMethod(JReturn r, ReflectionDAORelation rdr, MType type, String fieldName, Class<?>... args){
+		Method m1 = null;
+		
+		try{
+			m1= rdr.getAllMethods(fieldName, type, args);
+		}catch(RuntimeException re){
+			r.addAttributeError(rdr.getObjectClass().getSimpleName(), fieldName, "No such attribute! Class: " +rdr.getObjectClass().getSimpleName()+" Attribute: " +fieldName);
+			re.printStackTrace();
+		}
+		
+		return m1;
+	}
 
+	
 
 }

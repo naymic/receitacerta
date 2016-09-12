@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.swing.ListModel;
 
+import dao.DAOGerarReceita;
+import dao.DAORelation;
 import dao.DAORelationList;
 import exceptions.NoActionException;
 import interfaces.IApplicationSession;
@@ -13,6 +15,7 @@ import interfaces.IController;
 import interfaces.IUser;
 import jsonclasses.JObject;
 import jsonclasses.JReturn;
+import model.Ingredientes;
 import model.Model;
 import model.Receita;
 import model.ReceitaView;
@@ -24,49 +27,38 @@ public class GerarReceitasController extends GenericController{
 	
 	public JReturn buscaAction(JReturn r, Model object){
 		
-		//Remove the maxCalories value to filter after
-		ReceitaView receitaView = (ReceitaView)object;
-		Double maxC = receitaView.dgetCaloriasTotal();
-		receitaView.dsetCaloriasTotal(null);
 		
-		ArrayList<Model> list = DAORelationList.getInstance().select(object);
+		ReceitaView recta = (ReceitaView)object;
 		
+		ArrayList<Model> ingredientsList = new ArrayList<>();
+		try {
+			ingredientsList = getIngredientsList(recta.getStringIngredientesId());
+		} catch (Exception e) {
+			r.addSimpleError("The string with the id's of the ingredients has some error. String: "+ recta.getStringIngredientesId());
+			e.printStackTrace();
+		}
+		ArrayList<Model> recipeList = DAOGerarReceita.getInstance().select(recta, ingredientsList);
 		
-		//Create a filter to check if the maxCalorias are less than given from user
-		
-		
-		//Create a filter to check if all ingredients informed by the user exist in the repices 
+		r.getData().setDataList(recipeList);
 		
 		return r;
 		
 	}
 	
-	public List<Model> searchRecipesWithLessCalories(Double maxCalories, List<Model> listModel){
-		for(int i = 0; i < listModel.size(); i++){
-			ReceitaView recipeModel = (ReceitaView) listModel.get(i);
-			if(recipeModel.dgetCaloriasTotal() > maxCalories){
-				listModel.remove(i);
-				i--;
-			}
-		}
-		return listModel;
-	}
+
 	
-	public List<Model> searchRecipesByIngredientsGiven(List<Model> ingredientsList){
+	
+	private ArrayList<Model> getIngredientsList(String ingredientesIds) throws Exception{
+		ArrayList<Model> ingredientsList= new ArrayList<>();
+		String[] ingredientesVect = ingredientesIds.split(",");
 		
-		List<Model> recipesList = DAORelationList.getInstance().select(new Receita());
-		
-		for(int i = 0; i < recipesList.size(); i ++){
-			Receita recipe = (Receita) recipesList.get(i);
-			
-			if(!recipe.agetListaPertence().containsAll(ingredientsList)){
-				recipesList.remove(recipe);
-				i--;
-			}
-			
+		for(String s : ingredientesVect){
+			Integer i = (Integer) converters.GenericConverter.convert(Integer.class, s);
+			Ingredientes ingrediente = new Ingredientes();
+			ingrediente.dsetId(i);
+			ingredientsList.add(ingrediente);
 		}
-		
-		return recipesList;
+		return ingredientsList;
 	}
 	
 

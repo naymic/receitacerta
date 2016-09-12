@@ -13,6 +13,8 @@ import dao.DAORelation;
 import db.Config;
 import model.Model;
 import model.Receita;
+import model.ReceitaView;
+import reflection.ReflectionDAO;
 
 public class TestDAOGerarReceita {
 
@@ -23,14 +25,18 @@ public class TestDAOGerarReceita {
 	
 	@Test
 	public void testFilterMaxCalories() {
-		Receita r = new Receita();
+		ReceitaView r = new ReceitaView();
+		
+		r.setStringIngredientesId("1,2,3");
+		r.setMaxCalories(1000.0);
+		
+		ReflectionDAO rd = new ReflectionDAO(r);
+		
+		ArrayList<Model> list= DAOGerarReceita.getInstance().select(r, new ArrayList<Model>());
 		
 		
-		ArrayList<Model> list= DAOGerarReceita.getInstance().select(r);
 		
-		list = DAOGerarReceita.getInstance().filterByMaxCalories(1000.0, list);
-		
-		assertEquals(0 ,list.size());
+		assertEquals(8 ,list.size());
 		
 		
 	}

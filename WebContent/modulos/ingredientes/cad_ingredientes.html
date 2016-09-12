@@ -38,12 +38,6 @@
         </select>
     </div>
    
-	
-	<div class="form-group">
-        <label for="calorias">Anotações</label>
-        <textarea class="form-control" name="anotacoes" id="anotacoes"  ></textarea>
-    </div>
-  
    
 
    <div id="divSubmit">
@@ -53,7 +47,7 @@
 </form>
 
  <div id="camposHidden">
-    <input type="hidden" name="action" id="action" value="save"  />
+    <input type="hidden" name="action" id="action" value="salvar"  />
     <input type="hidden" name="className" id="className" value="Ingredientes" />
     <input type="hidden" name="usecase" id="usecase" value="Crud" />
    </div>
@@ -65,7 +59,7 @@ if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
   var objIngrediente = {"dados":{"classname":"Ingredientes","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formIngredientes"}};
   validaAction('Insert',objIngrediente);
 }else{
-  var objIngrediente = {"dados":{"classname":"Ingredientes","action":EDITACTION,"id":sessionStorage.id,"usecase":"Crud"},"config":{"formRest":false,"returnPage":"modulos/ingredientes/list_ingredientes.html"}};
+  var objIngrediente = {"dados":{"classname":"Ingredientes","action":EDITACTION,"usecase":"Crud","data":{"id":sessionStorage.id}},"config":{"formRest":false,"returnPage":"modulos/ingredientes/list_ingredientes.html","nomeForm":"formIngredientes"}};
   validaAction('Update',objIngrediente);
 }
 

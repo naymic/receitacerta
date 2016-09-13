@@ -41,7 +41,7 @@ public class LoginController extends GenericController{
 			this.setUserSession(u);
 			r.setUser(u);
 			r.addMsg("User sucessfully indentified!");
-			r.setRedirect((JRedirect)this.getAppSession().getMapAttribute("redirect"));
+			//r.setRedirect((JRedirect)this.getAppSession().getMapAttribute("redirect"));
 			
 		}else{
 			r.setUser(this.resetUser());

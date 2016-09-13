@@ -233,15 +233,20 @@ public class ViewController extends HttpServlet {
 		
 		//Check if use case needs authentication
 		if(r.isSuccess() && ic.needAuthentication()){
+			
+					
 			LoginController lc = (LoginController) getController(r, "Login", ics);
 
 			//Check if user is already logged in
 			if(!lc.isUserSessionLoggedin()){
+				
 				r.getRedirect().setRedirection("Login", "login", "login");
 				r.setSuccess(false);
 				
 				//Set Redirection to 
-				lc.getAppSession().setMapAttribute("redirect", r.getRedirect());
+				JRedirect successRedirect = new JRedirect();
+				successRedirect.setRedirection(classname, usecase, action);
+				lc.getAppSession().setMapAttribute("redirect", successRedirect);
 			}else{
 				r.setUser(ic.getUserSession());
 				r.setSuccess(true);

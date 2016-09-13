@@ -176,7 +176,7 @@ function validaUpdate(objAction){
 }
 
 function validaLogout(){
-	var objAction = {"action":"logout","usecase":"Login","className":"Usuario"};
+	var objAction = {"action":"logout","usecase":"Login","classname":"Usuario"};
 	var data = getResponse(objAction);
 	validaRetorno(data);
 }

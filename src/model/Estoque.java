@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import annotations.AModelClasses;
 import annotations.Entity;
 import jsonclasses.JReturn;
 
@@ -15,6 +16,7 @@ import jsonclasses.JReturn;
  * Class to know the personal foodstock at home
  *
  */
+@AModelClasses(needUserObject = true)
 public class Estoque extends Model {
 	
 	

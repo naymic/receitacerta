@@ -1,7 +1,9 @@
 package model;
 
+import annotations.AModelClasses;
 import annotations.Entity;
 import jsonclasses.JReturn;
+
 
 public class IngredienteArmazenamentos extends Model{
 

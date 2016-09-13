@@ -23,6 +23,7 @@ import reflection.ReflectionDAO;
 import reflection.ReflectionDAORelation;
 import utils.Transform;
 import annotations.AControllerMethod;
+import annotations.AModelClasses;
 
 public class GenericController implements IController{
 	
@@ -92,9 +93,12 @@ public class GenericController implements IController{
 		}
 		
 		//Find out if action need to check attributes first
-		AControllerMethod acm = methodAction.getAnnotation(AControllerMethod.class);
+		AControllerMethod acm = null;
 		Boolean	check = true;
-		try{check = acm.checkAttributes();}catch(NullPointerException e){	check = true;	}
+		try{
+			acm = methodAction.getAnnotation(AControllerMethod.class);
+			check = acm.checkAttributes();
+		}catch(NullPointerException e){	check = true;}
 		
 		
 		//Iniciate the object from the data given by the view
@@ -104,6 +108,13 @@ public class GenericController implements IController{
 		//Verify if all 
 		if(r.isSuccess() && check)
 			this.getModelObject().verifyGeneric(r);
+		
+		//Set User to the object if required
+		
+		AModelClasses amc = this.getModelObject().getClass().getAnnotation(AModelClasses.class);
+		if(this.needAuthentication() && this.isUserSessionLoggedin() && amc !=null && !amc.equals(null) && amc.needUserObject())
+					this.setUserObject();
+		
 		
 		
 			//Execute action
@@ -208,6 +219,8 @@ public class GenericController implements IController{
 		}
 
 		ReflectionDAORelation rdr = new ReflectionDAORelation(obj);
+	
+		
 		Iterator<String> it = this.getVariableKeys();
 
 		while(it.hasNext()){
@@ -252,7 +265,7 @@ public class GenericController implements IController{
 
 		return obj;
 	}
-	
+
 	/**
 	 * Get the application session
 	 * @return
@@ -327,6 +340,28 @@ public class GenericController implements IController{
 		return m1;
 	}
 
-	
+	/**
+	 * 
+	 * @param obj
+	 * @param rdr 
+	 */
+	private void setUserObject() {
+		ReflectionDAORelation rdr = new ReflectionDAORelation(this.getModelObject());
+		ArrayList<Method> mList = rdr.getGetMethods();
+		
+		for(Method method : mList){
+			try{
+				AModelClasses amc = rdr.getMethodValueClass(method).getAnnotation(AModelClasses.class);
+				if(amc.isUserModel()){
+					rdr.setMethodValue(method, (Usuario)this.getUserSession());
+					break;
+				}
+			}catch(Exception e){
+				
+			}
+			
+		}
+		
+	}
 
 }

@@ -2,9 +2,11 @@ package model;
 
 import java.util.ArrayList;
 
+import annotations.AModelClasses;
 import annotations.Entity;
 import jsonclasses.JReturn;
 
+@AModelClasses(needUserObject = true)
 public class Receita extends Model{
 	private Integer id;
 	private String nome;

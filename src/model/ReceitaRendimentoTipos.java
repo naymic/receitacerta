@@ -3,6 +3,7 @@ package model;
 import annotations.Entity;
 import jsonclasses.JReturn;
 
+
 public class ReceitaRendimentoTipos extends Model {
 
 	Integer id;

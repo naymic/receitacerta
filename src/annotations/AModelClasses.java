@@ -17,7 +17,7 @@ public @interface AModelClasses {
 	 * Force a Model class to set the Logged User Object
 	 * @return
 	 */
-	boolean needUserObject();
+	boolean needUserObject() default false;
 	
 	/**
 	 * Assing to class, that is used for user

@@ -38,8 +38,9 @@ public class TestCrudController extends TestCases{
 	
 	public CrudController getCRUDControllerEdit(){
 		CrudController cc = new CrudController();
+		cc.addVariable("id", 4);
 		cc.getObject().setClassName("TestIngredientes");
-		cc.addVariable("id", 2);
+		
 		return cc;
 	}
 	
@@ -121,7 +122,7 @@ public class TestCrudController extends TestCases{
 		assertTrue(r.isSuccess());
 		assertEquals(1, r.getData().getData().size());
 		TestIngredientes ing = (TestIngredientes) r.getData().getData().get(0);
-		assertEquals(new Integer(2), ing.dgetId());
+		assertEquals(new Integer(4), ing.dgetId());
 		
 		System.out.println(cc.getJson());
 		

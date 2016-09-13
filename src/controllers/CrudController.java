@@ -52,11 +52,11 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	@AControllerMethod(checkAttributes = false)
+	@AControllerMethod(checkAttributes = false, checkPK = true)
 	public JReturn editAction( JReturn r, Model object){
 
 		//Check if PK is set or not
-		ReflectionDAORelation rdr= this.checkPK(r, object);
+		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 
 		List<Model> list = new ArrayList<>();
 		if(r.isSuccess()){
@@ -116,10 +116,8 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	@AControllerMethod(checkAttributes = false)
+	@AControllerMethod(checkAttributes = false, checkPK = true)
 	public JReturn removerAction(JReturn r, Model object){
-		//Check if PK is set or not
-		checkPK(r, object);
 
 		if(r.isSuccess())
 			r = DAO.getInstance().delete(object, r);
@@ -206,19 +204,7 @@ public class CrudController extends GenericController{
 		return jdataList;
 	}
 	
-	/**
-	 * Check if PK of given object is set or not
-	 * @param r
-	 * @param object
-	 */
-	private ReflectionDAORelation checkPK(JReturn r, Model object) {
-		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
-		if(rdr.getPK() == null){
-			r.addSimpleError("Primary key is not set. Object "+ object.getClass().getSimpleName() +" not found!");
-		}
-		
-		return rdr;
-	}
+	
 
 	
 	@Override

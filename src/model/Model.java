@@ -3,6 +3,7 @@ package model;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import annotations.AModelClasses;
 import enums.ObjectState;
 import jsonclasses.JReturn;
 import reflection.ReflectionDAO;
@@ -21,9 +22,17 @@ public abstract class Model {
 		ArrayList<Method> getMethods = rd.getGetMethods();
 		for (int i = 0; i < getMethods.size(); i++) {
 			Method m = getMethods.get(i);
-			if(rd.isRequired(m) && !rd.isPK(m) && (rd.getMethodValue(m) == null || rd.getMethodValue(m).toString().length() == 0)){
-				r.addAttributeError(rd.getObject().getClass().getSimpleName(),rd.getColumnName(m),"Attribute: "+ rd.getColumnName(m) +" is required but null in object ");
+			Object methodValue = rd.getMethodValue(m);
+			try{
+				
+				if(rd.isRequired(m) && !rd.isPK(m) && (methodValue == null || methodValue.toString().length() == 0) && this.isUserObjectRequired(rd.getObjectClass(), rd.getMethodValueClass(m))){
+					r.addAttributeError(rd.getObject().getClass().getSimpleName(),rd.getColumnName(m),"Attribute: "+ rd.getColumnName(m) +" is required but null in object ");
+				}
+			}catch(NullPointerException npe){
+				r.addSimpleError("Annotation AModelClasses not set in Class: "+ rd.getMethodValueClass(m).getName());
 			}
+			
+			
 			
 		}
 		
@@ -51,6 +60,21 @@ public abstract class Model {
 		this.objState = objState;
 	}
 	
-	
+
+	private boolean isUserObjectRequired(Class<?> objectClass, Class<?> attributeClass)throws NullPointerException {
+			
+			if(!Model.class.isAssignableFrom(attributeClass))
+				return true;
+		
+			//if the attribute ist not user model, always true
+			AModelClasses amcValue = attributeClass.getAnnotation(AModelClasses.class); 
+			if(!amcValue.isUserModel())
+				return true;
+			
+			//if the user object is required return false, if its not so it need to be checked
+			AModelClasses amc = objectClass.getAnnotation(AModelClasses.class); 
+			return !amc.needUserObject();
+	}
+
 	
 }

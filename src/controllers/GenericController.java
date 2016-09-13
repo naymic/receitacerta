@@ -108,6 +108,11 @@ public class GenericController implements IController{
 			this.setModelObject(this.initObj(r, check));
 			
 		
+		//Check if PK is set or not
+		if(acm != null && acm.checkPK() && !check)	
+			checkPK(r, this.getModelObject());
+		
+		
 		//Verify attributes 
 		if(r.isSuccess() && check)
 			this.getModelObject().verifyGeneric(r);
@@ -122,7 +127,6 @@ public class GenericController implements IController{
 		}catch(NullPointerException npe){
 			System.out.println("Please add a AModelClasses annotation to the model: "+ this.getModelObject().getClass().getName());
 		}
-		
 		
 		
 		//Execute action
@@ -370,6 +374,21 @@ public class GenericController implements IController{
 			
 		}
 		
+	}
+	
+	
+	/**
+	 * Check if PK of given object is set or not
+	 * @param r
+	 * @param object
+	 */
+	private ReflectionDAORelation checkPK(JReturn r, Model object) {
+		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
+		if(rdr.getPK() == null){
+			r.addSimpleError("Primary key is not set. Object "+ object.getClass().getSimpleName() +" not found!");
+		}
+		
+		return rdr;
 	}
 
 }

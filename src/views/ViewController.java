@@ -81,6 +81,7 @@ public class ViewController extends HttpServlet {
 		JRequest[] jrequ = null;
 		try{
 			String json = request.getParameter("request");
+			System.out.println("REQUEST:"+ json);
 			jrequ = g.fromJson(json,  JRequest[].class);
 		}catch(com.google.gson.JsonSyntaxException e){
 			r.addSimpleError("JSON String is malformed, please check it!");	
@@ -173,7 +174,7 @@ public class ViewController extends HttpServlet {
 		}
 		
 		
-		System.out.println(jString);
+		System.out.println("RETURN: "+jString);
 		return jString;
 	}
 	

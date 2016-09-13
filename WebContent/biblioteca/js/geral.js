@@ -113,7 +113,7 @@ function validaLogin(objAction){
 function validaInsert(objAction){
 	$("#btnSubmit").val('Cadastrar');
 	data = getResponse(objAction[KEYDADOS]);
-	if(objAction[KEYCONFIG].attrRemove != ""){
+	if(typeof objAction[KEYCONFIG].attrRemove != "undefined" && objAction[KEYCONFIG].attrRemove != ""){
 		console.log(data[DATAGERAL]);
 		delete data[DATAGERAL][KEYFORM][objAction[KEYCONFIG].attrRemove];
 	}
@@ -276,7 +276,14 @@ function getResponse(objAction){
 		url:PATH_API,
 		type:"POST",
 		success: function(objResposta){
+			if(objResposta.success){
 				resposta = objResposta;
+			}else{
+				delete objResposta.data;
+				validaRetorno(objResposta)
+			}	
+			
+				
 
 		},
 		error: function(data){
@@ -441,9 +448,11 @@ function validaErroMsg(objAction){
 }
 
 function validaRedirect(objAction){
-	console.log(objAction);
-	if(!objAction.redirect){
-		document.location.replace(MAPNAV[objAction.redirect.redirectUseCase].url);
+	console.log(objAction.redirect.redirect);
+	objAction = objAction.redirect;
+	if(objAction.redirect){
+		console.log(objAction.classname);
+		document.location.replace(MAPNAV[objAction.classname].url);
 	}
 }
 

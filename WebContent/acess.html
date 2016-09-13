@@ -23,15 +23,18 @@
             <div class="avatar"></div>
             <div class="form-box">
                 <form id="formUser">
-                    <input name="campo.email" type="email" placeholder="Email" id="email">
-                    <input type="password" name="campo.senha" id="senha" placeholder="Senha">
-                    <input type="hidden" name="action" id="action" value="login"  />
-    				<input type="hidden" name="className" id="className" value="Usuario" />
-    				<input type="hidden" name="usecase" id="usecase" value="Login" />
+                    <input name="email" type="email" placeholder="Email" id="email">
+                    <input type="password" name="senha" id="senha" placeholder="Senha">
                     <button class="btn btn-info btn-block login" type="submit">Login</button>
                 </form>
             </div>
         </div>
+        
+        <div id="formUserdivConf">
+                 <input type="hidden" name="action" id="action" value="login"  />
+   				<input type="hidden" name="classname" id="classname" value="Usuario" />
+   				<input type="hidden" name="usecase" id="usecase" value="Login" />
+    	</div>
         
 </div>
  <div class="modal fade" id="modalMsg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

@@ -113,6 +113,10 @@ function validaLogin(objAction){
 function validaInsert(objAction){
 	$("#btnSubmit").val('Cadastrar');
 	data = getResponse(objAction[KEYDADOS]);
+	if(objAction[KEYCONFIG].attrRemove != ""){
+		console.log(data[DATAGERAL]);
+		delete data[DATAGERAL][KEYFORM][objAction[KEYCONFIG].attrRemove];
+	}
     construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
 
 }
@@ -172,7 +176,7 @@ function validaUpdate(objAction){
 }
 
 function validaLogout(){
-	var objAction = {"action":"logout","usecase":"Login","className":"Usuario"};
+	var objAction = {"action":"logout","usecase":"Login","classname":"Usuario"};
 	var data = getResponse(objAction);
 	validaRetorno(data);
 }
@@ -317,10 +321,20 @@ function validaStatusLogin(objResposta){
 	}
 }
 
-function validaEnviaDados(objAction){
+function validaEnviaDados(objAction,divConfig){
 	var vetDadosSerializados = serializaVetor(objAction,"");
-	var objEnvio = {"classname":$("#className").val(),"usecase":$("#usecase").val(),"action":$("#action").val(),"data":vetDadosSerializados[0]};
-	var data = getResponse(objEnvio);
+	var objConfig = new Object();
+	var i = 0;
+	$("#"+divConfig).children('input').each(function(data,value){
+		console.log(i);
+		i++;
+		objConfig[$(this).attr('name')] = $(this).val();
+	});
+    if(typeof sessionStorage.id != "undefined" && sessionStorage.id != ""){
+  	  vetDadosSerializados[0].id = sessionStorage.id;
+    }
+	objConfig[DATAGERAL] = vetDadosSerializados[0];
+	var data = getResponse(objConfig);
 	return data;
 }
 
@@ -329,7 +343,7 @@ function submitConsulta(idForm,config){
 	$(document).off("submit","#"+idForm);
 	$(document).on("submit","#"+idForm,function(e) {
      e.preventDefault();
-     var data = validaEnviaDados($(this).serializeArray());
+     var data = validaEnviaDados($(this).serializeArray(),$(this).attr('id')+"divConf");
 	 console.log(data);
      //construirTabela(data[KEYBUSCA],CONFIGTABLE.nomeTabela,CONFIGTABLE);
      construirTabela(data[DATAGERAL][DATAGERAL],CONFIGTABLE.nomeTabela,CONFIGTABLE);
@@ -341,17 +355,8 @@ function submitGeral(idForm,cleanForm){
 	$(document).off("submit","#"+idForm);
 	$(document).on("submit","#"+idForm,function(e) {
       e.preventDefault();
-      
-      
-      console.log(serializaVetor($(this).serializeArray(),""))
-      var vetDadosSerializados = serializaVetor($(this).serializeArray(),"");
-      if(typeof sessionStorage.id != "undefined" && sessionStorage.id != ""){
-    	  vetDadosSerializados[0].id = sessionStorage.id;
-      }
      
-      var objEnvio = {"classname":$("#className").val(),"usecase":$("#usecase").val(),"action":$("#action").val(),"data":vetDadosSerializados[0]};
-      
-	var data = getResponse(objEnvio);
+      var data = validaEnviaDados($(this).serializeArray(),$(this).attr('id')+"divConf");
 			console.log("Retorno------------");
 			
 			//data = JSON.parse(data);

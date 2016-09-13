@@ -1,58 +1,39 @@
-<form  method="post" id="formIngredientes">
+<form  method="post" id="formEstoque">
 
 <div class="row">
 	<div class="col-md-3">
 		<label>Nome do Ingrediente</label>
-		<input type="text" name="nome" id="nome" class="form-control" />
-	</div>
-	<div class="col-md-3">
-		<label>Tipo do Ingrediente</label>
-		<select name="tipo" id="tipo" class="form-control">
-			<option value="">Selecione um Valor</option>
+		<select data-tipo="select" data-label="nome" data-value="id"  name="ingredientesId" id="ingredientesId" class="form-control" >
+			<option value="">Selecione um Ingrediente </option>
 		</select>
-	</div>
-	<div class="col-md-3">
-		<label>Unidade</label>
-		<select name="unidade" id="unidade" class="form-control">
-			<option value="">Selecione um Valor</option>
-		</select>
-	</div>
-	
+	</div>	
 	<div class="col-md-3">
 		<label>Quantidade</label>
 		<input type="text" name="quantidade" id="quantidade" class="form-control" />
 	</div>
 	
 	<div class="col-md-3">
-		<label>Calorias por Unidade(Cal/Unid)</label>
-		<input type="text" name="calorias" id="calorias" class="form-control" />
-	</div>
-	
-	<div class="col-md-3">
-		<label>Tipo Armazenamento</label>
-		<select name="tipo" id="tipo" class="form-control">
-			<option value="">Selecione um Valor</option>
-		</select>
-	</div>
-	
-	<div class="col-md-3">
 		<label>Data de Validade</label>
-		<input type="text" name="validade" id="validade" class="form-control" />
+		<input type="date" name="validade" id="validade" class="form-control" />
 	</div>
 	
-	
-	
-	
-	
+	<div class="col-md-3">
+		<div id="divSubmit">
+	    <input class="btn btn-primary" type="submit" id="btnSubmit"  value="Salvar" style="margin-top:23px;" />
+	    </div>
+	</div>
+		
 </div>
 
-<br>
- <div id="divSubmit">
-    <input class="btn btn-primary" type="submit" id="btnSubmit"  value="Salvar" />
-    </div>
 
 <hr />
 </form>
+
+<div id="formEstoquedivConf">
+    <input type="hidden" name="action" id="action" value="salvar"  />
+    <input type="hidden" name="classname" id="classname" value="Estoque" />
+    <input type="hidden" name="usecase" id="usecase" value="Crud" />
+   </div>
 
 <legend>Lista de Ingredientes no Estoque</legend>
 
@@ -109,7 +90,7 @@
         </tbody>
 	</table>
 <script>
-	var tableHead = [
+/*	var tableHead = [
 	{ "data": "nome" },
 	{ "data": "ingredientesId","label":"nomeTipo" },
     { "data": "ingredientesId","label":"id" },
@@ -119,25 +100,15 @@
     { "data": "ingredientesId":{"ingredientesArmazenamento":{"label":"nomeArmazenamento" }}},
     { "data": "validade" }
     
-];
-	var objIngredienteConsulta = {"dados":{"className":"Estoque","action":"busca", "usecase":"Crud"},"config": tableHead};
-	console.log(objIngrediente);
-	validaAction('Consulta',objIngredienteConsulta);
-</script>
-   
-  
-   
+];*/
+	//var objIngredienteConsulta = {"dados":{"className":"Estoque","action":"busca", "usecase":"Crud"},"config": tableHead};
+	//console.log(objIngrediente);
+	//validaAction('Consulta',objIngredienteConsulta);
 
-  
-
-
-<script>
-var objIngredienteInsert = {"dados":{"className":"Estoque","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true}};
+var objIngredienteInsert = {"dados":{"classname":"Estoque","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formEstoque", "attrRemove":"userId"}};
 validaAction("Insert",objIngredienteInsert);
 
 
 
 </script>
 
-</body>
-</html>

@@ -78,7 +78,7 @@ public class Estoque extends Model {
 		this.dataInsercao = dataInsercao;
 	}
 
-	@Entity(attributeName = "data_retirada")
+	@Entity(attributeName = "data_retirada",required=false)
 	public Date dgetDataRetirada() {
 		return dataRetirada;
 	}

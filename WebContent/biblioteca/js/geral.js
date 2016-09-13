@@ -147,7 +147,7 @@ function validaRemover(){
 	$("#"+MODALCONFIRM).modal('hide');
 	OBJGERAL["data"] = {"id":sessionStorage.id}
 	var data = getResponse(OBJGERAL);
-	validaRetorno(data);
+	validaRetorno(data,data.success);
 }
 
 function navCentral(url){
@@ -178,7 +178,7 @@ function validaUpdate(objAction){
 function validaLogout(){
 	var objAction = {"action":"logout","usecase":"Login","classname":"Usuario"};
 	var data = getResponse(objAction);
-	validaRetorno(data);
+	validaRetorno(data, data.success);
 }
 
 function validaGetSerialForm(idForm){
@@ -280,7 +280,7 @@ function getResponse(objAction){
 				resposta = objResposta;
 			}else{
 				delete objResposta.data;
-				validaRetorno(objResposta)
+				validaRetorno(objResposta,objResposta.success)
 			}	
 			
 				
@@ -367,7 +367,7 @@ function submitGeral(idForm,cleanForm){
 			console.log("Retorno------------");
 			
 			//data = JSON.parse(data);
-			validaRetorno(data)
+			validaRetorno(data, data.success)
 			if(cleanForm == true){ 
 				$(this).each(function(){
 					this.reset();
@@ -395,8 +395,10 @@ function validaMenu(data){
 }
 
 
-function validaRetorno(data){
-    $(".infoErro").remove();
+function validaRetorno(data,statusRequest){
+	if(statusRequest){
+		$(".infoErro").remove();
+	}
     console.log(data);
     var objOp = {"dados":"","redirect":""};
 		$.each(data,function(key,objs){
@@ -469,7 +471,6 @@ function validaErrors(objAction){
 function validaAtberrors(objAction){
 	console.log(objAction);
 	$.each(objAction[KEYDADOS],function(cont,obj){
-		console.log(obj);
 		
 			$("#"+obj.attributename).parent().append('<div class="alert alert-warning infoErro">'+obj.error+'</div>');
 	});

@@ -2,13 +2,14 @@ package model;
 
 import java.util.ArrayList;
 
+import annotations.AModelClasses;
 import annotations.Entity;
 import interfaces.IApplicationSession;
 import interfaces.IUser;
 import jsonclasses.JReturn;
 import utils.CryptString;
 import utils.StringUtils;
-
+@AModelClasses(isUserModel = true, needUserObject = false)
 public class Usuario extends Model implements IUser{
 
 	Integer id;
@@ -27,10 +28,10 @@ public class Usuario extends Model implements IUser{
 	}
 	
 	
-	public JReturn verify(JReturn r){
-		r = super.verify(r);
+	public void verify(JReturn r){
 		
-		this.celular = StringUtils.justNumbers(this.celular);
+		if(!celular.equals(null) && celular != null)
+			this.celular = StringUtils.justNumbers(this.celular);
 		
 		if(this.dgetCelular().length() < 12 && this.dgetCelular().length() > 12){
 			r.addAttributeError(this.getClass().getSimpleName(), "celular", "Please use only number from 0-9 and string lenght exactly 12 like 062995652132");
@@ -40,7 +41,7 @@ public class Usuario extends Model implements IUser{
 			r.addAttributeError(this.getClass().getSimpleName(), "email", "This is not a valid email Adress. Please enter a valid address!");
 		}
 		
-		return r;
+		
 	}
 	
 	

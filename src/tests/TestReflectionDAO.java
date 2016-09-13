@@ -246,7 +246,7 @@ public class TestReflectionDAO extends TestCases {
 		c.dsetCountry(null);
 		c.dsetState(null);
 		r = new JReturn();
-		r = c.verify(r);
+		c.verifyGeneric(r);
 		assertFalse(r.isSuccess());
 		
 		Gson g = new Gson();

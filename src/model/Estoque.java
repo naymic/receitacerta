@@ -1,9 +1,13 @@
 package model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import annotations.AModelClasses;
 import annotations.Entity;
+import jsonclasses.JReturn;
 
 /***
  * 
@@ -12,6 +16,7 @@ import annotations.Entity;
  * Class to know the personal foodstock at home
  *
  */
+@AModelClasses(needUserObject = true)
 public class Estoque extends Model {
 	
 	
@@ -89,6 +94,24 @@ public class Estoque extends Model {
 
 	public void dsetValidade(Date validade) {
 		this.validade = validade;
+	}
+
+	@Override
+	public void verify(JReturn r) {
+		Date d = new Date();
+		
+		//Set actual date
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		System.out.println(dateFormat.format(date)); //2014-08-06
+		dsetDataInsercao(d);
+		
+		if(quantidade < 0){
+			r.addSimpleError("Quantity can't be lower than 0");
+		}
+		
+		
+		
 	}
 
 	

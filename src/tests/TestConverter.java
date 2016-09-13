@@ -2,6 +2,10 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,8 +30,15 @@ public class TestConverter extends TestCases{
 			Double d = (Double) GenericConverter.convert(Double.class, new String("10.45"));
 			assertEquals(Double.class, d.getClass());
 			
+			//Set actual date
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+			Date date = (Date)GenericConverter.convert(Date.class, "2014-08-06");
+			assertEquals(2014, date.getYear());
+			assertEquals(8, date.getMonth());
+			assertEquals(6, date.getDate());
 			
-		
+			String s = (String)GenericConverter.convert(String.class, date);
+			assertEquals("06/08/2014", s);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

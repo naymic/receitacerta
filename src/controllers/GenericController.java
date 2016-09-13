@@ -23,6 +23,7 @@ import reflection.ReflectionDAO;
 import reflection.ReflectionDAORelation;
 import utils.Transform;
 import annotations.AControllerMethod;
+import annotations.AModelClasses;
 
 public class GenericController implements IController{
 	
@@ -91,17 +92,40 @@ public class GenericController implements IController{
 			r.addSimpleError(e.getMessage());
 		}
 		
-		//if action exist in child class execute the action
 		
-		AControllerMethod acm = methodAction.getAnnotation(AControllerMethod.class);
+		//Find out if action need to check attributes first
+		AControllerMethod acm = null;
 		Boolean	check = true;
-		try{check = acm.checkAttributes();}catch(NullPointerException e){	check = true;	}
+		try{
+			acm = methodAction.getAnnotation(AControllerMethod.class);
+			check = acm.checkAttributes();
+		}catch(NullPointerException e){	check = true;}
 		
+		
+		
+		//Iniciate the object from the data given by the view
 		if(r.isSuccess())
 			this.setModelObject(this.initObj(r, check));
 			
 		
-			//Execute action
+		//Verify attributes 
+		if(r.isSuccess() && check)
+			this.getModelObject().verifyGeneric(r);
+		
+		
+		
+		//Set User to the object if required
+		try{			
+			AModelClasses amc = this.getModelObject().getClass().getAnnotation(AModelClasses.class);
+			if(amc.needUserObject() && this.needAuthentication() && this.isUserSessionLoggedin())
+				this.setUserObject();
+		}catch(NullPointerException npe){
+			System.out.println("Please add a AModelClasses annotation to the model: "+ this.getModelObject().getClass().getName());
+		}
+		
+		
+		
+		//Execute action
 		if(r.isSuccess()){
 			try {
 				rController.executeAction(this, methodAction, r, this.getModelObject());
@@ -192,6 +216,8 @@ public class GenericController implements IController{
 
 		String paramName;
 		String className = (String) this.getObject().getClassName();
+		
+		//Invoke object
 		Model obj = null;
 		try{
 			obj = ReflectionDAO.instanciateObjectByName(className);	
@@ -201,6 +227,8 @@ public class GenericController implements IController{
 		}
 
 		ReflectionDAORelation rdr = new ReflectionDAORelation(obj);
+	
+		
 		Iterator<String> it = this.getVariableKeys();
 
 		while(it.hasNext()){
@@ -213,18 +241,21 @@ public class GenericController implements IController{
 			//Convert the String value from the view to the Model class
 			Method m = null;
 			
+			//Get and check the given Method to set and get values from attributes
 			m = this.getAndCheckMethod(r, rdr, MType.get, fieldName);
 			
-
+			//Check and convert input values
+			boolean convertError = false;
 			try{
 				value = GenericConverter.convert(rdr.getMethodValueClass(m), this.getVariableValue(paramName));
 			}catch(Exception e){
 				System.out.println(e.getMessage());
 				r.addAttributeError(obj.getClass().getName(), fieldName, "Field has wrong caracters or is empty: "+ fieldName +" for "+ rdr.getObject().getClass().getSimpleName());
+				convertError = true;
 			}
 
-			
-			if(rdr.isRequired(m) && (value == null || value.toString().length() == 0) && checkAttributes)
+			//Check for empty fields but just if dont exist convert error allready
+			if(!convertError && rdr.isRequired(m) && (value == null || value.toString().length() == 0) && checkAttributes)
 				r.addAttributeError(obj.getClass().getName(), fieldName, "Field  is empty but required: "+ fieldName +" for "+ className);
 			
 
@@ -242,7 +273,7 @@ public class GenericController implements IController{
 
 		return obj;
 	}
-	
+
 	/**
 	 * Get the application session
 	 * @return
@@ -317,6 +348,28 @@ public class GenericController implements IController{
 		return m1;
 	}
 
-	
+	/**
+	 * 
+	 * @param obj
+	 * @param rdr 
+	 */
+	private void setUserObject() {
+		ReflectionDAORelation rdr = new ReflectionDAORelation(this.getModelObject());
+		ArrayList<Method> mList = rdr.getGetMethods();
+		
+		for(Method method : mList){
+			try{
+				AModelClasses amc = rdr.getMethodValueClass(method).getAnnotation(AModelClasses.class);
+				if(amc.isUserModel()){
+					rdr.setMethodValue(method, (Usuario)this.getUserSession());
+					break;
+				}
+			}catch(Exception e){
+				
+			}
+			
+		}
+		
+	}
 
 }

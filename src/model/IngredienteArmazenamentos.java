@@ -1,7 +1,10 @@
 package model;
 
+import annotations.AModelClasses;
 import annotations.Entity;
+import jsonclasses.JReturn;
 
+@AModelClasses(needUserObject = false)
 public class IngredienteArmazenamentos extends Model{
 
 	private Integer id;
@@ -32,6 +35,13 @@ public class IngredienteArmazenamentos extends Model{
 	
 	public void dsetNomeArmazenamento(String nome_armazenamento) {
 		this.nomeArmazenamento = nome_armazenamento;
+	}
+
+
+	@Override
+	public void verify(JReturn r) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

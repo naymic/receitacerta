@@ -3,6 +3,7 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import annotations.AControllerMethod;
 import dao.DAO;
 import exceptions.NoActionException;
 import interfaces.IApplicationSession;
@@ -15,9 +16,10 @@ import utils.Transform;
 
 public class LoginController extends GenericController{
 	
-	
-	public void loginAction(Usuario loginUser, JReturn r){
+	@AControllerMethod(checkAttributes = false)
+	public void loginAction(JReturn r, Model obj){
 		boolean test = false;
+		Usuario loginUser = (Usuario)obj;
 		Usuario u = null;
 		//Get a list of all users
 		
@@ -51,7 +53,8 @@ public class LoginController extends GenericController{
 	 * Log out a logged user and send a redirect to the login page
 	 * @param r
 	 */
-	public void logoutAction(JReturn r){
+	@AControllerMethod(checkAttributes = false)
+	public void logoutAction(JReturn r, Model loginUser){
 		
 		r.setUser(this.resetUser());
 		r.getRedirect().setRedirection("Login", "login", "login");
@@ -95,5 +98,10 @@ public class LoginController extends GenericController{
 	}
 	
 	
+	@Override
+	public boolean needAuthentication() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

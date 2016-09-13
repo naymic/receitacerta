@@ -30,9 +30,10 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
+	@AControllerMethod(checkAttributes = false)
 	public JReturn novoAction(JReturn r, Model object){
 
-		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
+		ReflectionDAO rdr = new ReflectionDAO(object);
 		
 		//Add Object to the Return Data
 		r.getData().setDataObject(object);
@@ -51,34 +52,35 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
+	@AControllerMethod(checkAttributes = false)
 	public JReturn editAction( JReturn r, Model object){
-		
+
 		//Check if PK is set or not
-		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
-		if(rdr.getPK() == null){
-			r.addSimpleError("Primary key is not set. Object "+ object.getClass().getSimpleName() +" not found!");
-			return r;
+		ReflectionDAORelation rdr= this.checkPK(r, object);
+
+		List<Model> list = new ArrayList<>();
+		if(r.isSuccess()){
+			list = DAORelation.getInstance().select(object);
 		}
-		
-		List<Model> list = DAORelation.getInstance().select(object);
-		if(!list.isEmpty()){
+
+		if(r.isSuccess() && !list.isEmpty()){
 			object = list.get(0);
-			
+
 			//Add Object to the Return Data
 			r.getData().setDataObject(object);
-			
+
 			//Add all FK Lists of the object for select options
 			ArrayList<ArrayList<Model>> jdataList = DAO.getInstance().selectForForm(object);
 			//Add all Form dataTypes
 			r.getData().setDataTypes(rdr.getArrayFields());
-			
+
 			//Set JSon response return type
 			r.setReturnType(ReturnType.FORM);
 		}else{
 			r.addSimpleError("Data for "+ object.getClass().getSimpleName() +" not found!");
 			return r;
 		}
-		
+
 		return r;
 	}
 	
@@ -88,8 +90,8 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
+	@AControllerMethod(checkAttributes = true)
 	public JReturn salvarAction(JReturn r, Model object){
-		
 		
 		object.verify(r);
 		
@@ -114,14 +116,20 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
+	@AControllerMethod(checkAttributes = false)
 	public JReturn removerAction(JReturn r, Model object){
-		r = DAO.getInstance().delete(object, r);
+		//Check if PK is set or not
+		checkPK(r, object);
+
+		if(r.isSuccess())
+			r = DAO.getInstance().delete(object, r);
+		
 		if(r.isSuccess()){
 			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully removed");
 		}else{
 			r.addSimpleError("Data "+ object.getClass().getSimpleName() +" could not be removed");
 		}
-		
+
 		return r;
 	}
 	
@@ -131,6 +139,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
+	@AControllerMethod(checkAttributes = false)
 	public JReturn buscaAction(JReturn r, Model object){
 		List<Model> list =null;
 		
@@ -174,7 +183,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 */
 	private void selectObjectCheck(JReturn r, List<Model> list, Model object){
-		if(list.size() > 0){
+		if(list != null && !list.equals(null) && list.size() > 0){
 			object = (Model) list.get(0); 
 		}else{
 			r.addMsg("No data found with params: "+ StringUtils.searchString(object));	
@@ -196,11 +205,25 @@ public class CrudController extends GenericController{
 		
 		return jdataList;
 	}
+	
+	/**
+	 * Check if PK of given object is set or not
+	 * @param r
+	 * @param object
+	 */
+	private ReflectionDAORelation checkPK(JReturn r, Model object) {
+		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
+		if(rdr.getPK() == null){
+			r.addSimpleError("Primary key is not set. Object "+ object.getClass().getSimpleName() +" not found!");
+		}
+		
+		return rdr;
+	}
 
 	
 	@Override
 	public boolean needAuthentication(){
-		return false;
+		return true;
 	}
 
 }

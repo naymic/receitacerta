@@ -1,9 +1,11 @@
 package model;
 
+import annotations.AModelClasses;
 import annotations.Entity;
+import jsonclasses.JReturn;
 
 
-
+@AModelClasses(needUserObject = false)
 public class TestCity extends Model{
 	Integer id;
 	String name;
@@ -59,6 +61,12 @@ public class TestCity extends Model{
 	@Override
 	public String getTableName() {
 		return "city";
+	}
+	
+	@Override
+	public void verify(JReturn r) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

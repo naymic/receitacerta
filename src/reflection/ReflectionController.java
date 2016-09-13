@@ -3,6 +3,8 @@ package reflection;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import annotations.AControllerMethod;
+import annotations.AModelClasses;
 import exceptions.NoActionException;
 import interfaces.IController;
 import jsonclasses.JReturn;
@@ -31,5 +33,16 @@ public class ReflectionController extends GenericReflection{
 	public void executeAction(IController controller, Method actionMethod, JReturn r, Model object) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		actionMethod.invoke(controller, r, object);
 	}
+	
+	
+	public AControllerMethod getAControllerMethod(Method m){
+		
+		
+		
+		
+		return null;
+	}
+	
+
 	
 }

@@ -1,7 +1,10 @@
 package model;
 
+import annotations.AModelClasses;
 import annotations.Entity;
+import jsonclasses.JReturn;
 
+@AModelClasses(needUserObject = false)
 public class Pertence extends Model{
 	
 	private Ingredientes ingrediente;
@@ -45,6 +48,12 @@ public class Pertence extends Model{
 	}
 	public void dsetId(Integer id) {
 		this.id = id;
+	}
+
+	@Override
+	public void verify(JReturn r) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

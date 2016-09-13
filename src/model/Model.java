@@ -15,7 +15,7 @@ public abstract class Model {
 	
 	//public abstract Return verify(Return r, boolean checkSuper);
 	
-	public JReturn verify(JReturn r){
+	public void verifyGeneric(JReturn r){
 		ReflectionDAO rd = new ReflectionDAO(this);
 		
 		ArrayList<Method> getMethods = rd.getGetMethods();
@@ -26,9 +26,14 @@ public abstract class Model {
 			}
 			
 		}
-		return r;
+		
+		
+		verify(r);
 		
 	}
+	
+	public abstract void verify(JReturn r);
+	
 
 	/**
 	 * Get the storage state of this object

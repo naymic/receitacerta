@@ -1,7 +1,10 @@
 package model;
 
+import annotations.AModelClasses;
 import annotations.Entity;
+import jsonclasses.JReturn;
 
+@AModelClasses(needUserObject = false)
 public class ReceitaTipos extends Model {
 
 	private Integer id;
@@ -28,6 +31,12 @@ public class ReceitaTipos extends Model {
 	@Override
 	public String getTableName() {
 		return "receita_tipos";
+	}
+
+	@Override
+	public void verify(JReturn r) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

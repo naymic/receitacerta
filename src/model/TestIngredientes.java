@@ -1,8 +1,11 @@
 package model;
 
+import annotations.AModelClasses;
 import annotations.Entity;
 import jsonclasses.JReturn;
 
+
+@AModelClasses(needUserObject = false)
 public class TestIngredientes extends Model{
 
 	private Integer id;
@@ -21,14 +24,14 @@ public class TestIngredientes extends Model{
 	}
 
 	@Override
-	public JReturn verify(JReturn r) {
-		super.verify(r);
+	public void verify(JReturn r) {
+		
 		int compare = Double.compare(this.dgetCalorias(), new Double(0.0));
 		
 		if(this.dgetCalorias() != null && compare < 0 ){
 			r.addAttributeError(this.getClass().getSimpleName(), "calorias", "Attribute calorias cannot be negative: "+ this.dgetCalorias());
 		}
-		return r;
+		
 	}
 	
 	@Entity(attributeName = "id", pk=true)

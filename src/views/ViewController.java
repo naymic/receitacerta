@@ -100,7 +100,7 @@ public class ViewController extends HttpServlet {
 	
 	public String getAction(JRequest requ)throws Exception {
 		if(requ.getAction() == null || requ.getAction().length() == 0){
-			throw new Exception("Please set a action in on the Interface");
+			throw new Exception("Please set a action on the Interface");
 		}
 		
 		return requ.getAction();
@@ -108,7 +108,7 @@ public class ViewController extends HttpServlet {
 	
 	public String getUseCase(JRequest requ)throws Exception {
 		if(requ.getUsecase() == null || requ.getUsecase().length() == 0){
-			throw new Exception("Please set a use case in on the Interface");
+			throw new Exception("Please set a usecase on the Interface");
 		}
 		
 		return requ.getUsecase();
@@ -116,7 +116,7 @@ public class ViewController extends HttpServlet {
 	
 	public String getClassname(JRequest requ)throws Exception {
 		if(requ.getClassname() == null || requ.getClassname().length() == 0){
-			throw new Exception("Please set a classname in on the Interface");
+			throw new Exception("Please set a classname on the Interface");
 		}
 		
 		return requ.getClassname();
@@ -143,9 +143,10 @@ public class ViewController extends HttpServlet {
 			System.out.println(e.toString());
 		}
 		
-		
+		IController ic = null;
 		//Get the controller for the required action
-		IController ic = getController(r, usecase, ics);
+		if(r.isSuccess())
+			ic = getController(r, usecase, ics);
 		
 		//Check if usecase needs authentication 
 		//check if user is loggedin
@@ -203,19 +204,29 @@ public class ViewController extends HttpServlet {
 	 */
 	public IController getController(JReturn r, String usecase, IApplicationSession ics){
 		
-		usecase = StringUtils.setFirstLetterUppercase(usecase);
-		String controllerName = "controllers."+usecase+"Controller";
-
 		try{
+			
+			usecase = StringUtils.setFirstLetterUppercase(usecase);
+			String controllerName = "controllers."+usecase+"Controller";
+
+			//Check if class exist
 			Class.forName(controllerName);
+			
+			
+			IController ic = (IController) GenericReflection.instanciateObjectByName(controllerName);
+			ic.setAppSession(ics);
+			
+			return ic;
 		}catch(ClassNotFoundException e){
 			r.addSimpleError("Don't exist a controller for the use case "+ usecase +"!");
 			return null;
+		}catch(StringIndexOutOfBoundsException obe){
+			r.addSimpleError("Usecase is not set in the request! Please inform a usecase!");
+			return null;
 		}
 		
-		IController ic = (IController) GenericReflection.instanciateObjectByName(controllerName);
-		ic.setAppSession(ics);
-		return ic;
+		
+		
 	}
 	
 	/**

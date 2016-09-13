@@ -25,7 +25,7 @@ public abstract class Model {
 			Object methodValue = rd.getMethodValue(m);
 			try{
 				
-				if(rd.isRequired(m) && !rd.isPK(m) && (methodValue == null || methodValue.toString().length() == 0) && this.isUserObjectRequired(rd.getObjectClass(), rd.getMethodValueClass(m))){
+				if(rd.isRequired(m) && !rd.isPK(m) && (methodValue == null || methodValue.toString().length() == 0) && this.checkUserObjectAsFK(rd.getObjectClass(), rd.getMethodValueClass(m))){
 					r.addAttributeError(rd.getObject().getClass().getSimpleName(),rd.getColumnName(m),"Attribute: "+ rd.getColumnName(m) +" is required but null in object ");
 				}
 			}catch(NullPointerException npe){
@@ -60,8 +60,18 @@ public abstract class Model {
 		this.objState = objState;
 	}
 	
-
-	private boolean isUserObjectRequired(Class<?> objectClass, Class<?> attributeClass)throws NullPointerException {
+	/**
+	 * Used to recognize user Model classes as FK in other Model classes
+	 * 
+	 * Explanation: This method returns false if the model requires the User 
+	 * object. Because of this the generic Model -> verifyGeneric(JReturn r)
+	 * for the user attribute is skipped
+	 * @param objectClass
+	 * @param attributeClass
+	 * @return
+	 * @throws NullPointerException
+	 */
+	private boolean checkUserObjectAsFK(Class<?> objectClass, Class<?> attributeClass)throws NullPointerException {
 			
 			if(!Model.class.isAssignableFrom(attributeClass))
 				return true;

@@ -110,10 +110,13 @@ public class GenericController implements IController{
 			this.getModelObject().verifyGeneric(r);
 		
 		//Set User to the object if required
-		
-		AModelClasses amc = this.getModelObject().getClass().getAnnotation(AModelClasses.class);
+		AModelClasses amc = null;
+		ReflectionDAO rd = new ReflectionDAO(this.getModelObject());
+		try{			
+			amc = this.getModelObject().getClass().getAnnotation(AModelClasses.class);
+		}catch(NullPointerException npe){amc = null;}
 		if(this.needAuthentication() && this.isUserSessionLoggedin() && amc !=null && !amc.equals(null) && amc.needUserObject())
-					this.setUserObject();
+			this.setUserObject();
 		
 		
 		

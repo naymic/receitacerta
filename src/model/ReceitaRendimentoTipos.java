@@ -1,9 +1,10 @@
 package model;
 
+import annotations.AModelClasses;
 import annotations.Entity;
 import jsonclasses.JReturn;
 
-
+@AModelClasses(needUserObject = false)
 public class ReceitaRendimentoTipos extends Model {
 
 	Integer id;

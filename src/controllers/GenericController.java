@@ -92,6 +92,7 @@ public class GenericController implements IController{
 			r.addSimpleError(e.getMessage());
 		}
 		
+		
 		//Find out if action need to check attributes first
 		AControllerMethod acm = null;
 		Boolean	check = true;
@@ -101,26 +102,30 @@ public class GenericController implements IController{
 		}catch(NullPointerException e){	check = true;}
 		
 		
+		
 		//Iniciate the object from the data given by the view
 		if(r.isSuccess())
 			this.setModelObject(this.initObj(r, check));
 			
-		//Verify if all 
+		
+		//Verify attributes 
 		if(r.isSuccess() && check)
 			this.getModelObject().verifyGeneric(r);
 		
+		
+		
 		//Set User to the object if required
-		AModelClasses amc = null;
-		ReflectionDAO rd = new ReflectionDAO(this.getModelObject());
 		try{			
-			amc = this.getModelObject().getClass().getAnnotation(AModelClasses.class);
-		}catch(NullPointerException npe){amc = null;}
-		if(this.needAuthentication() && this.isUserSessionLoggedin() && amc !=null && !amc.equals(null) && amc.needUserObject())
-			this.setUserObject();
+			AModelClasses amc = this.getModelObject().getClass().getAnnotation(AModelClasses.class);
+			if(amc.needUserObject() && this.needAuthentication() && this.isUserSessionLoggedin())
+				this.setUserObject();
+		}catch(NullPointerException npe){
+			System.out.println("Please add a AModelClasses annotation to the model: "+ this.getModelObject().getClass().getName());
+		}
 		
 		
 		
-			//Execute action
+		//Execute action
 		if(r.isSuccess()){
 			try {
 				rController.executeAction(this, methodAction, r, this.getModelObject());

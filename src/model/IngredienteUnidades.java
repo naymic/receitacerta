@@ -1,8 +1,10 @@
 package model;
 
+import annotations.AModelClasses;
 import annotations.Entity;
 import jsonclasses.JReturn;
 
+@AModelClasses(needUserObject = false)
 public class IngredienteUnidades extends Model{
 	
 	private Integer id;

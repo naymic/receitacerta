@@ -19,8 +19,6 @@ public class Receita extends Model{
 	private String caminhoFoto;
 	private ArrayList<Pertence> listaPertence;
 	private ArrayList<Passo> listaPassos;
-	private Double maxCalories;
-	private String stringIngredientesId;
 	
 
 

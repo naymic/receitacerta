@@ -8,7 +8,7 @@ import reflection.GenericReflection;
 import reflection.ReflectionDAO;
 import reflection.ReflectionDAORelationList;
 
-public class DAORelationList extends DAORelation {
+public class DAORelationList extends DAORelation{
 	
 	private static DAORelationList dr = null;
 	
@@ -29,17 +29,30 @@ public class DAORelationList extends DAORelation {
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	public ArrayList<Model> select(Model object, int deepness){
 		ArrayList<Model> modelList = DAORelation.getInstance().select(object);
+		ArrayList<SelectList> selectThreads = new ArrayList<>();
 		
 		for(int i = 0; i < modelList.size(); i++){
-			Model model = modelList.get(i);
-			modelList.set(i, this.selectMappedLists(model, deepness));
+			SelectList sc = new SelectList(modelList.get(i), deepness);
+			selectThreads.add(i,sc);
+			
+			//setModelMappedList(deepness, modelList, i);
 		}
 		
-		
+		utils.ThreadManager.checkAliveThreads(selectThreads);
+			
+			
 		return modelList;
 		
+		
+		
+	}
+
+	public void setModelMappedList(int deepness, ArrayList<Model> modelList, int i) {
+		Model model = modelList.get(i);
+		modelList.set(i, this.selectMappedLists(model, deepness));
 	}
 	
 	/**
@@ -75,5 +88,27 @@ public class DAORelationList extends DAORelation {
 		
 		return rdrl.getObject();
 	}
+
+	
+	public class SelectList extends Thread{
+		private Model model;
+		private int deepness;
+	
+		public SelectList(Model model, int deepness){
+			this.model = model;
+			this.deepness = deepness;
+			start();
+			
+		}
+		
+		
+		@SuppressWarnings("deprecation")
+		public void run(){
+			DAORelationList.getInstance().selectMappedLists(this.model, this.deepness);
+			this.stop();
+		}
+		
+	}
+		
 	
 }

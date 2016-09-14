@@ -3,7 +3,7 @@ package model;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 import annotations.AModelClasses;
 import annotations.Entity;
@@ -43,11 +43,11 @@ public class Estoque extends Model {
 	}
 	
 	@Entity(attributeName="ingredientes_id", fk=true)
-	public Ingredientes getIngredientesId() {
+	public Ingredientes dgetIngredientesId() {
 		return ingredientesId;
 	}
 
-	public void setIngredientesId(Ingredientes ingredientesId) {
+	public void dsetIngredientesId(Ingredientes ingredientesId) {
 		this.ingredientesId = ingredientesId;
 	}
 
@@ -69,7 +69,7 @@ public class Estoque extends Model {
 		this.quantidade = quantidade;
 	}
 	
-	@Entity(attributeName = "data_insercao")
+	@Entity(attributeName = "data_insercao", required=false)
 	public Date dgetDataInsercao() {
 		return dataInsercao;
 	}
@@ -98,13 +98,13 @@ public class Estoque extends Model {
 
 	@Override
 	public void verify(JReturn r) {
-		Date d = new Date();
 		
-		//Set actual date
+		//Set actual date when verifying
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-		System.out.println(dateFormat.format(date)); //2014-08-06
-		dsetDataInsercao(d);
+		java.util.Date d = new java.util.Date();
+		Date date = new Date(d.getYear(), d.getMonth(), d.getDate());
+		System.out.println(date); 
+		dsetDataInsercao(date);
 		
 		if(quantidade < 0){
 			r.addSimpleError("Quantity can't be lower than 0");

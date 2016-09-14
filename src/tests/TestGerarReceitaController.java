@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.google.gson.Gson;
+
 import controllers.GenericController;
 import controllers.GerarReceitasController;
 import db.Config;
@@ -37,6 +39,8 @@ public class TestGerarReceitaController {
 		grc.execute(r, "busca");
 		
 		assertTrue(r.isSuccess());
+		Gson g = new Gson();
+		System.out.println(g.toJson(r));
 		
 	}
 

@@ -1,8 +1,70 @@
-<form  method="post" id="formUsuario">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+     <!-- Bootstrap core CSS -->
+    <link href="../../biblioteca/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <div class="form-group">
-        <label for="nome">Nome do ingrediente:</label>
-        <input type="text" name="nome" class="form-control" id="nome" value="" />
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../../biblioteca/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link href="../../biblioteca/css/login.css" rel="stylesheet">
+    
+    </head>
+    
+<div class="container">
+    <div class="login-container">
+            <div id="output"></div>
+        
+            <div class="form-box">
+                <form id="formUser">
+                    <input name="nome" type="text" placeholder="Nome" id="nome">
+                    <input name="sobrenome" type="text" placeholder="Sobrenome" id=""sobrenome"">
+                    <input name="email" type="email" placeholder="Email" id="email">
+                    <input name="senha" type="password" placeholder="Senha" id="senha">
+                    <button class="btn btn-info btn-block login" type="submit">Cadastrar</button>
+                </form>
+                <label style="margin-top: 5px;">
+                	<a href="../../index.html">Voltar a tela inicial</a>
+                </label>
+            </div>
+        </div>
+        
+        <div id="formUserdivConf">
+                 <input type="hidden" name="action" id="action" value="salvar"  />
+   				<input type="hidden" name="classname" id="classname" value="Usuario" />
+   				<input type="hidden" name="usecase" id="usecase" value="Usuario" />
+    	</div>
+        
+</div>
+ <div class="modal fade" id="modalMsg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="tituloModalGeral">Sistema</h4>
+      </div>
+      <div class="modal-body" id="corpoModalMsg">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btnModalMsg" >Ok</button>
+      </div>
     </div>
+  </div>
+</div>
 
-</form>
+ <script src="../../biblioteca/js/jquery-1.12.4.min.js"></script>
+ <script src="../../biblioteca/bootstrap/js/bootstrap.min.js"></script>
+  <script src="../../biblioteca/js/geral.js"></script>
+  <script>
+  var objLogin = {"nomeForm":"formUser","resetForm":false};
+  validaAction('Salvar',objLogin);
+  </script>
+</html>
+

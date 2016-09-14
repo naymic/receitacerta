@@ -93,7 +93,7 @@ public class StringUtils {
 	 */
 	public static String getPrepStmtColumnsSearch(ArrayList<Class<?>> classes,String[] stringVect){
 		String string = "";
-		String separator ="AND";
+		String separator =" AND";
 		
 		
 		for(int i=0; i < classes.size(); i++){

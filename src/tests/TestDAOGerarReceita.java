@@ -36,7 +36,7 @@ public class TestDAOGerarReceita {
 		
 		
 		
-		assertEquals(5 ,list.size());
+		assertEquals(8 ,list.size());
 		
 		
 	}

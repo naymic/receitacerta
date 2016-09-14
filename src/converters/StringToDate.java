@@ -1,6 +1,6 @@
 package converters;
 
-import java.util.Date;
+import java.sql.Date;
 
 import interfaces.ISimpleConverter;
 

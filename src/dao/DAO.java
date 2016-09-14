@@ -351,18 +351,7 @@ public class DAO implements IDAO{
 				stmt = this.executeStatement(stmt, rd.getValues(where));
 				
 			ResultSet rs = stmt.executeQuery();
-			int i = 1;
-			while(rs.next()){
-				rd.setObject(rd.cloneObject(object));
-				for(Method m : mset){
-					newModel = this.setValueFromResultSet(rd, rs, m, i);
-					
-					i++;
-				}
-				i=1;
-				returnList.add(newModel);
-				
-			}
+			setResultObjectsAsThreads(rd, mset, object, newModel, returnList, rs);
 			
 			rs.close();
 			stmt.close();
@@ -374,6 +363,23 @@ public class DAO implements IDAO{
 		
 		
 		return returnList;	
+	}
+
+
+	private void setResultObjectsAsThreads(ReflectionDAO rd, ArrayList<Method> mset, Model object, Model newModel,
+			ArrayList<Model> returnList, ResultSet rs) throws SQLException {
+		int i = 1;
+		while(rs.next()){
+			rd.setObject(rd.cloneObject(object));
+			for(Method m : mset){
+				newModel = this.setValueFromResultSet(rd, rs, m, i);
+				
+				i++;
+			}
+			i=1;
+			returnList.add(newModel);
+			
+		}
 	}
 	
 	/**busca

@@ -42,8 +42,9 @@ public class DAOGerarReceita extends DAORelation {
 			
 
 		//Create a filter to check if all ingredients informed by the user exist in the repices 
-		if(ingredientes.size() > 0)
+		if(ingredientes.size() > 0){
 			list = this.filterRecipesByIngredientsGiven(list, ingredientes);
+		}
 		
 		return list;
 

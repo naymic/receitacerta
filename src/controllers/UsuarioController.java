@@ -4,6 +4,6 @@ public class UsuarioController extends CrudController {
 
 	@Override
 	public boolean needAuthentication(){
-		return true;
+		return false;
 	}
 }

@@ -28,15 +28,14 @@ public class TestDAOGerarReceita {
 		ReceitaView r = new ReceitaView();
 		
 		r.setStringIngredientesId("1,2,3");
-		r.setMaxCalories(1000.0);
+		r.dsetMaxCalories(10000.0);
 		
-		ReflectionDAO rd = new ReflectionDAO(r);
 		
 		ArrayList<Model> list= DAOGerarReceita.getInstance().select(r, new ArrayList<Model>());
 		
 		
 		
-		assertEquals(8 ,list.size());
+		assertEquals(5 ,list.size());
 		
 		
 	}

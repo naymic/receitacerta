@@ -99,7 +99,7 @@ public class Estoque extends Model {
 	@Override
 	public void verify(JReturn r) {
 		
-		//Set actual date
+		//Set actual date when verifying
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date d = new java.util.Date();
 		Date date = new Date(d.getYear(), d.getMonth(), d.getDate());

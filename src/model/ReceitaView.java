@@ -18,15 +18,15 @@ public class ReceitaView extends Receita{
 	}
 	
 	public String getTableName() {
-		return "receitas";
+		return "view_receitas";
 	}
 	
-	@Entity(attributeName="", required=false)
-	public Double getMaxCalories() {
+	@Entity(attributeName="total_cal", required=false)
+	public Double dgetMaxCalories() {
 		return maxCalories;
 	}
 
-	public void setMaxCalories(Double max_calories) {
+	public void dsetMaxCalories(Double max_calories) {
 		this.maxCalories = max_calories;
 	}	
 	

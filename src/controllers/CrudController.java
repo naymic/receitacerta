@@ -141,7 +141,7 @@ public class CrudController extends GenericController{
 	public JReturn buscaAction(JReturn r, Model object){
 		List<Model> list =null;
 		
-		list = DAORelationList.getInstance().select(object);
+		list = DAORelation.getInstance().select(object);
 		
 		this.selectObjectCheck(r, list, object);
 		
@@ -162,7 +162,7 @@ public class CrudController extends GenericController{
 	public JReturn buscaavancadaAction(JReturn r, Model object){
 		List<Model> list =null;
 		
-		list = DAORelationList.getInstance().search(object);
+		list = DAORelation.getInstance().search(object);
 		
 		this.selectObjectCheck(r, list, object);
 		

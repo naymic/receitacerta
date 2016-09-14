@@ -379,17 +379,27 @@ function submitGeral(idForm,cleanForm){
                                           
 
 function validaMenu(data){
+	
     var htmlMenu = '';
     $.each(data,function(i,objMenu){
        htmlMenu += '<li class="'+objMenu.ativo+' liMenu"><a href="#" class="btnMenuAction" data-url="'+objMenu.url+'">'+objMenu.name+'</a></li>';
     });
     $(".navMenu").prepend(htmlMenu);
     $(".btnMenuAction").click(function(e){
+    	$("#imgLoad").fadeIn('fast');
+      $("#nomeModulo").text($(this).text());
       sessionStorage.id = "";
+      var url = $(this).data('url');
       $(".liMenu").removeClass('active');
-      $("#conteudoCentral").html('<h4 class="text-warning">Aguarde</h4>');
-      console.log($(this).data('url'));
-      $("#conteudoCentral").load($(this).data('url'));
+      $("#conteudoCentral").fadeOut('fast',function(){
+    	  $("#conteudoCentral").html('<h4 class="text-warning">Aguarde</h4>');
+        
+          $("#conteudoCentral").load(url,function(){
+        	 $(this).fadeIn('fast');  
+        	 $("#imgLoad").fadeOut('fast');
+          });  
+      });
+      
       $(this).parent().addClass('active');
     });
 }

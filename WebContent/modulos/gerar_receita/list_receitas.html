@@ -2,32 +2,36 @@
 
 	<!-- Filtros para Receitas -->
 	<div class="row bg-primary">
-		<div class="col-md-10">
-			<label class="col-md-2">Nome da receita:</label>
+
+			<label class="col-md-2">Nome da receita:
 				<input class="form-control" type="text" name="nome" />
+			</label>
 
+			<label class="col-md-2">Ingrediente:
+				<input class="form-control" name="ingrediente" />
+			</label>
 
-			<label class="col-md-2">Ingrediente:</label>
-			<input class="form-control" name="ingrediente" />
+			<label class="col-md-2">Tipo da Refei&ccedil;&atilde;o:
+				<input class="form-control" type="text" name="receitaTipos"  />
+			</label>
 
-			<label class="col-md-2">Tipo da Refei&ccedil;&atilde;o:</label>
-			<input class="form-control" type="text" name="receitaTipos"  />
-			
+			<label class="col-md-2">Kcal. M&aacute;xima/un.:
+				<input class="form-control" type="text" name="maxCalories" />
+			</label>
 
-			<label class="col-md-2">Kcal. M&aacute;xima/un.:</label>
-			<input class="form-control" type="text" name="maxCalories" />
-			
-
-		</div>
-		<div class="col-md-2">
-			<input type="hidden" name="action" id="action" value="buscaavancada"  />
-			<input type="hidden" name="className" id="className" value="Receitas" />
-			<input type="hidden" name="usecase" id="usecase" value="GerarReceitas" />
-			<button  class="btn btn-success" style="margin-top:23px;" type="submit">Filtrar</button>
-		</div>
+		
+			<label class="col-md-2">
+				<button class="btn btn-success" style="margin-top:20px;" type="submit">Filtrar</button>
+			</label>
+		
 	</div>
 	<!-- Fim dos Filtros par Receitas -->
 </form>
+<div id="consultaReceitasdivConf">
+	<input type="hidden" name="action" id="action" value="busca"  />
+	<input type="hidden" name="classname" id="className" value="GerarReceita" />
+	<input type="hidden" name="usecase" id="usecase" value="GerarReceitas" />
+</div>
 
 <hr />
 <table class="table table-striped table-bordered table-hover" id="Receitas">
@@ -87,18 +91,21 @@
 -->
 
 <script>
-var tableHead = [
-{ "data": "ingredientesTipoId","label":"nomeTipo" },
-{ "data": "nome" },
-{ "data": "id" },
-{ "data": "calorias" },
-{ "data": "ingredientesUnidade","label":"nomeUnidade" },
-{ "data": "ingredienteArmazenamentosId","label":"nomeArmazenamento" },
-{ "data": "gluten" },
-{ "data": "importancia" },
-{ "data": "anotacoes" }
-];
-var objIngrediente = {"dados":{"className":"Receitas","action":"busca", "usecase":"GerarReceitas"},"config": tableHead};
+
+
+var configOpt = {"tableHead":[{ "data": "nome" },
+                              { "data": "tempoPreparo" },
+                              { "data": "receitaRendimentosTipoValor" },
+                              { "data": "receitaRendimentoTipos","label":"tipo" },
+                              { "data": "receitaTipos","label":"nome" }],
+                              "nomeTabela":"Receita",
+                              "urlEdit":"modulos/ingredientes/cad_receita.html",
+                              "className":"ReceitaView",
+                              "labelId":"id",
+                              "campoBusca":"nome"};
+
+
+var objIngrediente = {"dados":{"className":"ReceitaView","action":"busca", "usecase":"GerarReceitas"},"config": tableHead};
 console.log(objIngrediente);
 validaAction('Consulta',objIngrediente);
 </script>

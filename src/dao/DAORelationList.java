@@ -29,7 +29,7 @@ public class DAORelationList extends DAORelation{
 		
 	}
 	
-	@SuppressWarnings("deprecation")
+	
 	public ArrayList<Model> select(Model object, int deepness){
 		ArrayList<Model> modelList = DAORelation.getInstance().select(object);
 		ArrayList<SelectList> selectThreads = new ArrayList<>();

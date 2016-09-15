@@ -338,7 +338,6 @@ public class DAO implements IDAO{
 	 */
 	protected ArrayList<Model> getObjectsFromRS(ReflectionDAO rd, String sql, ArrayList<Method> mget, ArrayList<Method> mset, ArrayList<Method> where, boolean search){
 		Model object = (Model)rd.getObject();
-		Model newModel = null;
 		PreparedStatement stmt = null;
 		ArrayList<Model> returnList = new ArrayList<>();
 		
@@ -351,7 +350,26 @@ public class DAO implements IDAO{
 				stmt = this.executeStatement(stmt, rd.getValues(where));
 				
 			ResultSet rs = stmt.executeQuery();
-			setResultObjectsAsThreads(rd, mset, object, newModel, returnList, rs);
+			int i = 1;
+			
+			while(rs.next()){
+				
+				rd.setObject(rd.cloneObject(object));
+				returnList.add(rd.getObject());
+				ArrayList<ConvertThread> threadList = new ArrayList<>();
+				for(Method m : mset){
+					
+					if(rd.getObjectClass().isAssignableFrom(Model.class)){
+						ConvertThread ct = new ConvertThread(rd, rs, m, i);
+						threadList.add(ct);
+					}else{
+						setValueFromResultSet(rd, rs, m, i);
+					}
+					i++;
+				}
+				utils.ThreadManager.checkAliveThreads(threadList);
+				i=1;
+			}	
 			
 			rs.close();
 			stmt.close();
@@ -366,21 +384,6 @@ public class DAO implements IDAO{
 	}
 
 
-	private void setResultObjectsAsThreads(ReflectionDAO rd, ArrayList<Method> mset, Model object, Model newModel,
-			ArrayList<Model> returnList, ResultSet rs) throws SQLException {
-		int i = 1;
-		while(rs.next()){
-			rd.setObject(rd.cloneObject(object));
-			for(Method m : mset){
-				newModel = this.setValueFromResultSet(rd, rs, m, i);
-				
-				i++;
-			}
-			i=1;
-			returnList.add(newModel);
-			
-		}
-	}
 	
 	/**busca
 	 * Receives a column index and replaces the ? in the prepared sql
@@ -489,6 +492,28 @@ public class DAO implements IDAO{
 			e.printStackTrace();
 		}
 		return -1;
+	}
+	
+	
+	public class ConvertThread extends Thread{
+		ReflectionDAO rd;
+		ResultSet rs;
+		Method m;
+		int i;
+		
+		public ConvertThread(ReflectionDAO rd, ResultSet rs, Method m, int i){
+			this.rd = rd;
+			this.rs = rs;
+			this.m = m;
+			this. i = i;
+			start();
+		}
+		
+		@SuppressWarnings("deprecation")
+		public void run(){
+			setValueFromResultSet(rd, rs, m, i);
+			stop();
+		}
 	}
 
 }

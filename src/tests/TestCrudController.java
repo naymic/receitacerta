@@ -16,6 +16,7 @@ import model.IngredienteTipo;
 import model.IngredienteUnidades;
 import model.Ingredientes;
 import model.Model;
+import model.Receita;
 import model.TestIngredientes;
 import utils.Transform;
 
@@ -133,6 +134,21 @@ public class TestCrudController extends TestCases{
 		cc.execute(r, "edit");
 		assertTrue(!r.isSuccess());
 		assertTrue(Transform.objectToJson(r).contains("Primary key is not set."));
+	}
+	
+	@Test
+	public void testSelectObject(){
+		CrudController cc = this.getCRUDControllerEdit();
+		JReturn r = new JReturn();
+		TestIngredientes obj = new TestIngredientes();
+		obj.dsetId(2);
+		cc.setModelObject(obj);
+		
+		
+		cc.execute(r, "busca");
+		
+		assertTrue(r.isSuccess());
+		assertEquals(1, r.getData().getData().size());
 	}
 	
 }

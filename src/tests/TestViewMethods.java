@@ -12,7 +12,7 @@ import org.junit.Test;
 import controllers.CrudController;
 import db.Config;
 import interfaces.IController;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 import views.ViewController;
 
 public class TestViewMethods extends TestCases{

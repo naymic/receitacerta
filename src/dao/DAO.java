@@ -10,7 +10,7 @@ import java.util.List;
 import converters.GenericConverter;
 import db.DB;
 import interfaces.IDAO;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 import model.Model;
 import reflection.GenericReflection;
 import reflection.ReflectionDAO;
@@ -351,12 +351,12 @@ public class DAO implements IDAO{
 				
 			ResultSet rs = stmt.executeQuery();
 			int i = 1;
-			
+			ArrayList<ConvertThread> threadList = new ArrayList<>();
 			while(rs.next()){
 				
 				rd.setObject(rd.cloneObject(object));
 				returnList.add(rd.getObject());
-				ArrayList<ConvertThread> threadList = new ArrayList<>();
+				
 				for(Method m : mset){
 					
 					if(rd.getObjectClass().isAssignableFrom(Model.class)){
@@ -367,10 +367,10 @@ public class DAO implements IDAO{
 					}
 					i++;
 				}
-				utils.ThreadManager.checkAliveThreads(threadList);
+				
 				i=1;
 			}	
-			
+			utils.ThreadManager.checkAliveThreads(threadList);
 			rs.close();
 			stmt.close();
 		} catch (Exception e) {

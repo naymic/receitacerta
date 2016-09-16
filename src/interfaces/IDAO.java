@@ -2,7 +2,7 @@ package interfaces;
 
 import java.util.ArrayList;
 
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 import model.Model;
 
 

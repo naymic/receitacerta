@@ -2,7 +2,7 @@ package model;
 
 import annotations.AModelClasses;
 import annotations.Entity;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 
 @AModelClasses(needUserObject = false)
 public class IngredienteArmazenamentos extends Model{

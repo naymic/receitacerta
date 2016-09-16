@@ -7,7 +7,7 @@ import annotations.AControllerMethod;
 import annotations.AModelClasses;
 import exceptions.NoActionException;
 import interfaces.IController;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 import model.Model;
 
 public class ReflectionController extends GenericReflection{

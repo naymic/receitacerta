@@ -57,15 +57,17 @@ public class DB {
 				
 				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/"+db+"?characterEncoding=utf8", "receita_certa", "nosestamosonline75113");
 				
-				System.out.println("DB conection etablished");
+				
 			}else{
 				host = Config.getInstance().DBHost();
 				port = Config.getInstance().DBPort();
 				driver = Config.getInstance().DBDriver();
-				System.out.println("Try connect to test database");
+
 				con = DriverManager.getConnection("jdbc:"+driver+"://"+host+":"+port+"/testDB?characterEncoding=utf8", "receita_certa", "nosestamosonline75113");
+				db = "testDB";
 			}
 			
+			System.out.println("DB conection etablished to: "+db+"@"+host+":"+port);
 			setCon(con);
 			
 		}catch (ClassNotFoundException e) {

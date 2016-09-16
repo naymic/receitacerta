@@ -76,7 +76,7 @@ public class DAOGerarReceita extends DAORelation {
 	private ArrayList<Model> filterRecipesByIngredientsGiven(ArrayList<Model> recipesList, ArrayList<Model> ingredientsList){
 		
 		for(int i = 0; i < recipesList.size(); i ++){
-			Receita recipe = (Receita) recipesList.get(i);
+			ReceitaView recipe = (ReceitaView) recipesList.get(i);
 			
 			if(!recipe.agetListaPertence().containsAll(ingredientsList)){
 				recipesList.remove(recipe);

@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 import controllers.GenericController;
 import controllers.GerarReceitasController;
 import db.Config;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 
 public class TestGerarReceitaController {
 

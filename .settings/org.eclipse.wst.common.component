@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="ReceitaCertaBackend">
+    <wb-module deploy-name="ReceitaCerta">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="ReceitaCertaBackend"/>
-        <property name="java-output-path" value="/ReceitaCertaBackend/build/classes"/>
+        <property name="java-output-path" value="/ReceitaCerta/build/classes"/>
+        <property name="context-root" value="ReceitaCerta"/>
     </wb-module>
 </project-modules>

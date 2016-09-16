@@ -359,18 +359,18 @@ public class DAO implements IDAO{
 				
 				for(Method m : mset){
 					
-					//if(rd.getObjectClass().isAssignableFrom(Model.class)){
-					//	ConvertThread ct = new ConvertThread(rd, rs, m, i);
-					//	threadList.add(ct);
-					//}else{
+					if(rd.getObjectClass().isAssignableFrom(Model.class)){
+						ConvertThread ct = new ConvertThread(rd, rs, m, i);
+						threadList.add(ct);
+					}else{
 						setValueFromResultSet(rd, rs, m, i);
-					//}
+					}
 					i++;
 				}
 				
 				i=1;
 			}	
-			//utils.ThreadManager.checkAliveThreads(threadList);
+			utils.ThreadManager.checkAliveThreads(threadList);
 			rs.close();
 			stmt.close();
 		} catch (Exception e) {

@@ -317,24 +317,18 @@ public class ReflectionDAO extends GenericReflection{
 		
 	}
 	
-	public Method getMethodByFieldname(String fieldname, MType mt, String preName, Class<?>... args){		
-		Field[] fs = this.getObjectClass().getDeclaredFields();
-		
-		for(Field f : fs){
-			String key = f.getName();
-			if(key.equals(fieldname))
-				return this.getMethod(preName+mt.name()+StringUtils.setFirstLetterUppercase(key), args);
+	public Method getMethodByFieldname(String fieldname, MType mt, String preName, Class<?>... args)throws RuntimeException{		
+
+			try{
+			return this.getMethod(preName+mt.name()+StringUtils.setFirstLetterUppercase(fieldname), args);
+			}catch(Exception e){
+				System.out.println("Exist no method for the columname "+ fieldname + " in the "+ this.getObject().getClass());
+				throw new RuntimeException("Exist no method for the columname "+ fieldname + " in the "+ this.getObject().getClass());
+			}
 		}
 		
 		
-		try{
-			throw new NoSuchMethodException("Exist no method for the columname "+ fieldname + " in the "+ this.getObject().getClass());
-		}catch(Exception e){
-			e.printStackTrace();
-			return null;
-		}
 		
-	}
 	
 	/**
 	 * Get a method with pre or without prename like "d" or "a"

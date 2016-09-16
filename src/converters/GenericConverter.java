@@ -21,7 +21,7 @@ public class GenericConverter {
 		//Objec value is null?
 		if(value == null){
 			IExtendedConverter ic;
-			if(outputClass.getSuperclass() == Model.class){
+			if(GenericConverter.checkAssignableModel(outputClass)){
 				ic = (IExtendedConverter)GenericReflection.instanciateObjectByName("converters.NullToModel");
 			}else{
 				ic = (IExtendedConverter)GenericReflection.instanciateObjectByName("converters.NullTo"+outputClass.getSimpleName());
@@ -39,13 +39,13 @@ public class GenericConverter {
 			return value;
 
 		//Check if its a Model Class Output
-		if(outputClass.getSuperclass() == Model.class){
+		if(GenericConverter.checkAssignableModel(outputClass)){
 			IExtendedConverter ic = (IExtendedConverter)GenericReflection.instanciateObjectByName("converters."+simpleClassNameInput+"ToModel");
 			return ic.convert(value, outputClass);
 		}
 
 		//Check if its a Model Class Input
-		if( value != null && value.getClass().getSuperclass() == Model.class){
+		if( value != null && GenericConverter.checkAssignableModel(value.getClass())){
 			ModelToInteger ic = new ModelToInteger();
 			return ic.convert(value);
 		}
@@ -56,6 +56,16 @@ public class GenericConverter {
 		
 		obj = ic.convert(value);
 		return obj;
+	}
+	
+	/**
+	 * Check if an object is a subclass of Model
+	 * @param objectClass
+	 * @return
+	 */
+	private static boolean checkAssignableModel(Class<?> objectClass){		
+		return Model.class.isAssignableFrom(objectClass);
+		
 	}
 
 }

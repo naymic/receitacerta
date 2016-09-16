@@ -1,5 +1,5 @@
 // JavaScript Document
-var PATH_API = '../ReceitaCertaBackend/ViewController';
+var PATH_API = '../ReceitaCerta/ViewController';
 var NOVOACTION = 'novo';
 var SALVARACTION = 'salvar';
 var EDITACTION = 'edit';

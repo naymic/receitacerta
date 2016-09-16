@@ -7,7 +7,7 @@ import jresponseclasses.JReturn;
 @AModelClasses(needUserObject = false)
 public class Passo extends Model{
 	private Integer id;
-	private Receita receita;
+	private ReceitaView receita;
 	private Integer numeroPasso;
 	private String texto;
 	
@@ -26,10 +26,10 @@ public class Passo extends Model{
 	}
 	
 	@Entity(attributeName="receitas_id", fk=true, isMapped=true )
-	public Receita dgetReceita() {
+	public ReceitaView dgetReceita() {
 		return receita;
 	}
-	public void dsetReceita(Receita receita) {
+	public void dsetReceita(ReceitaView receita) {
 		this.receita = receita;
 	}
 	

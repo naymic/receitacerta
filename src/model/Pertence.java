@@ -8,7 +8,7 @@ import jresponseclasses.JReturn;
 public class Pertence extends Model{
 	
 	private Ingredientes ingrediente;
-	private Receita receita;
+	private ReceitaView receita;
 	private Integer quantidade;
 	private Integer id;
 	
@@ -27,10 +27,10 @@ public class Pertence extends Model{
 	}
 	
 	@Entity(attributeName="receitas_id", fk=true, isMapped=true)
-	public Receita dgetReceita() {
+	public ReceitaView dgetReceita() {
 		return receita;
 	}
-	public void dsetReceita(Receita receita) {
+	public void dsetReceita(ReceitaView receita) {
 		this.receita = receita;
 	}
 	

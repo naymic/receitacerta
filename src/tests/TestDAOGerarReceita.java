@@ -27,7 +27,7 @@ public class TestDAOGerarReceita {
 	public void testFilterMaxCalories() {
 		ReceitaView r = new ReceitaView();
 		
-		r.setStringIngredientesId("1,2,3");
+		r.setStringIngredientesId("20");
 		r.dsetMaxCalories(10000.0);
 		
 		

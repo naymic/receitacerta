@@ -351,7 +351,7 @@ public class DAO implements IDAO{
 				
 			ResultSet rs = stmt.executeQuery();
 			int i = 1;
-			//ArrayList<ConvertThread> threadList = new ArrayList<>();
+			ArrayList<ConvertThread> threadList = new ArrayList<>();
 			while(rs.next()){
 				
 				rd.setObject(rd.cloneObject(object));

@@ -140,7 +140,7 @@ public class JSON {
 }
 */
 import dao.DAORelation;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 import model.Model;
 import reflection.ReflectionDAO;
 import reflection.ReflectionDAORelation;

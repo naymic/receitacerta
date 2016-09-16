@@ -1,4 +1,4 @@
-package jsonclasses;
+package jresponseclasses;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,14 +8,38 @@ import enums.ReturnType;
 import interfaces.IUser;
 import model.Model;
 
+/**
+ * 
+ * @author micha
+ *
+ * Main class to response to a request
+ * Standarizes the structure of the response
+ *
+ */
 public class JReturn{
+	
+	//Returns if the request was successful or not
 	boolean success;
+	
+	//Returns a user object with some information about it
 	private JUser user;
+	
+	//if redirec.redirect is true, the response calls for a login
 	private JRedirect redirect;
+	
+	//errors relating to an attribute of the request object
 	private ArrayList<JAttributeError> atberrors;
+	
+	//Normal messages
 	private ArrayList<String> messages;
+	
+	//Error messages
 	private ArrayList<String> errors;
+	
+	//Data object for tables and forms
 	private JData data;
+	
+	//Sets the return type
 	private ReturnType returnType;
 	
 	public JReturn(){

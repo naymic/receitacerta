@@ -10,7 +10,7 @@ import java.util.List;
 import converters.GenericConverter;
 import db.DB;
 import interfaces.IDAO;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 import model.Model;
 import reflection.GenericReflection;
 import reflection.ReflectionDAO;

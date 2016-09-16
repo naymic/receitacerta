@@ -1,4 +1,4 @@
-package jsonclasses;
+package jresponseclasses;
 
 /**
  * 

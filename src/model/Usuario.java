@@ -6,7 +6,7 @@ import annotations.AModelClasses;
 import annotations.Entity;
 import interfaces.IApplicationSession;
 import interfaces.IUser;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 import utils.CryptString;
 import utils.StringUtils;
 @AModelClasses(isUserModel = true, needUserObject = false)

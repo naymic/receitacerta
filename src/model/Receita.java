@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import annotations.AModelClasses;
 import annotations.Entity;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 
 @AModelClasses(needUserObject = true)
 public class Receita extends Model{

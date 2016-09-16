@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import dao.DAO;
 import db.Config;
 import enums.MType;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 import model.Ingredientes;
 import model.Model;
 import model.TestCity;

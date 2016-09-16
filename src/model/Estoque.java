@@ -7,7 +7,7 @@ import java.sql.Date;
 
 import annotations.AModelClasses;
 import annotations.Entity;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 
 /***
  * 

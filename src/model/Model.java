@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import annotations.AModelClasses;
 import enums.ObjectState;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 import reflection.ReflectionDAO;
 
 public abstract class Model {

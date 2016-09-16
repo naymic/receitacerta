@@ -14,12 +14,12 @@ import exceptions.NoActionException;
 import interfaces.IApplicationSession;
 import interfaces.IController;
 import interfaces.IUser;
-import jsonclasses.JObject;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 import model.Ingredientes;
 import model.Model;
 import model.Receita;
 import model.ReceitaView;
+import utils.RequestObject;
 
 public class GerarReceitasController extends GenericController{
 	

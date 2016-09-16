@@ -1,6 +1,6 @@
 package controllers;
 
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 import model.Model;
 
 public class UsuarioController extends CrudController {

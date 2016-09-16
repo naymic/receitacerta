@@ -14,13 +14,13 @@ import exceptions.NoActionException;
 import interfaces.IApplicationSession;
 import interfaces.IController;
 import interfaces.IUser;
-import jsonclasses.JObject;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 import model.Model;
 import model.Usuario;
 import reflection.ReflectionController;
 import reflection.ReflectionDAO;
 import reflection.ReflectionDAORelation;
+import utils.RequestObject;
 import utils.Transform;
 import annotations.AControllerMethod;
 import annotations.AModelClasses;
@@ -30,7 +30,7 @@ public class GenericController implements IController{
 	String usecase;
 	String action;
 	ArrayList<String> validActions;
-	JObject jobject;
+	RequestObject jobject;
 	String jsonString; 
 	IApplicationSession appSession;
 	Model modelObject;
@@ -50,7 +50,7 @@ public class GenericController implements IController{
 	 */
 	private void initVariables(){
 		validActions = new ArrayList<>();
-		jobject = new JObject();
+		jobject = new RequestObject();
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class GenericController implements IController{
 	 * THIS METHOD IS NOT USER AT THE MOMENT
 	 * @return
 	 */
-	public JObject getObject() {
+	public RequestObject getObject() {
 		return jobject;
 	}
 	

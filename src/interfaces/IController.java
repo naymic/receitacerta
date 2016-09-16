@@ -6,9 +6,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import exceptions.NoActionException;
-import jsonclasses.JObject;
-import jsonclasses.JReturn;
+import jresponseclasses.JReturn;
 import reflection.ReflectionController;
+import utils.RequestObject;
 
 public interface IController {
 	/**
@@ -113,7 +113,7 @@ public interface IController {
 	/**
 	 * Get the object received from the view
 	 */
-	public JObject getObject();
+	public RequestObject getObject();
 
 	
 }

@@ -4,7 +4,7 @@ import annotations.AModelClasses;
 import annotations.Entity;
 import jresponseclasses.JReturn;
 
-@AModelClasses(needUserObject = true)
+
 public abstract class ReceitaParent extends Model {
 	private Integer id;
 	private String nome;

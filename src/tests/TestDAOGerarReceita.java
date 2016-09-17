@@ -31,7 +31,7 @@ public class TestDAOGerarReceita {
 		r.dsetMaxCalories(10000.0);
 		
 		
-		ArrayList<Model> list= DAOGerarReceita.getInstance().select(r, new ArrayList<Model>());
+		ArrayList<Model> list= DAOGerarReceita.getInstance().search(r, new ArrayList<Model>());
 		
 		
 		

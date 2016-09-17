@@ -33,12 +33,13 @@ public class GerarReceitasController extends GenericController{
 		
 		ArrayList<Model> ingredientsList = new ArrayList<>();
 		try {
+			if(recta.getStringIngredientesId() != null && recta.getStringIngredientesId().length() > 0)
 			ingredientsList = getIngredientsList(recta.getStringIngredientesId());
 		} catch (Exception e) {
 			r.addSimpleError("The string with the id's of the ingredients has some error. String: "+ recta.getStringIngredientesId());
 			e.printStackTrace();
 		}
-		ArrayList<Model> recipeList = DAOGerarReceita.getInstance().select(recta, ingredientsList);
+		ArrayList<Model> recipeList = DAOGerarReceita.getInstance().search(recta, ingredientsList);
 		
 		r.getData().setDataList(recipeList);
 		
@@ -51,7 +52,10 @@ public class GerarReceitasController extends GenericController{
 	
 	private ArrayList<Model> getIngredientsList(String ingredientesIds) throws Exception{
 		ArrayList<Model> ingredientsList= new ArrayList<>();
-		String[] ingredientesVect = ingredientesIds.split(",");
+		String[] ingredientesVect = null;
+		
+		if(ingredientesIds != null && ingredientesIds.length() > 0)
+			ingredientesVect = ingredientesIds.split(",");
 		
 		for(String s : ingredientesVect){
 			Integer i = (Integer) converters.GenericConverter.convert(Integer.class, s);

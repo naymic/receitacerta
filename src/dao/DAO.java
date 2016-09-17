@@ -108,7 +108,7 @@ public class DAO implements IDAO{
 						obj = "%";
 						stmt = this.setStmt(stmt, i+index+1, obj, "%");
 				}else{
-					stmt = this.setStmt(stmt, index+1, obj, "");
+					stmt = this.setStmt(stmt, i+index+1, obj, "");
 				}
 		}
 		return stmt;

@@ -3,33 +3,40 @@
 	<!-- Filtros para Receitas -->
 	<div class="row bg-primary">
 
-			<label class="col-md-2">Nome da receita:
+		<div class="col-md-6">
+			<label >Nome da receita:
 				<input class="form-control" type="text" name="nome" />
 			</label>
 
-			<label class="col-md-2">Ingrediente:
-				<input class="form-control" name="ingrediente" />
-			</label>
-
-			<label class="col-md-2">Tipo da Refei&ccedil;&atilde;o:
-				<input class="form-control" type="text" name="receitaTipos"  />
-			</label>
-
-			<label class="col-md-2">Kcal. M&aacute;xima/un.:
-				<input class="form-control" type="text" name="maxCalories" />
-			</label>
-
+			<label>Ingrediente</label>
+				<select name="stringIngredientesId"  multiple data-tipo="select" data-label="nome" data-value="id" id="stringIngredientesId" class="form-control">
+				<option value="">Selecione os ingredientes desejados</option>
+			</select>
 		
-			<label class="col-md-2">
+		</div>
+		<div class="col-md-6">
+			<label>Tipo da Receita</label>
+			<input class="form-control" type="text" name="receitaTipos" />
+			
+
+			<label class="col-md-2">Kcal. M&aacute;xima/un.:</label>
+			<input class="form-control" type="number" name="maxCalories" />
+			
+		</div>
+		
+		<div class="col-md-1">
+			<label >
 				<button class="btn btn-success" style="margin-top:20px;" type="submit">Filtrar</button>
 			</label>
+		</div>
+		
 		
 	</div>
 	<!-- Fim dos Filtros par Receitas -->
 </form>
 <div id="consultaReceitasdivConf">
 	<input type="hidden" name="action" id="action" value="busca"  />
-	<input type="hidden" name="classname" id="className" value="GerarReceita" />
+	<input type="hidden" name="classname" id="className" value="ReceitaView" />
 	<input type="hidden" name="usecase" id="usecase" value="GerarReceitas" />
 </div>
 

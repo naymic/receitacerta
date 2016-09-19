@@ -1,49 +1,51 @@
 <form  method="post" id="formIngredientes">
 
-
-    <div class="form-group">
-        <label for="nome">Nome do ingrediente:</label>
-        <input type="text" name="nome" class="form-control" id="nome" value="" />
+	<div class="row">
+		 <div class="col-md-6">
+        	<label for="nome">Nome do ingrediente:</label>
+        	<input type="text" name="nome" class="form-control" id="nome" value="" />
+    	</div>
+		<div class="col-md-6">
+        	<label for="ingredientes_tipo_id">Tipo do ingrediente:</label>
+        	<select name="ingredientesTipoId" data-tipo="select" class="form-control" data-label="nomeTipo" data-value="id" id="ingredientesTipoId">
+           		<!-- $beginBlock relation.tipo -->
+          		  <option value="">Selecione</option>
+            	<!-- $endBlock relation.tipo -->
+        	</select>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label for="ingredientes_tipo_id">Tipo do ingrediente:</label>
-        <select name="ingredientesTipoId" data-tipo="select" class="form-control" data-label="nomeTipo" data-value="id" id="ingredientesTipoId">
-            <!-- $beginBlock relation.tipo -->
-            <option value="">Selecione</option>
-            <!-- $endBlock relation.tipo -->
-        </select>
+    <br>
+	<div class="row">
+		 <div class="col-md-6">
+			<label for="ingredientes_unidades_id">Unidade:</label>
+        	<select class="form-control" data-tipo="select" data-label="nomeUnidade" data-value="id"  name="ingredientesUnidade" id="ingredientesUnidade">
+          		  <!-- $beginBlock unidades -->
+          			  <option value="">Selecione</option>
+           		  <!-- $endBlock unidades -->
+      		</select>
+      	</div>
+      	<div class="col-md-6">
+      		<label for="calorias">Calorias por Unidade (Cal/Unid)</label>
+       		<input class="form-control" type="text" name="calorias" id="calorias" value="" />
+      	</div>
     </div>
-
-    <div class="form-group">
-        <label for="ingredientes_unidades_id">Unidade:</label>
-        <select class="form-control" data-tipo="select" data-label="nomeUnidade" data-value="id"  name="ingredientesUnidade" id="ingredientesUnidade">
-            <!-- $beginBlock unidades -->
-            <option value="">Selecione</option>
-            <!-- $endBlock unidades -->
-        </select>
+    <br/>
+    <div class="row">
+   		<div class="col-md-6">
+	        <label for="ingrediente_armazenamentos_id">Tipo de armazenamento:</label>
+	        <select class="form-control" data-tipo="select" data-label="nomeArmazenamento" data-value="id"  name="ingredienteArmazenamentosId" id="ingredienteArmazenamentosId">
+	            <!-- $beginBlock armazenamentos -->
+	             <option value="">Selecione</option>
+	            <!-- $endBlock armazenamentos -->
+	        </select>
+	    </div>
+		<br/>
+        <div class="col-md-6">
+	         <div id="divSubmit">
+	  			 <input class="btn btn-primary" type="submit" id="btnSubmit"  value="Salvar" />
+	   		 </div>
+	   	</div>
     </div>
-
-    <div class="form-group">
-        <label for="calorias">Calorias por Unidade (Cal/Unid)</label>
-        <input class="form-control" type="text" name="calorias" id="calorias" value="" />
-    </div>
-
-    <div class="form-group">
-        <label for="ingrediente_armazenamentos_id">Tipo de armazenamento:</label>
-        <select class="form-control" data-tipo="select" data-label="nomeArmazenamento" data-value="id"  name="ingredienteArmazenamentosId" id="ingredienteArmazenamentosId">
-            <!-- $beginBlock armazenamentos -->
-             <option value="">Selecione</option>
-            <!-- $endBlock armazenamentos -->
-        </select>
-    </div>
-   
-   
-
-   <div id="divSubmit">
-    <input class="btn btn-primary" type="submit" id="btnSubmit"  value="Salvar" />
-    </div>
-
 </form>
 
  <div id="formIngredientesdivConf">

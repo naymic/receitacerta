@@ -486,6 +486,20 @@ function validaAtberrors(objAction){
 	});
 }
 
+/**
+ * Helper function to cut the View from a request
+ * @param str
+ * @returns
+ */
+function removeViewFromModel(str){
+	var posInit  = str.search("View");
+	
+	if(posInit != -1)
+		return str.substring(posInit);
+	else
+		return str;
+}
+
 $("#"+MODALMSG).on('hidden.bs.modal',function(){
 	$(document).find('input').focus();
 });

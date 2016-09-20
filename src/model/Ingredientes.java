@@ -82,6 +82,5 @@ public class Ingredientes extends IngredientesParent{
 		this.anotacoes = anotacoes;
 	}*/
 
-
 	
 }

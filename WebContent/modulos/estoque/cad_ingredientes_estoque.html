@@ -29,6 +29,10 @@
 <hr />
 </form>
 
+
+
+
+
 <div id="formEstoquedivConf">
     <input type="hidden" name="action" id="action" value="salvar"  />
     <input type="hidden" name="classname" id="classname" value="Estoque" />
@@ -37,24 +41,13 @@
 
 <legend>Lista de Ingredientes no Estoque</legend>
 
-<form method ="post" id ="formEstoque">
+<form id ="consultaEstoque">
 <div class="row">
 	<div class="col-md-3">
 		<label>Nome do Ingrediente</label>
 		<input type="text" name="nome" id="nome" class="form-control" />
 	</div>
-	<div class="col-md-3">
-		<label>Tipo do Ingrediente</label>
-		<select name="tipo" id="tipo" class="form-control">
-			<option value="">Selecione um Valor</option>
-		</select>
-	</div>
-	<div class="col-md-3">
-		<label>Unidade</label>
-		<select name="unidade" id="unidade" class="form-control">
-			<option value="">Selecione um Valor</option>
-		</select>
-	</div>
+	
 	
 	<div class="col-md-1">
 		<label>Qtd.</label>
@@ -71,16 +64,12 @@
 </form>
 
 <br />
-   <table class="table table-striped table-bordered table-hover" id="Ingredientes">
+   <table class="table table-striped table-bordered table-hover" id="Estoque">
     <thead>
 		<tr>
-			<th>Tipo Ingrediente</th>
+		
 			<th>Nome</th>
-			<th>Id</th>
-			<th>Calorias</th>
-      		<th>Unidade</th>
       		<th>Quantidade</th>
-      		<th>Tipo Armazenamento</th>
       		<th>Data de Validade</th>
 			<th>#</th>
 		</tr>
@@ -89,26 +78,39 @@
 
         </tbody>
 	</table>
+	
+	
+	
+<div id="consultaEstoquedivConf">
+	<input type="hidden" name="action" id="action" value="buscaavancada"  />
+    <input type="hidden" name="classname" id=className value="EstoqueView" />
+    <input type="hidden" name="usecase" id="usecase" value="Crud" />
+</div>
+	
 <script>
-/*	var tableHead = [
-	{ "data": "nome" },
-	{ "data": "ingredientesId","label":"nomeTipo" },
-    { "data": "ingredientesId","label":"id" },
-    { "data": "ingredientesId","label":"calorias" },
-    { "data": "ingredientesId":{"ingredientesUnidades":{"label":"nomeUnidade" }}},
-    { "data": "quantidade" },
-    { "data": "ingredientesId":{"ingredientesArmazenamento":{"label":"nomeArmazenamento" }}},
-    { "data": "validade" }
-    
-];*/
-	//var objIngredienteConsulta = {"dados":{"className":"Estoque","action":"busca", "usecase":"Crud"},"config": tableHead};
-	//console.log(objIngrediente);
-	//validaAction('Consulta',objIngredienteConsulta);
+var configOpt = {"tableHead":[{ "data": "ingredientesId","label":"nome" },
+                          	//{ "data": "ingredientesId","label":"nomeTipo" },
+                              //{ "data": "ingredientesId","label":"id" },
+                              //{ "data": "ingredientesId","label":"calorias" },
+                              //{ "data": "ingredientesId":{"ingredientesUnidades":{"label":"nomeUnidade" }}},
+                              { "data": "quantidade" },
+                             // { "data": "ingredientesId":{"ingredientesArmazenamento":{"label":"nomeArmazenamento" }}},
+                              { "data": "validade" }],
+                              "nomeTabela":"Estoque",
+                              "urlEdit":"modulos/estoque/cad_ingredientes_estoque.html",
+                              "className":"Estoque",
+                              "labelId":"id",
+                              "campoBusca":"nome"};
+                              
+var objIngredienteBusca = {"dados":{"classname":"Estoque","action":"busca", "usecase":"Crud"},"config": configOpt,"nomeForm":"consultaEstoque"};
+console.log(objIngredienteBusca);
+validaAction('Consulta',objIngredienteBusca);
+                              
+
 
 var objIngredienteInsert = {"dados":{"classname":"Estoque","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formEstoque", "attrRemove":"userId"}};
-validaAction("Insert",objIngredienteInsert);
+ validaAction("Insert",objIngredienteInsert);
 
-
-
+	 
 </script>
 

@@ -19,7 +19,7 @@ public class GenericConverter {
 		
 		
 		//Objec value is null?
-		if(value == null){
+		if(value == null || value.toString().length() == 0){
 			IExtendedConverter ic;
 			if(GenericConverter.checkAssignableModel(outputClass)){
 				ic = (IExtendedConverter)GenericReflection.instanciateObjectByName("converters.NullToModel");

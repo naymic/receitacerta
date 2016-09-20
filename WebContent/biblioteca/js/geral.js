@@ -120,9 +120,16 @@ function validaAction(actionStart,objAction){
 }
 
 function validaLogin(objAction){
+	$.each(sessionStorage,function(i,value){
+   	 delete sessionStorage[i];
+     });
 	submitGeral(objAction.nomeForm,objAction.resetForm);
 	OBJGERAL = {"nomeChamada":objAction.config.nomeChamada,"paramModal":objAction.config.urlRedireciona};
 	
+}
+
+function nextStep(){
+	$("#"+OBJGERAL.paramModal).fadeIn('fast');
 }
 
 function validaInsert(objAction){
@@ -132,9 +139,8 @@ function validaInsert(objAction){
 		console.log(data[DATAGERAL]);
 		delete data[DATAGERAL][KEYFORM][objAction[KEYCONFIG].attrRemove];
 	}
-	OBJGERAL = {"nomeChamada":"fechaModal","paramModal":MODALMSG};
+	OBJGERAL = {"nomeChamada":objAction.config.nomeChamada,"paramModal":objAction.config.paramModal};
     construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
-    console.log("------->"+objAction[KEYCONFIG].formRest);
     submitGeral(objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
 }
 
@@ -184,6 +190,7 @@ function setDadosForm(objDados){
 			$("#"+campo).val(values);
 		}
 	});
+	$("select").selectpicker('refresh');
 }
 
 function validaUpdate(objAction){
@@ -335,7 +342,8 @@ function ativaBtnModalMsg(config){
 	$(document).off('click','#'+BTNMODALMSG);
 	$(document).on('click','#'+BTNMODALMSG,function(){
 		console.log(OBJGERAL.nomeChamada);
-		window[OBJGERAL.nomeChamada]();
+		window[OBJGERAL.nomeChamada](OBJGERAL.paramModal);
+		$("#"+MODALMSG).modal('hide');
 	});
 }
 
@@ -386,6 +394,19 @@ function submitConsulta(idForm,config){
   });
 }
 
+function submitSimples(idForm,cleanForm){
+	$(document).off("submit","#"+idForm);
+	$(document).on("submit","#"+idForm,function(e) {
+      e.preventDefault();
+     
+      var data = validaEnviaDados($(this).serializeArray(),$(this).attr('id')+"divConf");
+      
+      $(this).each(function(){
+			this.reset();
+		})
+	});
+}
+
 function submitGeral(idForm,cleanForm){
 	$(document).off("submit","#"+idForm);
 	$(document).on("submit","#"+idForm,function(e) {
@@ -400,15 +421,29 @@ function submitGeral(idForm,cleanForm){
 				validaRetorno(data, data.success)
 			}
 			console.log(cleanForm);
-			if(cleanForm){ 
+			if(cleanForm && data.success){ 
 				$(this).each(function(){
 					this.reset();
 				})
+				$("select").selectpicker('refresh');
 			}
   });
 }
 
-                                          
+
+function validaBuscaSimples(objAction){
+	$.each(objAction,function(i,value){
+		var data;
+
+		//return false;
+		data = getResponse(value.objRequest);
+	  //$("#loadContent").load(PATH_API,objAction,function(data){
+	        console.log(data);
+	        //data = JSON.parse(data);
+	        //console.log(data[KEYBUSCA][KEYDADOS]);
+	        construirTabela(data[DATAGERAL][DATAGERAL],value.nomeTabela,value);
+	});
+}
 
 function validaMenu(data){
 	
@@ -420,7 +455,9 @@ function validaMenu(data){
     $(".btnMenuAction").click(function(e){
     	$("#imgLoad").fadeIn('fast');
       $("#nomeModulo").text($(this).text());
-      sessionStorage.id = "";
+      $.each(sessionStorage,function(i,value){
+    	 delete sessionStorage[i];
+      });
       var url = $(this).data('url');
       $(".liMenu").removeClass('active');
       $("#conteudoCentral").fadeOut('fast',function(){
@@ -440,7 +477,12 @@ function validaNovo(objAction){
 	data = getResponse(objAction[KEYDADOS]);
 	OBJGERAL = {"nomeChamada":"fechaModal","paramModal":MODALMSG};
     construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
-    window[objAction[KEYCONFIG].nomeAction](objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
+    if(objAction[KEYCONFIG].configOpt != undefined){
+    	window[objAction[KEYCONFIG].nomeAction](objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].configOpt);
+    }else{
+    	window[objAction[KEYCONFIG].nomeAction](objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
+    }
+    
 }
 
 function validaRetorno(data,statusRequest){
@@ -481,8 +523,9 @@ function validaUser(objAction){
 
 function validaData(objAction){
 	var objData = objAction.dados;
-	console.log(objData);
-	console.log(objAction.dataType);
+	$.each(objData.data[0],function(i,value){
+		sessionStorage[i] = value;
+	});
 }
 
 

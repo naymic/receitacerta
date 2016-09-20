@@ -61,10 +61,10 @@
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane active" id="ingredientesTab">
 			<br />
-			<form method="post" id="formCadReceita2">
+			<form method="post" id="formCadIngredientesReceita">
 				<div class="row">
 					<div class="col-md-5">
-						<select class="form-control" name="ingrediente_id">
+						<select class="form-control" name="ingrediente_id" id="ingredientes" data-tipo="select" data-label="nome" data-value="id">
 						</select>
 					</div>
 					<div class="col-md-5">
@@ -77,7 +77,7 @@
 				</div>
 			</form>
 			<hr />
-			<table class="table">
+			<table class="table" id="ingredientesReceitaTabela">
 				<thead>
 					<tr>
 						<th>Ingrediente</th>
@@ -103,7 +103,7 @@
 				</div>
 			</form>
 			<hr />
-			<table class="table">
+			<table class="table" id="passosReceitaTabela">
 				<thead>
 					<tr>
 						<th>Passo</th>
@@ -119,12 +119,37 @@
 </div>
 
 <script>
+
+var configOptIngredientes = {"tableHead":[{ "data": "ingrediente","label":"nome" },
+                                          { "data": "quantidade" }],
+                                          "nomeTabela":"ingredientesReceitaTabela",
+                                          "urlEdit":"",
+                                          "objRequest":[{"classname":"Pertence","usecase":"crud","action":"busca","data":{"receita":sessionStorage.id}}]};
+
+
+var configOptPassos = {"tableHead":[{ "data": "numeroPasso"},
+                                          { "data": "texto" }],
+                                          "nomeTabela":"passosReceitaTabela",
+                                          "urlEdit":"",
+                                          "objRequest":[{"classname":"Pertence","usecase":"crud","action":"busca","data":{"receita":sessionStorage.id}}]};
+
+var vetObj = [configOptIngredientes,configOptPassos];
+
 if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
-	  var objIngrediente = {"dados":{"classname":"Receita","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formReceitas1","attrRemove":"usuario","divConfig":"camposHiddenFormReceitas1"}};
-	  validaAction('Insert',objIngrediente);
+	//var objDadosSeguintes = {"divHide":"conteudoExtra"}
+	  var objReceita = {"dados":{"classname":"Receita","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formReceitas1","attrRemove":"usuario","divConfig":"camposHiddenFormReceitas1","nomeChamada":"nextStep","paramModal":"conteudoExtra"}};
+	  validaAction('Insert',objReceita);
 	}else{
 	  var objIngrediente = {"dados":{"classname":"Ingredientes","action":EDITACTION,"id":sessionStorage.id,"usecase":"Crud"},"config":{"formRest":false,"returnPage":"modulos/ingredientes/list_ingredientes.html"}};
 	  validaAction('Update',objIngrediente);
+	  validaAction('BuscaSimples',[configOptIngredientes]);
+	  validaAction('BuscaSimples',[configOptPassos]);
 	}
+	
+
+	
+
+
+	
 
 </script>

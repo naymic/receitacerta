@@ -56,9 +56,8 @@
 
 <script>
 
-
 if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
-  var objIngrediente = {"dados":{"classname":"Ingredientes","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formIngredientes"}};
+  var objIngrediente = {"dados":{"classname":"Ingredientes","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formIngredientes","nomeChamada":"navCentral","paramModal":"modulos/ingredientes/cad_ingredientes.html"}};
   validaAction('Insert',objIngrediente);
 }else{
   var objIngrediente = {"dados":{"classname":"Ingredientes","action":EDITACTION,"usecase":"Crud","data":{"id":sessionStorage.id}},"config":{"formRest":false,"returnPage":"modulos/ingredientes/list_ingredientes.html","nomeForm":"formIngredientes"}};

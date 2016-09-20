@@ -23,6 +23,7 @@ var MODEL = "MODEL";
 var TIPOCAMPO = "fieldClassification";
 var CLASSNAMECAMPO = "objectClass";
 var DATAGERAL = "data";
+var FORMFILTER = "formfilter";
 //	objAction = {'action':EDITACTION,'className':classe,'id':sessionStorage.id}; <- action, className, useCase, id
 
 // Uso de prototypes
@@ -78,7 +79,6 @@ function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um
 			}
 		});
 	console.log(nomeForm);
-    submitGeral(nomeForm,resetForm);
 }
 
 function checkboxConstroi(dados){
@@ -108,6 +108,8 @@ function validaAction(actionStart,objAction){
 
 function validaLogin(objAction){
 	submitGeral(objAction.nomeForm,objAction.resetForm);
+	OBJGERAL = {"nomeChamada":objAction.config.nomeChamada,"paramModal":objAction.config.urlRedireciona};
+	
 }
 
 function validaInsert(objAction){
@@ -117,8 +119,9 @@ function validaInsert(objAction){
 		console.log(data[DATAGERAL]);
 		delete data[DATAGERAL][KEYFORM][objAction[KEYCONFIG].attrRemove];
 	}
+	OBJGERAL = {"nomeChamada":"fechaModal","paramModal":MODALMSG};
     construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
-
+    submitGeral(objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
 }
 
 function validaExcluiList(objAction){
@@ -146,7 +149,10 @@ function validaExcluiList(objAction){
 function validaRemover(){
 	$("#"+MODALCONFIRM).modal('hide');
 	OBJGERAL["data"] = {"id":sessionStorage.id}
+	var classnameView = OBJGERAL.classname;
+	OBJGERAL.classname = removeViewFromModel(OBJGERAL.classname);
 	var data = getResponse(OBJGERAL);
+	OBJGERAL.classname = classnameView;
 	validaRetorno(data,data.success);
 }
 
@@ -172,7 +178,9 @@ function validaUpdate(objAction){
   $("#divSubmit").prepend('<input onClick=navCentral("'+objAction[KEYCONFIG].returnPage+'") class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
 	data = getResponse(objAction[KEYDADOS]);
 	construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
-	setDadosForm(data[DATAGERAL][DATAGERAL])
+	submitGeral(objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
+	setDadosForm(data[DATAGERAL][DATAGERAL]);
+	OBJGERAL = {"nomeChamada":"navCentral","paramModal":objAction.config.returnPage};
 }
 
 function validaLogout(){
@@ -280,6 +288,7 @@ function getResponse(objAction){
 				resposta = objResposta;
 			}else{
 				delete objResposta.data;
+				resposta = objResposta.success;
 				validaRetorno(objResposta,objResposta.success)
 			}	
 			
@@ -303,16 +312,20 @@ function getResponse(objAction){
 
 }*/
 
+function redirecionaModal(){
+	document.location.replace(OBJGERAL.paramModal);
+}
+
 function ativaBtnModalMsg(config){
 	$(document).off('click','#'+BTNMODALMSG);
 	$(document).on('click','#'+BTNMODALMSG,function(){
-		if(config.dismiss){
-			$("#"+MODALMSG).modal('hide');
-		}
-		if(config.redirect){
-			document.location.replace(config.url);
-		}
+		console.log(OBJGERAL.nomeChamada);
+		window[OBJGERAL.nomeChamada]();
 	});
+}
+
+function fechaModal(){
+	$("#"+OBJGERAL.paramModal).modal('hide');
 }
 
 function validaStatusLogin(objResposta){
@@ -367,8 +380,12 @@ function submitGeral(idForm,cleanForm){
 			console.log("Retorno------------");
 			
 			//data = JSON.parse(data);
-			validaRetorno(data, data.success)
-			if(cleanForm == true){ 
+			console.log(data);
+			if(data != false){
+				validaRetorno(data, data.success)
+			}
+			console.log(cleanForm);
+			if(cleanForm){ 
 				$(this).each(function(){
 					this.reset();
 				})
@@ -404,6 +421,12 @@ function validaMenu(data){
     });
 }
 
+function validaNovo(objAction){
+	data = getResponse(objAction[KEYDADOS]);
+	OBJGERAL = {"nomeChamada":"fechaModal","paramModal":MODALMSG};
+    construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
+    window[objAction[KEYCONFIG].nomeAction](objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
+}
 
 function validaRetorno(data,statusRequest){
 	if(statusRequest){
@@ -433,8 +456,8 @@ function validaMessages(objAction){
 		console.log();
 		var url = "index.html";
 		console.log(url);
-		var config = {"redirect":true,"url":url};
-		ativaBtnModalMsg(config);
+		//var config = {"idModal":MODALMSG,"nomeChamada":"fechaModal"};
+		ativaBtnModalMsg();
 }
 
 function validaUser(objAction){
@@ -476,6 +499,8 @@ function validaErrors(objAction){
 		$("#"+CORPOMODALMSG).html(htmlMsg);
 		$("#"+MODALMSG).modal('show');
     $("#"+MODALTITULO).text(KEYTITULOMODAL);
+    OBJGERAL = {"nomeChamada":"fechaModal","paramModal":MODALMSG};
+    ativaBtnModalMsg();
 }
 
 function validaAtberrors(objAction){
@@ -486,9 +511,23 @@ function validaAtberrors(objAction){
 	});
 }
 
+/**
+ * Helper function to cut the View from a request
+ * @param str
+ * @returns
+ */
+function removeViewFromModel(str){
+	var posInit  = str.search("View");
+	
+	if(posInit != -1)
+		return str.substring(0,posInit);
+	else
+		return str;
+}
+
 $("#"+MODALMSG).on('hidden.bs.modal',function(){
 	$(document).find('input').focus();
 });
 $("#"+MODALMSG).on('show.bs.modal',function(){
-	$(document).find('input').focus();
+	$(document).find('button').focus();
 });

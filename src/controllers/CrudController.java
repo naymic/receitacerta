@@ -162,7 +162,7 @@ public class CrudController extends GenericController{
 	public JReturn buscaavancadaAction(JReturn r, Model object){
 		List<Model> list =null;
 		
-		list = DAORelation.getInstance().search(object);
+		list = DAORelation.getInstance().search(object, this.getPageNumber());
 		
 		this.selectObjectCheck(r, list, object);
 		

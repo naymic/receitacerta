@@ -278,7 +278,7 @@ public class ReflectionDAO extends GenericReflection{
 	
 	
 	
-	public Method getSetMethodByColumname(String columname){		
+	public Method getSetMethodByColumname(String columname){				
 		for(Method m : setMethods){
 			if(this.getEntity(m).attributeName().equals(columname)){
 				return m;
@@ -286,7 +286,7 @@ public class ReflectionDAO extends GenericReflection{
 		}
 		
 		
-		try{
+		try{			
 			throw new Exception("Exist no method for the columname "+ columname + " in the "+ this.getObject().getClass());
 		}catch(Exception e){
 			e.printStackTrace();

@@ -34,6 +34,8 @@ public class TestCrudController extends TestCases{
 		cc.addVariable("ingredientesUnidade", 1);
 		cc.addVariable("ingredientesTipoId", 1);
 		cc.getObject().setClassName("TestIngredientes");
+		
+	
 		return cc;
 	}
 	
@@ -149,6 +151,31 @@ public class TestCrudController extends TestCases{
 		
 		assertTrue(r.isSuccess());
 		assertEquals(1, r.getData().getData().size());
+	}
+	
+	
+	
+	@Test
+	public void testPageNumber(){
+		CrudController cc = new CrudController();
+		cc.getObject().setClassName("TestIngredientes");
+		
+		
+		JReturn r = new JReturn();
+		Model obj = cc.initObj(r);
+		cc.setPageNumber(3);
+		
+		
+		
+		cc.execute(r, "buscaavancada");
+		assertEquals(20, r.getData().getData().size());
+		
+		cc.setPageNumber(null);
+		
+		cc.execute(r, "buscaavancada");
+		assertEquals(true, r.getData().getData().size() > 20);
+		
+		
 	}
 	
 }

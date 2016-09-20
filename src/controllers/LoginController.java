@@ -19,9 +19,11 @@ public class LoginController extends GenericController{
 	@AControllerMethod(checkAttributes = false)
 	public void loginAction(JReturn r, Model obj){
 		boolean test = false;
-		Usuario loginUser = (Usuario)obj;
+		Usuario loginUser = this.prepareUserObjectForLogin((Usuario)obj); //Remove any value, except password and email
+		
 		Usuario u = null;
 		//Get a list of all users
+		
 		
 		ArrayList<Model> usuarios = DAO.getInstance().select(loginUser);
 		
@@ -30,7 +32,7 @@ public class LoginController extends GenericController{
 			u = (Usuario) bdUser;
 			//System.out.println(u.dgetEmail()+" "+ u.dgetSenha());
 			//System.out.println(loginUser.dgetEmail()+" "+ loginUser.dgetSenha());
-			if(u.dgetEmail().equalsIgnoreCase(loginUser.dgetEmail()) && u.dgetSenha().equalsIgnoreCase(loginUser.dgetSenha())){
+			if(u.dgetEmail().trim().equalsIgnoreCase(loginUser.dgetEmail().trim()) && u.dgetSenha().trim().equalsIgnoreCase(loginUser.dgetSenha().trim())){
 				test = true;
 				break;
 			}
@@ -96,6 +98,21 @@ public class LoginController extends GenericController{
 		
 		return (Usuario) this.getAppSession().getMapAttribute("user");
 	}
+	
+	
+	/**
+	 * Removes any value from the User object, 
+	 * exceptio password and email
+	 * @param usr			User object from the view
+	 * @return Usuario 		Clean user Object
+	 */
+	public Usuario prepareUserObjectForLogin(Usuario usr){
+		Usuario loginUsr = new Usuario();
+		loginUsr.dsetEmail(usr.dgetEmail().trim());
+		loginUsr.dsetSenha(usr.dgetSenha().trim());
+		return loginUsr;
+	}
+
 	
 	
 	@Override

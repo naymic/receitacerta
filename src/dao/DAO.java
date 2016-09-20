@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 import converters.GenericConverter;
 import db.DB;
 import interfaces.IDAO;
@@ -29,7 +31,7 @@ import utils.StringUtils;
 public class DAO implements IDAO{
 	public static DAO dao = null;
 	protected DB db;
-	
+	protected static Integer linesPerPage = 20;
 	/**
 	 * Get a normal singleton instance of DAO 
 	 * @return
@@ -108,7 +110,7 @@ public class DAO implements IDAO{
 						obj = "%";
 						stmt = this.setStmt(stmt, i+index+1, obj, "%");
 				}else{
-					stmt = this.setStmt(stmt, index+1, obj, "");
+					stmt = this.setStmt(stmt, i+index+1, obj, "");
 				}
 		}
 		return stmt;
@@ -174,7 +176,9 @@ public class DAO implements IDAO{
 			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()));
 			stmt.executeUpdate();
 			stmt.close();
-		} catch (SQLException e) {
+		}catch(MySQLIntegrityConstraintViolationException mcve){
+			r.addSimpleError("Object is used in a other database table and canno't be deleted! "+ mcve.getErrorCode());
+		}catch (SQLException e) {
 			r.addSimpleError(e.toString());
 			e.printStackTrace();
 		}
@@ -294,7 +298,7 @@ public class DAO implements IDAO{
 		}
 		
 		//Return all objects of the executed sql query
-		return this.getObjectsFromRS(rd, rd.prepareSelectSqlString(mget, where), mget, mset, where, false);
+		return this.getObjectsFromRS(rd, rd.prepareSelectSqlString(mget, where), mget, mset, where);
 	}
 	
 	/**
@@ -333,10 +337,9 @@ public class DAO implements IDAO{
 	 * @param mget	
 	 * @param mset
 	 * @param where
-	 * @param search 
 	 * @return ArrayList<Model> return a ArrayList with Model objects
 	 */
-	protected ArrayList<Model> getObjectsFromRS(ReflectionDAO rd, String sql, ArrayList<Method> mget, ArrayList<Method> mset, ArrayList<Method> where, boolean search){
+	protected ArrayList<Model> getObjectsFromRS(ReflectionDAO rd, String sql, ArrayList<Method> mget, ArrayList<Method> mset, ArrayList<Method> where){
 		Model object = (Model)rd.getObject();
 		PreparedStatement stmt = null;
 		ArrayList<Model> returnList = new ArrayList<>();
@@ -344,35 +347,9 @@ public class DAO implements IDAO{
 		try {
 			stmt = getDb().getCon().prepareStatement(sql ); 
 			
-			if(search)
-				stmt = this.executeSearchStatement(stmt, rd.getValues(where));
-			else
-				stmt = this.executeStatement(stmt, rd.getValues(where));
-				
-			ResultSet rs = stmt.executeQuery();
-			int i = 1;
-			ArrayList<ConvertThread> threadList = new ArrayList<>();
-			while(rs.next()){
-				
-				rd.setObject(rd.cloneObject(object));
-				returnList.add(rd.getObject());
-				
-				for(Method m : mset){
-					
-					if(rd.getObjectClass().isAssignableFrom(Model.class)){
-						ConvertThread ct = new ConvertThread(rd, rs, m, i);
-						threadList.add(ct);
-					}else{
-						setValueFromResultSet(rd, rs, m, i);
-					}
-					i++;
-				}
-				
-				i=1;
-			}	
-			utils.ThreadManager.checkAliveThreads(threadList);
-			rs.close();
-			stmt.close();
+			stmt = this.executeStatement(stmt, rd.getValues(where));
+			
+			executeAndGetValuesFromQuery(rd, mset, object, stmt, returnList);
 		} catch (Exception e) {
 			
 			e.printStackTrace();
@@ -381,6 +358,68 @@ public class DAO implements IDAO{
 		
 		
 		return returnList;	
+	}
+	
+	
+	/**
+	 * Get a list of all objects of a search, received from the result set
+	 * @param rd	ReflectionDAO
+	 * @param sql 	String 			String with the whole prepared Sql
+	 * @param mget	
+	 * @param mset
+	 * @param where
+	 * @return ArrayList<Model> return a ArrayList with Model objects
+	 */
+	protected ArrayList<Model> getObjectsFromRSSearch(ReflectionDAO rd, String sql, ArrayList<Method> mget, ArrayList<Method> mset, ArrayList<Method> where, Integer page){
+		Model object = (Model)rd.getObject();
+		PreparedStatement stmt = null;
+		ArrayList<Model> returnList = new ArrayList<>();
+		
+		if(page != null && !page.equals(null) && page > 0)
+			sql += StringUtils.getPageLimit(page, this.linesPerPage);
+		
+		try {
+			stmt = getDb().getCon().prepareStatement(sql ); 
+			stmt = this.executeSearchStatement(stmt, rd.getValues(where));
+
+				
+			executeAndGetValuesFromQuery(rd, mset, object, stmt, returnList);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		
+		return returnList;	
+	}
+
+
+	private void executeAndGetValuesFromQuery(ReflectionDAO rd, ArrayList<Method> mset, Model object, PreparedStatement stmt, ArrayList<Model> returnList) throws SQLException {
+		ResultSet rs = stmt.executeQuery();
+		int i = 1;
+		ArrayList<ConvertThread> threadList = new ArrayList<>();
+		while(rs.next()){
+			
+			rd.setObject(rd.cloneObject(object));
+			returnList.add(rd.getObject());
+			
+			for(Method m : mset){
+				
+				if(rd.getObjectClass().isAssignableFrom(Model.class)){
+					ConvertThread ct = new ConvertThread(rd, rs, m, i);
+					threadList.add(ct);
+				}else{
+					setValueFromResultSet(rd, rs, m, i);
+				}
+				i++;
+			}
+			
+			i=1;
+		}	
+		utils.ThreadManager.checkAliveThreads(threadList);
+		rs.close();
+		stmt.close();
 	}
 
 

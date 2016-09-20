@@ -12,7 +12,7 @@
 </form>
 <div id="consultaReceitasdivConf">
 	<input type="hidden" name="action" id="action" value="buscaavancada"  />
-    <input type="hidden" name="classname" id=className value="Receita" />
+    <input type="hidden" name="classname" id=className value="ReceitaView" />
     <input type="hidden" name="usecase" id="usecase" value="Crud" />
 </div>
 <hr />
@@ -36,7 +36,7 @@
     { "data": "tempoPreparo" },
     { "data": "receitaRendimentosTipoValor" },
 	{ "data": "receitaRendimentoTipos" },
-    { "data": "receitaTipos"}],
+    { "data": "receitaTiposNome"}],
 
     "nomeTabela":"Receita",
     "urlEdit":"modulos/ingredientes/cad_receita.html",
@@ -44,7 +44,7 @@
     "labelId":"id",
     "campoBusca":"nome"};
 	
-	var objReceita = {"dados":{"classname":"Receita","action":"buscaavancada","usecase":"Crud"},"config": configOpt,"nomeForm":"consultaReceitas"};
+	var objReceita = {"dados":{"classname":"ReceitaView","action":"buscaavancada","usecase":"Crud"},"config": configOpt,"nomeForm":"consultaReceitas"};
 	console.log(objReceita);
 	validaAction('Consulta',objReceita);
 </script>

@@ -255,7 +255,9 @@ public class GenericController implements IController{
 			//Check and convert input values
 			boolean convertError = false;
 			try{
-				value = GenericConverter.convert(rdr.getMethodValueClass(m), this.getVariableValue(paramName));
+				Object viewValue = this.getVariableValue(paramName);
+				if(!(viewValue == null) && viewValue.toString().length() > 0 )
+					value = GenericConverter.convert(rdr.getMethodValueClass(m), viewValue);
 			}catch(Exception e){
 				System.out.println(e.getMessage());
 				r.addAttributeError(obj.getClass().getName(), fieldName, "Field has wrong caracters or is empty: "+ fieldName +" for "+ rdr.getObject().getClass().getSimpleName());

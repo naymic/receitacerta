@@ -39,7 +39,7 @@ public class GerarReceitasController extends GenericController{
 			r.addSimpleError("The string with the id's of the ingredients has some error. String: "+ recta.getStringIngredientesId());
 			e.printStackTrace();
 		}
-		ArrayList<Model> recipeList = DAOGerarReceita.getInstance().search(recta, ingredientsList);
+		ArrayList<Model> recipeList = DAOGerarReceita.getInstance().search(recta, ingredientsList, this.getPageNumber());
 		
 		r.getData().setDataList(recipeList);
 		

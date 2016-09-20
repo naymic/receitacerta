@@ -141,4 +141,17 @@ public class StringUtils {
 		return s1 + s.substring(1); 
 	}
 	
+	
+	
+	/**
+	 * Method used to calculate the page limit
+	 * @param page
+	 * @return
+	 */
+	public static String getPageLimit(Integer page, Integer linesPerPage){
+		Integer lineMin = page*linesPerPage-linesPerPage;
+		Integer lineMax = linesPerPage;
+		return " Limit "+lineMin+","+ lineMax+" " ;
+	}
+	
 }

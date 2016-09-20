@@ -18,7 +18,7 @@ public class IngredientesView extends IngredientesParent{
 		return "ingredientes_view";
 	}
 
-	@Entity(attributeName = "ingrediente_armazenamentos_id", fk=true)
+	@Entity(attributeName = "ingredientes_unidades_id", fk=true)
 	public String dgetIngredientesUnidade() {
 		return ingredientesUnidade;
 	}
@@ -28,7 +28,7 @@ public class IngredientesView extends IngredientesParent{
 		this.ingredientesUnidade = ingredientesUnidade;
 	}
 
-	@Entity(attributeName = "ingrediente_armazenamentos_id", fk=true)
+	@Entity(attributeName = "ingredientes_tipo_id", fk=true)
 	public String dgetIngredientesTipoId() {
 		return ingredientesTipoId;
 	}

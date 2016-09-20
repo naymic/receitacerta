@@ -116,4 +116,18 @@ public interface IController {
 	public RequestObject getObject();
 
 	
+	/**
+	 * Get page number and pass it to DAO to 
+	 * limit the min and max selected rows
+	 * @return
+	 */
+	public Integer getPageNumber();
+
+	/**
+	 * Set page number and pass it to DAO to 
+	 * limit the min and max selected rows
+	 * @return
+	 */
+	public void setPageNumber(Integer object);
+	
 }

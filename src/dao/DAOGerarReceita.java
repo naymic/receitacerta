@@ -27,7 +27,7 @@ public class DAOGerarReceita extends DAORelation {
 	
 
 
-	public ArrayList<Model> search(Model recipe, ArrayList<Model> ingredientes){
+	public ArrayList<Model> search(Model recipe, ArrayList<Model> ingredientes, Integer page){
 
 		//Remove the maxCalories value to filter after
 		ReceitaView receita = (ReceitaView)recipe;
@@ -38,7 +38,7 @@ public class DAOGerarReceita extends DAORelation {
 			receita.dsetMaxCalories(null);
 		}
 
-		ArrayList<Model> list = DAORelationList.getInstance().search(receita);
+		ArrayList<Model> list = DAORelationList.getInstance().search(receita, page);
 		
 		//Create a filter to check if the maxCalorias are less than given from user
 		if(maxC != null)

@@ -35,4 +35,9 @@ public interface IApplicationSession {
 	 */
 	public Object getMapAttribute(String name);
 	
+	/**
+	 * Check if a Attribute exist
+	 */
+	public boolean existMapAttribute(String name);
+	
 }

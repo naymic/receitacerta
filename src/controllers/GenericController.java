@@ -34,10 +34,12 @@ public class GenericController implements IController{
 	String jsonString; 
 	IApplicationSession appSession;
 	Model modelObject;
+	Integer pageNumber; //The actual number of page to visualize on the view
+	
 
 	public GenericController(IApplicationSession appSession){
-		this.initVariables();
 		this.setAppSession(appSession);
+		this.initVariables();
 	}
 	
 	public GenericController(){
@@ -50,7 +52,8 @@ public class GenericController implements IController{
 	 */
 	private void initVariables(){
 		validActions = new ArrayList<>();
-		jobject = new RequestObject();
+		jobject = new RequestObject();		
+		
 	}
 	
 	/**
@@ -389,6 +392,24 @@ public class GenericController implements IController{
 		}
 		
 		return rdr;
+	}
+
+	/**
+	 * Get page number and pass it to DAO to 
+	 * limit the min and max selected rows
+	 * @return
+	 */
+	public Integer getPageNumber() {
+		return pageNumber;
+	}
+
+	/**
+	 * Set page number and pass it to DAO to 
+	 * limit the min and max selected rows
+	 * @return
+	 */
+	public void setPageNumber(Integer object) {
+		this.pageNumber = object;
 	}
 
 }

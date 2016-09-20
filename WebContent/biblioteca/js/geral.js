@@ -149,7 +149,10 @@ function validaExcluiList(objAction){
 function validaRemover(){
 	$("#"+MODALCONFIRM).modal('hide');
 	OBJGERAL["data"] = {"id":sessionStorage.id}
+	var classnameView = OBJGERAL.classname;
+	OBJGERAL.classname = removeViewFromModel(OBJGERAL.classname);
 	var data = getResponse(OBJGERAL);
+	OBJGERAL.classname = classnameView;
 	validaRetorno(data,data.success);
 }
 
@@ -509,7 +512,7 @@ function removeViewFromModel(str){
 	var posInit  = str.search("View");
 	
 	if(posInit != -1)
-		return str.substring(posInit);
+		return str.substring(0,posInit);
 	else
 		return str;
 }

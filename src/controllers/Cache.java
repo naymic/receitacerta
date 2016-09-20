@@ -32,8 +32,10 @@ public class Cache {
 	}
 	
 	public Model getObjectFromCache(Class<?> objectClass, Integer pk){
-		if(this.existObjectInCache(objectClass, pk))
-			return cache.get(objectClass).get(pk);
+		Model mod = (Model) this.existObjectInCache(objectClass, pk);
+		
+		if(mod != null)
+			return mod;
 		else
 			return null;
 	}
@@ -42,12 +44,11 @@ public class Cache {
 		return cache.containsKey(objectClass);
 	}
 	
-	public boolean existObjectInCache(Class<?> objectClass, Integer pk){
+	public Model existObjectInCache(Class<?> objectClass, Integer pk){
 		try{
-			cache.get(objectClass).get(pk);
-			return true;
+			return cache.get(objectClass).get(pk);
 		}catch(Exception e){
-			return false;
+			return null;
 		}
 	}
 	

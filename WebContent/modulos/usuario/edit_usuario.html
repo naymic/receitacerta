@@ -1,0 +1,46 @@
+<form  method="post" id="formUsuario">
+
+	<div class="row">
+		 <div class="col-md-6">
+        	<label for="nome">Nome do Usuario:</label>
+        	<input type="text" name="nome" class="form-control" id="nome" value="" />
+    	</div>
+		<div class="col-md-6">
+        	<label for="nome">Sobrenome:</label>
+        	<input type="text" name="nome" class="form-control" id="nome" value="" />
+        </div>
+    </div>
+    <br>
+	<div class="row">
+		 <div class="col-md-12">
+			<label for="email">Email:</label>
+        	<input autocomplete="off" type="text" name="email" class="form-control" id="email" value="" />
+      	</div>
+      	 <div class="col-md-12">
+			<label for="senha">Senha:</label>
+        	<input autocomplete="off" name="senha" class="form-control" id="senha" value="" />
+      	</div>
+    </div>
+    <br>
+    <div class="row">
+    	<div class="col-md-12">
+	         <div id="divSubmit">
+	  			 <input class="btn btn-primary" type="submit" id="btnSubmit"  value="Salvar" />
+	   		 </div>
+	   	</div>
+    </div>
+</form>
+
+ <div id="formIngredientesdivConf">
+    <input type="hidden" name="action" id="action" value="salvar"  />
+    <input type="hidden" name="classname" id="classname" value="Usuario" />
+    <input type="hidden" name="usecase" id="usecase" value="Crud" />
+   </div>
+
+<script>
+
+
+  var objUsuario  = {"dados":{"classname":"Usuario","action":EDITACTION,"usecase":"Crud","data":{},"config":{"formRest":false,"returnPage":"modulos/usuarios/configuracoes.html","nomeForm":"formUsuario"}};
+  validaAction('Update',objUsuario);
+
+</script>

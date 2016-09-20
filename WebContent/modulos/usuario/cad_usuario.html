@@ -25,8 +25,8 @@
                 <form id="formUser">
                     <input name="nome" type="text" placeholder="Nome" id="nome">
                     <input name="sobrenome" type="text" placeholder="Sobrenome" id="sobrenome">
-                    <input name="email" type="email" placeholder="Email" id="email">
-                    <input name="senha" type="password" placeholder="Senha" id="senha">
+                    <input name="email" autocomplete="off" type="email" placeholder="Email" id="email">
+                    <input name="senha" autocomplete="off" type="password" placeholder="Senha" id="senha">
                     <button class="btn btn-info btn-block login" type="submit">Cadastrar</button>
                 </form>
                 <label style="margin-top: 5px;">
@@ -63,8 +63,14 @@
  <script src="../../biblioteca/bootstrap/js/bootstrap.min.js"></script>
   <script src="../../biblioteca/js/geral.js"></script>
   <script>
-  var objUsuario = {"dados":{"classname":"Usuario","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formUser"}};
-  validaAction('Insert',objUsuario);
+  if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
+	  var objUsuario = {"dados":{"classname":"Usuario","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formUser"}};
+	  validaAction('Insert',objUsuario);
+	}else{
+	  var objUsuario = {"dados":{"classname":"Usuario","action":EDITACTION,"usecase":"Crud","data":{"id":sessionStorage.id}},"config":{"formRest":false,"returnPage":"modulos/usuario/configuracoes.html","nomeForm":"formUser"}};
+	  validaAction('Update',objUsuario);
+	}
+
   </script>
 </html>
 

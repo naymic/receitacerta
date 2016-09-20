@@ -33,5 +33,10 @@ public class ViewSessionController implements IApplicationSession {
 		return this.session.getAttribute(attributeName);
 	}
 
+	@Override
+	public boolean existMapAttribute(String name) {
+		return session.getAttribute("name") != null;
+	}
+
 
 }

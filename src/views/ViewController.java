@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
+import com.sun.jndi.url.rmi.rmiURLContext;
 
 import controllers.LoginController;
 import dao.DAO;
@@ -192,6 +193,14 @@ public class ViewController extends HttpServlet {
 		while(i.hasNext()){
 			key = i.next();
 			ic.addVariable(key, requ.getData().get(key));
+		}
+		
+		//Set page number
+		try{
+			ic.setPageNumber(requ.getPagemanager().getActualPage());
+			
+		}catch(NullPointerException npe){
+			ic.setPageNumber(null);
 		}
 		
 	}

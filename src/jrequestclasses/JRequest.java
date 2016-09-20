@@ -32,6 +32,7 @@ public class JRequest{
 	
 	JRequest(){
 		data = new HashMap<String, String>();
+		pagemanager = new JPageManager();
 	}
 	
 	public String getUsecase() {

@@ -43,7 +43,7 @@ public class DAORelation extends DAO{
 		
 		//Return all objects of the executed sql query
 
-			return this.getObjectsFromRS(rdr, rdr.prepareSelectSqlString(mget, where), mget, mset, where, false);
+			return this.getObjectsFromRS(rdr, rdr.prepareSelectSqlString(mget, where), mget, mset, where);
 	}
 	
 	
@@ -55,7 +55,7 @@ public class DAORelation extends DAO{
 	 * @param	object 		Model				Object to set table and filter 
 	 * @return  returnList	ArrayList<Model> 	List of Model objects 
 	 */
-	public ArrayList<Model> search(Model object){
+	public ArrayList<Model> search(Model object, Integer page){
 		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		
 
@@ -68,7 +68,7 @@ public class DAORelation extends DAO{
 		
 		//Return all objects of the executed sql query
 
-		return this.getObjectsFromRS(rdr, rdr.prepareSarchSqlString(mget, where), mget, mset, where, true);
+		return this.getObjectsFromRSSearch(rdr, rdr.prepareSarchSqlString(mget, where), mget, mset, where, page);
 	}
 	
 	

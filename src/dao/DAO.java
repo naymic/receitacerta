@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+
 import converters.GenericConverter;
 import db.DB;
 import interfaces.IDAO;
@@ -174,7 +176,9 @@ public class DAO implements IDAO{
 			stmt = this.executeStatement(stmt, rd.getValues(rd.getGetPKs()));
 			stmt.executeUpdate();
 			stmt.close();
-		} catch (SQLException e) {
+		}catch(MySQLIntegrityConstraintViolationException mcve){
+			r.addSimpleError("Object is used in a other database table and canno't be deleted! "+ mcve.getErrorCode());
+		}catch (SQLException e) {
 			r.addSimpleError(e.toString());
 			e.printStackTrace();
 		}

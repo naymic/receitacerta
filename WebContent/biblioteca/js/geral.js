@@ -120,8 +120,9 @@ function validaInsert(objAction){
 		delete data[DATAGERAL][KEYFORM][objAction[KEYCONFIG].attrRemove];
 	}
 	OBJGERAL = {"nomeChamada":"fechaModal","paramModal":MODALMSG};
-    construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
-    submitGeral(objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
+    construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
+    console.log("------->"+objAction[KEYCONFIG].formRest);
+    submitGeral(objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
 }
 
 function validaExcluiList(objAction){
@@ -154,6 +155,7 @@ function validaRemover(){
 	var data = getResponse(OBJGERAL);
 	OBJGERAL.classname = classnameView;
 	validaRetorno(data,data.success);
+	sessionStorage.id = "";
 }
 
 function navCentral(url){
@@ -177,8 +179,8 @@ function validaUpdate(objAction){
 	$("#btnSubmit").val('Salvar');
   $("#divSubmit").prepend('<input onClick=navCentral("'+objAction[KEYCONFIG].returnPage+'") class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
 	data = getResponse(objAction[KEYDADOS]);
-	construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
-	submitGeral(objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
+	construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
+	submitGeral(objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
 	setDadosForm(data[DATAGERAL][DATAGERAL]);
 	OBJGERAL = {"nomeChamada":"navCentral","paramModal":objAction.config.returnPage};
 }
@@ -424,8 +426,8 @@ function validaMenu(data){
 function validaNovo(objAction){
 	data = getResponse(objAction[KEYDADOS]);
 	OBJGERAL = {"nomeChamada":"fechaModal","paramModal":MODALMSG};
-    construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
-    window[objAction[KEYCONFIG].nomeAction](objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
+    construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
+    window[objAction[KEYCONFIG].nomeAction](objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
 }
 
 function validaRetorno(data,statusRequest){

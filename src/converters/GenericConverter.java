@@ -63,7 +63,7 @@ public class GenericConverter {
 	 * @param objectClass
 	 * @return
 	 */
-	private static boolean checkAssignableModel(Class<?> objectClass){		
+	public static boolean checkAssignableModel(Class<?> objectClass){		
 		return Model.class.isAssignableFrom(objectClass);
 		
 	}

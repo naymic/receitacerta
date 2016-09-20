@@ -23,6 +23,9 @@ public class LoginController extends GenericController{
 		Usuario u = null;
 		//Get a list of all users
 		
+		loginUser.dsetId(null);
+		
+		
 		ArrayList<Model> usuarios = DAO.getInstance().select(loginUser);
 		
 		//Check if exist user

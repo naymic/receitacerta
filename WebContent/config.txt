@@ -14,8 +14,8 @@ Observations:
 db=receita_certa
 
 //Choose your host, where your database is running
-dbhost=localhost
-#dbhost=naymic.dlinkddns.com
+#dbhost=localhost
+dbhost=naymic.dlinkddns.com
 
 //Choose your database port
 dbport=3306

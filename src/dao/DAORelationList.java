@@ -23,12 +23,36 @@ public class DAORelationList extends DAORelation{
 		super();	
 	};
 	
+	@Override
+	public ArrayList<Model> search(Model object, Integer page){		
+		return search(object, 1, page);
+	}
 	
-	public ArrayList<Model> select(Model object){		
-		return select(object, 1);
+
+	public ArrayList<Model> search(Model object, int deepness, Integer page){
+		ArrayList<Model> modelList = DAORelation.getInstance().search(object, page);
+		ArrayList<SelectList> selectThreads = new ArrayList<>();
+		
+		for(int i = 0; i < modelList.size(); i++){
+			SelectList sc = new SelectList(modelList.get(i), deepness);
+			selectThreads.add(i,sc);
+			
+			//setModelMappedList(deepness, modelList, i);
+		}
+		
+		utils.ThreadManager.checkAliveThreads(selectThreads);
+			
+			
+		return modelList;
+		
+		
 		
 	}
 	
+	
+	public ArrayList<Model> select(Model object){		
+		return select(object, 1);
+	}
 	
 	public ArrayList<Model> select(Model object, int deepness){
 		ArrayList<Model> modelList = DAORelation.getInstance().select(object);

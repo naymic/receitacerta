@@ -11,38 +11,28 @@
 			
 			<div class="col-md-6">
 				<label>Ingrediente</label>
-					<select name="stringIngredientesId"  multiple data-tipo="select" data-label="nome" data-value="id" id="stringIngredientesId" class="form-control">
+					<select name="stringIngredientesId"  multiple data-tipo="select" data-label="nome" data-value="nome" id="stringIngredientesId" class="form-control">
 					<option value="">Selecione os ingredientes desejados</option>
 				</select>
 			</div>
 		</div>
+		<div class="row">
 		<div class="col-md-6">
-			<label>Tipo da Receita</label>
-			<input class="form-control" type="text" name="receitaTiposNome" />
-			
+			<label>Tipo de Receita</label> <select name="receitaRendimentoTipos" data-tipo="select" data-label="nome" data-value="nome"	id="receitaRendimentoTipos" class="form-control">
+				<option value="">Selecione um Tipo de Receita</option>
+			</select>
+		</div>
 			<div class="col-md-6">
 				<label>Kcal. M&aacute;xima/un.:</label>
 				<input class="form-control" type="number" name="maxCalories" />
 			</div>
 		</div>
-		<br>
-		<div class="row">
-			<div class="col-md-6">
-				<label>Tipo da Receita</label>
-				<select name="receitaTiposNome" data-tipo="select" data-label="nome" data-value="id" id="receitaTiposNome" class="form-control">
-					<option value="">Selecione o tipo de receita desejada</option>
-				</select>
-			</div>
-			<div class="col-md-6">
-				<label>Ingrediente</label>
-					<select name="stringIngredientesId" multiple="multiple" data-tipo="select" data-label="nome" data-value="id" id="stringIngredientesId" class="form-control">
-					<option value="">Selecione os ingredientes desejados</option>
-				</select>
-			</div>
-			
+
+
+			<div class="row">
 			<div class="col-md-6">
 				<label >
-					<button class="btn btn-success" style="margin-top:20px;" type="submit">Filtrar</button>
+					<button class="btn btn-success btn-block" style="margin-top:20px;" type="submit">Filtrar</button>
 				</label>
 			</div>
 		</div>	
@@ -147,4 +137,8 @@ var configOpt = {"tableHead":[{ "data": "nome" },
 var objIngrediente = {"dados":{"classname":"ReceitaView","action":"busca","usecase":"GerarReceitas"},"config": configOpt};
 console.log(objIngrediente);
 validaAction('Consulta',objIngrediente);
+
+var objFormGerarReceita = {"dados":{"classname":"Receita","action":FORMFILTER,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formIngredientes","nomeAction":"submitConsulta"}};
+console.log(objFormGerarReceita);
+validaAction('Novo',objFormGerarReceita);
 </script>

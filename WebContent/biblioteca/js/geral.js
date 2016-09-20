@@ -23,6 +23,7 @@ var MODEL = "MODEL";
 var TIPOCAMPO = "fieldClassification";
 var CLASSNAMECAMPO = "objectClass";
 var DATAGERAL = "data";
+var FORMFILTER = "formfilter";
 //	objAction = {'action':EDITACTION,'className':classe,'id':sessionStorage.id}; <- action, className, useCase, id
 
 // Uso de prototypes
@@ -78,7 +79,6 @@ function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um
 			}
 		});
 	console.log(nomeForm);
-    submitGeral(nomeForm,resetForm);
 }
 
 function checkboxConstroi(dados){
@@ -121,7 +121,7 @@ function validaInsert(objAction){
 	}
 	OBJGERAL = {"nomeChamada":"fechaModal","paramModal":MODALMSG};
     construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
-
+    submitGeral(objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
 }
 
 function validaExcluiList(objAction){
@@ -178,6 +178,7 @@ function validaUpdate(objAction){
   $("#divSubmit").prepend('<input onClick=navCentral("'+objAction[KEYCONFIG].returnPage+'") class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
 	data = getResponse(objAction[KEYDADOS]);
 	construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
+	submitGeral(objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
 	setDadosForm(data[DATAGERAL][DATAGERAL]);
 	OBJGERAL = {"nomeChamada":"navCentral","paramModal":objAction.config.returnPage};
 }
@@ -382,11 +383,12 @@ function submitGeral(idForm,cleanForm){
 			console.log(data);
 			if(data != false){
 				validaRetorno(data, data.success)
-				if(cleanForm == true){ 
-					$(this).each(function(){
-						this.reset();
-					})
-				}
+			}
+			console.log(cleanForm);
+			if(cleanForm){ 
+				$(this).each(function(){
+					this.reset();
+				})
 			}
   });
 }
@@ -419,6 +421,12 @@ function validaMenu(data){
     });
 }
 
+function validaNovo(objAction){
+	data = getResponse(objAction[KEYDADOS]);
+	OBJGERAL = {"nomeChamada":"fechaModal","paramModal":MODALMSG};
+    construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
+    window[objAction[KEYCONFIG].nomeAction](objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
+}
 
 function validaRetorno(data,statusRequest){
 	if(statusRequest){
@@ -521,5 +529,5 @@ $("#"+MODALMSG).on('hidden.bs.modal',function(){
 	$(document).find('input').focus();
 });
 $("#"+MODALMSG).on('show.bs.modal',function(){
-	$(document).find('input').focus();
+	$(document).find('button').focus();
 });

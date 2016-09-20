@@ -11,7 +11,7 @@ public class StringToDate implements ISimpleConverter {
 		String[] date= ((String)entry).split("-");
 		
 		@SuppressWarnings("deprecation")
-		Date d = new Date(Integer.valueOf(date[0])-1900, Integer.valueOf(date[1]), Integer.valueOf(date[2]));
+		Date d = new Date(Integer.valueOf(date[0])-1900, Integer.valueOf(date[1])-1, Integer.valueOf(date[2]));
 		return d;
 	}
 

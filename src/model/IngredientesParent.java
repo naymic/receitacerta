@@ -49,7 +49,6 @@ public abstract class IngredientesParent extends Model{
 		if(this.dgetCalorias() != null && compare < 0 ){
 			r.addAttributeError(this.getClass().getSimpleName(), "calorias", "Attribute calorias cannot be negative: "+ this.dgetCalorias());
 		}
-
 	}
 
 }

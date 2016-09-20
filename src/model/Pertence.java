@@ -53,7 +53,9 @@ public class Pertence extends Model{
 	@Override
 	public void verify(JReturn r) {
 		// TODO Auto-generated method stub
-		
+		if(this.dgetQuantidade() < 1){
+			r.addAttributeError("Pertence", "quantidade", "The quantity have to be more than 0");
+		}
 	}
 	
 	

@@ -4,36 +4,31 @@
 	<div class="alert alert-warning">
 
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-3">
 				<label >Nome da receita:</label>
 				<input class="form-control" type="text" name="nome" />
 			</div>
 			
-			<div class="col-md-6">
+			<div class="col-md-3">
 				<label>Ingrediente</label>
-					<select name="stringIngredientesId"  multiple data-tipo="select" data-label="nome" data-value="nome" id="stringIngredientesId" class="form-control">
+					<select name="stringIngredientesId"  multiple data-vetor="true" data-tipo="select" data-label="nome" data-value="id" id="ingredientes" class="form-control">
 					<option value="">Selecione os ingredientes desejados</option>
 				</select>
 			</div>
-		</div>
-		<div class="row">
-		<div class="col-md-6">
-			<label>Tipo de Receita</label> <select name="receitaRendimentoTipos" data-tipo="select" data-label="nome" data-value="nome"	id="receitaRendimentoTipos" class="form-control">
+		<div class="col-md-2">
+			<label>Tipo de Receita</label> <select name="receitaTipos" data-tipo="select" data-label="nome" data-value="nome"	id="receitaTipos" class="form-control">
 				<option value="">Selecione um Tipo de Receita</option>
 			</select>
 		</div>
-			<div class="col-md-6">
+			<div class="col-md-2">
 				<label>Kcal. M&aacute;xima/un.:</label>
 				<input class="form-control" type="number" name="maxCalories" />
 			</div>
-		</div>
 
-
-			<div class="row">
-			<div class="col-md-6">
-				<label >
-					<button class="btn btn-success btn-block" style="margin-top:20px;" type="submit">Filtrar</button>
-				</label>
+			<div class="col-md-2">
+			
+					<button class="btn btn-success btn-block" style="margin-top:23px;" type="submit">Filtrar</button>
+			
 			</div>
 		</div>	
 	</div>
@@ -138,7 +133,12 @@ var objIngrediente = {"dados":{"classname":"ReceitaView","action":"busca","useca
 console.log(objIngrediente);
 validaAction('Consulta',objIngrediente);
 
-var objFormGerarReceita = {"dados":{"classname":"Receita","action":FORMFILTER,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formIngredientes","nomeAction":"submitConsulta"}};
+var objFormGerarReceita = {"dados":{"classname":"Receita","action":FORMFILTER,"usecase":"GerarReceitas"},"config":{"formRest":true,"nomeForm":"consultaReceitas","nomeAction":"submitConsulta"}};
 console.log(objFormGerarReceita);
 validaAction('Novo',objFormGerarReceita);
+
+
+$("#ingredientes").change(function(e){
+	console.log($(this).val());
+});
 </script>

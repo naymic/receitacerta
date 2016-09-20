@@ -14,6 +14,7 @@ import exceptions.NoActionException;
 import interfaces.IApplicationSession;
 import interfaces.IController;
 import interfaces.IUser;
+import jresponseclasses.JData;
 import jresponseclasses.JReturn;
 import model.Model;
 import model.Usuario;
@@ -280,6 +281,28 @@ public class GenericController implements IController{
 
 		return obj;
 	}
+	
+	
+	/**
+	 * Prepare the data for a form
+	 * @param list
+	 * @return
+	 */
+	protected ArrayList<JData> prepareFormData(ArrayList<ArrayList<Model>> list){
+		ArrayList<JData> jdataList = new ArrayList<>();
+		Iterator<ArrayList<Model>> itList = list.iterator();
+		
+		while(itList.hasNext()){
+			ArrayList<Model> modelList = itList.next();
+			JData jd= new JData();
+			jd.setDataList(modelList);
+			jdataList.add(jd);
+		}
+		
+		
+		return jdataList;
+	}
+	
 
 	/**
 	 * Get the application session

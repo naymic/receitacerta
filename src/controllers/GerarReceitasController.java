@@ -1,5 +1,6 @@
 package controllers;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -7,9 +8,11 @@ import java.util.List;
 import javax.swing.ListModel;
 
 import annotations.AControllerMethod;
+import dao.DAO;
 import dao.DAOGerarReceita;
 import dao.DAORelation;
 import dao.DAORelationList;
+import enums.ReturnType;
 import exceptions.NoActionException;
 import interfaces.IApplicationSession;
 import interfaces.IController;
@@ -19,9 +22,23 @@ import model.Ingredientes;
 import model.Model;
 import model.Receita;
 import model.ReceitaView;
+import reflection.ReflectionDAO;
+import reflection.ReflectionDAORelation;
 import utils.RequestObject;
 
-public class GerarReceitasController extends GenericController{
+public class GerarReceitasController extends CrudController{
+	
+	
+	
+	
+	@AControllerMethod(checkAttributes = false)
+	public JReturn formfilterAction(JReturn r, Model object){
+
+		return this.novoAction(r, object);
+		
+
+
+	}
 	
 	
 	

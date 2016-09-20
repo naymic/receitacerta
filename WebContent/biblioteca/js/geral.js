@@ -36,9 +36,11 @@ String.prototype.capitalizeFirstLetter = function() {
 
 function serializaVetor(obj,qtdCampos){
 	console.log(obj);
+	
 	var novoArray = new Array();
 	var j = 0;
 	var cont = 0;
+	var nomeAtual = "";
 	novoArray[0] = new Object();
 	$.each(obj,function(i, valor){
 		if(j == qtdCampos && qtdCampos != ''){
@@ -46,11 +48,18 @@ function serializaVetor(obj,qtdCampos){
 			cont++;
 			novoArray[cont] = new Object();
 		}
-		novoArray[cont][valor.name] = valor.value;
+
+		if($("select[name='"+valor.name+"']").data('vetor')){
+			novoArray[cont][valor.name] = $("select[name='"+valor.name+"']").val().join();
+		}else{
+			novoArray[cont][valor.name] = valor.value;
+		}
+
+		
+
+		
 		j++;
 	});
-	console.log(novoArray);
-	
 	return novoArray;
 }
 
@@ -63,9 +72,9 @@ function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um
 		var selectedOption = '';
 		var metodoGeral = '';
 		$.each(data[KEYFORM],function(campo,values){
-			console.log(campo);
+			console.log($("#"+campo).data('tipo'));
 			console.log(values[TIPOCAMPO]);
-			if(values[TIPOCAMPO] == MODEL){
+			if(values[TIPOCAMPO] == MODEL && (typeof $("#"+campo).data('tipo') != "undefined")){
 				var objBuscaDados = {"classname":values[CLASSNAMECAMPO],"action":KEYBUSCA,"usecase":"crud",data:{}}
 				var objResposta = getResponse(objBuscaDados);
 				console.log(objResposta);
@@ -78,6 +87,10 @@ function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um
 				
 			}
 		});
+		$("select").data("live-search","true");
+		$("select").attr('title','Selecione um Item');
+		$("select").selectpicker();
+		
 	console.log(nomeForm);
 }
 
@@ -120,8 +133,9 @@ function validaInsert(objAction){
 		delete data[DATAGERAL][KEYFORM][objAction[KEYCONFIG].attrRemove];
 	}
 	OBJGERAL = {"nomeChamada":"fechaModal","paramModal":MODALMSG};
-    construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
-    submitGeral(objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
+    construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
+    console.log("------->"+objAction[KEYCONFIG].formRest);
+    submitGeral(objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
 }
 
 function validaExcluiList(objAction){
@@ -154,6 +168,7 @@ function validaRemover(){
 	var data = getResponse(OBJGERAL);
 	OBJGERAL.classname = classnameView;
 	validaRetorno(data,data.success);
+	sessionStorage.id = "";
 }
 
 function navCentral(url){
@@ -177,8 +192,8 @@ function validaUpdate(objAction){
 	$("#btnSubmit").val('Salvar');
   $("#divSubmit").prepend('<input onClick=navCentral("'+objAction[KEYCONFIG].returnPage+'") class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
 	data = getResponse(objAction[KEYDADOS]);
-	construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
-	submitGeral(objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
+	construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
+	submitGeral(objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
 	setDadosForm(data[DATAGERAL][DATAGERAL]);
 	OBJGERAL = {"nomeChamada":"navCentral","paramModal":objAction.config.returnPage};
 }
@@ -424,8 +439,8 @@ function validaMenu(data){
 function validaNovo(objAction){
 	data = getResponse(objAction[KEYDADOS]);
 	OBJGERAL = {"nomeChamada":"fechaModal","paramModal":MODALMSG};
-    construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
-    window[objAction[KEYCONFIG].nomeAction](objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formReset);
+    construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
+    window[objAction[KEYCONFIG].nomeAction](objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
 }
 
 function validaRetorno(data,statusRequest){

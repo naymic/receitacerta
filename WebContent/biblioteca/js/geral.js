@@ -206,7 +206,7 @@ function validaDadosViewReceita(objReceita){
 
 function validaUpdate(objAction){
 	$("#"+DIVHIDDENS).append('<input type="hidden" name="campo.id" id="id" value="'+sessionStorage.id+'" />');
-	$("#action").val(SALVARACTION);
+	//$("#action").val(SALVARACTION);
 	$("#btnSubmit").val('Salvar');
   $("#divSubmit").prepend('<input onClick=navCentral("'+objAction[KEYCONFIG].returnPage+'") class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
 	data = getResponse(objAction[KEYDADOS]);

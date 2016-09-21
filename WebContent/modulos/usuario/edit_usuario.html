@@ -34,13 +34,14 @@
  <div id="formIngredientesdivConf">
     <input type="hidden" name="action" id="action" value="salvar"  />
     <input type="hidden" name="classname" id="classname" value="Usuario" />
-    <input type="hidden" name="usecase" id="usecase" value="Crud" />
+    <input type="hidden" name="usecase" id="usecase" value="Usuario" />
    </div>
 
 <script>
 
 
-  var objUsuario  = {"dados":{"classname":"Usuario","action":EDITACTION,"usecase":"Crud","data":{},"config":{"formRest":false,"returnPage":"modulos/usuarios/configuracoes.html","nomeForm":"formUsuario"}};
+  var objUsuario = {"dados":{"classname":"Usuario","action":EDITACTION,"usecase":"Usuario","data":{}},"config":{"formRest":false,"returnPage":"modulos/usuario/configuracoes.html","nomeForm":"formUsuario"}};
+  console.log(objUsuario);
   validaAction('Update',objUsuario);
 
 </script>

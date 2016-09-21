@@ -193,6 +193,17 @@ function setDadosForm(objDados){
 	$("select").selectpicker('refresh');
 }
 
+function validaDadosViewReceita(objReceita){
+	$.each(objReceita[0],function(campo,values){
+		if($.isPlainObject(values)){
+			$("#"+campo).text(values[$("#"+campo).data('value')]);
+		}else{
+			$("#"+campo).text(values);
+		}
+	});
+	$("select").selectpicker('refresh');
+}
+
 function validaUpdate(objAction){
 	$("#"+DIVHIDDENS).append('<input type="hidden" name="campo.id" id="id" value="'+sessionStorage.id+'" />');
 	$("#action").val(SALVARACTION);

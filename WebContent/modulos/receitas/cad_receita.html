@@ -7,12 +7,12 @@
 		</div>
 
 		<div class="col-md-6">
-			<label>Tempo de preparo</label> <input type="number" id="tempo"
+			<label>Tempo de preparo</label> <input type="number" id="tempoPreparo"
 				name="tempoPreparo" class="form-control" />
 		</div>
 	</div>
 	<br/>
-	<div class="row">
+	<div class="row"> 
 
 		<div class="col-md-6">
 			<label>Quantidade de pessoas</label> 
@@ -64,7 +64,7 @@
 			<form method="post" id="formCadIngredientesReceita">
 				<div class="row">
 					<div class="col-md-5">
-						<select class="form-control" name="ingrediente_id" id="ingredientes" data-tipo="select" data-label="nome" data-value="id">
+						<select class="form-control" name="ingrediente" id="ingredientes" data-tipo="select" data-label="nome" data-value="id">
 						</select>
 					</div>
 					<div class="col-md-5">
@@ -76,6 +76,13 @@
 					</div>
 				</div>
 			</form>
+			
+			<div id="formCadIngredientesReceitadivConf">
+    <input type="hidden" name="action" id="action" value="salvar"  />
+    <input type="hidden" name="classname" id="classname" value="Pertence" />
+    <input type="hidden" name="usecase" id="usecase" value="Crud" />
+   </div>
+			
 			<hr />
 			<table class="table" id="ingredientesReceitaTabela">
 				<thead>
@@ -102,6 +109,12 @@
 					</div>
 				</div>
 			</form>
+			<div id="formCadPassosdivConf">
+    <input type="hidden" name="action" id="action" value="salvar"  />
+    <input type="hidden" name="classname" id="classname" value="Passo" />
+    <input type="hidden" name="usecase" id="usecase" value="Crud" />
+   </div>
+			
 			<hr />
 			<table class="table" id="passosReceitaTabela">
 				<thead>
@@ -124,30 +137,34 @@ var configOptIngredientes = {"tableHead":[{ "data": "ingrediente","label":"nome"
                                           { "data": "quantidade" }],
                                           "nomeTabela":"ingredientesReceitaTabela",
                                           "urlEdit":"",
-                                          "objRequest":[{"classname":"Pertence","usecase":"crud","action":"busca","data":{"receita":sessionStorage.id}}]};
+                                          "objRequest":{"classname":"Pertence","usecase":"crud","action":"busca","data":{"receita":sessionStorage.id}}};
 
 
 var configOptPassos = {"tableHead":[{ "data": "numeroPasso"},
                                           { "data": "texto" }],
                                           "nomeTabela":"passosReceitaTabela",
                                           "urlEdit":"",
-                                          "objRequest":[{"classname":"Pertence","usecase":"crud","action":"busca","data":{"receita":sessionStorage.id}}]};
+                                          "objRequest":{"classname":"Passo","usecase":"crud","action":"busca","data":{"receita":sessionStorage.id}}};
 
 var vetObj = [configOptIngredientes,configOptPassos];
 
 if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
 	//var objDadosSeguintes = {"divHide":"conteudoExtra"}
-	  var objReceita = {"dados":{"classname":"Receita","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formReceitas1","attrRemove":"usuario","divConfig":"camposHiddenFormReceitas1","nomeChamada":"nextStep","paramModal":"conteudoExtra"}};
+	  var objReceita = {"dados":{"classname":"Receita","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formReceitas1","attrRemove":"usuario","divConfig":"camposHiddenFormReceitas1","nomeChamada":"navCentral","paramModal":"modulos/receitas/cad_receita.html"}};
 	  validaAction('Insert',objReceita);
 	}else{
-	  var objIngrediente = {"dados":{"classname":"Ingredientes","action":EDITACTION,"id":sessionStorage.id,"usecase":"Crud"},"config":{"formRest":false,"returnPage":"modulos/ingredientes/list_ingredientes.html"}};
-	  validaAction('Update',objIngrediente);
-	  validaAction('BuscaSimples',[configOptIngredientes]);
-	  validaAction('BuscaSimples',[configOptPassos]);
-	}
-	
+		console.log(sessionStorage.id);
+		
+	  var objReceita = {"dados":{"classname":"Receita","action":EDITACTION,"usecase":"Crud","data":{"id":sessionStorage.id}},"config":{"formRest":false,"returnPage":"modulos/receitas/list_receitas.html","nomeForm":"formReceitas1","nomeChamada":"fechaModal","paramModal":MODALMSG}};
+	  validaAction('Update',objReceita);
+	  validaAction('BuscaSimples',[configOptIngredientes,configOptPassos]);
+	  var objConfig = "receita";
+	  submitSimples('formCadIngredientesReceita','true','validaBuscaSimples',configOptIngredientes,objConfig[0]);
+	  submitSimples('formCadPassos','true','validaBuscaSimples',configOptPassos,objConfig,objConfig[1]);
+		
+	  $("#conteudoExtra").fadeIn('fast');
 
-	
+	}
 
 	
 

@@ -181,11 +181,12 @@ function navCentral(url){
   $("#conteudoCentral").load(url);
 }
 
+
 function setDadosForm(objDados){
 	console.log(objDados);
 	$.each(objDados[0],function(campo,values){
 		if($.isPlainObject(values)){
-			$("#"+campo).val(values[$("#"+campo).data('value')]);
+			$("#"+campo).val(values[$("#"+campo).data('value')]); // values[$("#"+campo).data('value')] = values["id"]
 		}else{
 			$("#"+campo).val(values);
 		}
@@ -280,8 +281,12 @@ function construirTabela(dados,nomeTabela,config){
 	      htmlTr += '<tr>'+htmlTd+'</tr>'
 	  });
   }else{
+	  var textSemResultado = "";
 	  console.log(config.campoBusca);
-	  htmlTr = "<tr><td colspan='"+(dataHead.length + 1)+"'>Não há resultados para '"+$("#"+config.campoBusca).val()+"' </td></tr>";
+	  if(typeof $("#"+config.campoBusca).val() != undefined){
+		  textSemResultado = $("#"+config.campoBusca).val();
+	  }
+	  htmlTr = "<tr><td colspan='"+(dataHead.length + 1)+"'>Não há resultados para '"+textSemResultado+"' </td></tr>";
   }
   //console.log(htmlTr);
   $("#"+config.nomeTabela).children('tbody').html(htmlTr);
@@ -342,8 +347,9 @@ function ativaBtnModalMsg(config){
 	$(document).off('click','#'+BTNMODALMSG);
 	$(document).on('click','#'+BTNMODALMSG,function(){
 		console.log(OBJGERAL.nomeChamada);
-		window[OBJGERAL.nomeChamada](OBJGERAL.paramModal);
 		$("#"+MODALMSG).modal('hide');
+		window[OBJGERAL.nomeChamada](OBJGERAL.paramModal);
+		
 	});
 }
 
@@ -364,7 +370,7 @@ function validaStatusLogin(objResposta){
 	}
 }
 
-function validaEnviaDados(objAction,divConfig){
+function validaEnviaDados(objAction,divConfig,primaryKey){
 	var vetDadosSerializados = serializaVetor(objAction,"");
 	var objConfig = new Object();
 	var i = 0;
@@ -373,8 +379,13 @@ function validaEnviaDados(objAction,divConfig){
 		i++;
 		objConfig[$(this).attr('name')] = $(this).val();
 	});
+	var tipoPrimaryKey = "id"; 
+	if(primaryKey != "" && primaryKey != undefined){
+		console.log("asdfasdf")
+		tipoPrimaryKey = primaryKey;
+	}
     if(typeof sessionStorage.id != "undefined" && sessionStorage.id != ""){
-  	  vetDadosSerializados[0].id = sessionStorage.id;
+  	  vetDadosSerializados[0][tipoPrimaryKey] = sessionStorage.id;
     }
 	objConfig[DATAGERAL] = vetDadosSerializados[0];
 	var data = getResponse(objConfig);
@@ -394,17 +405,25 @@ function submitConsulta(idForm,config){
   });
 }
 
-function submitSimples(idForm,cleanForm){
+function submitSimples(idForm,cleanForm,callBack,paramCallBack,config){
 	$(document).off("submit","#"+idForm);
 	$(document).on("submit","#"+idForm,function(e) {
       e.preventDefault();
-     
-      var data = validaEnviaDados($(this).serializeArray(),$(this).attr('id')+"divConf");
+     console.log(config);
+ 
+      var data = validaEnviaDados($(this).serializeArray(),$(this).attr('id')+"divConf",config);
       
       $(this).each(function(){
 			this.reset();
-		})
+		});
+      	if(data != false){
+      		console.log(callBack);
+      		console.log(paramCallBack);
+      		
+      		window[callBack](paramCallBack);
+      	}
 	});
+	
 }
 
 function submitGeral(idForm,cleanForm){
@@ -433,6 +452,7 @@ function submitGeral(idForm,cleanForm){
 
 function validaBuscaSimples(objAction){
 	$.each(objAction,function(i,value){
+		console.log(value);
 		var data;
 
 		//return false;
@@ -584,7 +604,7 @@ function removeViewFromModel(str){
 }
 
 $("#"+MODALMSG).on('hidden.bs.modal',function(){
-	$(document).find('input').focus();
+	$(document).next('form').first().focus();
 });
 $("#"+MODALMSG).on('show.bs.modal',function(){
 	$(document).find('button').focus();

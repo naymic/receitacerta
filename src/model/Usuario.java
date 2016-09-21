@@ -22,7 +22,7 @@ public class Usuario extends Model implements IUser{
 	boolean loggedin;
 	String oldSenha;
 	String newSenha;
-	
+	String newSenha1;
 	
 	@Override
 	public String getTableName() {
@@ -215,6 +215,16 @@ public class Usuario extends Model implements IUser{
 
 	public void setNewSenha(String newSenha) {
 		this.newSenha = newSenha;
+	}
+	
+	@Entity(attributeName = "", required = false)
+	public String getNewSenha1() {
+		return newSenha1;
+	}
+
+
+	public void setNewSenha1(String newSenha1) {
+		this.newSenha1 = newSenha1;
 	}
 	
 	

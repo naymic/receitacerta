@@ -49,16 +49,22 @@ public class UsuarioController extends CrudController {
 		if(user.getOldSenha() !=null && updatedUser.getOldSenha().length() > 0 &&  updatedUser.getNewSenha() != null && updatedUser.getNewSenha().length() == 0){
 			r.addSimpleError("Your new password is empty, but your old is set, this is not allowed!");
 		}else if(updatedUser.getOldSenha() != null && utils.CryptString.crypt(updatedUser.getOldSenha()).equals(user.dgetSenha()) ){
-			utils.CryptString.crypt(updatedUser.getOldSenha()).equals(user.dgetSenha());
-
-			updatedUser.dsetId(user.getId());
-			updatedUser.dsetSenha(updatedUser.getNewSenha());
-			DAORelation.getInstance().save(updatedUser, r);
+			
+			if(updatedUser.getNewSenha() != null && updatedUser.getNewSenha1() != null && updatedUser.getNewSenha().equals(updatedUser.getNewSenha1())){
+				updatedUser.dsetId(user.getId());
+				updatedUser.dsetSenha(updatedUser.getNewSenha());
+				DAORelation.getInstance().save(updatedUser, r);
+				r.addMsg("Your password and Userinformations are updated!");
+			}else{
+				r.addSimpleError("Your new password repetition is not combining!");
+			}
+				
 		}else if(user.getOldSenha() == null){
 
 			updatedUser.dsetId(user.getId());
 			updatedUser.dsetSenha(user.dgetSenha());
 			DAORelation.getInstance().save(updatedUser, r);
+			r.addMsg("Your Userinformations are updated!");
 		}else{
 			r.addSimpleError("Your old password was wrong, update was interrupted!");
 		}

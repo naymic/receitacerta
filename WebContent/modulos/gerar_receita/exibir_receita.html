@@ -71,4 +71,22 @@
 				<tbody>
 				</tbody>
 			</table>
+			
+		<script>
+			var configOpt = {"tableHead":[
+			{ "data": "id" },
+			{ "data": "nome" },	
+		    { "data": "ingredientesTipoId"},
+		    { "data": "calorias" },
+		    { "data": "ingredientesUnidade"},
+		    { "data": "ingredienteArmazenamentosId" }],
+		    "nomeTabela":"Ingredientes",
+		    "urlEdit":"modulos/ingredientes/cad_ingredientes.html",
+		    "className":"IngredientesView",
+		    "labelId":"id",
+		    "campoBusca":"nome"};
+			
+			var objReceita = {"dados":{"classname":"ReceitaView","action":EDITACTION,"usecase":"Crud","data":{"id":},"config":{"formRest":false,"returnPage":"modulos/usuarios/configuracoes.html","nomeForm":"formUsuario"}};
+			  validaAction('Update',objReceita);
+		</script>
 </div>

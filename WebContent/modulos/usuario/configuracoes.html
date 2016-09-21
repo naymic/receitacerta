@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form class="form-group">
+		<div>
+			<button class="btn btn-danger">Excluir Conta</button>
+			<button class="btn btn-info">Editar Conta</button>
+		</div>
+	</form>
+	<script>
+	var configOpt = {"tableHead":[
+	{ "data": "id" }],
+    "nomeTabela":"Ingredientes",
+    "urlEdit":"modulos/ingredientes/cad_ingredientes.html",
+    "className":"IngredientesView",
+    "labelId":"id",
+    "campoBusca":"nome"};
+	
+	var objIngrediente = {"dados":{"classname":"IngredientesView","action":"buscaavancada", "usecase":"Crud"},"config": configOpt,"nomeForm":"consultaIngredientes"};
+	console.log(objIngrediente);
+	validaAction('Consulta',objIngrediente);
+</script>
+</body>
+</html>

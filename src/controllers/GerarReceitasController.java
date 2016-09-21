@@ -51,7 +51,7 @@ public class GerarReceitasController extends CrudController{
 		ArrayList<Model> ingredientsList = new ArrayList<>();
 		try {
 			if(recta.getStringIngredientesId() != null && recta.getStringIngredientesId().length() > 0)
-			ingredientsList = getIngredientsList(recta.getStringIngredientesId());
+				ingredientsList = getIngredientsList(recta.getStringIngredientesId());
 		} catch (Exception e) {
 			r.addSimpleError("The string with the id's of the ingredients has some error. String: "+ recta.getStringIngredientesId());
 			e.printStackTrace();

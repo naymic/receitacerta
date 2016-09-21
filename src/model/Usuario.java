@@ -20,6 +20,8 @@ public class Usuario extends Model implements IUser{
 	String sobrenome;
 	String caminhoFoto;
 	boolean loggedin;
+	String oldSenha;
+	String newSenha;
 	
 	
 	@Override
@@ -192,6 +194,27 @@ public class Usuario extends Model implements IUser{
 		this.setLoggedin(iu.isLoggedin());
 		this.setUsername(iu.getUsername());
 		this.setImagepath(iu.getImagepath());
+	}
+
+
+	@Entity(attributeName = "", required = false)
+	public String getOldSenha() {
+		return oldSenha;
+	}
+
+
+	public void setOldSenha(String oldSenha) {
+		this.oldSenha = oldSenha;
+	}
+
+	@Entity(attributeName = "", required = false)
+	public String getNewSenha() {
+		return newSenha;
+	}
+
+
+	public void setNewSenha(String newSenha) {
+		this.newSenha = newSenha;
 	}
 	
 	

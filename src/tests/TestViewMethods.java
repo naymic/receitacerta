@@ -13,6 +13,7 @@ import controllers.CrudController;
 import db.Config;
 import interfaces.IController;
 import jresponseclasses.JReturn;
+import model.Ingredientes;
 import views.ViewController;
 
 public class TestViewMethods extends TestCases{
@@ -47,6 +48,22 @@ public class TestViewMethods extends TestCases{
 		
 		
 		
+	}
+	
+	
+	@Test 
+	public void testCompareObject(){
+		Ingredientes ing1 = new Ingredientes();
+		Ingredientes ing2 = new Ingredientes();
+		
+		
+		ing1.dsetId(1);
+		ing2.dsetId(1);
+		ing1.dsetNome("G");
+		ing2.dsetNome("G");
+		
+		if(ing1.equals(ing2))
+			assertTrue(true);
 	}
 	
 

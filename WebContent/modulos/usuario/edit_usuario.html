@@ -1,0 +1,56 @@
+<form  method="post" id="formUsuario">
+
+	<div class="row">
+		 <div class="col-md-6">
+        	<label for="nome">Nome do Usuario:</label>
+        	<input type="text" name="nome" class="form-control" id="nome" value="" />
+    	</div>
+		<div class="col-md-6">
+        	<label for="nome">Sobrenome:</label>
+        	<input type="text" name="sobrenome" class="form-control" id="sobrenome" value="" />
+        </div>
+    </div>
+    <br>
+	<div class="row">
+		 <div class="col-md-12">
+			<label for="email">Email:</label>
+        	<input autocomplete="off" type="text" name="email" class="form-control" id="email" value="" />
+      	</div>
+       </div>
+      <br>
+     <div class="row">
+      	 <div class="col-md-6">
+			<label for="senha">Senha antiga:</label>
+        	<input autocomplete="off" name="oldSenha" class="form-control" id="oldSenha" value="" />
+      	</div>
+   
+      	 <div class="col-md-6">
+
+        	<label for="senha">Senha nova:</label>
+        	<input autocomplete="off" name="newSenha" class="form-control" id="newSenha" value="" />
+      	</div>
+    </div>
+    <br>
+    <div class="row">
+    	<div class="col-md-12">
+	         <div id="divSubmit">
+	  			 <input class="btn btn-primary" type="submit" id="btnSubmit"  value="Salvar" />
+	   		 </div>
+	   	</div>
+    </div>
+</form>
+
+ <div id="formUsuariodivConf">
+    <input type="hidden" name="action" id="action" value="editsalvar"  />
+    <input type="hidden" name="classname" id="classname" value="Usuario" />
+    <input type="hidden" name="usecase" id="usecase" value="Usuario" />
+   </div>
+
+<script>
+
+
+  var objUsuario = {"dados":{"classname":"Usuario","action":EDITACTION,"usecase":"Usuario","data":{}},"config":{"formRest":false,"returnPage":"modulos/usuario/configuracoes.html","nomeForm":"formUsuario"}};
+  console.log(objUsuario);
+  validaAction('Update',objUsuario);
+
+</script>

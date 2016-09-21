@@ -5,7 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Ingredientes;
 import model.Model;
+import model.Pertence;
 import model.Receita;
 import model.ReceitaView;
 
@@ -126,15 +128,37 @@ public class DAOGerarReceita extends DAORelation {
 		
 		for(int i = 0; i < recipesList.size(); i ++){
 			ReceitaView recipe = (ReceitaView) recipesList.get(i);
+			ArrayList<Pertence> ingrFromRecipe = recipe.agetListaPertence();
 			
-			if(!recipe.agetListaPertence().containsAll(ingredientsList)){
-				recipesList.remove(recipe);
+			if(!checkIngredients(ingredientsList, ingrFromRecipe)){
+				recipesList.remove(i);
 				i--;
 			}
+			
 			
 		}
 		
 		return recipesList;
+	}
+
+	private boolean checkIngredients(ArrayList<Model> ingredientsList, ArrayList<Pertence> ingrFromRecipe) {
+		try{
+			for(int j=0; j < ingredientsList.size(); ++j){
+				Ingredientes ingOfList = (Ingredientes) ingredientsList.get(j);
+				
+				for(int k=0; k < ingrFromRecipe.size(); ++k){
+					Pertence ingOfRecipe = ingrFromRecipe.get(k);
+					if(ingOfList != null && ingOfRecipe != null && ingOfRecipe.dgetIngrediente().dgetId().equals(ingOfList.dgetId()))
+						return true;
+					
+				}
+				
+			}
+		}catch(NullPointerException npe){
+			return false;
+		}
+		
+		return false;
 	}
 	
 	

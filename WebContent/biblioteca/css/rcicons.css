@@ -1,0 +1,83 @@
+/* Icones do projeto Receita Certa */
+
+.rcicon, .rcicon-big, .rcicon-small {
+	background-color: transparent;
+	background-size: cover;
+	display: inline-block;
+	vertical-align: middle;
+	height: 40px;
+	width: 40px;
+	color: transparent;
+	box-sizing: border-box;
+	margin: 5px;
+}
+.rcicon-big { width: 96px; height: 96px;}
+.rcicon-small {width: 16px; height: 16px;}
+
+.rcicon-logo {
+	background-image: url('../../imagens/rcicon-logo.png')
+}
+
+/******/
+
+.rcicon-beterraba {
+	background-image: url('../../imagens/rcicon-beterraba.png');
+}
+.rcicon-ovo {
+	background-image: url('../../imagens/rcicon-ovo.png');
+}
+.rcicon-cenoura-faca {
+	background-image: url('../../imagens/rcicon-cenoura-faca.png');
+}
+.rcicon-melancia {
+	background-image: url('../../imagens/rcicon-melancia.png');
+}
+.rcicon-geladeira {
+	background-image: url('../../imagens/rcicon-geladeira.png');
+}
+.rcicon-compras {
+	background-image: url('../../imagens/rcicon-compras.png');
+}
+
+/** MONO **/
+
+.rcicon-mono-beterraba {
+	background-image: url('../../imagens/rcicon-mono-beterraba.png');
+}
+.rcicon-mono-ovo {
+	background-image: url('../../imagens/rcicon-mono-ovo.png');
+}
+.rcicon-mono-cenoura-faca {
+	background-image: url('../../imagens/rcicon-mono-cenoura-faca.png');
+}
+.rcicon-mono-melancia {
+	background-image: url('../../imagens/rcicon-mono-melancia.png');
+}
+.rcicon-mono-geladeira {
+	background-image: url('../../imagens/rcicon-mono-geladeira.png');
+}
+.rcicon-mono-compras {
+	background-image: url('../../imagens/rcicon-mono-compras.png');
+}
+
+
+/** LIGHT **/
+
+.rcicon-light-beterraba {
+	background-image: url('../../imagens/rcicon-light-beterraba.png');
+}
+.rcicon-light-ovo {
+	background-image: url('../../imagens/rcicon-light-ovo.png');
+}
+.rcicon-light-cenoura-faca {
+	background-image: url('../../imagens/rcicon-light-cenoura-faca.png');
+}
+.rcicon-light-melancia {
+	background-image: url('../../imagens/rcicon-light-melancia.png');
+}
+.rcicon-light-geladeira {
+	background-image: url('../../imagens/rcicon-light-geladeira.png');
+}
+.rcicon-light-compras {
+	background-image: url('../../imagens/rcicon-light-compras.png');
+}

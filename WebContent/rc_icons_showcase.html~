@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+		<title>Icones Receita Certa</title>
+		<link rel="stylesheet" href="css/rcicons.css" type="text/css" media="screen" charset="utf-8">
+	</head>
+	<body class="exemplo">
+		<h1> <span class="rcicon rcicon-logo"></span> Ícones Receita Certa</h1>
+
+		<h2>.rcicon-</h2>
+<span class="rcicon rcicon-beterraba"> </span>
+<span class="rcicon rcicon-ovo"> </span>
+<span class="rcicon rcicon-cenoura-faca"> </span>
+<span class="rcicon rcicon-melancia"> </span>
+<span class="rcicon rcicon-geladeira"> </span>
+<span class="rcicon rcicon-compras"> </span>
+
+		<h2>.rcicon-mono-</h2>
+<span class="rcicon rcicon-mono-beterraba"> </span>
+<span class="rcicon rcicon-mono-ovo"> </span>
+<span class="rcicon rcicon-mono-cenoura-faca"> </span>
+<span class="rcicon rcicon-mono-melancia"> </span>
+<span class="rcicon rcicon-mono-geladeira"> </span>
+<span class="rcicon rcicon-mono-compras"> </span>
+
+		<h2>.rcicon-light-</h2>
+		<div style="background-color: navy;">
+<span class="rcicon rcicon-light-beterraba"> </span>
+<span class="rcicon rcicon-light-ovo"> </span>
+<span class="rcicon rcicon-light-cenoura-faca"> </span>
+<span class="rcicon rcicon-light-melancia"> </span>
+<span class="rcicon rcicon-light-geladeira"> </span>
+<span class="rcicon rcicon-light-compras"> </span>
+		</div>
+
+		<h2># Tamanhos</h2>
+		<h3>.rcicon-big</h3>
+		<span class="rcicon-big rcicon-logo"> </span>
+		<span class="rcicon-big rcicon-melancia"> </span>
+
+
+		<h3>.rcicon</h3>
+		<span class="rcicon rcicon-logo"></span>
+		<span class="rcicon rcicon-melancia"> </span>
+
+
+		<h3>.rcicon-small</h3>
+		<span class="rcicon-small rcicon-logo"></span>
+		<span class="rcicon-small rcicon-melancia"> </span>
+
+
+	</body>
+</html>

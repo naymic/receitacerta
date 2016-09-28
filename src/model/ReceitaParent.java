@@ -11,7 +11,7 @@ public abstract class ReceitaParent extends Model {
 	private Integer tempoPreparo;
 	private String rendimento;
 	private Integer receitaRendimentosTipoValor;
-	private Usuario usuario;
+	private User user;
 	private String caminhoFoto;
 	
 	@Entity(attributeName = "id", pk=true)
@@ -60,12 +60,12 @@ public abstract class ReceitaParent extends Model {
 	}
 
 	@Entity(attributeName = "usuario_id", fk=true)
-	public Usuario dgetUsuario() {
-		return usuario;
+	public User dgetUser() {
+		return user;
 	}
 
-	public void dsetUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void dsetUser(User usuario) {
+		this.user = usuario;
 	}
 	
 	@Entity(attributeName = "caminho_foto", required=false)

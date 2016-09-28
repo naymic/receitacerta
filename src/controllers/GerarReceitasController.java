@@ -31,7 +31,7 @@ public class GerarReceitasController extends CrudController{
 	
 	
 	
-	@AControllerMethod(checkAttributes = false)
+	@AControllerMethod(checkAttributes = false, needAuthentication = false)
 	public JReturn formfilterAction(JReturn r, Model object){
 
 		return this.novoAction(r, object);
@@ -42,7 +42,7 @@ public class GerarReceitasController extends CrudController{
 	
 	
 	
-	@AControllerMethod(checkAttributes = false)
+	@AControllerMethod(checkAttributes = false, needAuthentication = false)
 	public JReturn buscaAction(JReturn r, Model object){
 		
 		
@@ -84,9 +84,5 @@ public class GerarReceitasController extends CrudController{
 	}
 	
 
-	@Override
-	public boolean needAuthentication() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 }

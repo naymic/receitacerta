@@ -9,20 +9,27 @@ import java.util.List;
 
 import converters.GenericConverter;
 import dao.DAO;
+import db.Config;
 import enums.MType;
 import exceptions.NoActionException;
 import interfaces.IApplicationSession;
 import interfaces.IController;
 import interfaces.IUser;
 import jresponseclasses.JData;
+import jresponseclasses.JRedirect;
 import jresponseclasses.JReturn;
 import model.Model;
+import model.User;
 import model.Usuario;
+import reflection.GenericReflection;
 import reflection.ReflectionController;
 import reflection.ReflectionDAO;
 import reflection.ReflectionDAORelation;
+import reflection.ReflectionModel;
 import utils.RequestObject;
+import utils.StringUtils;
 import utils.Transform;
+import views.ViewSessionController;
 import annotations.AControllerMethod;
 import annotations.AModelClasses;
 
@@ -99,38 +106,48 @@ public class GenericController implements IController{
 		
 		//Find out if action need to check attributes first
 		AControllerMethod acm = null;
-		Boolean	check = true;
 		try{
-			acm = methodAction.getAnnotation(AControllerMethod.class);
-			check = acm.checkAttributes();
-		}catch(NullPointerException e){	check = true;}
+			acm = ReflectionController.getAControllerMethod(methodAction);			
+		}catch(RuntimeException e){	
+			r.addSimpleError("Please add the AControllerMethod annotation in class: "+this.getClass().getSimpleName()+" and method "+methodAction.getName());
+		}
 		
+		if(!Config.getInstance().isTestDB())
+			this.checkUserLogin(r, acm, action, action);
 		
 		
 		//Iniciate the object from the data given by the view
-		if(r.isSuccess())
-			this.setModelObject(this.initObj(r, check));
-			
+		if(r.isSuccess()){
+			this.setModelObject(this.initObj(r, acm.checkAttributes()));
+		}
 		
 		//Check if PK is set or not
-		if(acm != null && acm.checkPK() && !check)	
+		if(r.isSuccess() && acm != null && acm.checkPK() && !acm.checkAttributes())	
 			checkPK(r, this.getModelObject());
 		
 		
 		//Verify attributes 
-		if(r.isSuccess() && check)
+		if(r.isSuccess() && acm.checkAttributes()){
 			this.getModelObject().verifyGeneric(r);
 		
-		
+		}
 		
 		//Set User to the object if required
-		try{			
-			AModelClasses amc = this.getModelObject().getClass().getAnnotation(AModelClasses.class);
-			if(amc.needUserObject() && this.needAuthentication() && this.isUserSessionLoggedin())
-				this.setUserObject();
-		}catch(NullPointerException npe){
-			System.out.println("Please add a AModelClasses annotation to the model: "+ this.getModelObject().getClass().getName());
+		if(r.isSuccess()&& this.getModelObject() != null){
+			try{			
+				
+				AModelClasses amc = ReflectionModel.getAnnotationFromModel(this.getModelObject().getClass());
+				if(this.needUserObject(acm, amc))
+					this.setUserObject();
+			}catch(RuntimeException re){
+				String errormsg = "Please add a AModelClasses annotation to the model: "+ this.getModelObject().getClass().getName();
+				System.out.println(errormsg);
+				r.addSimpleError(errormsg);
+			}
 		}
+		
+	
+			
 		
 		
 		//Execute action
@@ -156,12 +173,6 @@ public class GenericController implements IController{
 		
 	}	
 
-
-
-	@Override
-	public boolean needAuthentication() {
-		return false;
-	}
 
 	@Override
 	public boolean dontShowCommonPage() {
@@ -242,46 +253,71 @@ public class GenericController implements IController{
 		while(it.hasNext()){
 			paramName = it.next();
 
-			//Get just variable for the object
-			String fieldName = paramName;
-			Object value = null;
-
-			//Convert the String value from the view to the Model class
-			Method m = null;
 			
-			//Get and check the given Method to set and get values from attributes
-			m = this.getAndCheckMethod(r, rdr, MType.get, fieldName);
-			
-			//Check and convert input values
-			boolean convertError = false;
-			try{
-				Object viewValue = this.getVariableValue(paramName);
-				if(!(viewValue == null) && viewValue.toString().length() > 0 )
-					value = GenericConverter.convert(rdr.getMethodValueClass(m), viewValue);
-			}catch(Exception e){
-				System.out.println(e.getMessage());
-				r.addAttributeError(obj.getClass().getName(), fieldName, "Field has wrong caracters or is empty: "+ fieldName +" for "+ rdr.getObject().getClass().getSimpleName());
-				convertError = true;
+			if(paramName.contains(".")){
+				String[] subParams = paramName.split(".");
+				paramName = subParams[0];
+				
+				for(int i = 1; i < subParams.length; i++){
+					
+				}
+				
 			}
-
-			//Check for empty fields but just if dont exist convert error allready
-			if(!convertError && rdr.isRequired(m) && (value == null || value.toString().length() == 0) && checkAttributes)
-				r.addAttributeError(obj.getClass().getName(), fieldName, "Field  is empty but required: "+ fieldName +" for "+ className);
 			
-
-
-
-			//Set just if value is set
-			if(this.getVariableValue(paramName) != null && this.getVariableValue(paramName).toString().length() > 0){
-				m = this.getAndCheckMethod(r, rdr, MType.set, fieldName, value.getClass());
-				rdr.setMethodValue(m, value);
-				//rdr.setFieldValue(fieldName, value);
-			}
+			initAttribute(r, checkAttributes, paramName, className, obj, rdr);
 
 
 		}
 
 		return obj;
+	}
+
+	/**
+	 * Initializes one attribute
+	 * @param r
+	 * @param checkAttributes
+	 * @param paramName
+	 * @param className
+	 * @param obj
+	 * @param rdr
+	 */
+	private void initAttribute(JReturn r, boolean checkAttributes, String paramName, String className, Model obj,
+			ReflectionDAORelation rdr) {
+		//Get just variable for the object
+		String fieldName = paramName;
+		Object value = null;
+
+		//Convert the String value from the view to the Model class
+		Method m = null;
+		
+		//Get and check the given Method to set and get values from attributes
+		m = this.getAndCheckMethod(r, rdr, MType.get, fieldName);
+		
+		//Check and convert input values
+		boolean convertError = false;
+		try{
+			Object viewValue = this.getVariableValue(paramName);
+			if(!(viewValue == null) && viewValue.toString().length() > 0 )
+				value = GenericConverter.convert(rdr.getMethodValueClass(m), viewValue);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			r.addAttributeError(obj.getClass().getName(), fieldName, "Field has wrong caracters or is empty: "+ fieldName +" for "+ rdr.getObject().getClass().getSimpleName());
+			convertError = true;
+		}
+
+		//Check for empty fields but just if dont exist convert error allready
+		if(!convertError && rdr.isRequired(m) && checkAttributes && (value == null || value.toString().length() == 0) )
+			r.addAttributeError(obj.getClass().getName(), fieldName, "Field  is empty but required: "+ fieldName +" for "+ className);
+		
+
+
+
+		//Set just if value is set
+		if(this.getVariableValue(paramName) != null && this.getVariableValue(paramName).toString().length() > 0){
+			m = this.getAndCheckMethod(r, rdr, MType.set, fieldName, value.getClass());
+			rdr.setMethodValue(m, value);
+			//rdr.setFieldValue(fieldName, value);
+		}
 	}
 	
 	
@@ -323,12 +359,12 @@ public class GenericController implements IController{
 	}
 	
 	
-	public void setRedirect(String redirect){
+	public void setRedirect(JRedirect redirect){
 		this.getAppSession().setMapAttribute("redirect", redirect);
 	}
 	
-	public String getRedirect(){
-		return (String) this.getAppSession().getMapAttribute("redirect");
+	public JRedirect getRedirect(){
+		return (JRedirect) this.getAppSession().getMapAttribute("redirect");
 	}
 	
 	public IUser getUserSession(){
@@ -346,7 +382,10 @@ public class GenericController implements IController{
 
 	public boolean isUserSessionLoggedin(){
 		
-		if(this.getAppSession().getMapAttribute("user") == null)
+		if(this.getAppSession() == null)
+			return false;
+		
+		if(!this.getAppSession().existMapAttribute("user") || this.getAppSession().getMapAttribute("user") == null )
 			return false;
 		
 		IUser iu= (IUser)this.getAppSession().getMapAttribute("user");
@@ -380,6 +419,15 @@ public class GenericController implements IController{
 		return m1;
 	}
 
+	
+	
+	private boolean needUserObject(AControllerMethod acm, AModelClasses amc){
+		
+		if(this.getAppSession() != null && this.isUserSessionLoggedin() && acm.needAuthentication() && amc.needUserObject() && !Config.getInstance().isTestDB())
+			return true;
+		
+		return false;
+	}
 	/**
 	 * 
 	 * @param obj
@@ -391,9 +439,9 @@ public class GenericController implements IController{
 		
 		for(Method method : mList){
 			try{
-				AModelClasses amc = rdr.getMethodValueClass(method).getAnnotation(AModelClasses.class);
+				AModelClasses amc = ReflectionModel.getAnnotationFromModel(rdr.getMethodValueClass(method));
 				if(amc.isUserModel()){
-					rdr.setMethodValue(method, (Usuario)this.getUserSession());
+					rdr.setMethodValue(method, (IUser)this.getUserSession());
 					break;
 				}
 			}catch(Exception e){
@@ -435,6 +483,82 @@ public class GenericController implements IController{
 	 */
 	public void setPageNumber(Integer object) {
 		this.pageNumber = object;
+	}
+	
+	/**
+	 * Get a controller by its usecase
+	 * @param r 		Return		Return to set messages if fails
+	 * @param usecase	String		Name of the use case
+	 * @return 			IController child of a IController
+	 */
+	public static IController getController(JReturn r, String usecase, IApplicationSession ics){
+		
+		try{
+			
+			usecase = StringUtils.setFirstLetterUppercase(usecase);
+			String controllerName = "controllers."+usecase+"Controller";
+
+			//Check if class exist
+			Class.forName(controllerName);
+			
+			
+			IController ic = (IController) GenericReflection.instanciateObjectByName(controllerName);
+			ic.setAppSession(ics);
+			
+			return ic;
+		}catch(ClassNotFoundException e){
+			r.addSimpleError("Don't exist a controller for the use case "+ usecase +"!");
+			return null;
+		}catch(StringIndexOutOfBoundsException obe){
+			r.addSimpleError("Usecase is not set in the request! Please inform a usecase!");
+			return null;
+		}
+		
+		
+		
+	}
+	
+	
+	/**
+	 *  Set redirect to login user is not logged in && authentication is obligatory
+	 * @param ic		IController				Use case controller
+	 * @param r			Return					Return with messages for the view framework
+	 * @param ics		ViewSessionController	Class with Global Session inside
+	 * @param usecase	String					Use case to execute
+	 */
+	public void checkUserLogin(JReturn r, AControllerMethod amc, String usecase, String action){
+
+		//Add User status to Return			
+		if(r.getUser() != null)
+			r.getUser().setLoggedin(this.isUserSessionLoggedin());
+		else
+			r.getUser().setLoggedin(false);
+
+		//Check if use case needs authentication
+		if(r.isSuccess() && amc.needAuthentication()){
+
+
+			if(this.getAppSession() == null)
+				this.setAppSession(new ViewSessionController());
+			
+			
+			LoginController lc = (LoginController) GenericController.getController(r, "Login", this.getAppSession());
+
+			//Check if user is already logged in
+			if(!lc.isUserSessionLoggedin()){
+
+				r.getRedirect().setRedirection("Login", "login", "login");
+				r.setSuccess(false);
+
+				//Set Redirection to 
+				JRedirect successRedirect = new JRedirect();
+				successRedirect.setRedirection(this.getClass().getSimpleName(), usecase, action);
+				lc.getAppSession().setMapAttribute("redirect", successRedirect);
+			}else{
+				r.setUser(this.getUserSession());
+				r.setSuccess(true);
+			}
+		}		
 	}
 
 }

@@ -40,10 +40,6 @@ public interface IController {
 	 */
 	Method validateAction(ReflectionController rController, String action) throws NoActionException;
 	
-	/**
-	 * @return true se o caso de uso necessita de autentica��o.
-	 */
-	public boolean needAuthentication();
 	
 	/**
 	 * @return retorn true para exibir a p�gina comum a todos, false caso n�o queira.

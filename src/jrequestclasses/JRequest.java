@@ -30,7 +30,7 @@ public class JRequest{
 	//Used for tables with a lot of rows
 	public JPageManager pagemanager;
 	
-	JRequest(){
+	public JRequest(){
 		data = new HashMap<String, String>();
 		pagemanager = new JPageManager();
 	}

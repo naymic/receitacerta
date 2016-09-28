@@ -30,7 +30,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	@AControllerMethod(checkAttributes = false)
+	@AControllerMethod(checkAttributes = false, needAuthentication = true)
 	public JReturn novoAction(JReturn r, Model object){
 
 		ReflectionDAO rdr = new ReflectionDAO(object);
@@ -50,7 +50,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	@AControllerMethod(checkAttributes = false, checkPK = true)
+	@AControllerMethod(checkAttributes = false, checkPK = true, needAuthentication = true)
 	public JReturn editAction( JReturn r, Model object){
 
 		//Check if PK is set or not
@@ -66,11 +66,13 @@ public class CrudController extends GenericController{
 
 			//Add Object to the Return Data
 			r.getData().setDataObject(object);
-
+			
+			/* Add selected object for editing in cache*/
+			//ObjectLockerCache.getInstance().addToCache(rdr.getObjectClass(), (Integer)rdr.getPK(), rdr.getObject());
 
 			//Add all Form dataTypes
 			r.getData().setDataTypes(rdr.getArrayFields());
-
+			
 			//Set JSon response return type
 			r.setReturnType(ReturnType.FORM);
 		}else{
@@ -87,7 +89,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	@AControllerMethod(checkAttributes = true)
+	@AControllerMethod(checkAttributes = true, needAuthentication = true)
 	public JReturn salvarAction(JReturn r, Model object){
 		
 		object.verify(r);
@@ -95,7 +97,18 @@ public class CrudController extends GenericController{
 		if(r.isSuccess())
 			r = DAO.getInstance().save(object, r);
 		
+		
 		if(r.isSuccess()){
+			ReflectionDAORelation rdr = new ReflectionDAORelation(object);
+			Model mod;
+			Class<?> cl = rdr.getObjectClass();
+			Integer i = (Integer)rdr.getPK();
+			
+			//Remove object from Cache to allow others to edit now
+			/*if(ObjectLockerCache.getInstance().existObjectInCache(cl, i) != null){
+				ObjectLockerCache.getInstance().removeFromCache(cl, i);
+			}*/
+			
 			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully saved in database");
 		}else{
 			r.addSimpleError("Data "+ object.getClass().getSimpleName() +" could not be saved in database");
@@ -113,7 +126,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	@AControllerMethod(checkAttributes = false, checkPK = true)
+	@AControllerMethod(checkAttributes = false, checkPK = true, needAuthentication = true)
 	public JReturn removerAction(JReturn r, Model object){
 
 		if(r.isSuccess())
@@ -134,7 +147,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	@AControllerMethod(checkAttributes = false)
+	@AControllerMethod(checkAttributes = false, needAuthentication = true)
 	public JReturn buscaAction(JReturn r, Model object){
 		List<Model> list =null;
 		
@@ -155,7 +168,7 @@ public class CrudController extends GenericController{
 	 * @param object
 	 * @return			String	JSON string to print on view
 	 */
-	@AControllerMethod(checkAttributes = false)
+	@AControllerMethod(checkAttributes = false, needAuthentication = true)
 	public JReturn buscaavancadaAction(JReturn r, Model object){
 		List<Model> list =null;
 		
@@ -185,14 +198,5 @@ public class CrudController extends GenericController{
 		}
 	}
 	
-
-	
-	
-
-	
-	@Override
-	public boolean needAuthentication(){
-		return true;
-	}
 
 }

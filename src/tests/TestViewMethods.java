@@ -9,14 +9,23 @@ import javax.servlet.http.HttpSession;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.sun.net.httpserver.HttpContext;
+
 import controllers.CrudController;
+import controllers.GenericController;
 import db.Config;
 import interfaces.IController;
+import jrequestclasses.JRequest;
 import jresponseclasses.JReturn;
 import model.Ingredientes;
 import views.ViewController;
 
 public class TestViewMethods extends TestCases{
+	
+	
+	
+	
+	
 	
 	@Before
 	public void initTestDatabase(){
@@ -28,11 +37,11 @@ public class TestViewMethods extends TestCases{
 		ViewController vc = new ViewController();
 		JReturn r = new JReturn();
 		Class<?> c = CrudController.class;
-		IController ic = vc.getController(r, "Crud", null);
+		IController ic = GenericController.getController(r, "Crud", null);
 		assertEquals(ic.getClass(), CrudController.class);
 		assertTrue(r.isSuccess());
 		
-		ic = vc.getController(r, "BliBla", null);
+		ic = GenericController.getController(r, "BliBla", null);
 		assertFalse(r.isSuccess());
 		assertEquals(1, r.getSimpleErrors().size());
 		
@@ -45,8 +54,21 @@ public class TestViewMethods extends TestCases{
 		JReturn r = new JReturn();
 		
 	
+		JRequest jrequ = new JRequest();
+		jrequ.setAction("busca");
+		jrequ.setUsecase("Crud");
+		jrequ.setClassname("Ingredientes");
 		
 		
+		Config.getInstance().setTestDB(false);
+		vc.process(jrequ, r, null);
+		Config.getInstance().setTestDB(true);
+		
+		
+		assertFalse(r.isSuccess());
+		assertEquals("login", r.getRedirect().getAction());
+		assertEquals("Usuario", r.getRedirect().getClassname());
+		assertEquals("Login",r.getRedirect().getUsecase());
 		
 	}
 	

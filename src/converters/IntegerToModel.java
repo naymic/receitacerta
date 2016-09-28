@@ -1,9 +1,14 @@
 package converters;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+
+import annotations.AModelClasses;
 import dao.DAO;
 import interfaces.IExtendedConverter;
 import model.Model;
 import reflection.ReflectionDAORelation;
+import reflection.ReflectionModel;
 
 public class IntegerToModel implements IExtendedConverter{
 	
@@ -18,6 +23,10 @@ public class IntegerToModel implements IExtendedConverter{
 			new Exception("Object "+rdr.getObject().getClass().getName()+ " with PK "+ value +" not found!");
 		}
 		
+		
 		return rdr.getObject();
 	}
+	
+	
+	
 }

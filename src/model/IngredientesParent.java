@@ -4,7 +4,7 @@ import annotations.AModelClasses;
 import annotations.Entity;
 import jresponseclasses.JReturn;
 
-@AModelClasses(needUserObject = false)
+
 public abstract class IngredientesParent extends Model{
 	
 	private Integer id;

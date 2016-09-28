@@ -9,25 +9,21 @@ import interfaces.IUser;
 import jresponseclasses.JReturn;
 import utils.CryptString;
 import utils.StringUtils;
-@AModelClasses(isUserModel = true, needUserObject = false)
-public class Usuario extends Model implements IUser{
+@AModelClasses(needUserObject = false)
+public class Usuario extends UserParent {
 
-	Integer id;
+
 	String email;
 	String senha;
 	String celular;
-	String nome;
+	
 	String sobrenome;
-	String caminhoFoto;
-	boolean loggedin;
+	
+	
 	String oldSenha;
 	String newSenha;
-	String newSenha1;
+	String repeatedSenha;
 	
-	@Override
-	public String getTableName() {
-		return "usuario";
-	}
 	
 	
 	public void verify(JReturn r){
@@ -50,17 +46,6 @@ public class Usuario extends Model implements IUser{
 		
 	}
 	
-	
-
-	@Entity(attributeName = "id", pk=true)
-	public Integer dgetId() {
-		return id;
-	}
-
-
-	public void dsetId(Integer id) {
-		this.id = id;
-	}
 
 	@Entity(attributeName = "email")
 	public String dgetEmail() {
@@ -103,17 +88,6 @@ public class Usuario extends Model implements IUser{
 		this.celular = celular;
 	}
 
-	
-	@Entity(attributeName = "nome", required = false)
-	public String dgetNome() {
-		return nome;
-	}
-
-
-	public void dsetNome(String nome) {
-		this.nome = nome;
-	}
-
 	@Entity(attributeName = "sobrenome", required = false)
 	public String dgetSobrenome() {
 		return sobrenome;
@@ -124,77 +98,13 @@ public class Usuario extends Model implements IUser{
 		this.sobrenome = sobrenome;
 	}
 
-	@Entity(attributeName = "caminho_foto", required = false)
-	public String dgetCaminhoFoto() {
-		return caminhoFoto;
-	}
-
-
-	public void dsetCaminhoFoto(String caminhoFoto) {
-		this.caminhoFoto = caminhoFoto;
-	}
 	
 	/* 
 	 * IUser Interface Methods
 	 * @see Interfaces.IUser#getId()
 	 */
 
-	@Override
-	public Integer getId() {
-		// TODO Auto-generated method stub
-		return this.dgetId();
-	}
-
-
-	@Override
-	public void setId(Integer id) {
-		this.dsetId(id);		
-	}
-
-
-	@Override
-	public boolean isLoggedin() {
-		return this.loggedin;
-	}
-
-
-	@Override
-	public void setLoggedin(boolean loggedin) {
-		this.loggedin=loggedin;
-	}
-
-
-	@Override
-	public String getUsername() {
-		return this.dgetNome();
-	}
-
-
-	@Override
-	public void setUsername(String username) {
-		this.dsetNome(username);
-	}
-
-
-	@Override
-	public String getImagepath() {
-		return this.dgetCaminhoFoto();
-	}
-
-
-	@Override
-	public void setImagepath(String imagepath) {
-		this.dsetCaminhoFoto(imagepath);
-	}
-
-
-	@Override
-	public void setSelf(IUser iu) {
-		this.setId(iu.getId());
-		this.setLoggedin(iu.isLoggedin());
-		this.setUsername(iu.getUsername());
-		this.setImagepath(iu.getImagepath());
-	}
+	
 
 
 	@Entity(attributeName = "", required = false)
@@ -218,13 +128,13 @@ public class Usuario extends Model implements IUser{
 	}
 	
 	@Entity(attributeName = "", required = false)
-	public String getNewSenha1() {
-		return newSenha1;
+	public String getRepeatedSenha() {
+		return repeatedSenha;
 	}
 
 
-	public void setNewSenha1(String newSenha1) {
-		this.newSenha1 = newSenha1;
+	public void setRepeatedSenha(String repeatedSenha) {
+		this.repeatedSenha = repeatedSenha;
 	}
 	
 	

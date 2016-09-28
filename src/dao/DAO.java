@@ -469,7 +469,8 @@ public class DAO implements IDAO{
 		
 		try {
 			Object obj = GenericConverter.convert(rd.getMethodValueClass(m), rs.getObject(i));
-			rd.setMethodValue(m.getName(), obj);
+			if(obj != null)
+				rd.setMethodValue(m.getName(), obj);
 			
 			
 		} catch (Exception e) {

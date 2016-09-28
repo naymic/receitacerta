@@ -6,8 +6,6 @@ import javax.servlet.http.HttpSession;
 
 public interface IApplicationSession {
 	
-	public HttpSession session = null;
-	public HashMap<String, Object> sessionMap = null;
 	
 	/**
 	 * Receive the class intern session

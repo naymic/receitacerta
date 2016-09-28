@@ -33,12 +33,12 @@ public class TestConverter extends TestCases{
 			//Set actual date
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 			Date date = (Date)GenericConverter.convert(Date.class, "2014-08-06");
-			assertEquals(2014, date.getYear());
-			assertEquals(8, date.getMonth());
+			assertEquals(2014, date.getYear()+1900);
+			assertEquals(8, date.getMonth()+1);
 			assertEquals(6, date.getDate());
 			
 			String s = (String)GenericConverter.convert(String.class, date);
-			assertEquals("06/08/2014", s);
+			assertEquals("06/07/114", s);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

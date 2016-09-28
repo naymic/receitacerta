@@ -22,7 +22,7 @@ public class Estoque extends Model {
 	
 	Integer id;
 	Ingredientes ingredientesId;
-	Usuario userId;
+	User user;
 	Integer quantidade;
 	Date dataInsercao;
 	Date dataRetirada;
@@ -51,13 +51,13 @@ public class Estoque extends Model {
 		this.ingredientesId = ingredientesId;
 	}
 
-	@Entity(attributeName= "usuario_id", fk=true, isMapped=true)
-	public Usuario dgetUserId() {
-		return userId;
+	@Entity(attributeName = "usuario_id", fk=true)
+	public User dgetUser() {
+		return user;
 	}
-	
-	public void dsetUserId(Usuario userId) {
-		this.userId = userId;
+
+	public void dsetUser(User user) {
+		this.user = user;
 	}
 	
 	@Entity(attributeName = "quantidade")

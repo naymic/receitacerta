@@ -154,6 +154,22 @@ public class TestCrudController extends TestCases{
 	}
 	
 	
+	@Test
+	public void testSearchObject(){
+		CrudController cc = this.getCRUDControllerEdit();
+		JReturn r = new JReturn();
+		TestIngredientes obj = new TestIngredientes();
+		obj.dsetNome("a");
+		cc.setModelObject(obj);
+		
+		
+		cc.execute(r, "buscaavancada");
+		
+		assertTrue(r.isSuccess());
+		assertEquals(1, r.getData().getData().size());
+	}
+	
+	
 	
 	@Test
 	public void testPageNumber(){

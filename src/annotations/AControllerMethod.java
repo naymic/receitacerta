@@ -16,6 +16,6 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AControllerMethod {
 	boolean checkAttributes();
-	boolean needAuthentication() default false; //not implemented allready
+	boolean needAuthentication();//not implemented allready
 	boolean checkPK() default false; //Needs if just have to check PK and not all attributes
 }

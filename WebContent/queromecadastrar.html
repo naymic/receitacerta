@@ -21,12 +21,13 @@
     <div class="login-container">
             <div id="output"></div>
         
-            <div class="form-box">
+            <div class="form-box" >
                 <form id="formUser">
                     <input name="nome" type="text" placeholder="Nome" id="nome">
                     <input name="sobrenome" type="text" placeholder="Sobrenome" id="sobrenome">
                     <input name="email" type="email" placeholder="Email" id="email">
-                    <input name="senha" type="password" placeholder="Senha" id="senha">
+                    <input name="newSenha" autocomplete="off" type="password" placeholder="Senha" id="newSenha">
+                     <input name="repeatedSenha" autocomplete="off" type="password" placeholder="repetir Senha" id="repeatedSenha">
                     <button class="btn btn-info btn-block login" type="submit">Cadastrar</button>
                 </form>
                 <label style="margin-top: 5px;">
@@ -63,8 +64,10 @@
  <script src="biblioteca/bootstrap/js/bootstrap.min.js"></script>
   <script src="biblioteca/js/geral.js"></script>
   <script>
+
   var objUsuario = {"dados":{"classname":"Usuario","action":NOVOACTION,"usecase":"Usuario"},"config":{"formRest":true,"nomeForm":"formUser"}};
   validaAction('Insert',objUsuario);
+  
   </script>
 </html>
 

@@ -11,12 +11,13 @@ import interfaces.IUser;
 import jresponseclasses.JRedirect;
 import jresponseclasses.JReturn;
 import model.Model;
+import model.User;
 import model.Usuario;
 import utils.Transform;
 
 public class LoginController extends GenericController{
 	
-	@AControllerMethod(checkAttributes = false)
+	@AControllerMethod(checkAttributes = false, needAuthentication = false)
 	public void loginAction(JReturn r, Model obj){
 		boolean test = false;
 		Usuario loginUser = this.prepareUserObjectForLogin((Usuario)obj); //Remove any value, except password and email
@@ -30,7 +31,7 @@ public class LoginController extends GenericController{
 		//Check if exist user
 		for(Model bdUser : usuarios){
 			u = (Usuario) bdUser;
-
+			
 			if(u.dgetEmail().trim().equalsIgnoreCase(loginUser.dgetEmail()) && u.dgetSenha().trim().equalsIgnoreCase(loginUser.dgetSenha())){
 				test = true;
 				break;
@@ -39,8 +40,11 @@ public class LoginController extends GenericController{
 		
 		if(test){		
 			u.setLoggedin(true);
-			this.setUserSession(u);
-			r.setUser(u);
+			User user = new User();
+			user.setSelf(u);
+			
+			this.setUserSession(user);
+			r.setUser(user);
 			r.addMsg("User sucessfully indentified!");
 			//r.setRedirect((JRedirect)this.getAppSession().getMapAttribute("redirect"));
 			
@@ -54,7 +58,7 @@ public class LoginController extends GenericController{
 	 * Log out a logged user and send a redirect to the login page
 	 * @param r
 	 */
-	@AControllerMethod(checkAttributes = false)
+	@AControllerMethod(checkAttributes = false, needAuthentication = false)
 	public void logoutAction(JReturn r, Model loginUser){
 		
 		r.setUser(this.resetUser());
@@ -112,12 +116,6 @@ public class LoginController extends GenericController{
 		return loginUsr;
 	}
 
-	
-	
-	@Override
-	public boolean needAuthentication() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 	
 }

@@ -35,12 +35,19 @@ public class ReflectionController extends GenericReflection{
 	}
 	
 	
-	public AControllerMethod getAControllerMethod(Method m){
+	public static AControllerMethod getAControllerMethod(Method m)throws RuntimeException{
+		
+		try{
+			AControllerMethod acm = m.getAnnotation(AControllerMethod.class);
+			return acm;
+			
+		}catch(NullPointerException npe){
+			System.out.println(npe.getMessage());
+			throw new RuntimeException(npe.getMessage());
+		}
 		
 		
-		
-		
-		return null;
+	
 	}
 	
 

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.sun.jndi.url.rmi.rmiURLContext;
 
+import controllers.GenericController;
 import controllers.LoginController;
 import dao.DAO;
 import db.Config;
@@ -67,7 +68,7 @@ public class ViewController extends HttpServlet {
 	 * @param response
 	 * @throws IOException
 	 */
-	private void doHttp(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void doHttp(HttpServletRequest request, HttpServletResponse response){
 		String content = "";
 		HttpSession session = request.getSession(true);
 		
@@ -82,7 +83,7 @@ public class ViewController extends HttpServlet {
 		JRequest[] jrequ = null;
 		try{
 			String json = request.getParameter("request");
-			System.out.println("REQUEST:"+ json);
+			System.out.println("REQUEST:"+json);
 			jrequ = g.fromJson(json,  JRequest[].class);
 		}catch(com.google.gson.JsonSyntaxException e){
 			r.addSimpleError("JSON String is malformed, please check it!");	
@@ -92,12 +93,15 @@ public class ViewController extends HttpServlet {
 		
 		
 		//Iterate throught all requests
-		for(int i=0; r.isSuccess() && i<jrequ.length ; i++){
-			content = process(jrequ[i], response, session, content, r);
-		}
+		content = process(jrequ[0], r, session);
 		
 		response.setContentType("application/json");
-		response.getWriter().println(content);
+		try {
+			response.getWriter().println(content);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public String getAction(JRequest requ)throws Exception {
@@ -124,7 +128,7 @@ public class ViewController extends HttpServlet {
 		return requ.getClassname();
 	}
 	
-	public String process(JRequest requ, HttpServletResponse resp, HttpSession session, String content, JReturn r){
+	public String process(JRequest requ, JReturn r, HttpSession session){
 		String usecase = new String("");
 		String action = new String("");
 		String classname = new String("");
@@ -148,18 +152,10 @@ public class ViewController extends HttpServlet {
 		IController ic = null;
 		//Get the controller for the required action
 		if(r.isSuccess())
-			ic = getController(r, usecase, ics);
-		
-		//Check if usecase needs authentication 
-		//check if user is loggedin
-		if(r.isSuccess())
-			this.checkUserLogin(ic, r, ics, usecase, action, classname);
+			ic = GenericController.getController(r, usecase, ics);
 		
 		//Generic use case execution
 		if(r.isSuccess()){
-			
-			
-			
 			
 			//Get all variables from the view and save it to the controller
 			this.initVariables(requ, ic);
@@ -203,76 +199,6 @@ public class ViewController extends HttpServlet {
 			ic.setPageNumber(null);
 		}
 		
-	}
-	
-
-	/**
-	 * Get a controller by its usecase
-	 * @param r 		Return		Return to set messages if fails
-	 * @param usecase	String		Name of the use case
-	 * @return 			IController child of a IController
-	 */
-	public IController getController(JReturn r, String usecase, IApplicationSession ics){
-		
-		try{
-			
-			usecase = StringUtils.setFirstLetterUppercase(usecase);
-			String controllerName = "controllers."+usecase+"Controller";
-
-			//Check if class exist
-			Class.forName(controllerName);
-			
-			
-			IController ic = (IController) GenericReflection.instanciateObjectByName(controllerName);
-			ic.setAppSession(ics);
-			
-			return ic;
-		}catch(ClassNotFoundException e){
-			r.addSimpleError("Don't exist a controller for the use case "+ usecase +"!");
-			return null;
-		}catch(StringIndexOutOfBoundsException obe){
-			r.addSimpleError("Usecase is not set in the request! Please inform a usecase!");
-			return null;
-		}
-		
-		
-		
-	}
-	
-	/**
-	 *  Set redirect to login user is not logged in && authentication is obligatory
-	 * @param ic		IController				Use case controller
-	 * @param r			Return					Return with messages for the view framework
-	 * @param ics		ViewSessionController	Class with Global Session inside
-	 * @param usecase	String					Use case to execute
-	 */
-	public void checkUserLogin(IController ic, JReturn r, ViewSessionController ics, String usecase, String action, String classname){
-		
-		//Add User status to Return			
-		if(r.getUser() != null)
-			r.getUser().setLoggedin(ic.isUserSessionLoggedin());
-		
-		//Check if use case needs authentication
-		if(r.isSuccess() && ic.needAuthentication()){
-			
-					
-			LoginController lc = (LoginController) getController(r, "Login", ics);
-
-			//Check if user is already logged in
-			if(!lc.isUserSessionLoggedin()){
-				
-				r.getRedirect().setRedirection("Login", "login", "login");
-				r.setSuccess(false);
-				
-				//Set Redirection to 
-				JRedirect successRedirect = new JRedirect();
-				successRedirect.setRedirection(classname, usecase, action);
-				lc.getAppSession().setMapAttribute("redirect", successRedirect);
-			}else{
-				r.setUser(ic.getUserSession());
-				r.setSuccess(true);
-			}
-		}		
 	}
 	
 	

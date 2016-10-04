@@ -82,7 +82,13 @@ public class DB {
 	
 	
 	
-	public Connection getCon(){return con;}
+	public Connection getCon(){
+		if(con == null){
+			this.etablishConnection();
+		}
+		return con;
+	}
+	
 	public void setCon(Connection con){this.con = con;}
 	
 	

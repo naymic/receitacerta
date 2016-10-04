@@ -57,7 +57,7 @@ public class Usuario extends UserParent {
 		this.email = email;
 	}
 
-	@Entity(attributeName = "senha")
+	@Entity(attributeName = "senha", required=false)
 	public String dgetSenha() {
 		return senha;
 	}

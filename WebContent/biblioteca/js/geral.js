@@ -235,6 +235,10 @@ function validaGetSerialForm(idForm){
 
 function validaConsulta(objAction){
 	var data;
+	
+	$.each(sessionStorage,function(i,val){
+		delete sessionStorage[i];
+	});
 
 	//return false;
 	data = getResponse(objAction[KEYDADOS]);

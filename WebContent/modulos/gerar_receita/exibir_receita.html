@@ -1,53 +1,64 @@
-<div class="row">
 
+
+<h3>Dados da Receita</h3>
+
+<button class="pull-right btn btn-primary hidden-print" style="margin-bottom:23px;" onclick="window.print()">Imprimir</button>
+<br />
 <table class="table">
-
-
-	<h1>Exibir Receita</h1>
-	<h2>Dados da Receita</h2>
 	<tbody>
 		<tr>
-			<td>
+			<th>
 				Nome da receita
-			</td>
+			</th>
 			<td>
 				<span id="nome"></span>
 			</td>
-			<td>
-			<td colspan="1">
+			<th colspan="1">
 				Tempo de preparo
-			</td>
+			</th>
 			<td colspan="1">
 				<span id="tempoPreparo"></span>
 			</td>
-			<td colspan="1">
+			<th colspan="1">
 				Quantidade de Unidadades
+			</th>
+			<td>
+				<span id="receitaRendimentosTipoValor"></span>
 			</td>
-			<td colspan="1">
-				<span id="rendimento"></span>
-			</td> 
+			<th colspan="1">
+				Calorias
+			</th>
+			<td>
+				<span id="maxCalories"></span>
+			</td>
+
 		</tr>
 		<tr>
-			<td>
+			<th>
 				Tipo de Rendimento
-			</td>
+			</th>
 			<td>
 				<span id="receitaRendimentoTipos"></span>
 			</td>
-			<td>
+			<th>
 				Tipo de Receita
-			</td>
+			</th>
 			<td>
-				<spam id="receitaTipo"></spam>
+			<span id="receitaTiposNome"></span>
+			</td>
+			<th>
+				Autor
+			</th>
+			<td colspan="3">
+			<span id="user"></span>
 			</td>
 		</tr>
 	</tbody>
 </table>
-<hr />
-<br />
+
 		<!--Ingredientes-->
-		<h2>Ingredientes</h2>
-			<table class="table" id="listaIngredientes">
+		<h3>Ingredientes</h3>
+			<table class="table" id="ingredientesReceitaTabela">
 				<thead>
 					<tr>
 						<th>Ingrediente</th>
@@ -57,11 +68,10 @@
 				<tbody>
 				</tbody>
 			</table>
-<hr />
-<br />			
+		
 		<!--Passos-->
-		<h2>Passos para o Preparo</h2>
-			<table class="table" id="listaPassos">
+		<h3>Passos para o Preparo</h3>
+			<table class="table" id="passosReceitaTabela">
 				<thead>
 					<tr>
 						<th>Passo</th>
@@ -73,20 +83,33 @@
 			</table>
 			
 		<script>
-			var configOpt = {"tableHead":[
-			{ "data": "id" },
-			{ "data": "nome" },	
-		    { "data": "ingredientesTipoId"},
-		    { "data": "calorias" },
-		    { "data": "ingredientesUnidade"},
-		    { "data": "ingredienteArmazenamentosId" }],
-		    "nomeTabela":"Ingredientes",
-		    "urlEdit":"modulos/ingredientes/cad_ingredientes.html",
-		    "className":"IngredientesView",
-		    "labelId":"id",
-		    "campoBusca":"nome"};
+		
+		var excluir = ["listaPassos","listaPertence"];
+		var modelo = {"label":"nome"};
+		var objReceita = {"dados":{"classname":"ReceitaView","action":"busca","usecase":"GerarReceitas","data":{"id":sessionStorage.id}},"config":{"excluir":excluir,"modelo":modelo}};
+		console.log(objReceita);
+
+		  validaAction('ExibirReceita',objReceita);
+		var configOptIngredientes = {"tableHead":[{ "data": "ingrediente","label":"nome" },
+		                                          { "data": "quantidade" }],
+		                                          "nomeTabela":"ingredientesReceitaTabela",
+		                                          "urlEdit":"",
+		                                          "className":"Pertence",
+		                                          "labelId":"id",
+		                                          "btns":"",
+		                                          "objRequest":{"classname":"Pertence","usecase":"crud","action":"busca","data":{"receita":sessionStorage.id}}};
+
+
+		var configOptPassos = {"tableHead":[{ "data": "numeroPasso"},
+		                                          { "data": "texto" }],
+		                                          "nomeTabela":"passosReceitaTabela",
+		                                          "urlEdit":"",
+		                                          "className":"Passo",
+		                                          "labelId":"id",
+		                                          "btns":"",
+		                                          "objRequest":{"classname":"Passo","usecase":"crud","action":"busca","data":{"receita":sessionStorage.id}}};
+		var vetObj = [configOptIngredientes,configOptPassos];
+		validaAction('BuscaSimples',vetObj);
 			
-			var objReceita = {"dados":{"classname":"ReceitaView","action":EDITACTION,"usecase":"Crud","data":{"id":},"config":{"formRest":false,"returnPage":"modulos/usuarios/configuracoes.html","nomeForm":"formUsuario"}};
-			  validaAction('Update',objReceita);
+		
 		</script>
-</div>

@@ -6,7 +6,7 @@
 		<div class="row">
 			<div class="col-md-3">
 				<label >Nome da receita:</label>
-				<input class="form-control" type="text" name="nome" />
+				<input class="form-control" type="text" name="nome" id="nome"/>
 			</div>
 			
 			<div class="col-md-3">
@@ -116,7 +116,8 @@
 
 <script>
 
-
+var btns = new Array();
+btns.push({"action":"EditList","classes":"btn-success btnActionList","datasconfig":"data-url='modulos/gerar_receita/exibir_receita.html'","text":"Detalhes"});
 var configOpt = {"tableHead":[{ "data": "nome" },
                               { "data": "tempoPreparo" },
                               { "data": "receitaRendimentosTipoValor" },
@@ -127,7 +128,10 @@ var configOpt = {"tableHead":[{ "data": "nome" },
                               "urlEdit":"modulos/ingredientes/cad_receita.html",
                               "className":"ReceitaView",
                               "labelId":"id",
+                              "btns":btns,
                               "campoBusca":"nome"};
+                              
+                              //console.log(configOpt);
 
 
 var objIngrediente = {"dados":{"classname":"ReceitaView","action":"busca","usecase":"GerarReceitas"},"config": configOpt};

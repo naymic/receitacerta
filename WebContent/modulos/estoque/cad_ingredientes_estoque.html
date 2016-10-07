@@ -88,6 +88,8 @@
 </div>
 	
 <script>
+var btns = new Array();
+btns.push({"action":"ExcluiList","classes":"btn-danger btnActionList","datasconfig":"data-usecase='Crud' data-action='remover'","text":"Excluir"});
 var configOpt = {"tableHead":[{ "data": "ingredientesId"},
                           	//{ "data": "ingredientesId","label":"nomeTipo" },
                               //{ "data": "ingredientesId","label":"id" },
@@ -99,7 +101,9 @@ var configOpt = {"tableHead":[{ "data": "ingredientesId"},
                               "nomeTabela":"EstoqueView",
                               "urlEdit":"modulos/estoque/cad_ingredientes_estoque.html",
                               "className":"EstoqueView",
+                              "objRequest":{"classname":"EstoqueView","action":"busca", "usecase":"Crud"},
                               "labelId":"id",
+                              "btns":btns,
                               "campoBusca":"ingredientesId"};
                               
 var objIngredienteBusca = {"dados":{"classname":"EstoqueView","action":"busca", "usecase":"Crud"},"config": configOpt,"nomeForm":"consultaEstoque"};
@@ -108,7 +112,7 @@ validaAction('Consulta',objIngredienteBusca);
                               
 
 
-var objIngredienteInsert = {"dados":{"classname":"Estoque","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formEstoque", "attrRemove":"userId"}};
+var objIngredienteInsert = {"dados":{"classname":"Estoque","action":NOVOACTION,"usecase":"Crud"},"config":{"formRest":true,"nomeForm":"formEstoque", "attrRemove":"userId","nomeChamada":"validaBuscaSimples","paramModal":configOpt}};
  validaAction("Insert",objIngredienteInsert);
 
 	 

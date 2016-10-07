@@ -33,6 +33,11 @@
         </tbody>
 	</table>
 <script>
+
+var btns = new Array();
+btns.push({"action":"EditList","classes":"btn-primary btnActionList","datasconfig":"data-url='modulos/ingredientes/cad_ingredientes.html'","text":"Editar"});
+btns.push({"action":"ExcluiList","classes":"btn-danger btnActionList","datasconfig":"data-usecase='Crud' data-action='remover'","text":"Excluir"});
+
 	var configOpt = {"tableHead":[
 	{ "data": "id" },
 	{ "data": "nome" },	
@@ -44,6 +49,7 @@
     "urlEdit":"modulos/ingredientes/cad_ingredientes.html",
     "className":"IngredientesView",
     "labelId":"id",
+    "btns":btns,
     "campoBusca":"nome"};
 	
 	var objIngrediente = {"dados":{"classname":"IngredientesView","action":"buscaavancada", "usecase":"Crud"},"config": configOpt,"nomeForm":"consultaIngredientes"};

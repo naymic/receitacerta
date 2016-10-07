@@ -34,7 +34,9 @@
 			</select>
 		</div>
 		<div class="col-md-6">
-			<button name="proximo" id="proximo" type="submit" class="btn btn-primary" style="margin-top: 23px;">Próximo</button>
+			<div id="divSubmit" style="margin-top: 23px;">
+				<button name="proximo" id="btnSubmit"  type="submit" class="btn btn-primary" >Próximo</button>
+			</div>
 		</div>
 	</div>
 </form>
@@ -101,8 +103,12 @@
 			<br />
 			<form method="post" id="formCadPassos">
 				<div class="row">
-					<div class="col-md-10">
-						<textarea rows="3" cols="" class="form-control">Digite aqui o texto do passo</textarea>
+				<div class="col-md-2">
+						<label>N Passo</label>
+						<input type="number"  class="form-control" name="numeroPasso" />
+					</div>
+					<div class="col-md-8">
+						<textarea rows="3" cols="" name="texto" class="form-control" placeholder="Digite aqui o texto do passo"></textarea>
 					</div>
 					<div class="col-mt-2">
 						<button type="submit" class="btn btn-primary">Adicionar</button>
@@ -133,10 +139,15 @@
 
 <script>
 
+var btnExcluir = [{"action":"ExcluiList","classes":"btn-danger btnActionList","datasconfig":"data-usecase='Crud' data-action='remover'","text":"Excluir"}];
+
 var configOptIngredientes = {"tableHead":[{ "data": "ingrediente","label":"nome" },
                                           { "data": "quantidade" }],
                                           "nomeTabela":"ingredientesReceitaTabela",
                                           "urlEdit":"",
+                                          "className":"Pertence",
+                                          "labelId":"id",
+                                          "btns":btnExcluir,
                                           "objRequest":{"classname":"Pertence","usecase":"crud","action":"busca","data":{"receita":sessionStorage.id}}};
 
 
@@ -144,6 +155,9 @@ var configOptPassos = {"tableHead":[{ "data": "numeroPasso"},
                                           { "data": "texto" }],
                                           "nomeTabela":"passosReceitaTabela",
                                           "urlEdit":"",
+                                          "className":"Passo",
+                                          "labelId":"id",
+                                          "btns":btnExcluir,
                                           "objRequest":{"classname":"Passo","usecase":"crud","action":"busca","data":{"receita":sessionStorage.id}}};
 
 var vetObj = [configOptIngredientes,configOptPassos];
@@ -159,8 +173,8 @@ if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
 	  validaAction('Update',objReceita);
 	  validaAction('BuscaSimples',[configOptIngredientes,configOptPassos]);
 	  var objConfig = "receita";
-	  submitSimples('formCadIngredientesReceita','true','validaBuscaSimples',configOptIngredientes,objConfig[0]);
-	  submitSimples('formCadPassos','true','validaBuscaSimples',configOptPassos,objConfig,objConfig[1]);
+	  submitSimples('formCadIngredientesReceita','true','validaBuscaSimples',configOptIngredientes,objConfig);
+	  submitSimples('formCadPassos','true','validaBuscaSimples',configOptPassos,objConfig,objConfig);
 		
 	  $("#conteudoExtra").fadeIn('fast');
 

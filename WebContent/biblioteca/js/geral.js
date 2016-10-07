@@ -161,6 +161,7 @@ function validaExcluiList(objAction){
 		}
 	});
 	OBJGERAL = objAction.parametros;
+	OBJGERAL.linha = objLinha;
 	$("#btnConfirmModal").attr("onclick","validaRemover()");
 	$("#"+CORPOMODALCONFIRM).html(htmlDados);
 	$("#"+MODALCONFIRM).modal('show');
@@ -174,6 +175,9 @@ function validaRemover(){
 	var data = getResponse(OBJGERAL);
 	OBJGERAL.classname = classnameView;
 	validaRetorno(data,data.success);
+	if(data.success){
+		$(OBJGERAL.linha).fadeOut('fast');
+	}
 	sessionStorage.id = "";
 }
 
@@ -209,6 +213,8 @@ function validaUpdate(objAction){
 	$("#"+DIVHIDDENS).append('<input type="hidden" name="campo.id" id="id" value="'+sessionStorage.id+'" />');
 	//$("#action").val(SALVARACTION);
 	$("#btnSubmit").val('Salvar');
+	$("#btnSubmit").text('Salvar');
+
   $("#divSubmit").prepend('<input onClick=navCentral("'+objAction[KEYCONFIG].returnPage+'") class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
 	data = getResponse(objAction[KEYDADOS]);
 	construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
@@ -233,12 +239,16 @@ function validaGetSerialForm(idForm){
   return dadosSeriais;
 }
 
-function validaConsulta(objAction){
-	var data;
-	
+function resetaSession(){
 	$.each(sessionStorage,function(i,val){
 		delete sessionStorage[i];
-	});
+	});	
+}
+
+function validaConsulta(objAction){
+	var data;
+	resetaSession();
+	
 
 	//return false;
 	data = getResponse(objAction[KEYDADOS]);
@@ -292,13 +302,16 @@ function construirTabela(dados,nomeTabela,config){
 	    	  }
 	
 	      });
-	      htmlTd += '<td><button class="btn btn-sm btn-primary btnActionList" data-tipoaction="EditList" type="button" data-url="'+config.urlEdit+'" value="'+idItem+'">Editar</button> <button value="'+idItem+'" data-usecase="Crud" data-action="remover" data-classname="'+config.className+'" class="btn btn-sm btn-danger btnActionList" data-tipoaction="ExcluiList" type="button">Excluir</button></td>';
-	      htmlTr += '<tr>'+htmlTd+'</tr>'
+	      if(config.btns != ""){
+	    	  var vetBtn = construirBtn(config.btns,idItem,config.className);
+	    	  htmlTd += '<td>'+vetBtn+'</td>';//<button class="btn btn-sm btn-primary btnActionList" data-tipoaction="EditList" type="button" data-url="'+config.urlEdit+'" value="'+idItem+'">Editar</button> <button value="'+idItem+'" data-usecase="Crud" data-action="remover" data-classname="'+config.className+'" class="btn btn-sm btn-danger btnActionList" data-tipoaction="ExcluiList" type="button">Excluir</button></td>';
+	      }
+	    	  htmlTr += '<tr>'+htmlTd+'</tr>';
 	  });
   }else{
 	  var textSemResultado = "";
 	  console.log(config.campoBusca);
-	  if(typeof $("#"+config.campoBusca).val() != undefined){
+	  if(typeof $("#"+config.campoBusca).val() != "undefined"){
 		  textSemResultado = $("#"+config.campoBusca).val();
 	  }
 	  htmlTr = "<tr><td colspan='"+(dataHead.length + 1)+"'>Não há resultados para '"+textSemResultado+"' </td></tr>";
@@ -306,6 +319,19 @@ function construirTabela(dados,nomeTabela,config){
   //console.log(htmlTr);
   $("#"+config.nomeTabela).children('tbody').html(htmlTr);
 
+}
+
+function  construirBtn(btns,key,classname){
+	console.log("-----------");
+	console.log(btns);
+	console.log(key);
+	console.log(classname);
+	console.log("-----------");
+	var htmlBtns = "";
+	$.each(btns,function(i,val){
+		htmlBtns += '<button data-classname="'+classname+'" class="btn btn-sm  '+val.classes+'" data-tipoaction="'+val.action+'" type="button" '+val.datasconfig+' value="'+key+'">'+val.text+'</button> ';
+	});
+	return htmlBtns;
 }
 
 function validaEditList(objAction){
@@ -363,7 +389,11 @@ function ativaBtnModalMsg(config){
 	$(document).on('click','#'+BTNMODALMSG,function(){
 		console.log(OBJGERAL.nomeChamada);
 		$("#"+MODALMSG).modal('hide');
-		window[OBJGERAL.nomeChamada](OBJGERAL.paramModal);
+		if(window[OBJGERAL.nomeChamada]){
+			window[OBJGERAL.nomeChamada](OBJGERAL.paramModal);
+		}else{
+			return false;
+		}
 		
 	});
 }
@@ -396,9 +426,10 @@ function validaEnviaDados(objAction,divConfig,primaryKey){
 	});
 	var tipoPrimaryKey = "id"; 
 	if(primaryKey != "" && primaryKey != undefined){
-		console.log("asdfasdf")
+		console.log(tipoPrimaryKey)
 		tipoPrimaryKey = primaryKey;
 	}
+	console.log(primaryKey);
     if(typeof sessionStorage.id != "undefined" && sessionStorage.id != ""){
   	  vetDadosSerializados[0][tipoPrimaryKey] = sessionStorage.id;
     }
@@ -465,20 +496,52 @@ function submitGeral(idForm,cleanForm){
 }
 
 
-function validaBuscaSimples(objAction){
-	$.each(objAction,function(i,value){
-		console.log(value);
-		var data;
 
-		//return false;
-		data = getResponse(value.objRequest);
-	  //$("#loadContent").load(PATH_API,objAction,function(data){
-	        console.log(data);
-	        //data = JSON.parse(data);
-	        //console.log(data[KEYBUSCA][KEYDADOS]);
-	        construirTabela(data[DATAGERAL][DATAGERAL],value.nomeTabela,value);
-	});
+function validaBuscaSimples(objAction){
+	resetaSession();
+	console.log(objAction);
+	//asdfasdf
+	if($.isArray(objAction)){
+		$.each(objAction,function(i,value){
+			console.log(value);
+			var data;
+	
+			//return false;
+			data = getResponse(value.objRequest);
+		  //$("#loadContent").load(PATH_API,objAction,function(data){
+		        console.log(data);
+		        //data = JSON.parse(data);
+		        //console.log(data[KEYBUSCA][KEYDADOS]);
+		        construirTabela(data[DATAGERAL][DATAGERAL],value.nomeTabela,value);
+		});
+	}else{
+		var data;
+		data = getResponse(objAction.objRequest);
+        console.log(data);
+        construirTabela(data[DATAGERAL][DATAGERAL],objAction.nomeTabela,objAction);
+	}
 }
+
+function validaExibirReceita(objAction){
+	var data = getResponse(objAction.dados);
+	console.log(data);
+	if(data.success){
+		$.each(data.data.data[0],function(i,val){
+			console.log(i);
+			console.log(val);
+			console.log($.inArray(i,objAction.excluir));
+			if($.inArray(i,objAction.excluir) != 0){
+				if($.isPlainObject(val)){
+					$("#"+i).text(val[objAction.config["modelo"]["label"]]);
+				}else{
+					$("#"+i).text(val);
+				}
+			}
+		})
+		
+	}
+}
+
 
 function validaMenu(data){
 	

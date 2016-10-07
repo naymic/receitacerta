@@ -82,8 +82,8 @@ public class DB {
 	
 	
 	
-	public Connection getCon(){
-		if(con == null){
+	public Connection getCon() throws SQLException{
+		if(con == null || con.isClosed()){
 			this.etablishConnection();
 		}
 		return con;
@@ -92,42 +92,7 @@ public class DB {
 	public void setCon(Connection con){this.con = con;}
 	
 	
-	
-	public boolean updateQuery(String sql){
-		int recordAffected = 0;
-		Connection con = getCon();
-		Statement s;
-		try {
-			s = con.createStatement();
-			recordAffected = s.executeUpdate(sql);
-			s.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-		
-		if (recordAffected == 1)
-			return true;
-		else 
-			return false;
-	}
 
-
-	public ResultSet selectQuery(String sql){
-
-		try{
-			PreparedStatement  stm = con.prepareStatement(sql);
-			ResultSet rs = stm.executeQuery();
-			//stm.close();
-			return rs;
-
-		} catch (SQLException e){
-			System.out.println("DAO SQL problem - SELECT.");
-			System.out.println(e.toString());
-		}
-
-		return null;
-	}
 
 
 }

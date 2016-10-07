@@ -292,7 +292,8 @@ public class GenericController implements IController{
 		
 		//Get and check the given Method to set and get values from attributes
 		m = this.getAndCheckMethod(r, rdr, MType.get, fieldName);
-		
+		if(m == null) return; //Stop any further execution
+
 		//Check and convert input values
 		boolean convertError = false;
 		try{
@@ -315,6 +316,7 @@ public class GenericController implements IController{
 		//Set just if value is set
 		if(this.getVariableValue(paramName) != null && this.getVariableValue(paramName).toString().length() > 0){
 			m = this.getAndCheckMethod(r, rdr, MType.set, fieldName, value.getClass());
+			if(m == null) return; //Stop any further execution
 			rdr.setMethodValue(m, value);
 			//rdr.setFieldValue(fieldName, value);
 		}

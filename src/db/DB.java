@@ -83,7 +83,7 @@ public class DB {
 	
 	
 	public Connection getCon() throws SQLException{
-		if(con == null || con.isClosed()){
+		if(con == null || con.isClosed() || !con.isValid(0)){
 			this.etablishConnection();
 		}
 		return con;

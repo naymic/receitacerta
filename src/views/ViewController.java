@@ -1,9 +1,7 @@
 package views;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,20 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
-import com.sun.jndi.url.rmi.rmiURLContext;
 
 import controllers.GenericController;
-import controllers.LoginController;
-import dao.DAO;
 import db.Config;
-import interfaces.IApplicationSession;
 import interfaces.IController;
 import jrequestclasses.JRequest;
-import jresponseclasses.JRedirect;
 import jresponseclasses.JReturn;
-import model.Usuario;
-import reflection.GenericReflection;
-import utils.StringUtils;
 import utils.Transform;
 
 /**
@@ -83,7 +73,7 @@ public class ViewController extends HttpServlet {
 		JRequest[] jrequ = null;
 		try{
 			String json = request.getParameter("request");
-			System.out.println("REQUEST:"+json);
+			//System.out.println("REQUEST:"+json);
 			jrequ = g.fromJson(json,  JRequest[].class);
 		}catch(com.google.gson.JsonSyntaxException e){
 			r.addSimpleError("JSON String is malformed, please check it!");	
@@ -146,7 +136,7 @@ public class ViewController extends HttpServlet {
 			classname = this.getClassname(requ);
  		}catch(Exception e){
 			r.addSimpleError(e.getMessage());
-			System.out.println(e.toString());
+			//System.out.println(e.toString());
 		}
 		
 		IController ic = null;
@@ -171,7 +161,7 @@ public class ViewController extends HttpServlet {
 		}
 		
 		
-		System.out.println("RETURN: "+jString);
+		//System.out.println("RETURN: "+jString);
 		return jString;
 	}
 	

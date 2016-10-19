@@ -178,7 +178,11 @@ function validaRemover(){
 	if(data.success){
 		$(OBJGERAL.linha).fadeOut('fast');
 	}
-	sessionStorage.id = "";
+	if(typeof sessionStorage.idPai != "undefined"){
+		sessionStorage.id = sessionStorage.idPai;
+	}else{
+		sessionStorage.id = "";
+	}
 }
 
 function navCentral(url){
@@ -215,7 +219,7 @@ function validaUpdate(objAction){
 	$("#btnSubmit").val('Salvar');
 	$("#btnSubmit").text('Salvar');
 
-  $("#divSubmit").prepend('<input onClick=navCentral("'+objAction[KEYCONFIG].returnPage+'") class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
+  $("#divSubmit").prepend('<input onClick=navCentral("'+objAction[KEYCONFIG].returnPage+'",true) class="btn btn-success" type="button" id="btnSubmit"  value="Retornar Consulta" />');
 	data = getResponse(objAction[KEYDADOS]);
 	construirForm(data,objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
 	submitGeral(objAction[KEYCONFIG].nomeForm,objAction[KEYCONFIG].formRest);
@@ -246,8 +250,9 @@ function resetaSession(){
 }
 
 function validaConsulta(objAction){
-	var data;
 	resetaSession();
+	var data;
+	
 	
 
 	//return false;
@@ -498,7 +503,7 @@ function submitGeral(idForm,cleanForm){
 
 
 function validaBuscaSimples(objAction){
-	resetaSession();
+
 	console.log(objAction);
 	//asdfasdf
 	if($.isArray(objAction)){

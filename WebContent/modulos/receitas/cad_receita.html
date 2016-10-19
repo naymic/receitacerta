@@ -168,6 +168,7 @@ if(typeof sessionStorage.id === "undefined" || sessionStorage.id == ""){
 	  validaAction('Insert',objReceita);
 	}else{
 		console.log(sessionStorage.id);
+		sessionStorage.idPai = sessionStorage.id;
 		
 	  var objReceita = {"dados":{"classname":"Receita","action":EDITACTION,"usecase":"Crud","data":{"id":sessionStorage.id}},"config":{"formRest":false,"returnPage":"modulos/receitas/list_receitas.html","nomeForm":"formReceitas1","nomeChamada":"fechaModal","paramModal":MODALMSG}};
 	  validaAction('Update',objReceita);

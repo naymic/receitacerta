@@ -39,6 +39,9 @@ public class JReturn{
 	//Data object for tables and forms
 	private JData data;
 	
+	//Get a specified list of informations about this API
+	private JDiscovery discover;
+	
 	//Sets the return type
 	private ReturnType returnType;
 	
@@ -130,6 +133,14 @@ public class JReturn{
 
 	public ArrayList<JAttributeError> getAtberrors() {
 		return atberrors;
+	}
+
+	public JDiscovery getDiscover() {
+		return discover;
+	}
+
+	public void setDiscover(JDiscovery discover) {
+		this.discover = discover;
 	}
 
 	

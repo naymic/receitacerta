@@ -1,5 +1,5 @@
 package enums;
 
 public enum ReturnType {
-	SEARCH, FORM, LOGIN, SELECT, INFO;
+	SEARCH, FORM, LOGIN, SELECT, INFO, DISCOVER;
 }

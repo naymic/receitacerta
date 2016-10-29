@@ -87,7 +87,7 @@ public class GenericController implements IController{
 		boolean test = false;
 		Method method = null;
 		
-		return rController.getAction(this.getUsecaseName(), action);
+		return rController.getAction(action);
 	}
 
 

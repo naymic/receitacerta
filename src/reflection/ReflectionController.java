@@ -12,19 +12,21 @@ import model.Model;
 
 public class ReflectionController extends GenericReflection{
 	
-	public ReflectionController(Object object) {
+	public ReflectionController(IController object) {
 		super(object);
 	}
 
-	public Method getAction(String usecase, String action)throws NoActionException{
+	public Method getAction(String actionName)throws NoActionException{
 		
-		String actionName = action + "Action";
+		if(!actionName.endsWith("Action")){
+			actionName += "Action";
+		}
 		Method m = null;
 		
 		try{
 		m = this.getMethod(actionName, JReturn.class, Model.class);		
 		}catch(RuntimeException e){
-			throw new NoActionException(usecase, actionName);
+			throw new NoActionException(getObjectClass().getSimpleName(), actionName);
 		}
 		return m; 
 		
@@ -45,9 +47,7 @@ public class ReflectionController extends GenericReflection{
 			System.out.println(npe.getMessage());
 			throw new RuntimeException(npe.getMessage());
 		}
-		
-		
-	
+			
 	}
 	
 

@@ -175,7 +175,7 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param method
 	 * @return
 	 */
-	protected Entity getEntity(Method method) {
+	public Entity getEntity(Method method) {
 		
 		method = getGetMethod(method);
 		

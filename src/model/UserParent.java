@@ -11,6 +11,8 @@ public class UserParent extends Model implements IUser {
 	Integer id;
 	String nome;
 	String caminhoFoto;
+	boolean loggedin;
+	
 	
 	@Override
 	public String getTableName() {
@@ -59,8 +61,13 @@ public class UserParent extends Model implements IUser {
 	}
 	
 	
-boolean loggedin;
+	/* 
+	 * IUser Interface Methods
+	 * @see Interfaces.IUser
+	 */
+
 	
+
 	@Override
 	public Integer getId() {
 		// TODO Auto-generated method stub

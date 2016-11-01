@@ -68,7 +68,7 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param isFK boolean
 	 * @return ArrayList<Method> Filtered Methods
 	 */	
-	protected ArrayList<Method> getObjectMethods(String partOfMethodName, boolean isPK, boolean isFK){
+	public ArrayList<Method> getObjectMethods(String partOfMethodName, boolean isPK, boolean isFK){
 		ArrayList<Method> list = new ArrayList<>();
 		
 		Method[] ms = this.getObjectClass().getMethods();
@@ -80,7 +80,7 @@ public class ReflectionDAO extends GenericReflection{
 		}*/
 		
 		for(Method m : ms){
-			if(m.getName().startsWith(partOfMethodName) && this.getEntity(m) != null){
+			if(m.getName().contains(partOfMethodName) && m.isAnnotationPresent(Entity.class) && this.getEntity(m) != null){
 				
 				if( (isPK && this.isPK(m)) || (isFK && this.isFK(m)) || (!isPK && !isFK) ){
 					list.add(m);
@@ -240,6 +240,18 @@ public class ReflectionDAO extends GenericReflection{
 	}
 	
 	
+	/**
+	 * Get the name of the Attribute that belongs to this method
+	 * @param method
+	 * @return
+	 */
+	public String getAttributeNameFromMethod(Method method){
+		String attributeName;
+		String smethod = method.getName();
+		int i = smethod.indexOf("et");
+		attributeName = smethod.substring(i+2);
+		return attributeName.substring(0, 1).toLowerCase()+attributeName.substring(1);
+	}
 	
 	/**
 	 * Get the column name of a Method
@@ -250,6 +262,7 @@ public class ReflectionDAO extends GenericReflection{
 
 		return getEntity(method).attributeName();
 	}
+	
 	
 	/**
 	 * Get a column value

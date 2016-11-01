@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import interfaces.IApplicationSession;
 
-public class ViewSessionController implements IApplicationSession {
+public class ViewSessionController implements IApplicationSession<HttpSession> {
 	
 	public HttpSession session = null;
 	

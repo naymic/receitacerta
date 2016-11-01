@@ -19,4 +19,5 @@ public @interface Entity {
 	boolean required() default true;
 	String attributeName();
 	boolean isMapped() default false;
+	boolean isInDB() default true;
 }

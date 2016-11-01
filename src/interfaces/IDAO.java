@@ -17,5 +17,4 @@ public interface IDAO {
 	public JReturn delete(Model object, JReturn r);
 	
 	public ArrayList<Model> select(Model object); 
-	
 }

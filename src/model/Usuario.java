@@ -97,17 +97,13 @@ public class Usuario extends UserParent {
 	public void dsetSobrenome(String sobrenome) {
 		this.sobrenome = sobrenome;
 	}
-
 	
-	/* 
-	 * IUser Interface Methods
-	 * @see Interfaces.IUser#getId()
-	 */
-
+	
+	/* Special Attributes for add and edit a user */
 	
 
 
-	@Entity(attributeName = "", required = false)
+	@Entity(attributeName = "", required = false, isInDB=false)
 	public String getOldSenha() {
 		return oldSenha;
 	}
@@ -117,7 +113,7 @@ public class Usuario extends UserParent {
 		this.oldSenha = oldSenha;
 	}
 
-	@Entity(attributeName = "", required = false)
+	@Entity(attributeName = "", required = false, isInDB=false)
 	public String getNewSenha() {
 		return newSenha;
 	}
@@ -127,7 +123,7 @@ public class Usuario extends UserParent {
 		this.newSenha = newSenha;
 	}
 	
-	@Entity(attributeName = "", required = false)
+	@Entity(attributeName = "", required = false, isInDB=false)
 	public String getRepeatedSenha() {
 		return repeatedSenha;
 	}

@@ -1,19 +1,13 @@
 package discovery;
 
 import interfaces.IController;
+import model.Describe;
 
-public class DescribeUsecase {
-	String usecaseName;
-	
+public class DescribeUsecase extends Describe{
+
 	public DescribeUsecase(IController controller){
-		this.setUsecaseName(controller.getClass().getSimpleName());
+		this.dsetName(controller.getClass().getSimpleName());
 	}
 
-	public String getUsecaseName() {
-		return usecaseName;
-	}
 
-	public void setUsecaseName(String usecaseName) {
-		this.usecaseName = usecaseName;
-	}
 }

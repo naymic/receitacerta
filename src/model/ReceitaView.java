@@ -13,7 +13,6 @@ public class ReceitaView extends ReceitaParent{
 	private String receitaTiposNome;
 	private String receitaRendimentoTipos;
 	private Double maxCalories;
-	private String stringIngredientesId;
 	private ArrayList<Pertence> listaPertence;
 	private ArrayList<Passo> listaPassos;
 	
@@ -64,16 +63,6 @@ public class ReceitaView extends ReceitaParent{
 	public void dsetMaxCalories(Double max_calories) {
 		this.maxCalories = max_calories;
 	}	
-	
-	//Not a attribute in the table, but used to get the ingredients list
-	@Entity(attributeName="")
-	public String getStringIngredientesId() {
-		return stringIngredientesId;
-	}
-
-	public void setStringIngredientesId(String stringIngredientesId) {
-		this.stringIngredientesId = stringIngredientesId;
-	}
 	
 	@Entity(attributeName="Pertence", fk=true)
 	public ArrayList<Pertence> agetListaPertence() {

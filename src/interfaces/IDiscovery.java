@@ -8,5 +8,5 @@ public interface IDiscovery<E> {
 	
 	public DiscoveryType getDiscoveryType();
 	
-	public ArrayList<E> getTypes();
+	public ArrayList<E> getTypes()throws Exception;
 }

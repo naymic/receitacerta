@@ -1,13 +1,7 @@
 package model;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.sql.Date;
-
 import annotations.AModelClasses;
 import annotations.Entity;
-import jresponseclasses.JReturn;
 
 /***
  * 

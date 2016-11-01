@@ -1,35 +1,48 @@
 package discovery;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import enums.DiscoveryType;
 import interfaces.IController;
 import interfaces.IExtendedDiscovery;
 import model.Model;
+import reflection.ReflectionController;
 
 public class DiscoverActions implements IExtendedDiscovery<DescribeAction, IController> {
 	
-	public DiscoverActions(Model model){
-		
-		
+	IController controller;
+	
+	public DiscoverActions(IController controller){
+		this.setDiscoveryObject(controller);
 	}
 
 	@Override
 	public DiscoveryType getDiscoveryType() {
-		// TODO Auto-generated method stub
-		return null;
+		return DiscoveryType.USECASE_ACTIONS;
 	}
 
 	@Override
 	public ArrayList<DescribeAction> getTypes() {
-		// TODO Auto-generated method stub
-		return null;
+		ReflectionController rc = new ReflectionController(controller);
+		ArrayList<Method> actionList = rc.getControllerActions();
+		ArrayList<DescribeAction> describeActionList = new ArrayList<>();
+		
+		for(Method method : actionList){
+			DescribeAction da = new DescribeAction(rc, method);
+			describeActionList.add(da);
+		}
+		
+		return describeActionList;
 	}
 
 	@Override
-	public void setDiscoveryObject(IController object) {
-		// TODO Auto-generated method stub
-		
+	public void setDiscoveryObject(IController controller) {
+		this.controller = controller;
+	}
+	
+	private IController getUsecasae(){
+		return controller;
 	}
 	
 }

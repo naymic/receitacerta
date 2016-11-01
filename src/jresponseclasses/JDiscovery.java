@@ -7,11 +7,19 @@ import interfaces.IDiscovery;
 
 public class JDiscovery {
 	private DiscoveryType discoveryType;
-	private ArrayList<IDiscovery<?>> discoveryList;
+	private ArrayList<?> discoveryList;
+	private String dicoveryObjectName;
 	
-	public JDiscovery(DiscoveryType discoverType, ArrayList<IDiscovery<?>> discoveryList){
-		this.setDiscoveryList(discoveryList);
-		this.setDiscoveryType(discoverType);
+	public JDiscovery(IDiscovery<?> discovery){
+		
+		
+		try {
+			this.setDiscoveryList(discovery.getTypes());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.setDiscoveryType(discovery.getDiscoveryType());
 	}
 
 	public DiscoveryType getDiscoveryType() {
@@ -22,12 +30,20 @@ public class JDiscovery {
 		this.discoveryType = discoveryType;
 	}
 
-	public ArrayList<IDiscovery<?>> getDiscoveryList() {
+	public ArrayList<?> getDiscoveryList() {
 		return discoveryList;
 	}
 
-	public void setDiscoveryList(ArrayList<IDiscovery<?>> discoveryList) {
+	public void setDiscoveryList(ArrayList<?> discoveryList) {
 		this.discoveryList = discoveryList;
+	}
+
+	public String getDicoveryObjectName() {
+		return dicoveryObjectName;
+	}
+
+	public void setDicoveryObjectName(String dicoveryObjectName) {
+		this.dicoveryObjectName = dicoveryObjectName;
 	}
 	
 }

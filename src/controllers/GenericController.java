@@ -103,33 +103,36 @@ public class GenericController implements IController{
 			r.addSimpleError(e.getMessage());
 		}
 		
-		
-		//Find out if action need to check attributes first
 		AControllerMethod acm = null;
-		try{
-			acm = ReflectionController.getAControllerMethod(methodAction);			
-		}catch(RuntimeException e){	
-			r.addSimpleError("Please add the AControllerMethod annotation in class: "+this.getClass().getSimpleName()+" and method "+methodAction.getName());
-		}
-		
-		if(!Config.getInstance().isTestDB())
-			this.checkUserLogin(r, acm, action, action);
-		
-		
-		//Iniciate the object from the data given by the view
 		if(r.isSuccess()){
-			this.setModelObject(this.initObj(r, acm.checkAttributes()));
-		}
-		
-		//Check if PK is set or not
-		if(r.isSuccess() && acm != null && acm.checkPK() && !acm.checkAttributes())	
-			checkPK(r, this.getModelObject());
-		
-		
-		//Verify attributes 
-		if(r.isSuccess() && acm.checkAttributes()){
-			this.getModelObject().verifyGeneric(r);
-		
+			//Find out if action need to check attributes first
+			
+			try{
+				acm = ReflectionController.getAControllerMethod(methodAction);			
+			}catch(RuntimeException e){	
+				r.addSimpleError("Please add the AControllerMethod annotation in class: "+this.getClass().getSimpleName()+" and action: "+action );
+			}
+
+			if(!Config.getInstance().isTestDB())
+				this.checkUserLogin(r, acm, action, action);
+
+
+			//Iniciate the object from the data given by the view
+			if(r.isSuccess()){
+				this.setModelObject(this.initObj(r, acm.checkAttributes()));
+			}
+
+			//Check if PK is set or not
+			if(r.isSuccess() && acm != null && acm.checkPK() && !acm.checkAttributes())	
+				checkPK(r, this.getModelObject());
+
+
+			//Verify attributes 
+			if(r.isSuccess() && acm.checkAttributes()){
+				this.getModelObject().verifyGeneric(r);
+
+			}
+
 		}
 		
 		//Set User to the object if required
@@ -523,7 +526,7 @@ public class GenericController implements IController{
 	
 	/**
 	 *  Set redirect to login user is not logged in && authentication is obligatory
-	 * @param ic		IController				Use case controller
+	 * @param controller		IController				Use case controller
 	 * @param r			Return					Return with messages for the view framework
 	 * @param ics		ViewSessionController	Class with Global Session inside
 	 * @param usecase	String					Use case to execute

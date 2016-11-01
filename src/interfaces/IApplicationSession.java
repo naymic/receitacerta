@@ -1,23 +1,19 @@
 package interfaces;
 
-import java.util.HashMap;
-
-import javax.servlet.http.HttpSession;
-
-public interface IApplicationSession {
+public interface IApplicationSession<E>{
 	
 	
 	/**
 	 * Receive the class intern session
 	 * @return
 	 */
-	HttpSession getSession();
+	public E getSession();
 	
 	/**
 	 * Set the session for getting values
 	 * @param session
 	 */
-	void setSession(HttpSession session);
+	public void setSession(E session);
 	
 	/**
 	 * Set a specifiv attribute by it's name and value
@@ -37,5 +33,8 @@ public interface IApplicationSession {
 	 * Check if a Attribute exist
 	 */
 	public boolean existMapAttribute(String name);
+
+
+	
 	
 }

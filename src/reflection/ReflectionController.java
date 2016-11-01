@@ -2,6 +2,7 @@ package reflection;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 import annotations.AControllerMethod;
 import annotations.AModelClasses;
@@ -48,6 +49,20 @@ public class ReflectionController extends GenericReflection{
 			throw new RuntimeException(npe.getMessage());
 		}
 			
+	}
+	
+	
+	public ArrayList<Method> getControllerActions(){
+		Method[] methodVector = this.getObjectClass().getMethods();
+		ArrayList<Method> actionList = new ArrayList<>();
+		
+		for(Method method : methodVector){
+			if(method.isAnnotationPresent(AControllerMethod.class)){
+				actionList.add(method);
+			}
+		}
+		
+		return actionList;
 	}
 	
 

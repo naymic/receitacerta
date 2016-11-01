@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
  * 
  * @author micha
  *
- * This annotation ist uset for Usecase Action Methods
+ * This annotation is used for Usecase Action Methods
  * Usecase Action Methods are in the Package controllers
  * and allways concatenates <action name>Action
  *  e.g buscaAction(JReturn r, Model m)
@@ -16,6 +16,6 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AControllerMethod {
 	boolean checkAttributes();
-	boolean needAuthentication();//not implemented allready
+	boolean needAuthentication();//not implemented already
 	boolean checkPK() default false; //Needs if just have to check PK and not all attributes
 }

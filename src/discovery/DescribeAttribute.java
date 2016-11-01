@@ -6,26 +6,32 @@ import annotations.Entity;
 import enums.MType;
 import model.Describe;
 import model.Model;
+import reflection.ReflectionAnnotation;
 import reflection.ReflectionDAO;
 
 public class DescribeAttribute extends Describe{
-	String entity;
+	String attributeClassName;
+
 
 	public DescribeAttribute(ReflectionDAO rd, Method method){
 		this.dsetName(rd.getAttributeNameFromMethod(method));
 		
 		Entity e = rd.getEntity(method);
-		this.setEntity(e.toString());
+		ReflectionAnnotation ra = new ReflectionAnnotation(e);
+		this.setAnnotations(ra.getAnnotationMap());
+		
+		
+		this.setAttributeClassName(rd.getMethodValueClass(method).getSimpleName());
 	}
 	
-	
-	public String getEntity() {
-		return entity;
+	public String getAttributeClassName() {
+		return attributeClassName;
 	}
 
-	public void setEntity(String entity) {
-		this.entity = entity;
+	public void setAttributeClassName(String attributeClass) {
+		this.attributeClassName = attributeClass;
 	}
+
 
 	
 

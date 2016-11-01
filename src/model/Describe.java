@@ -1,5 +1,7 @@
 package model;
 
+import java.util.HashMap;
+
 import annotations.AModelClasses;
 
 import annotations.Entity;
@@ -8,6 +10,7 @@ import jresponseclasses.JReturn;
 public class Describe extends Model{
 	
 	String name;
+	HashMap<String, Object> annotations;
 	
 	@Entity(attributeName="", isInDB=false)
 	public String dgetName() {
@@ -28,6 +31,16 @@ public class Describe extends Model{
 	public void verify(JReturn r) {
 		return;
 	}
+	
+	
+	public HashMap<String, Object> getAnnotations() {
+		return annotations;
+	}
+
+	public void setAnnotations(HashMap<String, Object> annotations) {
+		this.annotations = annotations;
+	}
+
 	
 	
 }

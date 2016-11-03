@@ -21,7 +21,12 @@ public class DiscoverAttributes implements IExtendedDiscovery<DescribeAttribute,
 	@Override
 	public ArrayList<DescribeAttribute> getTypes() {
 		ReflectionDAO rd = new ReflectionDAO(object);
-		ArrayList<Method> methods = rd.getObjectMethods("get", false, false);
+		ArrayList<Method> methods = new ArrayList();
+		try{
+			methods = rd.getObjectMethodsForDiscoverAttributes("get");
+		}catch(RuntimeException re){
+			re.printStackTrace();
+		}
 		ArrayList<DescribeAttribute> describeAttributeList = new ArrayList<>();
 		
 		

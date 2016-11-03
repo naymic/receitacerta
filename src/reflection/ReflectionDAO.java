@@ -68,23 +68,38 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param isFK boolean
 	 * @return ArrayList<Method> Filtered Methods
 	 */	
-	public ArrayList<Method> getObjectMethods(String partOfMethodName, boolean isPK, boolean isFK){
+	public ArrayList<Method> getObjectMethods(String partOfMethodName, boolean isPK, boolean isFK)throws RuntimeException{
 		ArrayList<Method> list = new ArrayList<>();
 		
 		Method[] ms = this.getObjectClass().getMethods();
 		
-		//Get also methods of inheritance
-		/*if(this.getObjectClass().getSuperclass() != Model.class){
-			ReflectionDAO superRd = new ReflectionDAO((Model)GenericReflection.instanciateObjectByName(this.getObjectClass().getSuperclass()));
-			list = superRd.getObjectMethods(partOfMethodName, isPK, isFK);
-		}*/
-		
+	
 		for(Method m : ms){
-			if(m.getName().contains(partOfMethodName) && this.getEntity(m) != null){
+			if(m.getName().startsWith(partOfMethodName) && this.getEntity(m) != null){
 				
 				if( (isPK && this.isPK(m)) || (isFK && this.isFK(m)) || (!isPK && !isFK) ){
 					list.add(m);
 				}
+			}
+		}
+		return list;	
+	}
+	
+	/**
+	 * Returns the Methods by filtering them by the parameters
+	 * @param partOfMethodName String
+	 * @param isPK boolean
+	 * @param isFK boolean
+	 * @return ArrayList<Method> Filtered Methods
+	 */	
+	public ArrayList<Method> getObjectMethodsForDiscoverAttributes(String partOfMethodName){
+		ArrayList<Method> list = new ArrayList<>();
+		
+		Method[] ms = this.getObjectClass().getMethods();
+	
+		for(Method m : ms){
+			if(m.getName().contains(partOfMethodName) && m.isAnnotationPresent(Entity.class) && this.getEntity(m) != null){
+				list.add(m);
 			}
 		}
 		return list;	
@@ -175,12 +190,13 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param method
 	 * @return
 	 */
-	public Entity getEntity(Method method) {
-		
+	public Entity getEntity(Method method)throws RuntimeException {
+		Entity e = null;
 		method = getGetMethod(method);
-		
-		Entity e =  method.getAnnotation(Entity.class);
-		
+		if(method.isAnnotationPresent(Entity.class)){
+			e =  method.getAnnotation(Entity.class);
+		}
+
 		if(e == null)
 			throw new RuntimeException("Method:" + method.getName() + " in "+ this.getObject().getClass() +" has no Entity");
 		return 	e;			

@@ -6,7 +6,11 @@ import model.Describe;
 public class DescribeUsecase extends Describe{
 
 	public DescribeUsecase(IController controller){
-		this.dsetName(controller.getClass().getSimpleName());
+		String controllerName = controller.getClass().getSimpleName();
+		int i = controllerName.indexOf("Controller");
+		
+		
+		this.dsetName(controllerName.substring(0, i));
 	}
 
 

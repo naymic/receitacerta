@@ -21,8 +21,11 @@ public class StringUtils {
 			commaString += "," + stringVect[i];
 		}
 		
-		
-		return commaString.substring(1);
+		if(commaString.length() > 0){
+			return commaString.substring(1);
+		}else{
+			return commaString;
+		}
 	}
 	
 	/**

@@ -80,7 +80,7 @@ public class ReflectionDAO extends GenericReflection{
 		}*/
 		
 		for(Method m : ms){
-			if(m.getName().contains(partOfMethodName) && m.isAnnotationPresent(Entity.class) && this.getEntity(m) != null){
+			if(m.getName().contains(partOfMethodName) && this.getEntity(m) != null){
 				
 				if( (isPK && this.isPK(m)) || (isFK && this.isFK(m)) || (!isPK && !isFK) ){
 					list.add(m);

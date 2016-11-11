@@ -281,7 +281,7 @@ public class GenericReflection {
 	}
 		
 	/**
-	 * Get a array of all field of the object
+	 * Get a array of all fields of the object
 	 * @return ArrayList<Field>
 	 */
 	public ArrayList<Field> getArrayFields(){

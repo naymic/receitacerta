@@ -1,11 +1,15 @@
 package jresponseclasses;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import annotations.Entity;
+import enums.MType;
 import model.Model;
+import reflection.ReflectionDAO;
 
 
 public class JData {
@@ -53,11 +57,21 @@ public class JData {
 	}
 	
 	
-	public void setDataTypes(ArrayList<Field> fieldList){
+	public void setDataTypes(ArrayList<Field> fieldList, ReflectionDAO rd){
 		this.dataType = new HashMap<>();
 		
 		for(Field f: fieldList){
-			JDataType djt = new JDataType(f);
+			Method methodByFieldname = null;
+			Entity e = null;
+			try{
+				methodByFieldname = rd.getMethodByFieldname(f.getName(), MType.get, null);
+				e = rd.getEntity(methodByFieldname);
+			}catch(RuntimeException re){
+				
+			}
+			
+			
+			JDataType djt = new JDataType(f, e);
 			dataType.put(f.getName(), djt);
 		}
 	}

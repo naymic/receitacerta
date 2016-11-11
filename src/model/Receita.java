@@ -14,7 +14,6 @@ public class Receita extends ReceitaParent{
 	//private ArrayList<Pertence> listaPertence;
 	//private ArrayList<Passo> listaPassos;
 	private Double maxCalories;
-	private Ingredientes ingredientes;
 
 	@Override
 	public String getTableName() {

@@ -11,6 +11,7 @@ import annotations.Entity;
 import enums.MType;
 import model.Model;
 import utils.StringUtils;
+import utils.Transform;
 
 
 /**
@@ -116,6 +117,33 @@ public class ReflectionDAO extends GenericReflection{
 		while(ms.hasNext()){
 			Method m = ms.next();
 			fields.put(m.getName(), this.getMethodValue(m.getName()));
+		}
+		
+		return fields;
+	}
+	
+	
+	/**
+	 * Get a array of all fields of the object
+	 * @return ArrayList<Field>
+	 */
+	@Override
+	public ArrayList<Field> getArrayFields(){
+		ArrayList<Field> fields = new ArrayList<>();
+		return ReflectionDAO.getArrayFields(this.getObjectClass(), fields);
+	}
+	
+	/**
+	 * Helper function to get all fields of the object
+	 * @return ArrayList<Field>
+	 */
+	private static ArrayList<Field> getArrayFields(Class<?> cl, ArrayList<Field> fields){
+		
+		if(cl == Model.class){
+			return fields;
+		}else{
+			fields.addAll(Transform.vectorToArray(cl.getDeclaredFields()));
+			ReflectionDAO.getArrayFields(cl.getSuperclass(), fields);
 		}
 		
 		return fields;

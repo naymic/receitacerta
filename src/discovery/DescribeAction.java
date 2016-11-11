@@ -13,8 +13,10 @@ public class DescribeAction extends Describe{
 
 
 	public DescribeAction(ReflectionController rc, Method actionMethod){
-		this.dsetName(actionMethod.getName());
 		
+		int i = actionMethod.getName().indexOf("Action");
+		this.dsetName(actionMethod.getName().substring(0, i));
+				
 		AControllerMethod acm = actionMethod.getAnnotation(AControllerMethod.class);
 		ReflectionAnnotation ra = new ReflectionAnnotation(acm);
 		this.setAnnotations(ra.getAnnotationMap());

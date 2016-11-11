@@ -39,7 +39,7 @@ public class CrudController extends GenericController{
 		r.getData().setDataObject(object);
 		
 		//Add all Form dataTypes
-		r.getData().setDataTypes(rdr.getArrayFields());
+		r.getData().setDataTypes(rdr.getArrayFields(), rdr);
 		r.setReturnType(ReturnType.FORM);
 		return r;		
 	}
@@ -71,7 +71,7 @@ public class CrudController extends GenericController{
 			//ObjectLockerCache.getInstance().addToCache(rdr.getObjectClass(), (Integer)rdr.getPK(), rdr.getObject());
 
 			//Add all Form dataTypes
-			r.getData().setDataTypes(rdr.getArrayFields());
+			r.getData().setDataTypes(rdr.getArrayFields(), rdr);
 			
 			//Set JSon response return type
 			r.setReturnType(ReturnType.FORM);

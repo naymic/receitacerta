@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 
 import controllers.GenericController;
 import db.Config;
+import interfaces.IApplicationSession;
 import interfaces.IController;
 import jrequestclasses.JRequest;
 import jresponseclasses.JReturn;
@@ -61,6 +62,8 @@ public class ViewController extends HttpServlet {
 	public void doHttp(HttpServletRequest request, HttpServletResponse response){
 		String content = "";
 		HttpSession session = request.getSession(true);
+		ViewSessionController vsc = new ViewSessionController();
+		vsc.setSession(session);
 		
 		//Get real path
 		Config.getInstance().setFilepath(request.getServletContext().getRealPath("/"));
@@ -83,7 +86,7 @@ public class ViewController extends HttpServlet {
 		
 		
 		//Iterate throught all requests
-		content = process(jrequ[0], r, session);
+		content = process(jrequ[0], r, vsc);
 		
 		response.setContentType("application/json");
 		try {
@@ -118,15 +121,12 @@ public class ViewController extends HttpServlet {
 		return requ.getClassname();
 	}
 	
-	public String process(JRequest requ, JReturn r, HttpSession session){
+	public String process(JRequest requ, JReturn r, IApplicationSession<?> session){
 		String usecase = new String("");
 		String action = new String("");
 		String classname = new String("");
 		String jString = new String("");
 		
-		//Set HTTP ViewSessionController
-		ViewSessionController ics = new ViewSessionController();
-		ics.setSession(session);
 		
 		
 		//Set usecase and action
@@ -142,7 +142,7 @@ public class ViewController extends HttpServlet {
 		IController ic = null;
 		//Get the controller for the required action
 		if(r.isSuccess())
-			ic = GenericController.getController(r, usecase, ics);
+			ic = GenericController.getController(r, usecase, session);
 		
 		//Generic use case execution
 		if(r.isSuccess()){

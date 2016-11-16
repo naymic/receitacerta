@@ -48,6 +48,7 @@ public class TestViewMethods extends TestCases{
 	public void testRedirect() {
 		ViewController vc = new ViewController();
 		JReturn r = new JReturn();
+		ApplicationSessionForTests as = new ApplicationSessionForTests();
 		
 	
 		JRequest jrequ = new JRequest();
@@ -57,14 +58,14 @@ public class TestViewMethods extends TestCases{
 		
 		
 		Config.getInstance().setTestDB(false);
-		vc.process(jrequ, r, null);
+		vc.process(jrequ, r, as);
 		Config.getInstance().setTestDB(true);
 		
 		
 		assertFalse(r.isSuccess());
 		assertEquals("login", r.getRedirect().getAction());
 		assertEquals("Usuario", r.getRedirect().getClassname());
-		assertEquals("Login",r.getRedirect().getUsecase());
+		assertEquals("login",r.getRedirect().getUsecase());
 		
 	}
 	

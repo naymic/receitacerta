@@ -2,10 +2,6 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.junit.Before;
 import org.junit.Test;
 

@@ -35,6 +35,9 @@ public class TestLoginController  extends TestCases {
 	}
 	
 	@Test
+	/**
+	 * Test if the login is working correct
+	 */
 	public void testLogin(){
 		ApplicationSessionForTests as = new ApplicationSessionForTests();
 		JReturn response = new JReturn();
@@ -51,20 +54,27 @@ public class TestLoginController  extends TestCases {
 	}
 	
 	@Test
+	/**
+	 * Test if the login, recognizes a wrong email and don't login the user
+	 */
 	public void testWrongEmail(){
+		
 		ApplicationSessionForTests as = new ApplicationSessionForTests();
 		JReturn response = new JReturn();
 		IController ic = GenericController.getController(response, "login", as);
 		this.setControllerVariables(ic);
 		
 		//Login with wrong email
-		ic.addVariable("email", "micha.meier.siue@gmail.com");
+		ic.addVariable("email", "micha.meier.siuee@gmail.com");
 		ic.execute(response, "login");
 		assertFalse(response.isSuccess());
 		assertFalse(response.getUser().isLoggedin());
 	}
 	
 	@Test
+	/**
+	 * Test if the system recognize a wrong password
+	 */
 	public void testWrongPassword(){
 		ApplicationSessionForTests as = new ApplicationSessionForTests();
 		JReturn response = new JReturn();
@@ -72,7 +82,7 @@ public class TestLoginController  extends TestCases {
 		this.setControllerVariables(ic);
 		
 		//Login with wrong email
-		ic.addVariable("senha", "12456");
+		ic.addVariable("senha", "127456");
 		ic.execute(response, "login");
 		assertFalse(response.isSuccess());
 		assertFalse(response.getUser().isLoggedin());

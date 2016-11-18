@@ -62,7 +62,7 @@ public class LoginController extends GenericController{
 	public void logoutAction(JReturn r, Model loginUser){
 		
 		r.setUser(this.resetUser());
-		r.getRedirect().setRedirection("Login", "login", "login");
+		r.getRedirect().setRedirection("Usuario", "login", "login");
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class LoginController extends GenericController{
 	
 	
 	/* App Session  */
-	public IApplicationSession getAppSession() {return appSession;}
+	public IApplicationSession<?> getAppSession() {return appSession;}
 	public void setAppSession(IApplicationSession appSession) {this.appSession = appSession;}
 	
 

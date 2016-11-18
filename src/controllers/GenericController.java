@@ -552,7 +552,7 @@ public class GenericController implements IController{
 			//Check if user is already logged in
 			if(!lc.isUserSessionLoggedin()){
 
-				r.getRedirect().setRedirection("Login", "login", "login");
+				r.getRedirect().setRedirection("Usuario", "login", "login");
 				r.setSuccess(false);
 
 				//Set Redirection to 

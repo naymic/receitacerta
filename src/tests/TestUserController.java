@@ -44,25 +44,24 @@ public class TestUserController {
 		ic.execute(response, "salvar");
 		assertTrue(response.isSuccess());
 		
-		Usuario u = (Usuario)response.getData().getData().get(0);
-		ic.addVariable("id", u.getId());
-		ic.execute(new JReturn(), "remover");
+		
 	}
 	
 	
 	@Test
-	public void testSalvar(){
+	public void testEdit(){
 		ApplicationSessionForTests as = new ApplicationSessionForTests();
 		JReturn response = new JReturn();
 		IController ic = GenericController.getController(response, "Usuario", as);
 		this.setControllerVariables(ic);
 		
+		ic.addVariable("id", this.id);
+		
 		//Login with correct credentials
-		ic.execute(response, "salvar");
+		ic.execute(response, "edit");
 		assertTrue(response.isSuccess());
 		
-		Usuario u = (Usuario)response.getData().getData().get(0);
-		this.id = u.dgetId();
+		
 	}
 	
 	@Test
@@ -71,10 +70,6 @@ public class TestUserController {
 		JReturn response = new JReturn();
 		IController ic = GenericController.getController(response, "Usuario", as);
 		this.setControllerVariables(ic);
-		
-		//Login with correct credentials
-		ic.execute(response, "salvar");
-		assertTrue(response.isSuccess());
 		
 		ic.addVariable("id", this.id);
 		ic.execute(new JReturn(), "remover");

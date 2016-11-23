@@ -56,6 +56,13 @@ public class TestUserController {
 		this.setControllerVariables(ic);
 		
 		ic.addVariable("id", this.id);
+		ic.addVariable("email","test@test.com");
+		ic.addVariable("newSenha", "123456");
+		ic.addVariable("repeatedSenha", "123456");
+		ic.addVariable("nome","Thiago");
+		ic.addVariable("sobrenome","Miranda");
+		ic.addVariable("celular","062 9934 5643");
+		
 		
 		//Login with correct credentials
 		ic.execute(response, "edit");

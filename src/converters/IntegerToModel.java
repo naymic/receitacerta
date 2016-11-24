@@ -13,7 +13,7 @@ import reflection.ReflectionModel;
 public class IntegerToModel implements IExtendedConverter{
 	
 	public Object convert(Object value, Class<?> c) throws Exception{
-		Model model = (Model) ReflectionDAORelation.instanciateObjectByName(c);
+		Model model = (Model) ReflectionDAORelation.instanciateByClass(c);
 		ReflectionDAORelation rdr = new ReflectionDAORelation(model);
 		rdr.setPK(value);
 		

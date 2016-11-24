@@ -26,7 +26,7 @@ public class DiscoverUsecases  implements IDiscovery<DescribeUsecase>{
 		ArrayList<Class<?>> modelClassList = getControllers();
 		
 		for(Class<?> cl: modelClassList){
-			IController controller = (IController)GenericReflection.instanciateObjectByName(cl);
+			IController controller = (IController)GenericReflection.instanciateByClass(cl);
 			DescribeUsecase du = new DescribeUsecase(controller);
 			descibeUsecaseList.add(du);
 		}

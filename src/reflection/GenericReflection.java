@@ -226,7 +226,7 @@ public class GenericReflection {
 	 * @param className
 	 * @return
 	 */
-	public static Object instanciateObjectByName(Class<?> _class) throws RuntimeException{
+	public static Object instanciateByClass(Class<?> _class) throws RuntimeException{
 		return instanciateObjectByName(_class.getName());
 	}
 	

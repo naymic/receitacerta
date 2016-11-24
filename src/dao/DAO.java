@@ -315,7 +315,7 @@ public class DAO implements IDAO{
 		List<Method> ms = rd.getGetFKs();
 		for(Method m : ms){
 			Class<?> cs = rd.getMethodValueClass(m);
-			Model obj = (Model)GenericReflection.instanciateObjectByName(cs);
+			Model obj = (Model)GenericReflection.instanciateByClass(cs);
 			
 			list = this.select(obj);
 			modelArray.add(list);

@@ -104,7 +104,7 @@ public class DAORelation extends DAO{
 	 */
 	public List<Model> getFKRelationList(ReflectionDAORelation rdr, String fk_attributeName){
 		Method m = rdr.getGetMethodByColumname(fk_attributeName);
-		Model obj = (Model) ReflectionDAORelation.instanciateObjectByName(rdr.getMethodValueClass(m));
+		Model obj = (Model) ReflectionDAORelation.instanciateByClass(rdr.getMethodValueClass(m));
 			return  DAO.getInstance().select(obj);
 	}
 	

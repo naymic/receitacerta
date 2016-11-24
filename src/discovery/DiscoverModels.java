@@ -26,11 +26,13 @@ public class DiscoverModels implements IDiscovery<DescribeModel>{
 		ArrayList<Class<?>> modelClassList = getModels();
 
 		for(Class<?> cl: modelClassList){
-			Model model = (Model)GenericReflection.instanciateObjectByName(cl);
-			if(model != null && model.getClass().isAnnotationPresent(AModelClasses.class)){
-				ReflectionDAO rd = new ReflectionDAO(model);
-				DescribeModel dm = new DescribeModel(rd);
-				describeModelList.add(dm);
+			if(cl.isAnnotationPresent(AModelClasses.class)){
+			Model model = (Model)GenericReflection.instanciateByClass(cl);
+				if(model != null && model.getClass().isAnnotationPresent(AModelClasses.class)){
+					ReflectionDAO rd = new ReflectionDAO(model);
+					DescribeModel dm = new DescribeModel(rd);
+					describeModelList.add(dm);
+				}
 			}
 		}
 

@@ -95,7 +95,7 @@ public class DAORelationList extends DAORelation{
 			if(classOfObject == ArrayList.class){
 				//Instance a object and set the mapped Object in 
 				Class<?> arrayListObjectClass = list.get(0).getClass();
-				objectOfArray = (Model) GenericReflection.instanciateObjectByName(arrayListObjectClass);
+				objectOfArray = (Model) GenericReflection.instanciateByClass(arrayListObjectClass);
 				ReflectionDAORelationList.setMappedObject(mainObject, objectOfArray);
 				
 				//Select all objects that combine with the one object set of the array

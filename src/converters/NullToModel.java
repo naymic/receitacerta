@@ -8,7 +8,7 @@ public class NullToModel implements IExtendedConverter{
 
 	@Override
 	public Object convert(Object value, Class<?> c) throws Exception {
-		return (Model)GenericReflection.instanciateObjectByName(c);
+		return (Model)GenericReflection.instanciateByClass(c);
 	}
 
 }

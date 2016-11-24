@@ -390,7 +390,7 @@ public class GenericController implements IController{
 		if(this.getAppSession() == null)
 			return false;
 		
-		if(!this.getAppSession().existMapAttribute("user") || this.getAppSession().getMapAttribute("user") == null )
+		if((!this.getAppSession().existMapAttribute("user")) || (this.getAppSession().getMapAttribute("user") == null))
 			return false;
 		
 		IUser iu= (IUser)this.getAppSession().getMapAttribute("user");

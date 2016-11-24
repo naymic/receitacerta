@@ -1,5 +1,8 @@
 package utils;
 
+import java.util.regex.Pattern;
+
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import jresponseclasses.JReturn;
 
 public class Verifier {
@@ -24,6 +27,10 @@ public class Verifier {
 	
 	public boolean verifyNumbers(String word){
 		return word.matches("\\d");
+	}
+	
+	public boolean verifyLetters(String word){
+		return Pattern.matches("[a-zA-Z]+", word);
 	}
 
 }

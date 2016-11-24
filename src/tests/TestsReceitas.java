@@ -2,6 +2,8 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,13 +13,14 @@ import db.Config;
 import interfaces.IController;
 import jresponseclasses.JReturn;
 import jresponseclasses.JUser;
+import model.Receita;
 import model.User;
 import model.Usuario;
 import views.ViewController;
 
 public class TestsReceitas  extends TestCases {
 	
-	private Integer id;
+	private Receita savedRecipe;
 
 	@Before
 	public void initTestDatabase(){
@@ -69,10 +72,14 @@ public class TestsReceitas  extends TestCases {
 		//Login with correct credentials
 		ic.execute(response, "salvar");
 		assertTrue(response.isSuccess());
+		
+		savedRecipe = (Receita) response.getData().getData().get(0);
+		assertTrue(savedRecipe != null);
+		
 	}
 	
-	
-	public void testeAlterarReceita(){
+	@Test
+	public void testeListRecipes(){
 		ApplicationSessionForTests as = new ApplicationSessionForTests();
 		JReturn response = new JReturn();
 		login(as, response);
@@ -82,6 +89,12 @@ public class TestsReceitas  extends TestCases {
 		//Login with correct credentials
 		ic.execute(response, "buscaavancada");
 		assertTrue(response.isSuccess());
+		
+		List<Receita> recipes =  (List)response.getData().getData();
+		
+		for(Receita recipe:recipes){
+			System.out.println(recipe.dgetNome());
+		}
 	}
 	
 	

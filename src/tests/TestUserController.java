@@ -33,21 +33,6 @@ public class TestUserController {
 		
 	}
 	
-	@Test
-	public void testSalvar(){
-		ApplicationSessionForTests as = new ApplicationSessionForTests();
-		JReturn response = new JReturn();
-		IController ic = GenericController.getController(response, "Usuario", as);
-		this.setControllerVariables(ic);
-		
-		//Login with correct credentials
-		ic.execute(response, "salvar");
-		assertTrue(response.isSuccess());
-		
-		Usuario u = (Usuario)response.getData().getData().get(0);
-		ic.addVariable("id", u.getId());
-		ic.execute(new JReturn(), "remover");
-	}
 	
 	
 	@Test

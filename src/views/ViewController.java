@@ -88,9 +88,20 @@ public class ViewController extends HttpServlet {
 		//Iterate throught all requests
 		content = process(jrequ[0], r, vsc);
 		
-		response.setContentType("application/json");
+		
+		
 		try {
+			
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			
+			response.addHeader("Access-Control-Allow-Origin","*");
+			response.addHeader("Access-Control-Allow-Methods","GET,POST");
+			response.addHeader("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+			
 			response.getWriter().println(content);
+			
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

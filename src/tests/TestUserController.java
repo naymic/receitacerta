@@ -34,7 +34,6 @@ public class TestUserController {
 	}
 	
 	
-	
 	@Test
 	public void testSalvar(){
 		ApplicationSessionForTests as = new ApplicationSessionForTests();
@@ -46,8 +45,31 @@ public class TestUserController {
 		ic.execute(response, "salvar");
 		assertTrue(response.isSuccess());
 		
-		Usuario u = (Usuario)response.getData().getData().get(0);
-		this.id = u.dgetId();
+		
+	}
+
+	
+	@Test
+	public void testEdit(){
+		ApplicationSessionForTests as = new ApplicationSessionForTests();
+		JReturn response = new JReturn();
+		IController ic = GenericController.getController(response, "Usuario", as);
+		this.setControllerVariables(ic);
+		
+		ic.addVariable("id", this.id);
+		ic.addVariable("email","test@test.com");
+		ic.addVariable("newSenha", "123456");
+		ic.addVariable("repeatedSenha", "123456");
+		ic.addVariable("nome","Thiago");
+		ic.addVariable("sobrenome","Miranda");
+		ic.addVariable("celular","062 9934 5643");
+		
+		
+		//Login with correct credentials
+		ic.execute(response, "edit");
+		assertTrue(response.isSuccess());
+		
+		
 	}
 	
 	@Test
@@ -56,10 +78,6 @@ public class TestUserController {
 		JReturn response = new JReturn();
 		IController ic = GenericController.getController(response, "Usuario", as);
 		this.setControllerVariables(ic);
-		
-		//Login with correct credentials
-		ic.execute(response, "salvar");
-		assertTrue(response.isSuccess());
 		
 		ic.addVariable("id", this.id);
 		ic.execute(new JReturn(), "remover");

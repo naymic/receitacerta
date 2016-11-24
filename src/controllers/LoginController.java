@@ -19,7 +19,7 @@ public class LoginController extends GenericController{
 	
 	@AControllerMethod(checkAttributes = false, needAuthentication = false)
 	public void loginAction(JReturn r, Model obj){
-		boolean test = false;
+		boolean test = true;
 		Usuario loginUser = this.prepareUserObjectForLogin((Usuario)obj); //Remove any value, except password and email
 		
 		Usuario u = null;
@@ -91,15 +91,15 @@ public class LoginController extends GenericController{
 
 	
 
-	public void setUserSession( Usuario u){
+	public void setUserSession( User u){
 		this.getAppSession().setMapAttribute("user", u);
 	}
 	
-	public Usuario getUserSession(){
+	public User getUserSession(){
 		if(this.getAppSession().getMapAttribute("user") == null)
 			return null;
 		
-		return (Usuario) this.getAppSession().getMapAttribute("user");
+		return (User) this.getAppSession().getMapAttribute("user");
 	}
 	
 	

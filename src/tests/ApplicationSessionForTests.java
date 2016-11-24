@@ -42,7 +42,7 @@ public class ApplicationSessionForTests implements IApplicationSession<HashMap<S
 	@Override
 	public boolean existMapAttribute(String name) {
 		// TODO Auto-generated method stub
-		return false;
+		return session.containsKey(name);
 	}
 
 

@@ -110,7 +110,7 @@ public class GenericController implements IController{
 			try{
 				acm = ReflectionController.getAControllerMethod(methodAction);			
 			}catch(RuntimeException e){	
-				r.addSimpleError("Please add the AControllerMethod annotation in class: "+this.getClass().getSimpleName()+" and action: "+action );
+				r.addSimpleError("13");//Please add the AControllerMethod annotation in class: "+this.getClass().getSimpleName()+" and action: "+action
 			}
 
 			if(!Config.getInstance().isTestDB())
@@ -143,7 +143,7 @@ public class GenericController implements IController{
 				if(this.needUserObject(acm, amc))
 					this.setUserObject();
 			}catch(RuntimeException re){
-				String errormsg = "Please add a AModelClasses annotation to the model: "+ this.getModelObject().getClass().getName();
+				String errormsg = "14"; //"Please add a AModelClasses annotation to the model: "+ this.getModelObject().getClass().getName()
 				System.out.println(errormsg);
 				r.addSimpleError(errormsg);
 			}
@@ -158,21 +158,18 @@ public class GenericController implements IController{
 			try {
 				rController.executeAction(this, methodAction, r, this.getModelObject());
 			} catch (IllegalAccessException e) {
-				r.addSimpleError("Access to action is not allowed! Action: "+ action);
+				r.addSimpleError("15");//"Access to action is not allowed! Action: "+ action
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
-				r.addSimpleError("Passed parameters for action are wrong! Action: "+ action);
+				r.addSimpleError("16");//Passed parameters for action are wrong! Action: "+ action
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {
-				r.addSimpleError("Action could not be executed (invoked)! Action: "+ action);
+				r.addSimpleError("17"); //Action could not be executed (invoked)! Action: "+ action
 				e.printStackTrace();
 			}
 		}
 			
 			
-		
-		//Transform the return to json
-		this.setJson(Transform.objectToJson(r));
 		
 	}	
 
@@ -192,7 +189,7 @@ public class GenericController implements IController{
 			if(this.getObject().existAttribute(key))
 				return this.getObject().getAttribute(key);
 			else
-				throw new Exception("Key: "+key+" dont exit in the variable map");
+				throw new Exception("18"); //Key: "+key+" dont exit in the variable map
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -225,7 +222,7 @@ public class GenericController implements IController{
 
 		//Check if className is set
 		if(this.getObject().getClassName() == null || this.getObject().getClassName().length() == 0){
-			r.addSimpleError("No given className, the controller have to reveice a className from the view");
+			r.addSimpleError("6");//No given className, the controller have to reveice a className from the view
 			return null;
 		}
 
@@ -305,13 +302,13 @@ public class GenericController implements IController{
 				value = GenericConverter.convert(rdr.getMethodValueClass(m), viewValue);
 		}catch(Exception e){
 			System.out.println(e.getMessage());
-			r.addAttributeError(obj.getClass().getName(), fieldName, "Field has wrong caracters or is empty: "+ fieldName +" for "+ rdr.getObject().getClass().getSimpleName());
+			r.addAttributeError(obj.getClass().getName(), fieldName,"19" );//"Field has wrong caracters or is empty: "+ fieldName +" for "+ rdr.getObject().getClass().getSimpleName()
 			convertError = true;
 		}
 
 		//Check for empty fields but just if dont exist convert error allready
 		if(!convertError && rdr.isRequired(m) && checkAttributes && (value == null || value.toString().length() == 0) )
-			r.addAttributeError(obj.getClass().getName(), fieldName, "Field  is empty but required: "+ fieldName +" for "+ className);
+			r.addAttributeError(obj.getClass().getName(), fieldName, "20"); //"Field  is empty but required: "+ fieldName +" for "+ className
 		
 
 
@@ -417,7 +414,7 @@ public class GenericController implements IController{
 		try{
 			m1= rdr.getAllMethods(fieldName, type, args);
 		}catch(RuntimeException re){
-			r.addAttributeError(rdr.getObjectClass().getSimpleName(), fieldName, "No such attribute! Class: " +rdr.getObjectClass().getSimpleName()+" Attribute: " +fieldName);
+			r.addAttributeError(rdr.getObjectClass().getSimpleName(), fieldName, "21");//"No such attribute! Class: " +rdr.getObjectClass().getSimpleName()+" Attribute: " +fieldName
 			re.printStackTrace();
 		}
 		
@@ -466,7 +463,7 @@ public class GenericController implements IController{
 	private ReflectionDAORelation checkPK(JReturn r, Model object) {
 		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		if(rdr.getPK() == null){
-			r.addSimpleError("Primary key is not set. Object "+ object.getClass().getSimpleName() +" not found!");
+			r.addSimpleError("22");//Primary key is not set. Object "+ object.getClass().getSimpleName() +" not found!
 		}
 		
 		return rdr;
@@ -512,10 +509,10 @@ public class GenericController implements IController{
 			
 			return ic;
 		}catch(ClassNotFoundException e){
-			r.addSimpleError("Don't exist a controller for the use case "+ usecase +"!");
+			r.addSimpleError("23");//Don't exist a controller for the use case "+ usecase +"!
 			return null;
 		}catch(StringIndexOutOfBoundsException obe){
-			r.addSimpleError("Usecase is not set in the request! Please inform a usecase!");
+			r.addSimpleError("5");//Usecase is not set in the request! Please inform a usecase!
 			return null;
 		}
 		

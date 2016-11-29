@@ -29,7 +29,7 @@ public abstract class Model {
 					r.addAttributeError(rd.getObject().getClass().getSimpleName(),rd.getColumnName(m),"Attribute: "+ rd.getColumnName(m) +" is required but null in object ");
 				}
 			}catch(NullPointerException npe){
-				r.addSimpleError("Annotation AModelClasses not set in Class: "+ rd.getMethodValueClass(m).getName());
+				r.addSimpleError("14");//Annotation AModelClasses not set in Class: "+ rd.getMethodValueClass(m).getName()
 			}
 			
 			

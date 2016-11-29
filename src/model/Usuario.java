@@ -33,11 +33,11 @@ public class Usuario extends UserParent {
 			this.celular = StringUtils.justNumbers(this.celular);
 		
 			if(this.dgetCelular().length() < 12 && this.dgetCelular().length() > 12){
-				r.addAttributeError(this.getClass().getSimpleName(), "celular", "Please use only number from 0-9 and string lenght exactly 12 like 062995652132");
+				r.addAttributeError(this.getClass().getSimpleName(), "celular", "32");//Please use only number from 0-9 and string lenght exactly 12 like 062995652132
 			}
 			
 			if (!this.dgetEmail().contains("@") || !this.dgetEmail().contains(".")){
-				r.addAttributeError(this.getClass().getSimpleName(), "email", "This is not a valid email Adress. Please enter a valid address!");
+				r.addAttributeError(this.getClass().getSimpleName(), "email", "33");//This is not a valid email Adress. Please enter a valid address!
 			}
 		}catch(NullPointerException npe){
 			

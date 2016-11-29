@@ -76,7 +76,7 @@ public class CrudController extends GenericController{
 			//Set JSon response return type
 			r.setReturnType(ReturnType.FORM);
 		}else{
-			r.addSimpleError("Data for "+ object.getClass().getSimpleName() +" not found!");
+			r.addSimpleError("7");  //Data for "+ object.getClass().getSimpleName() +" not found!
 			return r;
 		}
 
@@ -109,9 +109,9 @@ public class CrudController extends GenericController{
 				ObjectLockerCache.getInstance().removeFromCache(cl, i);
 			}*/
 			
-			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully saved in database");
+			r.addMsg("8"); //Data "+ object.getClass().getSimpleName() +" successfully saved in database
 		}else{
-			r.addSimpleError("Data "+ object.getClass().getSimpleName() +" could not be saved in database");
+			r.addSimpleError("9"); //Data "+ object.getClass().getSimpleName() +" could not be saved in database
 		}
 		
 		r.getData().setDataObject(object);
@@ -133,9 +133,9 @@ public class CrudController extends GenericController{
 			r = DAO.getInstance().delete(object, r);
 		
 		if(r.isSuccess()){
-			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully removed");
+			r.addMsg("10"); //Data "+ object.getClass().getSimpleName() +" successfully removed
 		}else{
-			r.addSimpleError("Data "+ object.getClass().getSimpleName() +" could not be removed");
+			r.addSimpleError("11"); //Data "+ object.getClass().getSimpleName() +" could not be removed
 		}
 
 		return r;
@@ -194,7 +194,7 @@ public class CrudController extends GenericController{
 		if(list != null && !list.equals(null) && list.size() > 0){
 			object = (Model) list.get(0); 
 		}else{
-			r.addMsg("No data found with params: "+ StringUtils.searchString(object));	
+			r.addMsg("12");	//No data found with params: "+ StringUtils.searchString(object)
 		}
 	}
 	

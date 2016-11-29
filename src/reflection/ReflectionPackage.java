@@ -34,12 +34,12 @@ public class ReflectionPackage {
 	    // Get a File object for the package  
 	    URL directoryURL = Thread.currentThread().getContextClassLoader().getResource(packageNameSlashed);  
 	    if (directoryURL == null) {  
-	        throw new NoPackageException("Could not retrieve URL resource: " + packageNameSlashed);  
+	        throw new NoPackageException("38");  //"Could not retrieve URL resource: " + packageNameSlashed
 	    }  
 	  
 	    String directoryString = directoryURL.getFile();  
 	    if (directoryString == null) {  
-	    	throw new NoPackageException("Could not find directory for URL resource: " + packageNameSlashed);  
+	    	throw new NoPackageException("39");  //"Could not find directory for URL resource: " + packageNameSlashed
 	    }  
 	  
 	    File directory = new File(directoryString);  
@@ -54,12 +54,12 @@ public class ReflectionPackage {
 	                try {  
 	                    classes.add(Class.forName(packageName+"."+fileName));  
 	                } catch (ClassNotFoundException e) {  
-	                	throw new ClassNotFoundException(packageName + "." + fileName + " does not appear to be a valid class.", e);  
+	                	throw new ClassNotFoundException("34", e);  //packageName + "." + fileName + " does not appear to be a valid class."
 	                }  
 	            }  
 	        }  
 	    } else {  
-	    	throw new NoPackageException(packageName + " does not appear to exist as a valid package on the file system.");  
+	    	throw new NoPackageException("40");  //packageName + " does not appear to exist as a valid package on the file system."
 	    }  
 	    return classes;  
 	}  

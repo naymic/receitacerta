@@ -2,6 +2,8 @@ package utils;
 
 import java.util.ArrayList;
 
+import org.eclipse.jdt.internal.compiler.ast.ThisReference;
+
 import com.google.gson.Gson;
 
 public class Transform {
@@ -27,6 +29,12 @@ public class Transform {
 		object = (E) g.fromJson(json, object.getClass());
 		
 		return object;
+	}
+	
+	
+	public static <E> E jsonToObject(StringBuffer json, E object){
+		
+		return jsonToObject(json.toString(), object);
 	}
 	
 	

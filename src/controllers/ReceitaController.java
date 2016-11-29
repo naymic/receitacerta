@@ -18,7 +18,7 @@ public class ReceitaController extends CrudController {
 		
 		if(vf.verifyNumbers(recipe.dgetNome()) || vf.verifySpecialCharacters(recipe.dgetNome())){
 			
-			r.addSimpleError("Nome n„o pode conter caracteres especiais");
+			r.addSimpleError("26");//Nome n√£o pode conter caracteres especiais
 			r.setSuccess(false);
 			
 		}else if(vf.verifySpecialCharacters(Integer.toString(recipe.dgetReceitaRendimentosTipoValor())) ||

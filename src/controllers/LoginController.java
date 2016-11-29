@@ -45,12 +45,12 @@ public class LoginController extends GenericController{
 			
 			this.setUserSession(user);
 			r.setUser(user);
-			r.addMsg("User sucessfully indentified!");
+			r.addMsg("1");//User sucessfully indentified!
 			//r.setRedirect((JRedirect)this.getAppSession().getMapAttribute("redirect"));
 			
 		}else{
 			r.setUser(this.resetUser());
-			r.addSimpleError("Email and password combination could not be found. Login failed!");
+			r.addSimpleError("2");//Email and password combination could not be found. Login failed!
 		}
 	}
 	

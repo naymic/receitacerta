@@ -226,7 +226,7 @@ public class ReflectionDAO extends GenericReflection{
 		}
 
 		if(e == null)
-			throw new RuntimeException("Method:" + method.getName() + " in "+ this.getObject().getClass() +" has no Entity");
+			throw new RuntimeException("35");//Method:" + method.getName() + " in "+ this.getObject().getClass() +" has no Entity
 		return 	e;			
 	}
 	
@@ -344,7 +344,7 @@ public class ReflectionDAO extends GenericReflection{
 		
 		
 		try{			
-			throw new Exception("Exist no method for the columname "+ columname + " in the "+ this.getObject().getClass());
+			throw new Exception("36");//"Exist no method for the columname "+ columname + " in the "+ this.getObject().getClass()
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
@@ -361,7 +361,7 @@ public class ReflectionDAO extends GenericReflection{
 		
 		
 		try{
-			throw new Exception("Exist no method for the columname "+ columname + " in the "+ this.getObject().getClass());
+			throw new Exception("35");//"Exist no method for the columname "+ columname + " in the "+ this.getObject().getClass()
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
@@ -380,7 +380,7 @@ public class ReflectionDAO extends GenericReflection{
 			return this.getMethod(preName+mt.name()+StringUtils.setFirstLetterUppercase(fieldname), args);
 			}catch(Exception e){
 				System.out.println("Exist no method for the columname "+ fieldname + " in the "+ this.getObject().getClass());
-				throw new RuntimeException("Exist no method for the columname "+ fieldname + " in the "+ this.getObject().getClass());
+				throw new RuntimeException("36");//"Exist no method for the columname "+ fieldname + " in the "+ this.getObject().getClass()
 			}
 		}
 		

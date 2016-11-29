@@ -177,7 +177,7 @@ public class DAO implements IDAO{
 			stmt.executeUpdate();
 			stmt.close();
 		}catch(MySQLIntegrityConstraintViolationException mcve){
-			r.addSimpleError("Object is used in a other database table and canno't be deleted! "+ mcve.getErrorCode());
+			r.addSimpleError("29");//Object is used in a other database table and canno't be deleted! "+ mcve.getErrorCode()
 		}catch (SQLException e) {
 			r.addSimpleError(e.toString());
 			e.printStackTrace();

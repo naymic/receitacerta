@@ -53,7 +53,7 @@ public class GerarReceitasController extends CrudController{
 			if(recta.getStringIngredientesId() != null && recta.getStringIngredientesId().length() > 0)
 				ingredientsList = getIngredientsList(recta.getStringIngredientesId());
 		} catch (Exception e) {
-			r.addSimpleError("The string with the id's of the ingredients has some error. String: "+ recta.getStringIngredientesId());
+			r.addSimpleError("24");//"The string with the id's of the ingredients has some error. String: "+ recta.getStringIngredientesId()
 			e.printStackTrace();
 		}
 		ArrayList<Model> recipeList = DAOGerarReceita.getInstance().search(recta, ingredientsList, this.getPageNumber());

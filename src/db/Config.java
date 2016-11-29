@@ -27,7 +27,7 @@ public class Config {
 		
 		//Set Static values for JUnit Tests
 		this.testDB=b;
-		this.setFilepath("C:\\Users\\Douglas J. Costa\\ProjetoReceitaCerta\\receitacertabackend\\WebContent\\");
+		this.setFilepath("/home/micha/workspace/receitacertabackend/WebContent/");
 	}
 	
 	public boolean isTestDB(){

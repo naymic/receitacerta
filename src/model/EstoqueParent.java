@@ -87,7 +87,7 @@ public class EstoqueParent extends Model {
 		dsetDataInsercao(date);
 		
 		if(quantidade < 0){
-			r.addSimpleError("Quantity can't be lower than 0");
+			r.addSimpleError("31");//Quantity can't be lower than 0
 		}
 		
 		

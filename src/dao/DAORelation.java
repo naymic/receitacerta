@@ -122,7 +122,7 @@ public class DAORelation extends DAO{
 		if(rdr.getValueFromAttributeName(columnName) == null){
 			List<Model> list = DAORelation.getInstance().select(rdr.getObject());
 			if(list.size() > 1)
-				throw new Exception("Object need a primary key "+ rdr.getObject().getClass().getName());
+				throw new Exception("22");//"Object need a primary key "+ rdr.getObject().getClass().getName()
 			rdr.setObject(list.get(0));
 		}
 		

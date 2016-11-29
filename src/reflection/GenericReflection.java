@@ -210,7 +210,7 @@ public class GenericReflection {
 			obj = ref.newInstance();
 		} catch (ClassNotFoundException e) {
 			System.out.println("Given classname don't exist! Classname: "+ className);	
-			throw new RuntimeException("Given classname don't exist! Classname: "+ className);
+			throw new RuntimeException("34");//"Given classname don't exist! Classname: "+ className
 					
 			//e.printStackTrace();
 		} catch ( InstantiationException | IllegalAccessException e) {

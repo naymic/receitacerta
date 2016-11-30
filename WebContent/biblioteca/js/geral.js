@@ -96,6 +96,7 @@ function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um
 		$("select").selectpicker();
 		
 	console.log(nomeForm);
+	$("#"+nomeForm).append("<br /><br /><span style='color:red'>* Campo Obrigatorio</span>");
 }
 
 function checkboxConstroi(dados){

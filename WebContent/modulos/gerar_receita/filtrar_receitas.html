@@ -43,12 +43,13 @@
 <table class="table table-striped table-bordered table-hover" id="Receita">
     <thead>
 		<tr>
-			<th>Nome</th>
-			<th>Tempo de preparo</th>
-			<th>Quantidade de Pessoas</th>
-			<th>Tipo de Rendimento</th>
-      		<th>Tipo de Receita</th>
+			<th data-valor="nome" data-tipo="ASC" class="thPesquisa">Nome</th>
+			<th data-valor="tempoPreparo" data-tipo="ASC" class="thPesquisa">Tempo de preparo</th>
+			<th data-valor="receitaRendimentosTipoValor" data-tipo="ASC" class="thPesquisa">Quantidade de Pessoas</th>
+			<th data-valor="receitaRendimentoTipos" data-tipo="ASC" class="thPesquisa">Tipo de Rendimento</th>
+      		<th data-valor="receitaTiposNome" data-tipo="ASC" class="thPesquisa">Tipo de Receita</th>
 			<th>#</th>
+
 		</tr>
         </thead>
         <tbody>
@@ -68,7 +69,7 @@
 		
 <!-- 	<tbody> -->
 
-<!-- 		<!-- Início da lista de receitas --> -->
+<!-- 		<!-- Início da lista de receitas --> 
 <!-- 		<tr> -->
 <!-- 			<td> -->
 <!-- 				Nome e detalhes da receita -->
@@ -104,7 +105,7 @@
 <!-- 				Fim da Lista de ingredientes da receita -->
 <!-- 			</td> -->
 <!-- 		</tr> -->
-<!-- 		<!-- Fim da lista de receitas --> -->
+<!-- 		<!-- Fim da lista de receitas --> 
 
 <!-- 	</tbody> -->
 <!-- </table> -->
@@ -142,6 +143,27 @@ var objFormGerarReceita = {"dados":{"classname":"Receita","action":FORMFILTER,"u
 console.log(objFormGerarReceita);
 validaAction('Novo',objFormGerarReceita);
 
+
+$(document).off('click','.thPesquisa');
+$(document).on('click','.thPesquisa',function(e){
+	console.log("teste");
+	var valor = $(this).data('valor');
+	var order = $(this).data('tipo');
+	var classe = $(this).parent().data('classe');
+	$('.thPesquisa').css({"background-color":"","color":"black"});
+	$('.thPesquisa').data('tipo','ASC');
+	if(order == 'ASC'){
+		$(this).css({"background-color":"#428bca","color":"white"});
+		$(this).data('tipo','DESC');
+	}else{
+		$(this).css({"background-color":"#e65c00","color":"white"});
+		$(this).data('tipo','ASC');
+	}
+	objIngrediente.dados.orderlist = [{"name":valor,"ordertype":order}];
+	validaAction('Consulta',objIngrediente);
+	//var request = {"classname":classe,"action":"buscaavancada", "usecase":"Crud", "orderlist":[{"name":valor,"ordertype":order}]};
+	
+});
 
 $("#ingredientes").change(function(e){
 	console.log($(this).val());

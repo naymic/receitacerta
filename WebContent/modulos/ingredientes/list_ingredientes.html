@@ -18,13 +18,13 @@
 <hr />
 	<table class="table table-striped table-bordered table-hover" id="Ingredientes">
     <thead>
-		<tr>
-			<th>Id</th>
-			<th>Nome</th>
-			<th>Tipo Ingrediente</th>
-			<th>Calorias</th>
-      		<th>Unidade</th>
-      		<th>Tipo Armazenamento</th>
+		<tr data-classe="IngredientesView">
+			<th data-valor="id" data-tipo="ASC" class="thPesquisa">Id</th>
+			<th data-valor="nome" data-tipo="ASC"  class="thPesquisa">Nome</th>
+			<th data-valor="ingredientesTipoId" data-tipo="ASC" class="thPesquisa">Tipo Ingrediente</th>
+			<th data-valor="calorias" data-tipo="ASC" class="thPesquisa">Calorias</th>
+      		<th data-valor="ingredientesUnidade" data-tipo="ASC" class="thPesquisa">Unidade</th>
+      		<th data-valor="ingredienteArmazenamentosId" data-tipo="ASC" class="thPesquisa">Tipo Armazenamento</th>
 			<th>#</th>
 		</tr>
         </thead>
@@ -32,6 +32,7 @@
 
         </tbody>
 	</table>
+	
 <script>
 
 var btns = new Array();
@@ -55,4 +56,25 @@ btns.push({"action":"ExcluiList","classes":"btn-danger btnActionList","datasconf
 	var objIngrediente = {"dados":{"classname":"IngredientesView","action":"buscaavancada", "usecase":"Crud"},"config": configOpt,"nomeForm":"consultaIngredientes"};
 	console.log(objIngrediente);
 	validaAction('Consulta',objIngrediente);
+	
+	$(document).off('click','.thPesquisa');
+	$(document).on('click','.thPesquisa',function(e){
+		console.log("teste");
+		var valor = $(this).data('valor');
+		var order = $(this).data('tipo');
+		var classe = $(this).parent().data('classe');
+		$('.thPesquisa').css({"background-color":"","color":"black"});
+		$('.thPesquisa').data('tipo','ASC');
+		if(order == 'ASC'){
+			$(this).css({"background-color":"#428bca","color":"white"});
+			$(this).data('tipo','DESC');
+		}else{
+			$(this).css({"background-color":"#e65c00","color":"white"});
+			$(this).data('tipo','ASC');
+		}
+		objIngrediente.dados.orderlist = [{"name":valor,"ordertype":order}];
+		validaAction('Consulta',objIngrediente);
+		//var request = {"classname":classe,"action":"buscaavancada", "usecase":"Crud", "orderlist":[{"name":valor,"ordertype":order}]};
+		
+	});
 </script>

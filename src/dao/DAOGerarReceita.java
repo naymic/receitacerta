@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import jrequestclasses.JOrder;
 import model.Ingredientes;
 import model.Model;
 import model.Pertence;
@@ -29,7 +30,7 @@ public class DAOGerarReceita extends DAORelation {
 	
 
 
-	public ArrayList<Model> search(Model recipe, ArrayList<Model> ingredientes, Integer page){
+	public ArrayList<Model> search(Model recipe, ArrayList<Model> ingredientes, Integer page, ArrayList<JOrder> orderList){
 
 		//Remove the maxCalories value to filter after
 		ReceitaView receita = (ReceitaView)recipe;
@@ -40,7 +41,7 @@ public class DAOGerarReceita extends DAORelation {
 			receita.dsetMaxCalories(null);
 		}
 
-		ArrayList<Model> list = DAORelationList.getInstance().search(receita, page);
+		ArrayList<Model> list = DAORelationList.getInstance().search(receita, page, orderList);
 		
 		//Create a filter to check if the maxCalorias are less than given from user
 		if(maxC != null)

@@ -3,24 +3,22 @@ package controllers;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 
+import annotations.AControllerMethod;
+import annotations.AModelClasses;
 import converters.GenericConverter;
-import dao.DAO;
 import db.Config;
 import enums.MType;
 import exceptions.NoActionException;
 import interfaces.IApplicationSession;
 import interfaces.IController;
 import interfaces.IUser;
+import jrequestclasses.JOrder;
 import jresponseclasses.JData;
 import jresponseclasses.JRedirect;
 import jresponseclasses.JReturn;
 import model.Model;
-import model.User;
-import model.Usuario;
 import reflection.GenericReflection;
 import reflection.ReflectionController;
 import reflection.ReflectionDAO;
@@ -28,10 +26,7 @@ import reflection.ReflectionDAORelation;
 import reflection.ReflectionModel;
 import utils.RequestObject;
 import utils.StringUtils;
-import utils.Transform;
 import views.ViewSessionController;
-import annotations.AControllerMethod;
-import annotations.AModelClasses;
 
 public class GenericController implements IController{
 	
@@ -40,12 +35,13 @@ public class GenericController implements IController{
 	ArrayList<String> validActions;
 	RequestObject jobject;
 	String jsonString; 
-	IApplicationSession appSession;
+	IApplicationSession<?> appSession;
 	Model modelObject;
 	Integer pageNumber; //The actual number of page to visualize on the view
+	ArrayList<JOrder> orderList;
 	
 
-	public GenericController(IApplicationSession appSession){
+	public GenericController(IApplicationSession<?> appSession){
 		this.setAppSession(appSession);
 		this.initVariables();
 	}
@@ -84,8 +80,7 @@ public class GenericController implements IController{
 	
 	@Override
 	public Method validateAction(ReflectionController rController, String action)throws NoActionException {
-		boolean test = false;
-		Method method = null;
+		
 		
 		return rController.getAction(action);
 	}
@@ -561,6 +556,14 @@ public class GenericController implements IController{
 				r.setSuccess(true);
 			}
 		}		
+	}
+
+	public ArrayList<JOrder> getOrderList() {
+		return orderList;
+	}
+
+	public void setOrderList(ArrayList<JOrder> orderList) {
+		this.orderList = orderList;
 	}
 
 }

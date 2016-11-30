@@ -30,9 +30,13 @@ public class JRequest{
 	//Used for tables with a lot of rows
 	public JPageManager pagemanager;
 	
+	//This list is used to order by it in the database
+	public ArrayList<JOrder> orderlist;
+	
 	public JRequest(){
 		data = new HashMap<String, String>();
 		pagemanager = new JPageManager();
+		orderlist = new ArrayList<JOrder>();
 	}
 	
 	public String getUsecase() {
@@ -66,6 +70,14 @@ public class JRequest{
 
 	public void setPagemanager(JPageManager pagemanager) {
 		this.pagemanager = pagemanager;
+	}
+
+	public ArrayList<JOrder> getOrderlist() {
+		return orderlist;
+	}
+
+	public void setOrderlist(ArrayList<JOrder> orderlist) {
+		this.orderlist = orderlist;
 	}
 	
 	

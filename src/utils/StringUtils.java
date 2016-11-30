@@ -2,9 +2,11 @@ package utils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.List;
 
+import enums.MType;
+import jrequestclasses.JOrder;
 import model.Model;
+import reflection.ReflectionDAO;
 import reflection.ReflectionDAORelation;
 
 public class StringUtils {
@@ -123,15 +125,15 @@ public class StringUtils {
 	
 	public static String searchString(Model object){
 		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
-		String searchParams = "";
+		StringBuffer searchParams = new StringBuffer();
 		
 		for(Method m : rdr.getGetMethods()){
 			if(rdr.getMethodValue(m) != null)
-				searchParams += ", "+rdr.getMethodValue(m);
+				searchParams.append(", "+rdr.getMethodValue(m));
 		}
 		
 		
-		return searchParams.substring(2);		
+		return searchParams.substring(2).toString();		
 	}
 	
 	/**
@@ -155,6 +157,32 @@ public class StringUtils {
 		Integer lineMin = page*linesPerPage-linesPerPage;
 		Integer lineMax = linesPerPage;
 		return " Limit "+lineMin+","+ lineMax+" " ;
+	}
+
+	/**
+	 * Prepare the SQL order String
+	 * @param orderList
+	 * @return
+	 */
+	public static String prepareOrderList(ReflectionDAO rd, ArrayList<JOrder> orderList) {
+		StringBuffer sb = new StringBuffer();
+
+		
+		
+		
+		if(orderList != null && orderList.size() != 0){
+			for(JOrder order : orderList){
+				
+				Method m = rd.getMethodByFieldname(order.getName(), MType.get);
+				
+				sb.append(","+ rd.getColumnName(m) +" "+order.getOrderType().toString());
+			}
+
+			
+			return " ORDER BY "+sb.substring(1);
+		}else{
+			return " ";
+		}
 	}
 	
 }

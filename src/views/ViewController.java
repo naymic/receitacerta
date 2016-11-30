@@ -190,13 +190,21 @@ public class ViewController extends HttpServlet {
 			ic.addVariable(key, requ.getData().get(key));
 		}
 		
-		//Set page number
+		//Set page number for SQL 
 		try{
 			ic.setPageNumber(requ.getPagemanager().getActualPage());
-			
 		}catch(NullPointerException npe){
 			ic.setPageNumber(null);
 		}
+		
+		//Set ordering list for SQL 
+		try{
+			ic.setOrderList(requ.getOrderlist());
+		}catch(NullPointerException npe){
+			ic.setOrderList(null);
+		}
+		
+
 		
 	}
 	

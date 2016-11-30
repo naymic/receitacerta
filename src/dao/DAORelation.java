@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import jrequestclasses.JOrder;
 import model.Model;
 import reflection.ReflectionDAORelation;
 
@@ -30,7 +31,7 @@ public class DAORelation extends DAO{
 	 * @param	object 		Model				Object to set table and filter 
 	 * @return  returnList	ArrayList<Model> 	List of Model objects 
 	 */
-	public ArrayList<Model> select(Model object){
+	public ArrayList<Model> select(Model object, ArrayList<JOrder> orderList){
 		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		
 
@@ -43,7 +44,7 @@ public class DAORelation extends DAO{
 		
 		//Return all objects of the executed sql query
 
-			return this.getObjectsFromRS(rdr, rdr.prepareSelectSqlString(mget, where), mget, mset, where);
+			return this.getObjectsFromRS(rdr, rdr.prepareSelectSqlString(mget, where), mget, mset, where, orderList);
 	}
 	
 	
@@ -55,7 +56,7 @@ public class DAORelation extends DAO{
 	 * @param	object 		Model				Object to set table and filter 
 	 * @return  returnList	ArrayList<Model> 	List of Model objects 
 	 */
-	public ArrayList<Model> search(Model object, Integer page){
+	public ArrayList<Model> search(Model object, Integer page, ArrayList<JOrder> orderList){
 		ReflectionDAORelation rdr = new ReflectionDAORelation(object);
 		
 
@@ -68,7 +69,7 @@ public class DAORelation extends DAO{
 		
 		//Return all objects of the executed sql query
 
-		return this.getObjectsFromRSSearch(rdr, rdr.prepareSarchSqlString(mget, where), mget, mset, where, page);
+		return this.getObjectsFromRSSearch(rdr, rdr.prepareSarchSqlString(mget, where), mget, mset, where, page, orderList);
 	}
 	
 	

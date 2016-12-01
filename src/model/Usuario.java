@@ -1,11 +1,7 @@
 package model;
 
-import java.util.ArrayList;
-
 import annotations.AModelClasses;
 import annotations.Entity;
-import interfaces.IApplicationSession;
-import interfaces.IUser;
 import jresponseclasses.JReturn;
 import utils.CryptString;
 import utils.StringUtils;

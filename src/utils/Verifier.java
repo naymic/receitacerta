@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import jdk.nashorn.internal.runtime.regexp.joni.Regex;
@@ -22,15 +23,19 @@ public class Verifier {
 	}
 	
 	public boolean verifySpecialCharacters(String word){
-		return word.matches("\\W");
+		String thePattern = "[^A-Za-z0-9]+";
+		boolean isFound = Pattern.compile(thePattern).matcher(word).find();
+	    return isFound;
 	}
 	
 	public boolean verifyNumbers(String word){
-		return word.matches("\\d");
+		return word.matches(".*\\d+.*");
 	}
 	
 	public boolean verifyLetters(String word){
-		return Pattern.matches("[a-zA-Z]+", word);
+		String thePattern = "[A-Za-z]";
+		boolean isFound = Pattern.compile(thePattern).matcher(word).find();
+		return isFound;
 	}
 
 }

@@ -97,5 +97,24 @@ public class TestsReceitas  extends TestCases {
 		}
 	}
 	
+	@Test
+	public void testeDeleteRecipe(){
+		ApplicationSessionForTests as = new ApplicationSessionForTests();
+		JReturn response = new JReturn();
+		login(as, response);
+		IController ic = GenericController.getController(response, "Crud", as);
+		this.setControllerListVariables(ic);
+		
+		//Login with correct credentials
+		ic.execute(response, "buscaavancada");
+		assertTrue(response.isSuccess());
+		
+		List<Receita> recipes =  (List)response.getData().getData();
+		
+		for(Receita recipe:recipes){
+			System.out.println(recipe.dgetNome());
+		}
+	}
+	
 	
 }

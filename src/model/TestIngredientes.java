@@ -1,7 +1,7 @@
 package model;
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 import jresponseclasses.JReturn;
 
 
@@ -34,7 +34,7 @@ public class TestIngredientes extends Model{
 		
 	}
 	
-	@Entity(attributeName = "id", pk=true)
+	@AEntity(attributeName = "id", pk=true)
 	public Integer dgetId() {
 		return id;
 	}
@@ -43,7 +43,7 @@ public class TestIngredientes extends Model{
 		this.id = id;
 	}
 	
-	@Entity(attributeName = "nome")
+	@AEntity(attributeName = "nome")
 	public String dgetNome() {
 		return nome;
 	}
@@ -52,7 +52,7 @@ public class TestIngredientes extends Model{
 		this.nome = nome;
 	}
 	
-	@Entity(attributeName = "calorias")
+	@AEntity(attributeName = "calorias")
 	public Double dgetCalorias() {
 		return calorias;
 	}
@@ -62,7 +62,7 @@ public class TestIngredientes extends Model{
 	}
 	
 	
-	@Entity(attributeName = "ingredientes_unidades_id", fk=true)
+	@AEntity(attributeName = "ingredientes_unidades_id", fk=true)
 	public IngredienteUnidades dgetIngredientesUnidade() {
 		return ingredientesUnidade;
 	}
@@ -71,7 +71,7 @@ public class TestIngredientes extends Model{
 		this.ingredientesUnidade = ingredientesUnidade;
 	}
 
-	@Entity(attributeName = "ingredientes_tipo_id", fk=true)
+	@AEntity(attributeName = "ingredientes_tipo_id", fk=true)
 	public IngredienteTipo dgetIngredientesTipoId() {
 		return ingredientesTipoId;
 	}
@@ -80,7 +80,7 @@ public class TestIngredientes extends Model{
 		this.ingredientesTipoId = ingredientesTipoId;
 	}
 
-	@Entity(attributeName = "ingrediente_armazenamentos_id", fk=true)
+	@AEntity(attributeName = "ingrediente_armazenamentos_id", fk=true)
 	public IngredienteArmazenamentos dgetIngredienteArmazenamentosId() {
 		return ingredienteArmazenamentosId;
 	}

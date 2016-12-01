@@ -1,7 +1,7 @@
 package model;
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 import jresponseclasses.JReturn;
 
 
@@ -24,7 +24,7 @@ public class Ingredientes extends IngredientesParent{
 
 	
 	
-	@Entity(attributeName = "ingredientes_unidades_id", fk=true)
+	@AEntity(attributeName = "ingredientes_unidades_id", fk=true)
 	public IngredienteUnidades dgetIngredientesUnidade() {
 		return ingredientesUnidade;
 	}
@@ -33,7 +33,7 @@ public class Ingredientes extends IngredientesParent{
 		this.ingredientesUnidade = ingredientesUnidade;
 	}
 
-	@Entity(attributeName = "ingredientes_tipo_id", fk=true)
+	@AEntity(attributeName = "ingredientes_tipo_id", fk=true)
 	public IngredienteTipo dgetIngredientesTipoId() {
 		return ingredientesTipoId;
 	}
@@ -42,7 +42,7 @@ public class Ingredientes extends IngredientesParent{
 		this.ingredientesTipoId = ingredientesTipoId;
 	}
 
-	@Entity(attributeName = "ingrediente_armazenamentos_id", fk=true)
+	@AEntity(attributeName = "ingrediente_armazenamentos_id", fk=true)
 	public IngredienteArmazenamentos dgetIngredienteArmazenamentosId() {
 		return ingredienteArmazenamentosId;
 	}

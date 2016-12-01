@@ -1,7 +1,7 @@
 package model;
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 
 
 @AModelClasses(needUserObject = true)
@@ -14,7 +14,7 @@ public class EstoqueView extends EstoqueParent {
 		return "view_estoque";
 	}
 
-	@Entity(attributeName="ingredientes_id")
+	@AEntity(attributeName="ingredientes_id")
 	public String dgetIngredientesId() {
 		return ingredientesId;
 	}

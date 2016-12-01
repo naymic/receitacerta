@@ -1,5 +1,5 @@
 package enums;
 
-public enum ReturnType {
+public enum EReturnType {
 	SEARCH, FORM, LOGIN, SELECT, INFO, DISCOVER;
 }

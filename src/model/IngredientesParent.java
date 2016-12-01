@@ -1,7 +1,7 @@
 package model;
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 import jresponseclasses.JReturn;
 
 
@@ -11,7 +11,7 @@ public abstract class IngredientesParent extends Model{
 	private String nome;
 	private Double calorias;
 	
-	@Entity(attributeName = "id", pk=true)
+	@AEntity(attributeName = "id", pk=true)
 	public Integer dgetId() {
 		return id;
 	}
@@ -20,7 +20,7 @@ public abstract class IngredientesParent extends Model{
 		this.id = id;
 	}
 	
-	@Entity(attributeName = "nome")
+	@AEntity(attributeName = "nome")
 	public String dgetNome() {
 		return nome;
 	}
@@ -29,7 +29,7 @@ public abstract class IngredientesParent extends Model{
 		this.nome = nome;
 	}
 	
-	@Entity(attributeName = "calorias")
+	@AEntity(attributeName = "calorias")
 	public Double dgetCalorias() {
 		return calorias;
 	}

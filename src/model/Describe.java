@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import annotations.AModelClasses;
 
-import annotations.Entity;
+import annotations.AEntity;
 import jresponseclasses.JReturn;
 @AModelClasses(needUserObject = false)
 public class Describe extends Model{
@@ -12,7 +12,7 @@ public class Describe extends Model{
 	String name;
 	HashMap<String, Object> annotations;
 	
-	@Entity(attributeName="", isInDB=false)
+	@AEntity(attributeName="", isInDB=false)
 	public String dgetName() {
 		return name;
 	}

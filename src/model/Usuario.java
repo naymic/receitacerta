@@ -1,7 +1,7 @@
 package model;
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 import jresponseclasses.JReturn;
 import utils.CryptString;
 import utils.StringUtils;
@@ -43,7 +43,7 @@ public class Usuario extends UserParent {
 	}
 	
 
-	@Entity(attributeName = "email")
+	@AEntity(attributeName = "email")
 	public String dgetEmail() {
 		return email;
 	}
@@ -53,7 +53,7 @@ public class Usuario extends UserParent {
 		this.email = email;
 	}
 
-	@Entity(attributeName = "senha", required=false)
+	@AEntity(attributeName = "senha", required=false)
 	public String dgetSenha() {
 		return senha;
 	}
@@ -74,7 +74,7 @@ public class Usuario extends UserParent {
 		this.senha = senha;
 	}
 
-	@Entity(attributeName = "celular", required = false)
+	@AEntity(attributeName = "celular", required = false)
 	public String dgetCelular() {
 		return celular;
 	}
@@ -84,7 +84,7 @@ public class Usuario extends UserParent {
 		this.celular = celular;
 	}
 
-	@Entity(attributeName = "sobrenome", required = false)
+	@AEntity(attributeName = "sobrenome", required = false)
 	public String dgetSobrenome() {
 		return sobrenome;
 	}
@@ -99,7 +99,7 @@ public class Usuario extends UserParent {
 	
 
 
-	@Entity(attributeName = "", required = false, isInDB=false)
+	@AEntity(attributeName = "", required = false, isInDB=false)
 	public String getOldSenha() {
 		return oldSenha;
 	}
@@ -109,7 +109,7 @@ public class Usuario extends UserParent {
 		this.oldSenha = oldSenha;
 	}
 
-	@Entity(attributeName = "", required = false, isInDB=false)
+	@AEntity(attributeName = "", required = false, isInDB=false)
 	public String getNewSenha() {
 		return newSenha;
 	}
@@ -119,7 +119,7 @@ public class Usuario extends UserParent {
 		this.newSenha = newSenha;
 	}
 	
-	@Entity(attributeName = "", required = false, isInDB=false)
+	@AEntity(attributeName = "", required = false, isInDB=false)
 	public String getRepeatedSenha() {
 		return repeatedSenha;
 	}

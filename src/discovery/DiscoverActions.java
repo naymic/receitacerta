@@ -3,7 +3,7 @@ package discovery;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import enums.DiscoveryType;
+import enums.EDiscoveryType;
 import interfaces.IController;
 import interfaces.IExtendedDiscovery;
 import model.Model;
@@ -18,8 +18,8 @@ public class DiscoverActions implements IExtendedDiscovery<DescribeAction, ICont
 	}
 
 	@Override
-	public DiscoveryType getDiscoveryType() {
-		return DiscoveryType.USECASE_ACTIONS;
+	public EDiscoveryType getDiscoveryType() {
+		return EDiscoveryType.USECASE_ACTIONS;
 	}
 
 	@Override

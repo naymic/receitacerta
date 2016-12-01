@@ -7,8 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import annotations.AModelClasses;
-import annotations.Entity;
-import enums.MType;
+import annotations.AEntity;
+import enums.EMType;
 import model.Model;
 import utils.StringUtils;
 import utils.Transform;
@@ -99,7 +99,7 @@ public class ReflectionDAO extends GenericReflection{
 		Method[] ms = this.getObjectClass().getMethods();
 	
 		for(Method m : ms){
-			if(m.getName().contains(partOfMethodName) && m.isAnnotationPresent(Entity.class) && this.getEntity(m) != null){
+			if(m.getName().contains(partOfMethodName) && m.isAnnotationPresent(AEntity.class) && this.getEntity(m) != null){
 				list.add(m);
 			}
 		}
@@ -157,7 +157,7 @@ public class ReflectionDAO extends GenericReflection{
 		String[] colums = new String[methods.size()];
 		Iterator<Method> it= methods.iterator();
 		Method m = null;
-		Entity e = null;
+		AEntity e = null;
 		
 		for(int i=0; it.hasNext(); i++){
 			m = it.next();
@@ -218,11 +218,11 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param method
 	 * @return
 	 */
-	public Entity getEntity(Method method)throws RuntimeException {
-		Entity e = null;
+	public AEntity getEntity(Method method)throws RuntimeException {
+		AEntity e = null;
 		method = getGetMethod(method);
-		if(method.isAnnotationPresent(Entity.class)){
-			e =  method.getAnnotation(Entity.class);
+		if(method.isAnnotationPresent(AEntity.class)){
+			e =  method.getAnnotation(AEntity.class);
 		}
 
 		if(e == null)
@@ -369,12 +369,12 @@ public class ReflectionDAO extends GenericReflection{
 		
 	}
 	
-	public Method getMethodByFieldname(String fieldname, MType mt, Class<?>... args){		
+	public Method getMethodByFieldname(String fieldname, EMType mt, Class<?>... args){		
 		return this.getMethodByFieldname(fieldname, mt,"d", args);
 		
 	}
 	
-	public Method getMethodByFieldname(String fieldname, MType mt, String preName, Class<?>... args)throws RuntimeException{		
+	public Method getMethodByFieldname(String fieldname, EMType mt, String preName, Class<?>... args)throws RuntimeException{		
 
 			try{
 			return this.getMethod(preName+mt.name()+StringUtils.setFirstLetterUppercase(fieldname), args);
@@ -393,7 +393,7 @@ public class ReflectionDAO extends GenericReflection{
 	 * @param get
 	 * @return
 	 */
-	public Method getAllMethods(String fieldname,MType mtype, Class<?>... args){
+	public Method getAllMethods(String fieldname,EMType mtype, Class<?>... args){
 		Method m= null;
 		String[] preNames= new String[]{"d","","a"};
 		RuntimeException e = null;

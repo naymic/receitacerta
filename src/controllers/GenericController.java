@@ -9,7 +9,7 @@ import annotations.AControllerMethod;
 import annotations.AModelClasses;
 import converters.GenericConverter;
 import db.Config;
-import enums.MType;
+import enums.EMType;
 import exceptions.NoActionException;
 import interfaces.IApplicationSession;
 import interfaces.IController;
@@ -286,7 +286,7 @@ public class GenericController implements IController{
 		Method m = null;
 		
 		//Get and check the given Method to set and get values from attributes
-		m = this.getAndCheckMethod(r, rdr, MType.get, fieldName);
+		m = this.getAndCheckMethod(r, rdr, EMType.get, fieldName);
 		if(m == null) return; //Stop any further execution
 
 		//Check and convert input values
@@ -310,7 +310,7 @@ public class GenericController implements IController{
 
 		//Set just if value is set
 		if(this.getVariableValue(paramName) != null && this.getVariableValue(paramName).toString().length() > 0){
-			m = this.getAndCheckMethod(r, rdr, MType.set, fieldName, value.getClass());
+			m = this.getAndCheckMethod(r, rdr, EMType.set, fieldName, value.getClass());
 			if(m == null) return; //Stop any further execution
 			rdr.setMethodValue(m, value);
 			//rdr.setFieldValue(fieldName, value);
@@ -403,7 +403,7 @@ public class GenericController implements IController{
 		return usecase.substring(0, i);
 	}
 	
-	public Method getAndCheckMethod(JReturn r, ReflectionDAORelation rdr, MType type, String fieldName, Class<?>... args){
+	public Method getAndCheckMethod(JReturn r, ReflectionDAORelation rdr, EMType type, String fieldName, Class<?>... args){
 		Method m1 = null;
 		
 		try{

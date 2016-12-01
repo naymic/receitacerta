@@ -1,7 +1,7 @@
 package model;
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 
 /***
  * 
@@ -18,7 +18,7 @@ public class Estoque extends EstoqueParent {
 
 	
 
-	@Entity(attributeName="ingredientes_id", fk=true)
+	@AEntity(attributeName="ingredientes_id", fk=true)
 	public Ingredientes dgetIngredientesId() {
 		return ingredientesId;
 	}

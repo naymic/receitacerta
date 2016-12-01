@@ -6,6 +6,6 @@ package enums;
  *
  *Method types
  */
-public enum MType {
+public enum EMType {
 	get,set;
 }

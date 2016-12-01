@@ -2,11 +2,11 @@ package interfaces;
 
 import java.util.ArrayList;
 
-import enums.DiscoveryType;
+import enums.EDiscoveryType;
 
 public interface IDiscovery<E> {
 	
-	public DiscoveryType getDiscoveryType();
+	public EDiscoveryType getDiscoveryType();
 	
 	public ArrayList<E> getTypes()throws Exception;
 }

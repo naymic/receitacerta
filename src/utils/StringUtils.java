@@ -3,7 +3,7 @@ package utils;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import enums.MType;
+import enums.EMType;
 import jrequestclasses.JOrder;
 import model.Model;
 import reflection.ReflectionDAO;
@@ -173,7 +173,7 @@ public class StringUtils {
 		if(orderList != null && orderList.size() != 0){
 			for(JOrder order : orderList){
 				
-				Method m = rd.getMethodByFieldname(order.getName(), MType.get);
+				Method m = rd.getMethodByFieldname(order.getName(), EMType.get);
 				
 				sb.append(","+ rd.getColumnName(m) +" "+order.getOrderType().toString());
 			}

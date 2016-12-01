@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import annotations.Entity;
-import enums.MType;
+import annotations.AEntity;
+import enums.EMType;
 import model.Model;
 import reflection.ReflectionDAO;
 
@@ -62,9 +62,9 @@ public class JData {
 		
 		for(Field f: fieldList){
 			Method methodByFieldname = null;
-			Entity e = null;
+			AEntity e = null;
 			try{
-				methodByFieldname = rd.getMethodByFieldname(f.getName(), MType.get, null);
+				methodByFieldname = rd.getMethodByFieldname(f.getName(), EMType.get, null);
 				e = rd.getEntity(methodByFieldname);
 			}catch(RuntimeException re){
 				

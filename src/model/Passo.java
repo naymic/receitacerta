@@ -1,7 +1,7 @@
 package model;
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 import jresponseclasses.JReturn;
 
 @AModelClasses(needUserObject = false)
@@ -17,7 +17,7 @@ public class Passo extends Model{
 		return "receita_passos";
 	}
 	
-	@Entity(attributeName="id", pk=true)
+	@AEntity(attributeName="id", pk=true)
 	public Integer dgetId() {
 		return id;
 	}
@@ -25,7 +25,7 @@ public class Passo extends Model{
 		this.id = id;
 	}
 	
-	@Entity(attributeName="receitas_id", fk=true, isMapped=true )
+	@AEntity(attributeName="receitas_id", fk=true, isMapped=true )
 	public ReceitaView dgetReceita() {
 		return receita;
 	}
@@ -33,7 +33,7 @@ public class Passo extends Model{
 		this.receita = receita;
 	}
 	
-	@Entity(attributeName="nr_passo")
+	@AEntity(attributeName="nr_passo")
 	public Integer dgetNumeroPasso() {
 		return numeroPasso;
 	}
@@ -41,7 +41,7 @@ public class Passo extends Model{
 		this.numeroPasso = numeroPasso;
 	}
 	
-	@Entity(attributeName="texto")
+	@AEntity(attributeName="texto")
 	public String dgetTexto() {
 		return texto;
 	}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import annotations.AModelClasses;
 import controllers.GenericController;
-import enums.DiscoveryType;
+import enums.EDiscoveryType;
 import exceptions.NoPackageException;
 import interfaces.IController;
 import interfaces.IDiscovery;
@@ -15,7 +15,7 @@ import reflection.ReflectionPackage;
 public class DiscoverUsecases  implements IDiscovery<DescribeUsecase>{
 
 	@Override
-	public DiscoveryType getDiscoveryType() {
+	public EDiscoveryType getDiscoveryType() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -9,7 +9,7 @@ import converters.GenericConverter;
 import dao.DAO;
 import dao.DAORelation;
 import dao.DAORelationList;
-import enums.ReturnType;
+import enums.EReturnType;
 import exceptions.NoActionException;
 import jresponseclasses.JData;
 import jresponseclasses.JReturn;
@@ -40,7 +40,7 @@ public class CrudController extends GenericController{
 		
 		//Add all Form dataTypes
 		r.getData().setDataTypes(rdr.getArrayFields(), rdr);
-		r.setReturnType(ReturnType.FORM);
+		r.setReturnType(EReturnType.FORM);
 		return r;		
 	}
 	
@@ -74,7 +74,7 @@ public class CrudController extends GenericController{
 			r.getData().setDataTypes(rdr.getArrayFields(), rdr);
 			
 			//Set JSon response return type
-			r.setReturnType(ReturnType.FORM);
+			r.setReturnType(EReturnType.FORM);
 		}else{
 			r.addSimpleError("7");  //Data for "+ object.getClass().getSimpleName() +" not found!
 			return r;
@@ -156,7 +156,7 @@ public class CrudController extends GenericController{
 		this.selectObjectCheck(r, list, object);
 		
 		r.getData().setDataList(list);
-		r.setReturnType(ReturnType.SELECT);
+		r.setReturnType(EReturnType.SELECT);
 		return r;
 	}
 	
@@ -178,7 +178,7 @@ public class CrudController extends GenericController{
 		
 		JData jd =  new JData(this.getObject().getClassName());
 		r.getData().setDataList(list);
-		r.setReturnType(ReturnType.SEARCH);	
+		r.setReturnType(EReturnType.SEARCH);	
 
 		return r;
 	}

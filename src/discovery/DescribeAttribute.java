@@ -2,8 +2,8 @@ package discovery;
 
 import java.lang.reflect.Method;
 
-import annotations.Entity;
-import enums.MType;
+import annotations.AEntity;
+import enums.EMType;
 import model.Describe;
 import model.Model;
 import reflection.ReflectionAnnotation;
@@ -16,7 +16,7 @@ public class DescribeAttribute extends Describe{
 	public DescribeAttribute(ReflectionDAO rd, Method method){
 		this.dsetName(rd.getAttributeNameFromMethod(method));
 		
-		Entity e = rd.getEntity(method);
+		AEntity e = rd.getEntity(method);
 		ReflectionAnnotation ra = new ReflectionAnnotation(e);
 		this.setAnnotations(ra.getAnnotationMap());
 		

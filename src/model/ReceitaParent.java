@@ -1,7 +1,7 @@
 package model;
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 import jresponseclasses.JReturn;
 
 
@@ -15,7 +15,7 @@ public abstract class ReceitaParent extends Model {
 	private String caminhoFoto;
 	private String stringIngredientesId;
 
-	@Entity(attributeName = "id", pk=true)
+	@AEntity(attributeName = "id", pk=true)
 	public Integer dgetId() {
 		return id;
 	}
@@ -24,7 +24,7 @@ public abstract class ReceitaParent extends Model {
 		this.id = id;
 	}
 
-	@Entity(attributeName = "nome")
+	@AEntity(attributeName = "nome")
 	public String dgetNome() {
 		return nome;
 	}
@@ -33,7 +33,7 @@ public abstract class ReceitaParent extends Model {
 		this.nome = nome;
 	}
 
-	@Entity(attributeName = "tempo_preparo")
+	@AEntity(attributeName = "tempo_preparo")
 	public Integer dgetTempoPreparo() {
 		return tempoPreparo;
 	}
@@ -42,7 +42,7 @@ public abstract class ReceitaParent extends Model {
 		this.tempoPreparo = tempoPreparo;
 	}
 
-	@Entity(attributeName = "rendimento", required=false)
+	@AEntity(attributeName = "rendimento", required=false)
 	public String dgetRendimento() {
 		return rendimento;
 	}
@@ -51,7 +51,7 @@ public abstract class ReceitaParent extends Model {
 		this.rendimento = rendimento;
 	}
 
-	@Entity(attributeName = "receita_rendimento_tipos_valor")
+	@AEntity(attributeName = "receita_rendimento_tipos_valor")
 	public Integer dgetReceitaRendimentosTipoValor() {
 		return receitaRendimentosTipoValor;
 	}
@@ -60,7 +60,7 @@ public abstract class ReceitaParent extends Model {
 		this.receitaRendimentosTipoValor = receitaRendimentoValor;
 	}
 
-	@Entity(attributeName = "usuario_id", fk=true)
+	@AEntity(attributeName = "usuario_id", fk=true)
 	public User dgetUser() {
 		return user;
 	}
@@ -69,7 +69,7 @@ public abstract class ReceitaParent extends Model {
 		this.user = usuario;
 	}
 
-	@Entity(attributeName = "caminho_foto", required=false)
+	@AEntity(attributeName = "caminho_foto", required=false)
 	public String dgetCaminhoFoto() {
 		return caminhoFoto;
 	}
@@ -79,7 +79,7 @@ public abstract class ReceitaParent extends Model {
 	}
 
 	//Not a attribute in the table, but used to get the ingredients list
-	@Entity(attributeName="", isInDB=false)
+	@AEntity(attributeName="", isInDB=false)
 	public String getStringIngredientesId() {
 		return stringIngredientesId;
 	}

@@ -23,7 +23,7 @@ public class Verifier {
 	}
 	
 	public boolean verifySpecialCharacters(String word){
-		String thePattern = "[^A-Za-z0-9]+";
+		String thePattern = "[^A-Za-z0-9À-ú\\s]+";
 		boolean isFound = Pattern.compile(thePattern).matcher(word).find();
 	    return isFound;
 	}

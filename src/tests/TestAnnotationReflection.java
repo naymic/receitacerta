@@ -7,9 +7,9 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import annotations.Entity;
+import annotations.AEntity;
 import db.Config;
-import enums.MType;
+import enums.EMType;
 import model.Ingredientes;
 import reflection.ReflectionDAO;
 import reflection.ReflectionModel;
@@ -22,7 +22,7 @@ public class TestAnnotationReflection extends TestCases {
 		Ingredientes ingr = new Ingredientes();
 		ReflectionDAO rd = new ReflectionDAO(ingr);
 		
-		Entity e = rd.getEntity(rd.getMethodByFieldname("id", MType.get, null));
+		AEntity e = rd.getEntity(rd.getMethodByFieldname("id", EMType.get, null));
 		ReflectionAnnotation ra = new ReflectionAnnotation(e);
 		
 		HashMap<String, Object> map = ra.getAnnotationMap();

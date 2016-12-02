@@ -17,6 +17,7 @@ import interfaces.IApplicationSession;
 import interfaces.IController;
 import jrequestclasses.JRequest;
 import jresponseclasses.JReturn;
+import messageclient.MessageController;
 import utils.Transform;
 
 /**
@@ -79,7 +80,7 @@ public class ViewController extends HttpServlet {
 			//System.out.println("REQUEST:"+json);
 			jrequ = g.fromJson(json,  JRequest[].class);
 		}catch(com.google.gson.JsonSyntaxException e){
-			r.addSimpleError("JSON String is malformed, please check it!");	
+			r.addSimpleError("3");	//JSON String is malformed, please check it!
 			content = g.toJson(r);
 			e.printStackTrace();
 		}
@@ -110,7 +111,7 @@ public class ViewController extends HttpServlet {
 	
 	public String getAction(JRequest requ)throws Exception {
 		if(requ.getAction() == null || requ.getAction().length() == 0){
-			throw new Exception("Please set a action on the Interface");
+			throw new Exception("4"); //Please set a action on the Interface
 		}
 		
 		return requ.getAction();
@@ -118,7 +119,7 @@ public class ViewController extends HttpServlet {
 	
 	public String getUseCase(JRequest requ)throws Exception {
 		if(requ.getUsecase() == null || requ.getUsecase().length() == 0){
-			throw new Exception("Please set a usecase on the Interface");
+			throw new Exception("5"); //Please set a usecase on the Interface
 		}
 		
 		return requ.getUsecase();
@@ -126,18 +127,18 @@ public class ViewController extends HttpServlet {
 	
 	public String getClassname(JRequest requ)throws Exception {
 		if(requ.getClassname() == null || requ.getClassname().length() == 0){
-			throw new Exception("Please set a classname on the Interface");
+			throw new Exception("6"); //Please set a classname on the Interface
 		}
 		
 		return requ.getClassname();
 	}
 	
-	public String process(JRequest requ, JReturn r, IApplicationSession<?> session){
+	public String process(JRequest requ, JReturn response, IApplicationSession<?> session){
 		String usecase = new String("");
 		String action = new String("");
 		String classname = new String("");
 		String jString = new String("");
-		
+		MessageController mc = new MessageController();
 		
 		
 		//Set usecase and action
@@ -146,31 +147,28 @@ public class ViewController extends HttpServlet {
 			action = this.getAction(requ);
 			classname = this.getClassname(requ);
  		}catch(Exception e){
-			r.addSimpleError(e.getMessage());
+			response.addSimpleError(e.getMessage());
 			//System.out.println(e.toString());
 		}
 		
 		IController ic = null;
 		//Get the controller for the required action
-		if(r.isSuccess())
-			ic = GenericController.getController(r, usecase, session);
+		if(response.isSuccess())
+			ic = GenericController.getController(response, usecase, session);
 		
 		//Generic use case execution
-		if(r.isSuccess()){
+		if(response.isSuccess()){
 			
 			//Get all variables from the view and save it to the controller
 			this.initVariables(requ, ic);
 			
 			//Execute the required action, the Return object is already transfered to the jsonMapper in the controller and is not user anymore
-			ic.execute(r ,action);
+			ic.execute(response ,action);
 			
-			jString = ic.getJson();
-			
-			//Execution when no controller is found
-		}else{
-			jString = Transform.objectToJson(r);
 		}
 		
+		mc.getMessagesFromIds(response);
+		jString = Transform.objectToJson(response);
 		
 		//System.out.println("RETURN: "+jString);
 		return jString;
@@ -192,13 +190,21 @@ public class ViewController extends HttpServlet {
 			ic.addVariable(key, requ.getData().get(key));
 		}
 		
-		//Set page number
+		//Set page number for SQL 
 		try{
 			ic.setPageNumber(requ.getPagemanager().getActualPage());
-			
 		}catch(NullPointerException npe){
 			ic.setPageNumber(null);
 		}
+		
+		//Set ordering list for SQL 
+		try{
+			ic.setOrderList(requ.getOrderlist());
+		}catch(NullPointerException npe){
+			ic.setOrderList(null);
+		}
+		
+
 		
 	}
 	

@@ -20,7 +20,7 @@ public class IntegerToModel implements IExtendedConverter{
 		 //Select it from the database
 		rdr.setObject(DAO.getInstance().select(model).get(0));
 		if(rdr.getObject() == null){
-			new Exception("Object "+rdr.getObject().getClass().getName()+ " with PK "+ value +" not found!");
+			new Exception("28"); //Object "+rdr.getObject().getClass().getName()+ " with PK "+ value +" not found!
 		}
 		
 		

@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import annotations.Entity;
+import annotations.AEntity;
 import jresponseclasses.JReturn;
 
 public class EstoqueParent extends Model {
@@ -22,7 +22,7 @@ public class EstoqueParent extends Model {
 		return "estoque";
 	}
 
-	@Entity(attributeName = "id", pk=true)
+	@AEntity(attributeName = "id", pk=true)
 	public Integer dgetId() {
 		return id;
 	}
@@ -31,7 +31,7 @@ public class EstoqueParent extends Model {
 		this.id = id;
 	}
 
-	@Entity(attributeName = "usuario_id", fk=true)
+	@AEntity(attributeName = "usuario_id", fk=true)
 	public User dgetUser() {
 		return user;
 	}
@@ -40,7 +40,7 @@ public class EstoqueParent extends Model {
 		this.user = user;
 	}
 	
-	@Entity(attributeName = "quantidade")
+	@AEntity(attributeName = "quantidade")
 	public Integer dgetQuantidade() {
 		return quantidade;
 	}
@@ -49,7 +49,7 @@ public class EstoqueParent extends Model {
 		this.quantidade = quantidade;
 	}
 	
-	@Entity(attributeName = "data_insercao", required=false)
+	@AEntity(attributeName = "data_insercao", required=false)
 	public Date dgetDataInsercao() {
 		return dataInsercao;
 	}
@@ -58,7 +58,7 @@ public class EstoqueParent extends Model {
 		this.dataInsercao = dataInsercao;
 	}
 
-	@Entity(attributeName = "data_retirada",required=false)
+	@AEntity(attributeName = "data_retirada",required=false)
 	public Date dgetDataRetirada() {
 		return dataRetirada;
 	}
@@ -67,7 +67,7 @@ public class EstoqueParent extends Model {
 		this.dataRetirada = dataRetirada;
 	}
 
-	@Entity(attributeName = "validade")
+	@AEntity(attributeName = "validade")
 	public Date dgetValidade() {
 		return validade;
 	}
@@ -87,7 +87,7 @@ public class EstoqueParent extends Model {
 		dsetDataInsercao(date);
 		
 		if(quantidade < 0){
-			r.addSimpleError("Quantity can't be lower than 0");
+			r.addSimpleError("31");//Quantity can't be lower than 0
 		}
 		
 		

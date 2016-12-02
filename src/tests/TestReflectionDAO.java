@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 
 import dao.DAO;
 import db.Config;
-import enums.MType;
+import enums.EMType;
 import jresponseclasses.JReturn;
 import model.Ingredientes;
 import model.Model;
@@ -261,11 +261,11 @@ public class TestReflectionDAO extends TestCases {
 		Ingredientes i = new Ingredientes();
 		ReflectionDAO rd = new ReflectionDAO(i);
 		
-		Method m =  rd.getMethodByFieldname("ingredientesUnidade", MType.get);
+		Method m =  rd.getMethodByFieldname("ingredientesUnidade", EMType.get);
 		assertEquals(m.getName(), "dgetIngredientesUnidade");
-		m =  rd.getMethodByFieldname("ingredientesTipoId", MType.get);
+		m =  rd.getMethodByFieldname("ingredientesTipoId", EMType.get);
 		assertEquals(m.getName(), "dgetIngredientesTipoId");
-		m =  rd.getMethodByFieldname("ingredienteArmazenamentosId", MType.get);
+		m =  rd.getMethodByFieldname("ingredienteArmazenamentosId", EMType.get);
 		assertEquals(m.getName(), "dgetIngredienteArmazenamentosId");
 		
 	}

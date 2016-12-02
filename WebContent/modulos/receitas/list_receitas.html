@@ -19,12 +19,12 @@
 	<table class="table table-striped table-bordered table-hover" id="Receita">
     <thead>
 		<tr>
-			<th>Nome</th>
-			<th>Tempo de preparo</th>
-			<th>Quantidade de Pessoas</th>
-			<th>Tipo de Rendimento</th>
-      		<th>Tipo de Receita</th>
-			<th>#</th>
+			<th data-valor="nome" data-tipo="ASC" class="thPesquisa">Nome</th>
+			<th data-valor="tempoPreparo" data-tipo="ASC" class="thPesquisa">Tempo de preparo</th>
+			<th data-valor="receitaRendimentosTipoValor" data-tipo="ASC" class="thPesquisa">Quantidade de Pessoas</th>
+			<th data-valor="receitaRendimentoTipos" data-tipo="ASC" class="thPesquisa">Tipo de Rendimento</th>
+      		<th data-valor="receitaTiposNome" data-tipo="ASC" class="thPesquisa">Tipo de Receita</th>
+			<th >#</th>
 		</tr>
         </thead>
         <tbody>
@@ -56,4 +56,25 @@ var configOpt = {"tableHead":[{ "data": "nome" },
 	var objReceita = {"dados":{"classname":"ReceitaView","action":"buscaavancada","usecase":"Crud"},"config": configOpt,"nomeForm":"consultaReceitas"};
 	console.log(objReceita);
 	validaAction('Consulta',objReceita);
+	
+	$(document).off('click','.thPesquisa');
+	$(document).on('click','.thPesquisa',function(e){
+		console.log("teste");
+		var valor = $(this).data('valor');
+		var order = $(this).data('tipo');
+		var classe = $(this).parent().data('classe');
+		$('.thPesquisa').css({"background-color":"","color":"black"});
+		$('.thPesquisa').data('tipo','ASC');
+		if(order == 'ASC'){
+			$(this).css({"background-color":"#428bca","color":"white"});
+			$(this).data('tipo','DESC');
+		}else{
+			$(this).css({"background-color":"#e65c00","color":"white"});
+			$(this).data('tipo','ASC');
+		}
+		objReceita.dados.orderlist = [{"name":valor,"ordertype":order}];
+		validaAction('Consulta',objReceita);
+		//var request = {"classname":classe,"action":"buscaavancada", "usecase":"Crud", "orderlist":[{"name":valor,"ordertype":order}]};
+		
+	});
 </script>

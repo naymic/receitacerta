@@ -1,5 +1,5 @@
 package enums;
 
-public enum ObjectState {
+public enum EObjectState {
 	SAVED, NEW, CHANGED
 }

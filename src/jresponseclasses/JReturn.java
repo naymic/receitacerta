@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import enums.ReturnType;
+import enums.EReturnType;
 import interfaces.IUser;
 import model.Model;
 
@@ -43,7 +43,7 @@ public class JReturn{
 	private JDiscovery discover;
 	
 	//Sets the return type
-	private ReturnType returnType;
+	private EReturnType returnType;
 	
 	public JReturn(){
 		setSuccess(true);
@@ -53,7 +53,7 @@ public class JReturn{
 		atberrors = new ArrayList<>();
 		messages = new ArrayList<>();
 		errors = new ArrayList<>();	
-		returnType = ReturnType.INFO;
+		returnType = EReturnType.INFO;
 	}
 	
 	public void setUser(IUser iu){
@@ -115,11 +115,11 @@ public class JReturn{
 		this.data = data;
 	}*/
 
-	public ReturnType getReturnType() {
+	public EReturnType getReturnType() {
 		return returnType;
 	}
 
-	public void setReturnType(ReturnType returnType) {
+	public void setReturnType(EReturnType returnType) {
 		this.returnType = returnType;
 	}
 

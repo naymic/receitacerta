@@ -9,6 +9,6 @@ package enums;
  *  a primitive (Integer, Double, etc.) or a Model, or an Array
  *
  */
-public enum FieldType {
+public enum EFieldType {
 	MODEL, PRIMITIVE, ARRAYLIST;
 }

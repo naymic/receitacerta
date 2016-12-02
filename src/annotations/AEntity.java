@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Entity {
+public @interface AEntity {
 
 	boolean pk() default false;
 	boolean fk() default false;

@@ -1,20 +1,17 @@
 package tests;
 
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+
 import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import dao.DAOGerarReceita;
-import dao.DAORelation;
 import db.Config;
 import model.Model;
-import model.Receita;
 import model.ReceitaView;
-import reflection.ReflectionDAO;
 
 public class TestDAOGerarReceita {
 
@@ -31,7 +28,7 @@ public class TestDAOGerarReceita {
 		r.dsetMaxCalories(10000.0);
 		
 		
-		ArrayList<Model> list= DAOGerarReceita.getInstance().search(r, new ArrayList<Model>(), null);
+		ArrayList<Model> list= DAOGerarReceita.getInstance().search(r, new ArrayList<Model>(), null, null);
 		
 		
 		

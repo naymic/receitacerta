@@ -3,7 +3,7 @@ package discovery;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import enums.DiscoveryType;
+import enums.EDiscoveryType;
 import interfaces.IExtendedDiscovery;
 import model.Model;
 import reflection.ReflectionDAO;
@@ -13,9 +13,9 @@ public class DiscoverAttributes implements IExtendedDiscovery<DescribeAttribute,
 	Model object;
 	
 	@Override
-	public DiscoveryType getDiscoveryType() {
+	public EDiscoveryType getDiscoveryType() {
 		// TODO Auto-generated method stub
-		return DiscoveryType.MODEL_ATTRIBUTES;
+		return EDiscoveryType.MODEL_ATTRIBUTES;
 	}
 
 	@Override

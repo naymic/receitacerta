@@ -9,7 +9,7 @@ import converters.GenericConverter;
 import dao.DAO;
 import dao.DAORelation;
 import dao.DAORelationList;
-import enums.ReturnType;
+import enums.EReturnType;
 import exceptions.NoActionException;
 import jresponseclasses.JData;
 import jresponseclasses.JReturn;
@@ -40,7 +40,7 @@ public class CrudController extends GenericController{
 		
 		//Add all Form dataTypes
 		r.getData().setDataTypes(rdr.getArrayFields(), rdr);
-		r.setReturnType(ReturnType.FORM);
+		r.setReturnType(EReturnType.FORM);
 		return r;		
 	}
 	
@@ -74,9 +74,9 @@ public class CrudController extends GenericController{
 			r.getData().setDataTypes(rdr.getArrayFields(), rdr);
 			
 			//Set JSon response return type
-			r.setReturnType(ReturnType.FORM);
+			r.setReturnType(EReturnType.FORM);
 		}else{
-			r.addSimpleError("Data for "+ object.getClass().getSimpleName() +" not found!");
+			r.addSimpleError("7");  //Data for "+ object.getClass().getSimpleName() +" not found!
 			return r;
 		}
 
@@ -109,9 +109,9 @@ public class CrudController extends GenericController{
 				ObjectLockerCache.getInstance().removeFromCache(cl, i);
 			}*/
 			
-			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully saved in database");
+			r.addMsg("8"); //Data "+ object.getClass().getSimpleName() +" successfully saved in database
 		}else{
-			r.addSimpleError("Data "+ object.getClass().getSimpleName() +" could not be saved in database");
+			r.addSimpleError("9"); //Data "+ object.getClass().getSimpleName() +" could not be saved in database
 		}
 		
 		r.getData().setDataObject(object);
@@ -133,9 +133,9 @@ public class CrudController extends GenericController{
 			r = DAO.getInstance().delete(object, r);
 		
 		if(r.isSuccess()){
-			r.addMsg("Data "+ object.getClass().getSimpleName() +" successfully removed");
+			r.addMsg("10"); //Data "+ object.getClass().getSimpleName() +" successfully removed
 		}else{
-			r.addSimpleError("Data "+ object.getClass().getSimpleName() +" could not be removed");
+			r.addSimpleError("11"); //Data "+ object.getClass().getSimpleName() +" could not be removed
 		}
 
 		return r;
@@ -156,7 +156,7 @@ public class CrudController extends GenericController{
 		this.selectObjectCheck(r, list, object);
 		
 		r.getData().setDataList(list);
-		r.setReturnType(ReturnType.SELECT);
+		r.setReturnType(EReturnType.SELECT);
 		return r;
 	}
 	
@@ -172,13 +172,13 @@ public class CrudController extends GenericController{
 	public JReturn buscaavancadaAction(JReturn r, Model object){
 		List<Model> list =null;
 		
-		list = DAORelation.getInstance().search(object, this.getPageNumber());
+		list = DAORelation.getInstance().search(object, this.getPageNumber(), this.getOrderList()	);
 		
 		this.selectObjectCheck(r, list, object);
 		
 		JData jd =  new JData(this.getObject().getClassName());
 		r.getData().setDataList(list);
-		r.setReturnType(ReturnType.SEARCH);	
+		r.setReturnType(EReturnType.SEARCH);	
 
 		return r;
 	}
@@ -194,7 +194,7 @@ public class CrudController extends GenericController{
 		if(list != null && !list.equals(null) && list.size() > 0){
 			object = (Model) list.get(0); 
 		}else{
-			r.addMsg("No data found with params: "+ StringUtils.searchString(object));	
+			r.addMsg("12");	//No data found with params: "+ StringUtils.searchString(object)
 		}
 	}
 	

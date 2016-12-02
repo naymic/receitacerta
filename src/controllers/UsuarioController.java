@@ -43,7 +43,7 @@ public class UsuarioController extends CrudController {
 			
 			return r;
 		}else{
-			r.addSimpleError("The passwords do not combine, please try it again!");
+			r.addSimpleError("26");//The passwords do not combine, please try it again!
 			return r;
 		}
 
@@ -100,12 +100,12 @@ public class UsuarioController extends CrudController {
 			}else if(!newPasswordsCombine(updatedUser, r) ){
 				return r;
 			}else if(!this.oldPasswordCombine(updatedUser, user)){
-				r.addSimpleError("The old password don't combine with the password in the database!");
+				r.addSimpleError("26");//The old password don't combine with the password in the database!
 			}else{
 				updatedUser.dsetId(user.getId());
 				updatedUser.dsetSenha(updatedUser.getNewSenha());
 				DAORelation.getInstance().save(updatedUser, r);
-				r.addMsg("Your password and Userinformations are updated!");
+				r.addMsg("8");//Your password and Userinformations are updated!
 			}
 			
 		}else{
@@ -113,7 +113,7 @@ public class UsuarioController extends CrudController {
 			updatedUser.dsetId(user.getId());
 			updatedUser.dsetSenha(user.dgetSenha());
 			DAORelation.getInstance().save(updatedUser, r);
-			r.addMsg("Your Userinformations are updated!");
+			r.addMsg("8");//Your Userinformations are updated!
 		}
 		
 		
@@ -168,7 +168,7 @@ public class UsuarioController extends CrudController {
 		if(usr.getNewSenha().equalsIgnoreCase(usr.getRepeatedSenha()))
 				return true;
 		else
-			r.addSimpleError("The new password and repeated password don't combine!");
+			r.addSimpleError("26");//The new password and repeated password don't combine!
 		
 		return false;
 	}
@@ -184,7 +184,7 @@ public class UsuarioController extends CrudController {
 	}
 	
 	/**
-	 * Checks the minimum password lenght
+	 * Checks the minimum password length
 	 * @param usr
 	 * @param r 
 	 * @return
@@ -195,9 +195,8 @@ public class UsuarioController extends CrudController {
 		
 		if( usr.getNewSenha().length() < minLenght || usr.getRepeatedSenha().length() < minLenght){
 			test = false;
-			r.addSimpleError("The password lenght need to be more than "+ minLenght +" !");
+			r.addSimpleError("27");//The password length need to be more than 5 chars
 		}
-	
 		
 		return test;
 	}

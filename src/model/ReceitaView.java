@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 import jresponseclasses.JReturn;
 
 @AModelClasses(needUserObject = true)
@@ -37,7 +37,7 @@ public class ReceitaView extends ReceitaParent{
 		return "view_receitas";
 	}
 	
-	@Entity(attributeName="receita_tipos_id")
+	@AEntity(attributeName="receita_tipos_id")
 	public String dgetReceitaTiposNome() {
 		return receitaTiposNome;
 	}
@@ -46,7 +46,7 @@ public class ReceitaView extends ReceitaParent{
 		this.receitaTiposNome = receitaTiposNome;
 	}
 
-	@Entity(attributeName="receita_rendimento_tipos_id")
+	@AEntity(attributeName="receita_rendimento_tipos_id")
 	public String dgetReceitaRendimentoTipos() {
 		return receitaRendimentoTipos;
 	}
@@ -55,7 +55,7 @@ public class ReceitaView extends ReceitaParent{
 		this.receitaRendimentoTipos = receitaRendimentoTipos;
 	}
 	
-	@Entity(attributeName="total_cal", required=false)
+	@AEntity(attributeName="total_cal", required=false)
 	public Double dgetMaxCalories() {
 		return maxCalories;
 	}
@@ -64,7 +64,7 @@ public class ReceitaView extends ReceitaParent{
 		this.maxCalories = max_calories;
 	}	
 	
-	@Entity(attributeName="Pertence", fk=true)
+	@AEntity(attributeName="Pertence", fk=true)
 	public ArrayList<Pertence> agetListaPertence() {
 		return listaPertence;
 	}
@@ -73,7 +73,7 @@ public class ReceitaView extends ReceitaParent{
 		this.listaPertence = listaPertence;
 	}
 
-	@Entity(attributeName="Passo", fk=true)
+	@AEntity(attributeName="Passo", fk=true)
 	public ArrayList<Passo> agetListaPassos() {
 		return listaPassos;
 	}

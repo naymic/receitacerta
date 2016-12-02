@@ -1,7 +1,7 @@
 package model;
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 import jresponseclasses.JReturn;
 
 
@@ -15,20 +15,20 @@ public class TestCity extends Model{
 	String notice;
 	
 	
-	@Entity(attributeName = "id", pk = true)
+	@AEntity(attributeName = "id", pk = true)
 	public Integer dgetId() {
 		return id;
 	}
 	public void dsetId(Integer id) {this.id = id;}
 	
-	@Entity(attributeName = "name")
+	@AEntity(attributeName = "name")
 	public String dgetName() {
 		return name;
 	}
 	public void dsetName(String name) {this.name = name;}
 	
 
-	@Entity(attributeName = "country")
+	@AEntity(attributeName = "country")
 	public String dgetCountry() {
 		return country;
 	}
@@ -37,21 +37,21 @@ public class TestCity extends Model{
 	}
 
 	
-	@Entity(attributeName = "state")
+	@AEntity(attributeName = "state")
 	public String dgetState() {
 		return state;
 	}
 	public void dsetState(String state) {this.state = state;}
 
 	
-	@Entity(attributeName = "type")
+	@AEntity(attributeName = "type")
 	public String dgetType() {
 		return type;
 	}
 	public void dsetType(String type) {this.type = type;}
 	
 	
-	@Entity(attributeName = "notice", required = false)
+	@AEntity(attributeName = "notice", required = false)
 	public String dgetNotice() {	
 		return notice;
 	}

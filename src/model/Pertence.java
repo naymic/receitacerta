@@ -1,7 +1,7 @@
 package model;
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 import jresponseclasses.JReturn;
 
 @AModelClasses(needUserObject = false)
@@ -18,7 +18,7 @@ public class Pertence extends Model{
 		return "pertence";
 	}
 	
-	@Entity(attributeName = "ingredientes_id", fk=true)
+	@AEntity(attributeName = "ingredientes_id", fk=true)
 	public Ingredientes dgetIngrediente() {
 		return ingrediente;
 	}
@@ -26,7 +26,7 @@ public class Pertence extends Model{
 		this.ingrediente = ingrediente;
 	}
 	
-	@Entity(attributeName="receitas_id", fk=true, isMapped=true)
+	@AEntity(attributeName="receitas_id", fk=true, isMapped=true)
 	public ReceitaView dgetReceita() {
 		return receita;
 	}
@@ -34,7 +34,7 @@ public class Pertence extends Model{
 		this.receita = receita;
 	}
 	
-	@Entity(attributeName="quantidade")
+	@AEntity(attributeName="quantidade")
 	public Integer dgetQuantidade() {
 		return quantidade;
 	}
@@ -42,7 +42,7 @@ public class Pertence extends Model{
 		this.quantidade = quantidade;
 	}
 	
-	@Entity(attributeName = "id", pk=true)
+	@AEntity(attributeName = "id", pk=true)
 	public Integer dgetId() {
 		return id;
 	}
@@ -54,7 +54,7 @@ public class Pertence extends Model{
 	public void verify(JReturn r) {
 		// TODO Auto-generated method stub
 		if(this.dgetQuantidade() < 1){
-			r.addAttributeError("Pertence", "quantidade", "The quantity have to be more than 0");
+			r.addAttributeError("Pertence", "quantidade", "31");//The quantity have to be more than 0
 		}
 	}
 	

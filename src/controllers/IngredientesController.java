@@ -26,7 +26,7 @@ public class IngredientesController extends CrudController {
 		if(listIngredientes.size()==0){
 			return super.salvarAction(r, object);	
 		}else{
-			r.addSimpleError("Ingrediente com essa unidade já existente!");
+			r.addSimpleError("24");//Ingrediente com essa unidade já existente!
 		}
 		
 		return r;

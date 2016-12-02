@@ -1,11 +1,13 @@
 package interfaces;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import exceptions.NoActionException;
+import jrequestclasses.JOrder;
 import jresponseclasses.JReturn;
 import reflection.ReflectionController;
 import utils.RequestObject;
@@ -80,13 +82,13 @@ public interface IController {
 	 * Get the application session
 	 * @return
 	 */
-	public IApplicationSession getAppSession();
+	public IApplicationSession<?> getAppSession();
 
 	/**
 	 * Sets the application session
 	 * @param appSession
 	 */
-	public void setAppSession(IApplicationSession appSession);
+	public void setAppSession(IApplicationSession<?> appSession);
 	
 	/**
 	 * Get the User Session logged in status
@@ -126,4 +128,15 @@ public interface IController {
 	 */
 	public void setPageNumber(Integer object);
 	
+	/**
+	 * Get the order list for sqls
+	 * @return
+	 */
+	public ArrayList<JOrder> getOrderList();
+	
+	/**
+	 * Get the order list for sqls
+	 * @param orderList
+	 */
+	public void setOrderList(ArrayList<JOrder> orderList);
 }

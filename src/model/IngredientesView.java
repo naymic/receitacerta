@@ -2,7 +2,7 @@ package model;
 
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 
 @AModelClasses(needUserObject = false)
 public class IngredientesView extends IngredientesParent{
@@ -18,7 +18,7 @@ public class IngredientesView extends IngredientesParent{
 		return "ingredientes_view";
 	}
 
-	@Entity(attributeName = "ingredientes_unidades_id", fk=true)
+	@AEntity(attributeName = "ingredientes_unidades_id", fk=true)
 	public String dgetIngredientesUnidade() {
 		return ingredientesUnidade;
 	}
@@ -28,7 +28,7 @@ public class IngredientesView extends IngredientesParent{
 		this.ingredientesUnidade = ingredientesUnidade;
 	}
 
-	@Entity(attributeName = "ingredientes_tipo_id", fk=true)
+	@AEntity(attributeName = "ingredientes_tipo_id", fk=true)
 	public String dgetIngredientesTipoId() {
 		return ingredientesTipoId;
 	}
@@ -38,7 +38,7 @@ public class IngredientesView extends IngredientesParent{
 		this.ingredientesTipoId = ingredientesTipoId;
 	}
 
-	@Entity(attributeName = "ingrediente_armazenamentos_id", fk=true)
+	@AEntity(attributeName = "ingrediente_armazenamentos_id", fk=true)
 	public String dgetIngredienteArmazenamentosId() {
 		return ingredienteArmazenamentosId;
 	}

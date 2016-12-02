@@ -12,6 +12,7 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 import converters.GenericConverter;
 import db.DB;
 import interfaces.IDAO;
+import jrequestclasses.JOrder;
 import jresponseclasses.JReturn;
 import model.Model;
 import reflection.GenericReflection;
@@ -177,7 +178,7 @@ public class DAO implements IDAO{
 			stmt.executeUpdate();
 			stmt.close();
 		}catch(MySQLIntegrityConstraintViolationException mcve){
-			r.addSimpleError("Object is used in a other database table and canno't be deleted! "+ mcve.getErrorCode());
+			r.addSimpleError("29");//Object is used in a other database table and canno't be deleted! "+ mcve.getErrorCode()
 		}catch (SQLException e) {
 			r.addSimpleError(e.toString());
 			e.printStackTrace();
@@ -337,9 +338,10 @@ public class DAO implements IDAO{
 	 * @param mget	
 	 * @param mset
 	 * @param where
+	 * @param orderList 
 	 * @return ArrayList<Model> return a ArrayList with Model objects
 	 */
-	protected ArrayList<Model> getObjectsFromRS(ReflectionDAO rd, String sql, ArrayList<Method> mget, ArrayList<Method> mset, ArrayList<Method> where){
+	protected ArrayList<Model> getObjectsFromRS(ReflectionDAO rd, String sql, ArrayList<Method> mget, ArrayList<Method> mset, ArrayList<Method> where, ArrayList<JOrder> orderList){
 		Model object = (Model)rd.getObject();
 		PreparedStatement stmt = null;
 		ArrayList<Model> returnList = new ArrayList<>();
@@ -360,6 +362,10 @@ public class DAO implements IDAO{
 		return returnList;	
 	}
 	
+	protected ArrayList<Model> getObjectsFromRS(ReflectionDAO rd, String sql, ArrayList<Method> mget, ArrayList<Method> mset, ArrayList<Method> where){
+		return this.getObjectsFromRS(rd,sql,mget,mset,where, null);
+	}
+	
 	
 	/**
 	 * Get a list of all objects of a search, received from the result set
@@ -370,13 +376,18 @@ public class DAO implements IDAO{
 	 * @param where
 	 * @return ArrayList<Model> return a ArrayList with Model objects
 	 */
-	protected ArrayList<Model> getObjectsFromRSSearch(ReflectionDAO rd, String sql, ArrayList<Method> mget, ArrayList<Method> mset, ArrayList<Method> where, Integer page){
+	protected ArrayList<Model> getObjectsFromRSSearch(ReflectionDAO rd, String sql, ArrayList<Method> mget, ArrayList<Method> mset, ArrayList<Method> where, Integer page, ArrayList<JOrder> orderList){
 		Model object = (Model)rd.getObject();
 		PreparedStatement stmt = null;
 		ArrayList<Model> returnList = new ArrayList<>();
 		
-		if(page != null && !page.equals(null) && page > 0)
+		if(page != null && !page.equals(null) && page > 0){
 			sql += StringUtils.getPageLimit(page, this.linesPerPage);
+		}
+		
+		if(orderList != null && !orderList.equals(null) && orderList.size() > 0){
+			sql += StringUtils.prepareOrderList(rd, orderList);
+		}
 		
 		try {
 			stmt = getDb().getCon().prepareStatement(sql ); 

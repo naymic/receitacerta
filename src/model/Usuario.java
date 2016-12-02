@@ -1,11 +1,7 @@
 package model;
 
-import java.util.ArrayList;
-
 import annotations.AModelClasses;
-import annotations.Entity;
-import interfaces.IApplicationSession;
-import interfaces.IUser;
+import annotations.AEntity;
 import jresponseclasses.JReturn;
 import utils.CryptString;
 import utils.StringUtils;
@@ -33,11 +29,11 @@ public class Usuario extends UserParent {
 			this.celular = StringUtils.justNumbers(this.celular);
 		
 			if(this.dgetCelular().length() < 12 && this.dgetCelular().length() > 12){
-				r.addAttributeError(this.getClass().getSimpleName(), "celular", "Please use only number from 0-9 and string lenght exactly 12 like 062995652132");
+				r.addAttributeError(this.getClass().getSimpleName(), "celular", "32");//Please use only number from 0-9 and string lenght exactly 12 like 062995652132
 			}
 			
 			if (!this.dgetEmail().contains("@") || !this.dgetEmail().contains(".")){
-				r.addAttributeError(this.getClass().getSimpleName(), "email", "This is not a valid email Adress. Please enter a valid address!");
+				r.addAttributeError(this.getClass().getSimpleName(), "email", "33");//This is not a valid email Adress. Please enter a valid address!
 			}
 		}catch(NullPointerException npe){
 			
@@ -47,7 +43,7 @@ public class Usuario extends UserParent {
 	}
 	
 
-	@Entity(attributeName = "email")
+	@AEntity(attributeName = "email")
 	public String dgetEmail() {
 		return email;
 	}
@@ -57,7 +53,7 @@ public class Usuario extends UserParent {
 		this.email = email;
 	}
 
-	@Entity(attributeName = "senha", required=false)
+	@AEntity(attributeName = "senha", required=false)
 	public String dgetSenha() {
 		return senha;
 	}
@@ -78,7 +74,7 @@ public class Usuario extends UserParent {
 		this.senha = senha;
 	}
 
-	@Entity(attributeName = "celular", required = false)
+	@AEntity(attributeName = "celular", required = false)
 	public String dgetCelular() {
 		return celular;
 	}
@@ -88,7 +84,7 @@ public class Usuario extends UserParent {
 		this.celular = celular;
 	}
 
-	@Entity(attributeName = "sobrenome", required = false)
+	@AEntity(attributeName = "sobrenome", required = false)
 	public String dgetSobrenome() {
 		return sobrenome;
 	}
@@ -103,7 +99,7 @@ public class Usuario extends UserParent {
 	
 
 
-	@Entity(attributeName = "", required = false, isInDB=false)
+	@AEntity(attributeName = "", required = false, isInDB=false)
 	public String getOldSenha() {
 		return oldSenha;
 	}
@@ -113,7 +109,7 @@ public class Usuario extends UserParent {
 		this.oldSenha = oldSenha;
 	}
 
-	@Entity(attributeName = "", required = false, isInDB=false)
+	@AEntity(attributeName = "", required = false, isInDB=false)
 	public String getNewSenha() {
 		return newSenha;
 	}
@@ -123,7 +119,7 @@ public class Usuario extends UserParent {
 		this.newSenha = newSenha;
 	}
 	
-	@Entity(attributeName = "", required = false, isInDB=false)
+	@AEntity(attributeName = "", required = false, isInDB=false)
 	public String getRepeatedSenha() {
 		return repeatedSenha;
 	}

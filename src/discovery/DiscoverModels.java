@@ -3,7 +3,7 @@ package discovery;
 import java.util.ArrayList;
 
 import annotations.AModelClasses;
-import enums.DiscoveryType;
+import enums.EDiscoveryType;
 import exceptions.NoPackageException;
 import interfaces.IDiscovery;
 import model.Model;
@@ -15,9 +15,9 @@ public class DiscoverModels implements IDiscovery<DescribeModel>{
 
 
 	@Override
-	public DiscoveryType getDiscoveryType() {
+	public EDiscoveryType getDiscoveryType() {
 		// TODO Auto-generated method stub
-		return DiscoveryType.MODEL;
+		return EDiscoveryType.MODEL;
 	}
 
 	@Override

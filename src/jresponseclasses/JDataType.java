@@ -4,8 +4,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import annotations.Entity;
-import enums.FieldType;
+import annotations.AEntity;
+import enums.EFieldType;
 import model.Model;
 
 public class JDataType {
@@ -19,11 +19,11 @@ public class JDataType {
 	 * @param objectType
 	 * @param fieldClassification
 	 */
-	JDataType(Field field, Entity e){
+	JDataType(Field field, AEntity e){
 		this.prepareAndSetObject(field, e);		
 	}
 	
-	private void prepareAndSetObject(Field obj, Entity e){
+	private void prepareAndSetObject(Field obj, AEntity e){
 		Class<?> objClass = obj.getType();
 		
 		//Set the classname of the given field
@@ -35,9 +35,9 @@ public class JDataType {
 		
 		//Set the Fieldclassification
 		if(Model.class.isAssignableFrom(objClass))
-			this.setFieldClassification(FieldType.MODEL);
+			this.setFieldClassification(EFieldType.MODEL);
 		else
-			this.setFieldClassification(FieldType.PRIMITIVE);
+			this.setFieldClassification(EFieldType.PRIMITIVE);
 			
 		
 	}
@@ -46,7 +46,7 @@ public class JDataType {
 		return fieldClassification;
 	}
 
-	public void setFieldClassification(FieldType fieldClassification) {
+	public void setFieldClassification(EFieldType fieldClassification) {
 		this.fieldClassification = fieldClassification.name();
 	}
 

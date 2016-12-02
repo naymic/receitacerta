@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 import jresponseclasses.JReturn;
 
 @AModelClasses(needUserObject = true)
@@ -25,7 +25,7 @@ public class Receita extends ReceitaParent{
 
 	}
 
-	@Entity(attributeName = "receita_tipos_id", fk=true)
+	@AEntity(attributeName = "receita_tipos_id", fk=true)
 	public ReceitaTipos dgetReceitaTipos() {
 		return receitaTipos;
 	}
@@ -34,7 +34,7 @@ public class Receita extends ReceitaParent{
 		this.receitaTipos = receitaTipos;
 	}
 
-	@Entity(attributeName = "receita_rendimento_tipos_id", fk=true)
+	@AEntity(attributeName = "receita_rendimento_tipos_id", fk=true)
 	public ReceitaRendimentoTipos dgetReceitaRendimentoTipos() {
 		return receitaRendimentoTipos;
 	}
@@ -43,7 +43,7 @@ public class Receita extends ReceitaParent{
 		this.receitaRendimentoTipos = receitaRendimentoTipos;
 	}
 
-	@Entity(attributeName="", required=false, isInDB=false)
+	@AEntity(attributeName="", required=false, isInDB=false)
 	public Double getMaxCalories() {
 		return maxCalories;
 	}

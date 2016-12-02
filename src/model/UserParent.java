@@ -1,7 +1,7 @@
 package model;
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 import interfaces.IUser;
 import jresponseclasses.JReturn;
 
@@ -27,7 +27,7 @@ public class UserParent extends Model implements IUser {
 	}
 	
 	
-	@Entity(attributeName = "id", pk=true)
+	@AEntity(attributeName = "id", pk=true)
 	public Integer dgetId() {
 		return id;
 	}
@@ -37,7 +37,7 @@ public class UserParent extends Model implements IUser {
 		this.id = id;
 	}
 	
-	@Entity(attributeName = "caminho_foto", required = false)
+	@AEntity(attributeName = "caminho_foto", required = false)
 	public String dgetCaminhoFoto() {
 		return caminhoFoto;
 	}
@@ -50,7 +50,7 @@ public class UserParent extends Model implements IUser {
 	
 	
 	
-	@Entity(attributeName = "nome", required = false)
+	@AEntity(attributeName = "nome", required = false)
 	public String dgetNome() {
 		return nome;
 	}

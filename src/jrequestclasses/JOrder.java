@@ -4,7 +4,7 @@ import enums.EOrderType;
 
 public class JOrder {
 	private String name;
-	private EOrderType orderType;
+	private EOrderType ordertype;
 	
 	
 	public String getName() {
@@ -14,10 +14,10 @@ public class JOrder {
 		this.name = name;
 	}
 	public EOrderType getOrderType() {
-		return orderType;
+		return ordertype;
 	}
 	public void setOrderType(EOrderType orderType) {
-		this.orderType = orderType;
+		this.ordertype = orderType;
 	}
 	
 	

@@ -2,11 +2,11 @@
 
 	<div class="row">
 		 <div class="col-md-6">
-        	<label for="nome">Nome do ingrediente:</label>
+        	<label for="nome"><span id="spannome"></span>Nome do ingrediente:</label>
         	<input type="text" name="nome" class="form-control" id="nome" value="" />
     	</div>
 		<div class="col-md-6">
-        	<label for="ingredientes_tipo_id">Tipo do ingrediente:</label>
+        	<label for="ingredientes_tipo_id"><span id="spaningredientesTipoId"></span>Tipo do ingrediente:</label>
         	<select name="ingredientesTipoId" data-tipo="select" class="form-control" data-label="nomeTipo" data-value="id" id="ingredientesTipoId">
            		<!-- $beginBlock relation.tipo -->
           		  <option value="">Selecione</option>
@@ -17,7 +17,7 @@
     <br>
 	<div class="row">
 		 <div class="col-md-6">
-			<label for="ingredientes_unidades_id">Unidade:</label>
+			<label for="ingredientes_unidades_id"><span id="spaningredientesUnidade"></span>Unidade:</label>
         	<select class="form-control" data-tipo="select" data-label="nomeUnidade" data-value="id"  name="ingredientesUnidade" id="ingredientesUnidade">
           		  <!-- $beginBlock unidades -->
           			  <option value="">Selecione</option>
@@ -25,14 +25,14 @@
       		</select>
       	</div>
       	<div class="col-md-6">
-      		<label for="calorias">Calorias por Unidade (Cal/Unid)</label>
+      		<label for="calorias"><span id="spancalorias"></span>Calorias por Unidade (Cal/Unid)</label>
        		<input class="form-control" type="text" name="calorias" id="calorias" value="" />
       	</div>
     </div>
     <br/>
     <div class="row">
    		<div class="col-md-6">
-	        <label for="ingrediente_armazenamentos_id">Tipo de armazenamento:</label>
+	        <label for="ingrediente_armazenamentos_id"><span id="spaningredienteArmazenamentosId"></span>Tipo de armazenamento:</label>
 	        <select class="form-control" data-tipo="select" data-label="nomeArmazenamento" data-value="id"  name="ingredienteArmazenamentosId" id="ingredienteArmazenamentosId">
 	            <!-- $beginBlock armazenamentos -->
 	             <option value="">Selecione</option>

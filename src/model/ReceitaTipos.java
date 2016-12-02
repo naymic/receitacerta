@@ -1,7 +1,7 @@
 package model;
 
 import annotations.AModelClasses;
-import annotations.Entity;
+import annotations.AEntity;
 import jresponseclasses.JReturn;
 
 @AModelClasses(needUserObject = false)
@@ -10,7 +10,7 @@ public class ReceitaTipos extends Model {
 	private Integer id;
 	private String nome;
 	
-	@Entity(attributeName = "id", pk=true)
+	@AEntity(attributeName = "id", pk=true)
 	public Integer dgetId() {
 		return id;
 	}
@@ -19,7 +19,7 @@ public class ReceitaTipos extends Model {
 		this.id = id;
 	}
 	
-	@Entity(attributeName = "nome")
+	@AEntity(attributeName = "nome")
 	public String dgetNome() {
 		return nome;
 	}

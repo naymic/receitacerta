@@ -87,11 +87,11 @@ public class ReflectionDAORelation extends ReflectionDAO {
 	private boolean checkPK(){
 		try{
 			if(this.getSetPKs().size() > 1){
-				throw new Exception("The object "+ this.getClass() +" has mor than one PK");
+				throw new Exception("37");//The object "+ this.getClass() +" has mor than one PK
 			}
 				
 			if(this.isFK(this.getMethodsPK.get(0))){
-				throw new Exception("The method "+ this.getMethodsPK.get(0).getName() +" from the object "+ this.getClass() +" has mor than one PK");
+				throw new Exception("37");//The method "+ this.getMethodsPK.get(0).getName() +" from the object "+ this.getClass() +" has mor than one PK
 			}
 		}catch(Exception e){
 			e.printStackTrace();

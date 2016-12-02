@@ -2,11 +2,11 @@ package jresponseclasses;
 
 import java.util.ArrayList;
 
-import enums.DiscoveryType;
+import enums.EDiscoveryType;
 import interfaces.IDiscovery;
 
 public class JDiscovery {
-	private DiscoveryType discoveryType;
+	private EDiscoveryType discoveryType;
 	private ArrayList<?> discoveryList;
 	private String dicoveryObjectName;
 	
@@ -22,11 +22,11 @@ public class JDiscovery {
 		this.setDiscoveryType(discovery.getDiscoveryType());
 	}
 
-	public DiscoveryType getDiscoveryType() {
+	public EDiscoveryType getDiscoveryType() {
 		return discoveryType;
 	}
 
-	public void setDiscoveryType(DiscoveryType discoveryType) {
+	public void setDiscoveryType(EDiscoveryType discoveryType) {
 		this.discoveryType = discoveryType;
 	}
 

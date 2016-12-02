@@ -3,6 +3,7 @@ package dao;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import jrequestclasses.JOrder;
 import model.Model;
 import reflection.GenericReflection;
 import reflection.ReflectionDAO;
@@ -24,13 +25,13 @@ public class DAORelationList extends DAORelation{
 	};
 	
 	@Override
-	public ArrayList<Model> search(Model object, Integer page){		
-		return search(object, 1, page);
+	public ArrayList<Model> search(Model object, Integer page, ArrayList<JOrder> orderList){		
+		return search(object, 1, page,  orderList);
 	}
 	
 
-	public ArrayList<Model> search(Model object, int deepness, Integer page){
-		ArrayList<Model> modelList = DAORelation.getInstance().search(object, page);
+	public ArrayList<Model> search(Model object, int deepness, Integer page, ArrayList<JOrder> orderList){
+		ArrayList<Model> modelList = DAORelation.getInstance().search(object, page, orderList);
 		ArrayList<SelectList> selectThreads = new ArrayList<>();
 		
 		for(int i = 0; i < modelList.size(); i++){

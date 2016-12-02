@@ -11,7 +11,7 @@ Observations:
 
 //Choose your database
 #db=receita_prog2
-db=receitacerta
+db=receita_certa
 
 //Choose your host, where your database is running
 #dbhost=localhost

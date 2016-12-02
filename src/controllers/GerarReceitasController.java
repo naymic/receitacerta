@@ -1,30 +1,13 @@
 package controllers;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.swing.ListModel;
 
 import annotations.AControllerMethod;
-import dao.DAO;
 import dao.DAOGerarReceita;
-import dao.DAORelation;
-import dao.DAORelationList;
-import enums.ReturnType;
-import exceptions.NoActionException;
-import interfaces.IApplicationSession;
-import interfaces.IController;
-import interfaces.IUser;
 import jresponseclasses.JReturn;
 import model.Ingredientes;
 import model.Model;
-import model.Receita;
 import model.ReceitaView;
-import reflection.ReflectionDAO;
-import reflection.ReflectionDAORelation;
-import utils.RequestObject;
 
 public class GerarReceitasController extends CrudController{
 	
@@ -53,10 +36,10 @@ public class GerarReceitasController extends CrudController{
 			if(recta.getStringIngredientesId() != null && recta.getStringIngredientesId().length() > 0)
 				ingredientsList = getIngredientsList(recta.getStringIngredientesId());
 		} catch (Exception e) {
-			r.addSimpleError("The string with the id's of the ingredients has some error. String: "+ recta.getStringIngredientesId());
+			r.addSimpleError("24");//"The string with the id's of the ingredients has some error. String: "+ recta.getStringIngredientesId()
 			e.printStackTrace();
 		}
-		ArrayList<Model> recipeList = DAOGerarReceita.getInstance().search(recta, ingredientsList, this.getPageNumber());
+		ArrayList<Model> recipeList = DAOGerarReceita.getInstance().search(recta, ingredientsList, this.getPageNumber(), this.getOrderList());
 		
 		r.getData().setDataList(recipeList);
 		

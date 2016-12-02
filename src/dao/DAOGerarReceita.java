@@ -66,7 +66,7 @@ public class DAOGerarReceita extends DAORelation {
 		for(int i = 0; i < recipeList.size() ; i++){
 			ReceitaView rv = (ReceitaView)recipeList.get(i);
 			
-			if(rv.dgetMaxCalories() > maxCalories){
+			if(rv.dgetMaxCalories() == null || rv.dgetMaxCalories() > maxCalories){
 				recipeList.remove(i);
 				i--;
 			}

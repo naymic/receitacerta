@@ -19,7 +19,7 @@ public class LoginController extends GenericController{
 	
 	@AControllerMethod(checkAttributes = false, needAuthentication = false)
 	public void loginAction(JReturn r, Model obj){
-		boolean test = true;
+		boolean test = false;
 		Usuario loginUser = this.prepareUserObjectForLogin((Usuario)obj); //Remove any value, except password and email
 		
 		Usuario u = null;
@@ -49,7 +49,7 @@ public class LoginController extends GenericController{
 			//r.setRedirect((JRedirect)this.getAppSession().getMapAttribute("redirect"));
 			
 		}else{
-			r.setUser(this.resetUser());
+			r.setUser(new User());
 			r.addSimpleError("2");//Email and password combination could not be found. Login failed!
 		}
 	}

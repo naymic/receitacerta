@@ -43,7 +43,7 @@ public class UsuarioController extends CrudController {
 			
 			return r;
 		}else{
-			r.addSimpleError("26");//The passwords do not combine, please try it again!
+			r.addSimpleError("41");//The passwords do not combine, please try it again!
 			return r;
 		}
 
@@ -100,7 +100,7 @@ public class UsuarioController extends CrudController {
 			}else if(!newPasswordsCombine(updatedUser, r) ){
 				return r;
 			}else if(!this.oldPasswordCombine(updatedUser, user)){
-				r.addSimpleError("26");//The old password don't combine with the password in the database!
+				r.addSimpleError("42");//The old password don't combine with the password in the database!
 			}else{
 				updatedUser.dsetId(user.getId());
 				updatedUser.dsetSenha(updatedUser.getNewSenha());
@@ -168,7 +168,7 @@ public class UsuarioController extends CrudController {
 		if(usr.getNewSenha().equalsIgnoreCase(usr.getRepeatedSenha()))
 				return true;
 		else
-			r.addSimpleError("26");//The new password and repeated password don't combine!
+			r.addSimpleError("41");//The new password and repeated password don't combine!
 		
 		return false;
 	}

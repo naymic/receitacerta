@@ -52,8 +52,9 @@
 <script>
 
 
-  var objUsuario = {"dados":{"classname":"Usuario","action":EDITACTION,"usecase":"Usuario","data":{}},"config":{"formRest":false,"returnPage":"modulos/usuario/configuracoes.html","nomeForm":"formUsuario"}};
+  var objUsuario = {"dados":{"classname":"Usuario","action":EDITACTION,"usecase":"Usuario","data":{}},"config":{"formRest":true,"returnPage":"modulos/usuario/edit_usuario.html","nomeForm":"formUsuario"}};
   console.log(objUsuario);
   validaAction('Update',objUsuario);
+  document.getElementsByClassName("btn-success")[0].value='Resetar';
 
 </script>

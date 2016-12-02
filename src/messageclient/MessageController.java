@@ -44,7 +44,9 @@ public class MessageController {
 	private JMessageResponse request(JReturn response)throws Exception{
 		JMessageResponse msgResponse = new JMessageResponse();
 		
-		String url = "http://www.home.ch/msgWebService/?request={\"appid\":1,\"apptoken\":\"msgIstSoCool!-\",\"modulid\":1,\"applang\":\"pt\",\"requitems\":["+ this.prepareRequestItems(this.getMsgIds())+"]}";
+		String url = "http://naymic.dlinkddns.com:55030/msgWebService/?request={\"appid\":1,\"apptoken\":\"msgIstSoCool!-\",\"modulid\":1,\"applang\":\"pt\",\"requitems\":["+ this.prepareRequestItems(this.getMsgIds())+"]}";
+		//String url = "http://www.home.ch/msgWebService/?request={\"appid\":1,\"apptoken\":\"msgIstSoCool!-\",\"modulid\":1,\"applang\":\"pt\",\"requitems\":["+ this.prepareRequestItems(this.getMsgIds())+"]}";
+		
 		
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();

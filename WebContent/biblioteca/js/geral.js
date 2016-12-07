@@ -74,7 +74,7 @@ function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um
 		var metodoGeral = '';
 		$.each(data[KEYFORM],function(campo,values){
 			if(REQUIRED){
-				$("#"+campo).siblings('label').append(' <span style="color:red">*</span>');
+				$("#"+campo).siblings('label').append(' <span style="color:red" class="spanObrigatorio">*</span>');
 			}
 			console.log($("#"+campo).data('tipo'));
 			console.log(values[TIPOCAMPO]);
@@ -96,7 +96,7 @@ function construirForm(dados,nomeForm,resetForm){ // Construção dinamica de um
 		$("select").selectpicker();
 		
 	console.log(nomeForm);
-	$("#"+nomeForm).append("<br /><br /><span style='color:red'>* Campo Obrigatorio</span>");
+	$("#"+nomeForm).append("<br /><br /><span style='color:red' class='spanObrigatorio'>* Campo Obrigatorio</span>");
 }
 
 function checkboxConstroi(dados){

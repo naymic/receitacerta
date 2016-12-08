@@ -139,4 +139,13 @@ public interface IController {
 	 * @param orderList
 	 */
 	public void setOrderList(ArrayList<JOrder> orderList);
+	
+	/**
+	 * This token can be used for autenticate apps
+	 * The String contains <email>_|_<password>
+	 * @return
+	 */
+	public String getToken();
+
+	public void setToken(String token);
 }

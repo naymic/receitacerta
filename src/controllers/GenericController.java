@@ -19,6 +19,7 @@ import jresponseclasses.JData;
 import jresponseclasses.JRedirect;
 import jresponseclasses.JReturn;
 import model.Model;
+import model.Usuario;
 import reflection.GenericReflection;
 import reflection.ReflectionController;
 import reflection.ReflectionDAO;
@@ -39,6 +40,7 @@ public class GenericController implements IController{
 	Model modelObject;
 	Integer pageNumber; //The actual number of page to visualize on the view
 	ArrayList<JOrder> orderList;
+	String token;
 	
 
 	public GenericController(IApplicationSession<?> appSession){
@@ -532,30 +534,51 @@ public class GenericController implements IController{
 			r.getUser().setLoggedin(false);
 
 		//Check if use case needs authentication
-		if(r.isSuccess() && amc.needAuthentication()){
+		if(r.isSuccess() && amc.needAuthentication() && this.getToken() == null){
+			browserLogin(r, usecase, action);
+		}else if(this.getToken() != null){
+			appLogin(r);
+		}
+	}
 
+	private void browserLogin(JReturn r, String usecase, String action) {
+		if(this.getAppSession() == null)
+			this.setAppSession(new ViewSessionController());
+		
+		
+		LoginController lc = (LoginController) GenericController.getController(r, "Login", this.getAppSession());
 
-			if(this.getAppSession() == null)
-				this.setAppSession(new ViewSessionController());
-			
-			
-			LoginController lc = (LoginController) GenericController.getController(r, "Login", this.getAppSession());
+		//Check if user is already logged in
+		if(!lc.isUserSessionLoggedin()){
 
-			//Check if user is already logged in
-			if(!lc.isUserSessionLoggedin()){
+			r.getRedirect().setRedirection("Usuario", "login", "login");
+			r.setSuccess(false);
 
-				r.getRedirect().setRedirection("Usuario", "login", "login");
-				r.setSuccess(false);
-
-				//Set Redirection to 
-				JRedirect successRedirect = new JRedirect();
-				successRedirect.setRedirection(this.getClass().getSimpleName(), usecase, action);
-				lc.getAppSession().setMapAttribute("redirect", successRedirect);
-			}else{
-				r.setUser(this.getUserSession());
-				r.setSuccess(true);
-			}
-		}		
+			//Set Redirection to 
+			JRedirect successRedirect = new JRedirect();
+			successRedirect.setRedirection(this.getClass().getSimpleName(), usecase, action);
+			lc.getAppSession().setMapAttribute("redirect", successRedirect);
+		}else{
+			r.setUser(this.getUserSession());
+			r.setSuccess(true);
+		}
+	}
+	
+	private void appLogin(JReturn r) {
+		LoginController lc = (LoginController) GenericController.getController(r, "Login", this.getAppSession());
+		Usuario u = new Usuario();
+		String[] tokenString = this.getToken().split("_|_");
+		
+		u.dsetEmail(tokenString[0]);
+		u.dsetSenha(tokenString[2]);
+		JReturn localReturn = new JReturn();
+		lc.loginAction(localReturn, u);
+		
+		if(!localReturn.isSuccess()){
+			r.addSimpleError(localReturn.getSimpleErrors().get(0));
+		}else{
+			r.setUser(localReturn.getUser());
+		}
 	}
 
 	public ArrayList<JOrder> getOrderList() {
@@ -564,6 +587,14 @@ public class GenericController implements IController{
 
 	public void setOrderList(ArrayList<JOrder> orderList) {
 		this.orderList = orderList;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 }

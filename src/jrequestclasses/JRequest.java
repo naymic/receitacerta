@@ -33,6 +33,9 @@ public class JRequest{
 	//This list is used to order by it in the database
 	public ArrayList<JOrder> orderlist;
 	
+	//Token for Android or other apps
+	public String token;
+	
 	public JRequest(){
 		data = new HashMap<String, String>();
 		pagemanager = new JPageManager();
@@ -78,6 +81,14 @@ public class JRequest{
 
 	public void setOrderlist(ArrayList<JOrder> orderlist) {
 		this.orderlist = orderlist;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 	

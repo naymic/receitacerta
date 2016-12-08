@@ -34,7 +34,7 @@ public class DAORelationList extends DAORelation{
 		ArrayList<Model> modelList = DAORelation.getInstance().search(object, page, orderList);
 		ArrayList<SelectList> selectThreads = new ArrayList<>();
 		
-		for(int i = 0; i < modelList.size(); i++){
+		for(int i = 0; i < modelList.size() && deepness != 0; i++){
 			SelectList sc = new SelectList(modelList.get(i), deepness);
 			selectThreads.add(i,sc);
 			

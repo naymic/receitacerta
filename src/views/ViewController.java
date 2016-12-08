@@ -204,7 +204,12 @@ public class ViewController extends HttpServlet {
 			ic.setOrderList(null);
 		}
 		
-
+		//Set ordering list for SQL 
+		try{
+			ic.setToken(requ.getToken());
+		}catch(NullPointerException npe){
+			ic.setToken(null);
+		}
 		
 	}
 	

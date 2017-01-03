@@ -11,7 +11,9 @@ EXECUTION:
 This project is written in PHP and can be executed v.5.6+.
 
 DEPENDENCIES: 
-You can turn on URL rewrite, but it's not mandatory.
+MessageWebService a PHP API, you can clone it from my Bitbucket repository or use my (for tests) running on my Raspberry PI. To define the API URL you can change the config.txt file in the WebContent folder.
+URL: http://naymic.dlinkddns.com:55030/msgWebService/
+Repository: git@bitbucket.org:micthix/msgwebservice.git
 
 CONTACT FOR QUESTIONS OR FEEDBACK:
 micha.meier.siueg@gmail.com

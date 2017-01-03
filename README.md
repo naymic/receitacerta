@@ -12,9 +12,19 @@ This application is used to find recipes by it's name, ingredients, max. calorie
 
 ARCHITECTURE:
 
-<br>ReceitaCerta is a front- and backend separated application. The communication occur over HTTP with a JSON string.
-Frontend: Written in Javascript by Thiago Miranda
-Backend: written in Java by Micha Meier 
+ReceitaCerta is a front- and backend separated application. The communication occur over HTTP with a JSON string.
+Frontend: 
+
+Written in Javascript by Thiago Miranda
+Backend: 
+
+
+```
+#!html
+
+<br>
+```
+written in Java by Micha Meier 
 
 
 Further informations about the communication protocol are found in Google Docs: https://docs.google.com/document/d/1Xp3Nceu0wsi5M2YRxPj2_xhjqEw75kp12YE5SEMwHbI/edit?usp=sharing

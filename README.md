@@ -35,12 +35,12 @@ This project is written in PHP and can be executed v.5.6+.
 * username: receita_certa
 * password: nosestamosonline75113
 
-* The sql to create the database you find in the base folder.
+* The sql to create the database you find in the root folder.
 
 ####MessageWebService
 MessageWebService a PHP API, you can clone it from my Bitbucket repository or use my (for tests) running on my Raspberry PI. To define the API URL you can change the config.txt file in the WebContent folder.
-URL: http://naymic.dlinkddns.com:55030/msgWebService/
-Repository: git@bitbucket.org:micthix/msgwebservice.git
+
+* Repository: git@bitbucket.org:micthix/msgwebservice.git
 
 
 ###CONTACT FOR QUESTIONS OR FEEDBACK

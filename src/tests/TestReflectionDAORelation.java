@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import dao.DAO;
 import dao.DAORelation;
-import db.Config;
+import utils.Config;
 import jresponseclasses.JReturn;
 import model.IngredienteArmazenamentos;
 import model.IngredienteTipo;

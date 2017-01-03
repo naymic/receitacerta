@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.google.gson.Gson;
 
 import dao.DAORelationList;
-import db.Config;
+import utils.Config;
 import model.Model;
 import model.Receita;
 

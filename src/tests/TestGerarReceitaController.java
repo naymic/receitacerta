@@ -7,9 +7,8 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 
-import controllers.GenericController;
 import controllers.GerarReceitasController;
-import db.Config;
+import utils.Config;
 import jresponseclasses.JReturn;
 
 public class TestGerarReceitaController {

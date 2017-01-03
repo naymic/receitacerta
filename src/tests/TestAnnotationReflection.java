@@ -1,18 +1,15 @@
 package tests;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import annotations.AEntity;
-import db.Config;
+import utils.Config;
 import enums.EMType;
 import model.Ingredientes;
 import reflection.ReflectionDAO;
-import reflection.ReflectionModel;
 import reflection.ReflectionAnnotation;
 
 public class TestAnnotationReflection extends TestCases {

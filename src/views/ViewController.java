@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 
 import controllers.GenericController;
-import db.Config;
+import utils.Config;
 import interfaces.IApplicationSession;
 import interfaces.IController;
 import jrequestclasses.JRequest;

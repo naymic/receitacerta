@@ -8,7 +8,7 @@ import java.util.Iterator;
 import annotations.AControllerMethod;
 import annotations.AModelClasses;
 import converters.GenericConverter;
-import db.Config;
+import utils.Config;
 import enums.EMType;
 import exceptions.NoActionException;
 import interfaces.IApplicationSession;

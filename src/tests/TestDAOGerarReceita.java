@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dao.DAOGerarReceita;
-import db.Config;
+import utils.Config;
 import model.Model;
 import model.ReceitaView;
 

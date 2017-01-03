@@ -8,15 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import controllers.GenericController;
-import controllers.LoginController;
-import db.Config;
+import utils.Config;
 import interfaces.IController;
 import jresponseclasses.JReturn;
-import jresponseclasses.JUser;
 import model.Receita;
-import model.User;
-import model.Usuario;
-import views.ViewController;
 
 public class TestsReceitas  extends TestCases {
 	

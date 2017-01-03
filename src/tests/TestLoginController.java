@@ -6,11 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import controllers.GenericController;
-import controllers.LoginController;
-import db.Config;
+import utils.Config;
 import interfaces.IController;
 import jresponseclasses.JReturn;
-import views.ViewController;
 
 public class TestLoginController  extends TestCases {
 

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import jresponseclasses.JAttributeError;
 import jresponseclasses.JReturn;
+import utils.Config;
+
 
 public class MessageController {
 
@@ -35,16 +37,19 @@ public class MessageController {
 	}
 
 	/**
-	 * 
-	 * @param response
-	 * @param requestItems
+	 *
+	 * @param response JReturn
 	 * @return JMessageResponse
 	 * @throws Exception
 	 */
 	private JMessageResponse request(JReturn response)throws Exception{
 		JMessageResponse msgResponse = new JMessageResponse();
+		String host = Config.getInstance().msgWS();
 		
-		String url = "http://www.home.ch/msgWebService/?request={\"appid\":1,\"apptoken\":\"msgIstSoCool!-\",\"modulid\":1,\"applang\":\"pt\",\"requitems\":["+ this.prepareRequestItems(this.getMsgIds())+"]}";
+		//For Raspberry Deploy
+		//String url = "http://naymic.dlinkddns.com/msgWebService/?request={\"appid\":1,\"apptoken\":\"msgIstSoCool!-\",\"modulid\":1,\"applang\":\"pt\",\"requitems\":["+ this.prepareRequestItems(this.getMsgIds())+"]}";
+		
+		String url = host+"?request={\"appid\":1,\"apptoken\":\"msgIstSoCool!-\",\"modulid\":1,\"applang\":\"pt\",\"requitems\":["+ this.prepareRequestItems(this.getMsgIds())+"]}";
 		//String url = "http://www.home.ch/msgWebService/?request={\"appid\":1,\"apptoken\":\"msgIstSoCool!-\",\"modulid\":1,\"applang\":\"pt\",\"requitems\":["+ this.prepareRequestItems(this.getMsgIds())+"]}";
 		
 		

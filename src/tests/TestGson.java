@@ -1,7 +1,6 @@
 package tests;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,13 +8,10 @@ import org.junit.Test;
 import com.google.gson.Gson;
 
 import dao.DAORelation;
-import db.Config;
-import interfaces.ISimpleConverter;
+import utils.Config;
 import model.Ingredientes;
 import model.Model;
 import model.Usuario;
-import reflection.ReflectionDAORelation;
-import utils.CryptString;
 
 public class TestGson extends TestCases {
 

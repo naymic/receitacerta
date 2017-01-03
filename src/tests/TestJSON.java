@@ -2,9 +2,6 @@ package tests;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 
 import org.junit.Before;
@@ -14,7 +11,7 @@ import com.google.gson.Gson;
 
 import controllers.CrudController;
 import dao.DAORelation;
-import db.Config;
+import utils.Config;
 import jrequestclasses.JRequest;
 import jresponseclasses.JRedirect;
 import jresponseclasses.JReturn;

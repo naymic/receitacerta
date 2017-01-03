@@ -3,7 +3,7 @@ Configuration File
 
 Observations:
 -You can write comments inside /* */ over more than one line
--You can write one line comments beginning with /,* or #
+-You can write one line comments beginning with //,* or # (at the beginning of the line)
 
 */
 
@@ -14,8 +14,8 @@ Observations:
 db=receita_certa
 
 //Choose your host, where your database is running
-#dbhost=localhost
-dbhost=naymic.dlinkddns.com
+dbhost=localhost
+#dbhost=naymic.dlinkddns.com
 
 //Choose your database port
 dbport=3306
@@ -24,3 +24,9 @@ dbport=3306
 //Choose your database driver
 dbdriver=mysql
 #dbdriver=postgres
+
+
+
+/** Message Web Service Configuration **/
+//msgws=http://localhost/msgwebservice/
+msgws=http://naymic.dlinkddns.com:55030/msgWebService/

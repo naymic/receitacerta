@@ -5,11 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sun.net.httpserver.HttpContext;
-
 import controllers.CrudController;
 import controllers.GenericController;
-import db.Config;
+import utils.Config;
 import interfaces.IController;
 import jrequestclasses.JRequest;
 import jresponseclasses.JReturn;

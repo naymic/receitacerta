@@ -13,7 +13,7 @@ import org.junit.Test;
 import com.google.gson.Gson;
 
 import dao.DAO;
-import db.Config;
+import utils.Config;
 import enums.EMType;
 import jresponseclasses.JReturn;
 import model.Ingredientes;

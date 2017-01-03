@@ -6,10 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import controllers.GenericController;
-import db.Config;
+import utils.Config;
 import interfaces.IController;
 import jresponseclasses.JReturn;
-import model.Usuario;
 
 public class TestUserController {
 

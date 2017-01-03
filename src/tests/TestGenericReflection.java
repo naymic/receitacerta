@@ -2,12 +2,10 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import java.lang.reflect.Field;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import db.Config;
+import utils.Config;
 import model.TestCity;
 import reflection.GenericReflection;
 

@@ -9,14 +9,9 @@ import org.junit.Test;
 
 import controllers.CrudController;
 import controllers.GenericController;
-import dao.DAO;
-import db.Config;
-import db.DB;
+import utils.Config;
 import exceptions.NoActionException;
 import jresponseclasses.JReturn;
-import model.IngredienteArmazenamentos;
-import model.IngredienteTipo;
-import model.IngredienteUnidades;
 import model.TestIngredientes;
 import reflection.ReflectionController;
 

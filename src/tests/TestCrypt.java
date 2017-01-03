@@ -1,10 +1,8 @@
 package tests;
 import org.junit.Test;
 
-import db.Config;
-import interfaces.ISimpleConverter;
+import utils.Config;
 import model.Usuario;
-import reflection.GenericReflection;
 import utils.CryptString;
 
 import static org.junit.Assert.assertEquals;

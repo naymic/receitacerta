@@ -3,7 +3,7 @@ package tests;
 import org.junit.Before;
 import org.junit.Test;
 
-import db.Config;
+import utils.Config;
 
 
 public class TestConfig extends TestCases {

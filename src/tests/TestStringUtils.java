@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import db.Config;
+import utils.Config;
 import utils.StringUtils;
 
 public class TestStringUtils extends TestCases {

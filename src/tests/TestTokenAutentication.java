@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import db.Config;
+import utils.Config;
 import jrequestclasses.JRequest;
 import jresponseclasses.JReturn;
 import views.ViewController;

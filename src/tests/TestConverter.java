@@ -10,12 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import converters.GenericConverter;
-import db.Config;
-import interfaces.IExtendedConverter;
-import interfaces.ISimpleConverter;
+import utils.Config;
 import model.IngredienteTipo;
 import model.Ingredientes;
-import reflection.GenericReflection;
 
 public class TestConverter extends TestCases{
 	

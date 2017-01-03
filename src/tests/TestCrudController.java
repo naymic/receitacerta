@@ -8,15 +8,9 @@ import org.junit.Test;
 import controllers.CrudController;
 import dao.DAO;
 import dao.DAORelation;
-import db.Config;
-import exceptions.NoActionException;
+import utils.Config;
 import jresponseclasses.JReturn;
-import model.IngredienteArmazenamentos;
-import model.IngredienteTipo;
-import model.IngredienteUnidades;
-import model.Ingredientes;
 import model.Model;
-import model.Receita;
 import model.TestIngredientes;
 import utils.Transform;
 

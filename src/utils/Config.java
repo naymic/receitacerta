@@ -1,9 +1,7 @@
-package db;
+package utils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-
-import reflection.GenericReflection;
 
 public class Config {
 
@@ -49,12 +47,12 @@ public class Config {
 		this.filepath = filepath;
 	}
 
+
+	/* Database configuration */
 	public String DBHost(){		
 		//return this.dbhost;
 		return this.getConfigLineByName("dbhost");
-
 	}
-
 	public String DBPort(){
 		//return this.dbport;
 		return this.getConfigLineByName("dbport");
@@ -70,6 +68,12 @@ public class Config {
 		return this.getConfigLineByName("db");
 	}
 
+	
+	/* Message Service configuration */
+	public String msgWS(){
+		return this.getConfigLineByName("msgws");
+	}
+
 
 
 
@@ -82,7 +86,7 @@ public class Config {
 				String[] config;
 				String line;
 				while ((line = br.readLine()) != null) {
-					line = line.toLowerCase();
+				
 					configName = configName.toLowerCase();
 
 					//Multiple line comments
@@ -93,7 +97,7 @@ public class Config {
 					}
 
 					//One line comments
-					if(line.contains(configName) && !line.contains("#") && !line.contains("/") && !line.contains("*")){
+					if(line.contains(configName) && !line.contains("#") && !line.startsWith("//") && !line.contains("*")){
 						config = line.split("=");
 						
 						return config[1].trim();

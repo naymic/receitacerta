@@ -2,8 +2,6 @@ package tests;
 
 import org.junit.Before;
 
-import db.Config;
-
 
 public abstract class TestCases {
 
